@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Classifier · 科研工作台</title><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/katex.css"></head>
+<body>
+  <aside class="library">
+    <div class="brand"><span class="logo">C</span><div>Classifier<small>科研文献工作台</small></div></div>
+    <p class="eyebrow">我的文献</p>
+    <label class="upload">＋ 导入论文或文档<input id="file" type="file" accept=".pdf,.docx,.md,.markdown,.txt,.html" multiple></label>
+    <p class="hint">PDF / Word / Markdown / TXT / HTML</p>
+    <label class="parser-mode" for="parse-mode">文档识别</label><select id="parse-mode"><option value="auto">本地自动识别</option><option value="ocr">全页 OCR（扫描或混合文档）</option><option value="vision" disabled>视觉增强（尚未配置）</option></select><p id="parser-status" class="hint"></p><button id="cancel-import" type="button" hidden>取消导入</button>
+    <p id="upload-status" role="status"></p>
+    <nav id="documents" aria-label="文献列表"></nav>
+    <div class="library-footer">从资料出发，让每个判断有据可查。<br><span id="model-status"></span></div>
+  </aside>
+  <main>
+    <header><span class="eyebrow">RESEARCH NOTEBOOK</span><a id="download" hidden>下载原文件 ↗</a></header>
+    <section id="welcome"><span class="pill">你的研究，从一篇文献开始</span><h1>读懂资料，<br>找到问题的依据。</h1><p>导入论文、报告或研究笔记，围绕原文提问。回答中的引用可以直接定位到对应片段。</p><div class="steps"><span>01　建立文献库</span><span>02　提出研究问题</span><span>03　回到原文核对</span></div></section>
+    <section id="workspace" hidden>
+      <div class="document-heading"><span class="pill">文献研读</span><h1 id="title"></h1><p id="meta"></p><p id="warnings"></p></div>
+      <div class="workspace-grid">
+        <section class="conversation"><div class="section-head"><h2>围绕这份文献提问</h2><span>附原文引用</span></div><div id="history" aria-live="polite"></div>
+          <form id="question-form"><label for="question">研究问题</label><textarea id="question" required maxlength="4000" placeholder="例如：作者采用了什么研究方法？主要局限是什么？"></textarea><div class="form-bottom"><span>仅在当前文献范围内检索</span><button id="cancel" type="button" hidden>停止</button><button id="ask" type="submit">提问 ↗</button></div></form><p id="error" role="alert"></p>
+        </section>
+        <section class="source"><div class="section-head"><h2>原文片段</h2><span id="reference-count"></span></div><p class="hint">点击回答中的引用，定位到原文。PDF 使用页码，其他文档使用段落定位。</p><div id="page-review" hidden><div class="page-controls"><button id="prev-page" type="button">上一页</button><span id="page-label"></span><button id="next-page" type="button">下一页</button><button id="close-page" type="button">收起</button></div><p class="hint">页图中的框对应当前片段；识别结果以原图为准。</p><div class="page-image"><img id="page-image" alt="PDF 原始页面"><div id="page-highlight" hidden></div></div><p id="page-error" role="alert"></p></div><button id="review-document" type="button" hidden>核对 PDF 页图</button><div id="references"></div></section>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="/app.js"></script>
+</body></html>
