@@ -34,13 +34,19 @@ export async function pageImage(bytes, number) {
   } finally { await task.destroy() }
 }
 
-function textWords(content, viewport) {
+export function textWords(content, viewport) {
   return content.items.filter(item => item.str?.trim()).map(item => {
     const transform = Util.transform(viewport.transform, item.transform)
-    const h = Math.hypot(transform[2], transform[3])
-    const w = Math.max(item.width * viewport.scale, 1)
-    const x = Math.max(0, transform[4]), y = Math.max(0, transform[5] - h)
-    return { text: item.str, bbox: [x / viewport.width, y / viewport.height, Math.min(w, viewport.width - x) / viewport.width, h / viewport.height] }
+    const horizontal = Math.hypot(item.transform[0], item.transform[1]) || 1
+    const vertical = Math.hypot(item.transform[2], item.transform[3]) || 1
+    const width = item.width / horizontal, height = item.height / vertical
+    const corners = [[0, 0], [width, 0], [0, height], [width, height]]
+    corners.forEach(point => Util.applyTransform(point, transform))
+    const left = Math.max(0, Math.min(viewport.width, ...corners.map(point => point[0])))
+    const right = Math.max(0, Math.min(viewport.width, Math.max(...corners.map(point => point[0]))))
+    const top = Math.max(0, Math.min(viewport.height, ...corners.map(point => point[1])))
+    const bottom = Math.max(0, Math.min(viewport.height, Math.max(...corners.map(point => point[1]))))
+    return { text: item.str, bbox: [left / viewport.width, top / viewport.height, (right - left) / viewport.width, (bottom - top) / viewport.height] }
   })
 }
 

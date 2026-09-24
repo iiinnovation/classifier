@@ -12,27 +12,55 @@ const text = node => descendants(node, 't').map(item => item.textContent).join('
 export function ommlToLatex(node) {
   let supported = true
   const escape = value => value.replace(/\\/g, '\\backslash ').replace(/([{}#%&_])/g, '\\$1').replace(/\$/g, '\\$')
+  const knownProperties = {
+    fPr: ['type'], radPr: ['degHide'], naryPr: ['chr', 'limLoc', 'subHide', 'supHide'],
+    dPr: ['begChr', 'endChr', 'sepChr'], barPr: ['pos'], accPr: ['chr'],
+  }
+  const hidden = property => {
+    if (!property) return false
+    const value = val(property).toLowerCase()
+    if (!['', '0', '1', 'true', 'false', 'on', 'off'].includes(value)) supported = false
+    return !['0', 'false', 'off'].includes(value)
+  }
   function convert(item) {
     const name = local(item)
     const part = key => convert(child(item, key))
     if (!item) return ''
     if (name?.endsWith('Pr')) return ''
+    for (const properties of children(item).filter(node => local(node)?.endsWith('Pr'))) {
+      const allowed = knownProperties[local(properties)] || []
+      if (children(properties).some(property => !allowed.includes(local(property)))) supported = false
+    }
     if (['oMath', 'oMathPara', 'num', 'den', 'e', 'sup', 'sub', 'deg', 'lim', 'fName'].includes(name)) return children(item).map(convert).join('')
     if (name === 'r') return escape(text(item))
     if (name === 't') return escape(item.textContent)
-    if (name === 'f') return `\\frac{${part('num')}}{${part('den')}}`
+    if (name === 'f') {
+      const type = val(child(child(item, 'fPr'), 'type')) || 'bar'
+      if (type === 'noBar') return `\\genfrac{}{}{0pt}{}{${part('num')}}{${part('den')}}`
+      if (type !== 'bar') supported = false
+      return `\\frac{${part('num')}}{${part('den')}}`
+    }
     if (name === 'sSup') return `{${part('e')}}^{${part('sup')}}`
     if (name === 'sSub') return `{${part('e')}}_{${part('sub')}}`
     if (name === 'sSubSup') return `{${part('e')}}_{${part('sub')}}^{${part('sup')}}`
     if (name === 'sPre') return `{}_{${part('sub')}}^{${part('sup')}}{${part('e')}}`
-    if (name === 'rad') return `\\sqrt${part('deg') ? `[${part('deg')}]` : ''}{${part('e')}}`
+    if (name === 'rad') {
+      const degree = hidden(child(child(item, 'radPr'), 'degHide')) ? '' : part('deg')
+      return `\\sqrt${degree ? `[${degree}]` : ''}{${part('e')}}`
+    }
     if (name === 'func') return `${part('fName')} ${part('e')}`
     if (name === 'limLow' || name === 'limUpp') return `\\mathop{${part('e')}}\\limits${name === 'limLow' ? '_' : '^'}{${part('lim')}}`
     if (name === 'nary') {
-      const symbol = val(child(child(item, 'naryPr'), 'chr')) || '∫'
+      const properties = child(item, 'naryPr')
+      const symbol = val(child(properties, 'chr')) || '∫'
       const operator = { '∑': '\\sum', '∏': '\\prod', '∫': '\\int', '∬': '\\iint', '∭': '\\iiint', '⋃': '\\bigcup', '⋂': '\\bigcap' }[symbol]
       if (!operator) supported = false
-      return `${operator || escape(symbol)}${part('sub') ? `_{${part('sub')}}` : ''}${part('sup') ? `^{${part('sup')}}` : ''} ${part('e')}`
+      const location = val(child(properties, 'limLoc'))
+      if (location && !['subSup', 'undOvr'].includes(location)) supported = false
+      const placement = location === 'subSup' ? '\\nolimits' : location === 'undOvr' ? '\\limits' : ''
+      const lower = hidden(child(properties, 'subHide')) ? '' : part('sub')
+      const upper = hidden(child(properties, 'supHide')) ? '' : part('sup')
+      return `${operator || escape(symbol)}${placement}${lower ? `_{${lower}}` : ''}${upper ? `^{${upper}}` : ''} ${part('e')}`
     }
     if (name === 'd') {
       const properties = child(item, 'dPr')
@@ -40,13 +68,23 @@ export function ommlToLatex(node) {
         const value = child(properties, key)
         const glyph = value ? val(value) : fallback
         if (!glyph) return '.'
-        return { '{': '\\{', '}': '\\}', '‖': '\\Vert', '⟨': '\\langle', '⟩': '\\rangle' }[glyph] || glyph
+        const known = { '(': '(', ')': ')', '[': '[', ']': ']', '|': '|', '{': '\\{', '}': '\\}', '‖': '\\Vert', '⟨': '\\langle', '⟩': '\\rangle' }
+        if (!known[glyph]) supported = false
+        return known[glyph] || '.'
       }
-      return `\\left${delimiter('begChr', '(')} ${children(item).filter(node => local(node) === 'e').map(convert).join(' \\mid ')} \\right${delimiter('endChr', ')')}`
+      const separator = child(properties, 'sepChr')
+      const glyph = separator ? val(separator) : '|'
+      const separators = { '|': '\\mid', '‖': '\\parallel', ',': ',', ';': ';', ':': ':', '': '' }
+      if (!(glyph in separators)) supported = false
+      return `\\left${delimiter('begChr', '(')} ${children(item).filter(node => local(node) === 'e').map(convert).join(` ${separators[glyph] ?? escape(glyph)} `)} \\right${delimiter('endChr', ')')}`
     }
     if (name === 'm') return `\\begin{matrix}${children(item).filter(node => local(node) === 'mr').map(row => children(row).filter(node => local(node) === 'e').map(convert).join(' & ')).join(' \\\\ ')}\\end{matrix}`
     if (name === 'eqArr') return `\\begin{gathered}${children(item).filter(node => local(node) === 'e').map(convert).join(' \\\\ ')}\\end{gathered}`
-    if (name === 'bar') return `\\${val(child(child(item, 'barPr'), 'pos')) === 'bot' ? 'underline' : 'overline'}{${part('e')}}`
+    if (name === 'bar') {
+      const position = val(child(child(item, 'barPr'), 'pos'))
+      if (position && !['bot', 'top'].includes(position)) supported = false
+      return `\\${position === 'bot' ? 'underline' : 'overline'}{${part('e')}}`
+    }
     if (name === 'acc') {
       const accent = val(child(child(item, 'accPr'), 'chr')) || '̂'
       const command = { '̂': 'hat', '^': 'hat', '̄': 'bar', '̃': 'tilde', '~': 'tilde', '⃗': 'vec', '̇': 'dot', '̈': 'ddot' }[accent]
@@ -74,7 +112,9 @@ export async function parseDocx(bytes) {
     return children(node).map(item => {
       if (local(item) === 'oMath') return ommlToLatex(item).latex
       if (local(item) === 't') return item.textContent
-      if (['tab', 'br', 'cr'].includes(local(item))) return ' '
+      if (local(item) === 'p') return `${inline(item)}\n`
+      if (local(item) === 'tab') return '\t'
+      if (['br', 'cr'].includes(local(item))) return '\n'
       if (['del', 'drawing', 'pict'].includes(local(item))) return ''
       return inline(item)
     }).join('')
@@ -84,7 +124,7 @@ export async function parseDocx(bytes) {
     const formulas = descendants(node, 'oMath')
     const all = inline(node).trim()
     if (all && !formulas.length) blocks.push({ type: 'paragraph', text: all, source: 'docx', paragraph, needsReview: false })
-    else if (all) {
+    else if (formulas.length) {
       let prose = all
       for (const formula of formulas) prose = prose.replace(ommlToLatex(formula).latex, '[公式]')
       if (prose.replaceAll('[公式]', '').trim()) blocks.push({ type: 'paragraph', text: prose, source: 'docx', paragraph, needsReview: false })
@@ -110,14 +150,16 @@ export async function parseDocx(bytes) {
           const colSpan = Number(val(child(properties, 'gridSpan'))) || 1
           if (colSpan < 1 || colSpan > 100 || column + colSpan > 200) throw new Error('Word 表格列跨度无效')
           const value = inline(cell).trim()
+          const originalMath = descendants(cell, 'oMath').filter(formula => !ommlToLatex(formula).supported).map(formula => formula.toString())
           const continuing = merge && val(merge) !== 'restart'
           const previous = vertical.get(column)
           if (continuing && previous && previous.colSpan === colSpan) {
             previous.rowSpan++
             if (value) { previous.text += `\n${value}`; needsReview = true }
+            if (originalMath.length) previous.originalMath = [...(previous.originalMath || []), ...originalMath]
             for (let c = column; c < column + colSpan; c++) activeColumns.add(c)
           } else {
-            const entry = { text: value, column, colSpan, rowSpan: 1 }
+            const entry = { text: value, column, colSpan, rowSpan: 1, ...(originalMath.length ? { originalMath } : {}) }
             cells.push(entry)
             if (continuing) needsReview = true
             for (let c = column; c < column + colSpan; c++) {
@@ -126,7 +168,7 @@ export async function parseDocx(bytes) {
             }
           }
           if (child(properties, 'hMerge') || descendants(cell, 'tbl').length) needsReview = true
-          for (const formula of descendants(cell, 'oMath')) if (!ommlToLatex(formula).supported) needsReview = true
+          if (originalMath.length) needsReview = true
           column += colSpan
         }
         for (const c of vertical.keys()) if (!activeColumns.has(c)) vertical.delete(c)

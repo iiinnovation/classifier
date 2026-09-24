@@ -3,6 +3,8 @@ const $ = id => document.getElementById(id)
 let selected = null
 let epoch = 0
 let activeRun = null
+let loadingDocument = false
+let pendingQuestion = null
 let timer
 let importing = null
 let reviewPage = 1
@@ -148,18 +150,21 @@ function renderRun(run) {
 }
 function busy(runId) {
   activeRun = runId
-  $('ask').disabled = Boolean(runId)
+  updateAskState()
   $('cancel').hidden = !runId
 }
-async function poll(id, token) {
+function updateAskState() {
+  $('ask').disabled = Boolean(activeRun || loadingDocument || pendingQuestion)
+}
+async function poll(id, token, documentId) {
   try {
     const run = await api(`/api/runs/${id}`)
-    if (token !== epoch) return
+    if (token !== epoch || loadingDocument || selected?.id !== documentId || run.documentId !== documentId) return
     document.getElementById(`run-${id}`)?.replaceWith(renderRun(run))
-    if (['running', 'queued'].includes(run.status)) timer = setTimeout(() => poll(id, token), 900)
+    if (['running', 'queued'].includes(run.status)) timer = setTimeout(() => poll(id, token, documentId), 900)
     else busy(null)
   } catch (error) {
-    if (token !== epoch) return
+    if (token !== epoch || loadingDocument || selected?.id !== documentId) return
     $('error').textContent = error.message
     busy(null)
   }
@@ -176,30 +181,36 @@ async function loadLibrary() {
 }
 async function openDocument(id) {
   const token = ++epoch
+  loadingDocument = true
+  pendingQuestion = null
   clearTimeout(timer)
   busy(null)
-  const documentData = await api(`/api/documents/${id}`)
-  if (token !== epoch) return
-  selected = documentData
-  localStorage.setItem('classifier-document', id)
-  $('welcome').hidden = true
-  $('workspace').hidden = false
-  $('title').textContent = selected.title
-  $('meta').textContent = `${selected.fileName} · ${selected.references.length} 个原文片段`
-  $('warnings').textContent = selected.warnings.join(' ')
-  $('download').hidden = false
-  $('download').href = `/api/documents/${id}/original`
-  $('reference-count').textContent = `${selected.references.length} 个片段`
-  $('references').replaceChildren(...selected.references.map(structuredReference))
-  reviewEpoch++; $('page-review').hidden = true
-  $('review-document').hidden = selected.mediaType !== 'application/pdf'
-  $('history').replaceChildren(...[...selected.questions].reverse().map(renderRun))
-  if (!selected.questions.length) $('history').append(element('p', '可以从研究方法、主要发现或局限开始提问。', 'hint'))
-  $('error').textContent = ''
-  await loadLibrary()
-  if (token !== epoch) return
-  const running = selected.questions.find(run => ['running', 'queued'].includes(run.status))
-  if (running) { busy(running.id); void poll(running.id, token) }
+  try {
+    const documentData = await api(`/api/documents/${id}`)
+    if (token !== epoch) return
+    selected = documentData
+    localStorage.setItem('classifier-document', id)
+    $('welcome').hidden = true
+    $('workspace').hidden = false
+    $('title').textContent = selected.title
+    $('meta').textContent = `${selected.fileName} · ${selected.references.length} 个原文片段`
+    $('warnings').textContent = selected.warnings.join(' ')
+    $('download').hidden = false
+    $('download').href = `/api/documents/${id}/original`
+    $('reference-count').textContent = `${selected.references.length} 个片段`
+    $('references').replaceChildren(...selected.references.map(structuredReference))
+    reviewEpoch++; $('page-review').hidden = true
+    $('review-document').hidden = selected.mediaType !== 'application/pdf'
+    $('history').replaceChildren(...[...selected.questions].reverse().map(renderRun))
+    if (!selected.questions.length) $('history').append(element('p', '可以从研究方法、主要发现或局限开始提问。', 'hint'))
+    $('error').textContent = ''
+    await loadLibrary()
+    if (token !== epoch) return
+    const running = selected.questions.find(run => ['running', 'queued'].includes(run.status))
+    if (running) { busy(running.id); void poll(running.id, token, id) }
+  } finally {
+    if (token === epoch) { loadingDocument = false; updateAskState() }
+  }
 }
 async function waitImport(id) {
   let job
@@ -242,21 +253,26 @@ $('file').onchange = async event => {
 }
 $('question-form').onsubmit = async event => {
   event.preventDefault()
-  if (!selected || activeRun) return
+  if (!selected || loadingDocument || activeRun || pendingQuestion) return
   const question = $('question').value.trim()
   if (!question) return
-  const token = epoch
-  $('ask').disabled = true
+  const submission = { token: epoch, documentId: selected.id }
+  pendingQuestion = submission
+  updateAskState()
   $('error').textContent = ''
   try {
-    const run = await api(`/api/documents/${selected.id}/questions`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ question }) })
-    if (token !== epoch) return
+    const run = await api(`/api/documents/${submission.documentId}/questions`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ question }) })
+    if (submission.token !== epoch || loadingDocument || selected?.id !== submission.documentId || run.documentId !== submission.documentId) return
     $('question').value = ''
     $('history').append(renderRun(run))
     $('history').scrollTop = $('history').scrollHeight
     busy(run.id)
-    void poll(run.id, token)
-  } catch (error) { if (token === epoch) { $('error').textContent = error.message; busy(null) } }
+    void poll(run.id, submission.token, submission.documentId)
+  } catch (error) {
+    if (submission.token === epoch && selected?.id === submission.documentId) $('error').textContent = error.message
+  } finally {
+    if (pendingQuestion === submission) { pendingQuestion = null; updateAskState() }
+  }
 }
 $('cancel').onclick = async () => {
   if (!activeRun) return
