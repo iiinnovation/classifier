@@ -9,6 +9,9 @@ let timer
 let importing = null
 let reviewPage = 1
 let reviewEpoch = 0
+let modelConfigured = false
+let blockIndex = new Map()
+let warningsLabel = '识别提醒'
 
 async function api(path, options) {
   const response = await fetch(path, options)
@@ -23,12 +26,18 @@ function element(tag, text, className) {
   return node
 }
 function jump(id) {
-  document.querySelectorAll('.highlight').forEach(node => node.classList.remove('highlight'))
-  const node = document.getElementById(`reference-${id}`)
-  node?.classList.add('highlight')
-  node?.scrollIntoView({ behavior: 'smooth', block: 'center' })
   const ref = selected?.references.find(ref => ref.id === id)
-  if (ref?.page && selected.mediaType === 'application/pdf') void showPage(ref.page, ref.bbox)
+  if (!ref) return
+  closeReferenceSearch()
+  if (ref.page && selected.mediaType === 'application/pdf') {
+    void showPage(ref.page, ref.bbox, ref)
+    if (typeof window !== 'undefined' && window.matchMedia('(max-width: 950px)').matches) $('source-panel').scrollIntoView({ behavior: 'smooth', block: 'start' })
+  } else {
+    document.querySelectorAll('.reference.highlight').forEach(node => node.classList.remove('highlight'))
+    const node = document.getElementById(`reference-${id}`)
+    node?.classList.add('highlight')
+    node?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
 }
 function citations(parent, ids, references) {
   for (const id of ids) {
@@ -50,7 +59,7 @@ function structuredReference(ref) {
   node.id = `reference-${ref.id}`
   node.append(element('h3', ref.title))
   if (ref.needsReview) node.append(element('span', '识别结果 · 待核对', 'review-badge'))
-  const block = selected.sections.flatMap(section => section.blocks || []).find(block => block.id === ref.blockId)
+  const block = blockIndex.get(ref.blockId)
   if (ref.type === 'table' && block?.rows && ref.offset === 0) {
     const wrapper = element('div', null, 'table-scroll'), table = element('table')
     const covered = new Set()
@@ -78,19 +87,30 @@ function structuredReference(ref) {
   }
   if (ref.page && selected.mediaType === 'application/pdf') {
     const button = element('button', `核对第 ${ref.page} 页`, 'citation')
-    button.onclick = () => showPage(ref.page, ref.bbox)
+    button.onclick = () => jump(ref.id)
     node.append(button)
   }
   return node
 }
-async function showPage(number, bbox = null) {
+async function showPage(number, bbox = null, ref = null) {
   if (!selected || selected.mediaType !== 'application/pdf') return
   const token = ++reviewEpoch
   reviewPage = Math.max(1, Math.min(number, selected.sections.length))
   $('page-review').hidden = false
+  $('selected-excerpt').hidden = !ref
+  if (ref) {
+    const close = element('button', '×', 'excerpt-close')
+    close.type = 'button'; close.setAttribute('aria-label', '收起当前引用')
+    close.onclick = () => { $('selected-excerpt').hidden = true }
+    $('selected-excerpt').replaceChildren(element('strong', ref.title), close, element('p', ref.text.slice(0, 360)))
+    if (ref.needsReview) $('selected-excerpt').append(element('span', '识别结果 · 待核对', 'review-badge'))
+  } else $('selected-excerpt').replaceChildren()
   $('page-label').textContent = `第 ${reviewPage} / ${selected.sections.length} 页`
   $('prev-page').disabled = reviewPage === 1
   $('next-page').disabled = reviewPage === selected.sections.length
+  const notices = selected.warnings.filter(warning => warning.includes(`第 ${reviewPage} 页`))
+  $('page-notice').hidden = !notices.length
+  $('page-notice').textContent = notices.join(' ')
   $('page-error').textContent = '正在生成页图…'
   $('page-image').hidden = true
   const image = $('page-image')
@@ -103,6 +123,7 @@ async function showPage(number, bbox = null) {
       box.style.left = `${bbox[0] * 100}%`; box.style.top = `${bbox[1] * 100}%`
       box.style.width = `${bbox[2] * 100}%`; box.style.height = `${bbox[3] * 100}%`
       box.hidden = false
+      box.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
   }
   image.onerror = () => { if (token === reviewEpoch) $('page-error').textContent = '页图暂时无法读取，请稍后重试。' }
@@ -110,8 +131,36 @@ async function showPage(number, bbox = null) {
 }
 $('prev-page').onclick = () => showPage(reviewPage - 1)
 $('next-page').onclick = () => showPage(reviewPage + 1)
-$('review-document').onclick = () => showPage(1)
-$('close-page').onclick = () => { reviewEpoch++; $('page-review').hidden = true }
+
+function closeReferenceSearch() {
+  $('reference-search').hidden = true
+  $('reference-search-toggle').setAttribute('aria-expanded', 'false')
+}
+function renderReferenceSearch() {
+  const query = $('reference-query').value.trim().toLocaleLowerCase()
+  if (!selected || !query) {
+    $('reference-count').textContent = '输入关键词后查找当前文档中的片段。'
+    $('reference-results').replaceChildren()
+    return
+  }
+  const matches = selected.references.filter(ref => `${ref.title} ${ref.text}`.toLocaleLowerCase().includes(query))
+  $('reference-count').textContent = `找到 ${matches.length} 个片段${matches.length > 30 ? '，显示前 30 个' : ''}`
+  $('reference-results').replaceChildren(...matches.slice(0, 30).map(ref => {
+    const button = element('button', null, 'reference-result')
+    button.type = 'button'
+    button.append(element('strong', ref.title), element('span', ref.text.slice(0, 150)))
+    if (ref.needsReview) button.append(element('small', '待核对'))
+    button.onclick = () => jump(ref.id)
+    return button
+  }))
+}
+$('reference-search-toggle').onclick = () => {
+  const opening = $('reference-search').hidden
+  $('reference-search').hidden = !opening
+  $('reference-search-toggle').setAttribute('aria-expanded', String(opening))
+  if (opening) { renderReferenceSearch(); $('reference-query').focus() }
+}
+$('reference-query').oninput = renderReferenceSearch
 
 function renderRun(run) {
   const box = element('article')
@@ -156,6 +205,49 @@ function busy(runId) {
 function updateAskState() {
   $('ask').disabled = Boolean(activeRun || loadingDocument || pendingQuestion)
 }
+function configureQuestionMode() {
+  $('conversation-title').textContent = modelConfigured ? '围绕文档提问' : '搜索原文'
+  $('conversation-mode').textContent = modelConfigured ? '回答附原文引用' : '当前为原文检索模式'
+  $('question-label').textContent = modelConfigured ? '问题' : '关键词或问题'
+  $('question').placeholder = modelConfigured ? '例如：这份文档的主要发现是什么？请附原文依据。' : '例如：报价金额、付款条款、样本数量'
+  $('question-hint').textContent = modelConfigured ? '仅根据当前文档回答' : '显示匹配的原文片段'
+  $('ask').textContent = modelConfigured ? '提问 ↗' : '搜索 ↗'
+}
+function emptyState() {
+  return element('p', modelConfigured ? '可以询问这份文档的要点、数据或局限，回答会附原文引用。' : '输入文中的术语或关键词，查找相关原文片段。', 'empty-state')
+}
+function closeLibrary() {
+  $('library').hidden = true
+  $('drawer-backdrop').hidden = true
+  $('library-toggle').setAttribute('aria-expanded', 'false')
+}
+function openLibrary() {
+  $('library').hidden = false
+  $('drawer-backdrop').hidden = false
+  $('library-toggle').setAttribute('aria-expanded', 'true')
+}
+$('library-toggle').onclick = () => $('library').hidden ? openLibrary() : closeLibrary()
+$('close-library').onclick = closeLibrary
+$('drawer-backdrop').onclick = closeLibrary
+function openImport() {
+  closeLibrary()
+  if (!$('import-dialog').open) $('import-dialog').showModal()
+}
+function closeImport() {
+  if ($('import-dialog').open) $('import-dialog').close()
+}
+$('import-open').onclick = openImport
+$('drawer-import').onclick = openImport
+$('welcome-import').onclick = openImport
+$('close-import').onclick = closeImport
+function setWarningsOpen(open) {
+  const expanded = open && !$('warnings-toggle').hidden
+  $('warnings').hidden = !expanded
+  $('warnings-toggle').setAttribute('aria-expanded', String(expanded))
+  $('warnings-toggle').textContent = expanded ? '收起提醒' : warningsLabel
+}
+$('warnings-toggle').onclick = () => setWarningsOpen($('warnings').hidden)
+$('warnings-close').onclick = () => setWarningsOpen(false)
 async function poll(id, token, documentId) {
   try {
     const run = await api(`/api/runs/${id}`)
@@ -169,8 +261,9 @@ async function poll(id, token, documentId) {
     busy(null)
   }
 }
-async function loadLibrary() {
+async function loadLibrary(expectedEpoch = null) {
   const { documents } = await api('/api/documents')
+  if (expectedEpoch !== null && expectedEpoch !== epoch) return documents
   $('documents').replaceChildren(...documents.map(doc => {
     const button = element('button', doc.title, `doc-item${doc.id === selected?.id ? ' active' : ''}`)
     button.append(element('small', `${doc.referenceCount} 个片段`))
@@ -189,22 +282,36 @@ async function openDocument(id) {
     const documentData = await api(`/api/documents/${id}`)
     if (token !== epoch) return
     selected = documentData
+    blockIndex = new Map(selected.sections.flatMap(section => section.blocks || []).map(block => [block.id, block]))
     localStorage.setItem('classifier-document', id)
+    closeLibrary()
     $('welcome').hidden = true
     $('workspace').hidden = false
     $('title').textContent = selected.title
-    $('meta').textContent = `${selected.fileName} · ${selected.references.length} 个原文片段`
-    $('warnings').textContent = selected.warnings.join(' ')
+    const pdf = selected.mediaType === 'application/pdf'
+    $('meta').textContent = `${selected.fileName} · ${pdf ? `${selected.sections.length} 页` : `${selected.references.length} 段原文`}`
+    $('warning-text').textContent = selected.warnings.join(' ')
+    const actionableWarnings = selected.warnings.filter(warning => /^第\s*\d+\s*页|^段\s*\d+|^表\s*\d+|已使用本地 OCR|缺少 OCR/.test(warning))
+    $('warnings-toggle').hidden = !selected.warnings.length
+    warningsLabel = actionableWarnings.length ? `待核对 ${actionableWarnings.length}` : '解析说明'
+    setWarningsOpen(false)
     $('download').hidden = false
     $('download').href = `/api/documents/${id}/original`
-    $('reference-count').textContent = `${selected.references.length} 个片段`
-    $('references').replaceChildren(...selected.references.map(structuredReference))
-    reviewEpoch++; $('page-review').hidden = true
-    $('review-document').hidden = selected.mediaType !== 'application/pdf'
+    $('reference-query').value = ''
+    closeReferenceSearch()
+    $('reference-results').replaceChildren()
+    $('reference-count').textContent = ''
+    $('references').hidden = pdf
+    $('references').replaceChildren(...(pdf ? [] : selected.references.map(structuredReference)))
+    $('selected-excerpt').hidden = true
+    $('selected-excerpt').replaceChildren()
+    reviewEpoch++
+    $('page-review').hidden = !pdf
+    if (pdf) void showPage(1)
     $('history').replaceChildren(...[...selected.questions].reverse().map(renderRun))
-    if (!selected.questions.length) $('history').append(element('p', '可以从研究方法、主要发现或局限开始提问。', 'hint'))
+    if (!selected.questions.length) $('history').append(emptyState())
     $('error').textContent = ''
-    await loadLibrary()
+    await loadLibrary(token)
     if (token !== epoch) return
     const running = selected.questions.find(run => ['running', 'queued'].includes(run.status))
     if (running) { busy(running.id); void poll(running.id, token, id) }
@@ -227,10 +334,12 @@ $('cancel-import').onclick = async () => {
   try { await api(`/api/imports/${importing}/cancel`, { method: 'POST' }) }
   catch (error) { $('upload-status').textContent = error.message }
 }
+$('choose-file').onclick = () => $('file').click()
 $('file').onchange = async event => {
   const files = [...event.target.files]
+  if (!files.length) return
   const mode = $('parse-mode').value
-  $('file').disabled = true; $('parse-mode').disabled = true
+  $('file').disabled = true; $('choose-file').disabled = true; $('parse-mode').disabled = true
   let latest, completed = 0
   const errors = []
   try {
@@ -248,8 +357,9 @@ $('file').onchange = async event => {
     }
     if (latest) await openDocument(latest)
     $('upload-status').textContent = [`已导入 ${completed} 份文档。`, ...errors].join('\n')
+    if (completed && !errors.length) closeImport()
   } catch (error) { $('upload-status').textContent = error.message }
-  finally { $('file').disabled = false; $('parse-mode').disabled = false; $('file').value = '' }
+  finally { $('file').disabled = false; $('choose-file').disabled = false; $('parse-mode').disabled = false; $('file').value = '' }
 }
 $('question-form').onsubmit = async event => {
   event.preventDefault()
@@ -264,6 +374,7 @@ $('question-form').onsubmit = async event => {
     const run = await api(`/api/documents/${submission.documentId}/questions`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ question }) })
     if (submission.token !== epoch || loadingDocument || selected?.id !== submission.documentId || run.documentId !== submission.documentId) return
     $('question').value = ''
+    $('history').querySelector('.empty-state')?.remove()
     $('history').append(renderRun(run))
     $('history').scrollTop = $('history').scrollHeight
     busy(run.id)
@@ -286,15 +397,17 @@ try {
   visionOption.disabled = !capabilities.vision
   if (capabilities.vision) visionOption.textContent = '视觉增强（页图发送至已配置服务）'
   const health = await api('/health')
-  $('model-status').textContent = health.modelConfigured ? '科研问答模型已配置' : '当前模式：原文检索'
+  modelConfigured = health.modelConfigured
+  configureQuestionMode()
   const documents = await loadLibrary()
   const last = localStorage.getItem('classifier-document')
   const target = documents.find(doc => doc.id === last) || documents[0]
   if (target) await openDocument(target.id)
   const previous = localStorage.getItem('classifier-import')
   if (previous) {
-    importing = previous; $('cancel-import').hidden = false; $('file').disabled = true
-    try { await openDocument(await waitImport(previous)); $('upload-status').textContent = '文档已导入。' }
-    finally { importing = null; $('cancel-import').hidden = true; $('file').disabled = false; localStorage.removeItem('classifier-import') }
+    openImport()
+    importing = previous; $('cancel-import').hidden = false; $('file').disabled = true; $('choose-file').disabled = true
+    try { await openDocument(await waitImport(previous)); $('upload-status').textContent = '文档已导入。'; closeImport() }
+    finally { importing = null; $('cancel-import').hidden = true; $('file').disabled = false; $('choose-file').disabled = false; localStorage.removeItem('classifier-import') }
   }
 } catch (error) { $('upload-status').textContent = error.message }
