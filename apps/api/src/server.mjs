@@ -12,17 +12,20 @@ import { visionConfigured } from './vision.mjs'
 import { createStore, requireId } from './store.mjs'
 import { createRuns } from './runs.mjs'
 import { modelConfigured } from './qa.mjs'
+import { createTopics, documentSummary, editBibliography } from './topics.mjs'
 
 const root = fileURLToPath(new URL('../../../', import.meta.url))
 export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER_DATA_DIR || 'data') } = {}) {
   const store = await createStore(dataDir)
   const runs = createRuns(store)
-  const imports = createImports(store)
+  const topics = createTopics(store)
+  const imports = createImports(store, topics)
   let syncImports = 0
   let rendering = false
   const assets = new Map([
     ['/', ['index.html', 'text/html; charset=utf-8']],
     ['/app.js', ['app.js', 'text/javascript; charset=utf-8']],
+    ['/research.js', ['research.js', 'text/javascript; charset=utf-8']],
     ['/katex.mjs', ['../../node_modules/katex/dist/katex.mjs', 'text/javascript; charset=utf-8']],
     ['/katex.css', ['../../node_modules/katex/dist/katex.min.css', 'text/css; charset=utf-8']],
     ['/style.css', ['style.css', 'text/css; charset=utf-8']],
@@ -45,6 +48,22 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
       }
       if (req.method === 'GET' && url.pathname === '/health') return sendJson(res, 200, { status: 'ok', service: 'classifier', modelConfigured: modelConfigured() })
       if (req.method === 'GET' && url.pathname === '/api/parser-capabilities') return sendJson(res, 200, { ocr: await ocrCapabilities(), vision: visionConfigured() })
+      if (url.pathname === '/api/topics') {
+        if (req.method === 'GET') return sendJson(res, 200, { topics: await topics.list() })
+        if (req.method === 'POST') return sendJson(res, 201, await topics.create(await readJson(req)))
+      }
+      const topicMatch = url.pathname.match(/^\/api\/topics\/([^/]+)(?:\/documents\/([^/]+))?$/)
+      if (topicMatch) {
+        const topicId = requireId(topicMatch[1]), documentId = topicMatch[2] && requireId(topicMatch[2])
+        if (!documentId) {
+          if (req.method === 'GET') return sendJson(res, 200, await topics.detail(topicId))
+          if (req.method === 'PATCH') { await topics.edit(topicId, await readJson(req)); return sendJson(res, 200, await topics.detail(topicId)) }
+        } else {
+          if (req.method === 'PUT') { await topics.attach(topicId, documentId); return sendJson(res, 200, await topics.detail(topicId)) }
+          if (req.method === 'PATCH') { await topics.editLink(topicId, documentId, await readJson(req)); return sendJson(res, 200, await topics.detail(topicId)) }
+          if (req.method === 'DELETE') { await topics.detach(topicId, documentId); return sendJson(res, 200, await topics.detail(topicId)) }
+        }
+      }
       if (req.method === 'POST' && url.pathname === '/api/imports') {
         const upload = await readUpload(req)
         if (!['auto', 'ocr', 'vision'].includes(upload.mode)) throw new HttpError(422, '无效解析模式。')
@@ -72,10 +91,11 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
       }
       if (req.method === 'GET' && url.pathname === '/api/documents') {
         const documents = await store.list('documents')
-        return sendJson(res, 200, { documents: documents.map(({ id, title, fileName, createdAt, references, warnings }) => ({ id, title, fileName, createdAt, referenceCount: references.length, warnings })) })
+        return sendJson(res, 200, { documents: documents.map(documentSummary) })
       }
       if (req.method === 'POST' && url.pathname === '/api/documents') {
         const upload = await readUpload(req)
+        if (upload.topicId) await topics.get(upload.topicId)
         const fileName = basename(upload.fileName.replaceAll('\\', '/')).slice(0, 200)
         let parsed
         if (syncImports >= 1) throw new HttpError(429, '正在导入文档，请稍后重试。')
@@ -90,12 +110,14 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
         }
         await store.saveOriginal(document.id, upload.bytes)
         await store.write('documents', document)
+        if (upload.topicId) await topics.attach(upload.topicId, document.id)
         return sendJson(res, 201, document)
       }
       const match = url.pathname.match(/^\/api\/documents\/([^/]+)(?:\/(original|questions))?$/)
       if (match) {
         const id = requireId(match[1])
         const document = await store.document(id)
+        if (req.method === 'PATCH' && !match[2]) return sendJson(res, 200, documentSummary(await editBibliography(store, id, await readJson(req))))
         if (req.method === 'GET' && match[2] === 'original') {
           const bytes = await store.original(id)
           res.writeHead(200, { 'content-type': document.mediaType, 'content-disposition': `attachment; filename*=UTF-8''${encodeURIComponent(document.fileName)}`, 'cache-control': 'no-store' })

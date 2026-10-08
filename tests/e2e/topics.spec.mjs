@@ -1,0 +1,176 @@
+import { test, expect } from '@playwright/test'
+import { testApp } from '../helpers/test-app.mjs'
+
+async function createTopic(page, title, question) {
+  await page.getByRole('button', { name: '研究主题', exact: true }).click()
+  await page.getByRole('button', { name: '＋ 创建研究主题' }).click()
+  await page.getByLabel('主题标题', { exact: true }).fill(title)
+  await page.getByLabel('研究问题', { exact: true }).fill(question)
+  await page.getByRole('button', { name: '保存主题', exact: true }).click()
+  await expect(page.locator('#topic-title')).toHaveText(title)
+  await expect(page.locator('#topic-dialog')).not.toBeVisible()
+}
+async function attach(page, title) {
+  await page.getByRole('button', { name: '关联已有文献', exact: true }).click()
+  await page.getByRole('checkbox', { name: title, exact: true }).check()
+  await page.getByRole('button', { name: '关联所选文献', exact: true }).click()
+  await expect(page.locator('#attach-dialog')).not.toBeVisible()
+}
+async function record(page, { selection, reading, relevance, reason }) {
+  await page.getByRole('button', { name: '筛选与阅读记录', exact: true }).click()
+  await page.getByRole('combobox', { name: '筛选决定', exact: true }).selectOption(selection)
+  await page.getByRole('combobox', { name: '阅读进度', exact: true }).selectOption(reading)
+  await page.getByLabel('与研究问题的相关性', { exact: true }).fill(relevance)
+  await page.getByLabel('筛选理由', { exact: true }).fill(reason)
+  await page.getByRole('button', { name: '保存记录', exact: true }).click()
+  await expect(page.locator('#record-dialog')).not.toBeVisible()
+}
+async function topicFromHome(page, title) {
+  await page.getByRole('button', { name: '研究主题', exact: true }).click()
+  await page.locator('.topic-card').filter({ has: page.getByRole('heading', { name: title, exact: true }) }).click()
+  await expect(page.locator('#topic-title')).toHaveText(title)
+}
+
+test('M1 complete browser workflow: topics, shared metadata, separate records, reader, restart and mobile', async ({ page }, testInfo) => {
+  const app = await testApp()
+  const errors = []
+  page.on('pageerror', error => errors.push(error.message))
+  try {
+    await page.goto(app.base)
+    await expect(page.getByRole('heading', { name: '从一个研究问题开始。' })).toBeVisible()
+    await createTopic(page, '方法比较', '不同条件下的研究能否比较？')
+    await page.getByRole('button', { name: '编辑主题', exact: true }).click()
+    await page.getByLabel('主题标题', { exact: true }).fill('方法与条件比较')
+    await page.getByLabel('研究问题', { exact: true }).fill('条件差异如何影响研究结论？')
+    await page.getByLabel('研究范围（选填）').fill('近五年实验与定量研究')
+    await page.getByRole('button', { name: '保存主题', exact: true }).click()
+    await expect(page.locator('#topic-title')).toHaveText('方法与条件比较')
+    await attach(page, app.legacy.title)
+    await record(page, { selection: 'included', reading: 'read', relevance: '有两组材料的比较条件', reason: '符合纳入范围' })
+    await expect(page.locator('#topic-documents')).toContainText('符合纳入范围')
+    await expect(page.locator('#topic-stats')).toContainText('1 篇已纳入 · 1 篇已读')
+
+    await page.locator('#topic-documents').getByRole('button', { name: '书目信息', exact: true }).click()
+    await page.getByLabel('文献标题', { exact: true }).fill('材料与方法研究')
+    await page.getByLabel('作者', { exact: true }).fill('张三；李四')
+    await page.getByLabel('发表年份', { exact: true }).fill('2024')
+    await page.getByLabel('期刊／会议／出版来源', { exact: true }).fill('研究方法期刊')
+    await page.getByLabel('DOI', { exact: true }).fill('invalid-doi')
+    await page.getByRole('button', { name: '保存书目信息', exact: true }).click()
+    await expect(page.locator('#metadata-error')).toContainText('有效的 DOI')
+    await expect(page.locator('#metadata-dialog')).toBeVisible()
+    await page.getByLabel('DOI', { exact: true }).fill('10.1234/study')
+    await page.getByLabel('来源链接', { exact: true }).fill('https://example.org/study')
+    await page.getByRole('button', { name: '保存书目信息', exact: true }).click()
+    await expect(page.locator('#metadata-dialog')).not.toBeVisible()
+    await expect(page.locator('#topic-documents')).toContainText('张三；李四 · 2024 · 研究方法期刊')
+    await page.getByRole('combobox', { name: '筛选状态', exact: true }).selectOption('excluded')
+    await expect(page.locator('#topic-documents')).toContainText('没有符合当前筛选条件')
+    await page.getByRole('combobox', { name: '筛选状态', exact: true }).selectOption('')
+    await page.locator('#topic-documents').getByRole('button', { name: '打开研读', exact: true }).click()
+    await expect(page.locator('#title')).toHaveText('材料与方法研究')
+    await expect(page.locator('#references')).toContainText(app.original)
+    await page.locator('#question').fill('材料')
+    await page.locator('#ask').click()
+    await expect(page.locator('#history .citation')).toBeVisible()
+    await page.locator('#history .citation').click()
+    await expect(page.locator('#reference-ref_00001')).toHaveClass(/highlight/)
+    await page.reload()
+    await expect(page.locator('#title')).toHaveText('材料与方法研究')
+    await expect(page.locator('#reader-back')).toHaveText('← 方法与条件比较')
+    await expect(page.locator('#history .citation')).toBeVisible()
+    await page.locator('#reader-back').click()
+    await expect(page.locator('#topic-title')).toHaveText('方法与条件比较')
+
+    await createTopic(page, '理论研究', '材料支持哪些理论论点？')
+    await attach(page, '材料与方法研究')
+    await expect(page.locator('#topic-documents')).toContainText('待筛选')
+    await record(page, { selection: 'excluded', reading: 'reading', relevance: '仅讨论实验条件', reason: '未讨论理论论证' })
+    await app.restart()
+    await page.reload()
+    await expect(page.locator('#topic-title')).toHaveText('理论研究')
+    await expect(page.locator('#topic-documents')).toContainText('未讨论理论论证')
+    await expect(page.locator('#topic-documents')).toContainText('阅读中')
+    await topicFromHome(page, '方法与条件比较')
+    await expect(page.locator('#topic-question')).toHaveText('条件差异如何影响研究结论？')
+    await expect(page.locator('#topic-scope')).toHaveText('近五年实验与定量研究')
+    await expect(page.locator('#topic-documents')).toContainText('符合纳入范围')
+    await expect(page.locator('#topic-documents')).toContainText('已读')
+    await expect(page.locator('#topic-documents')).not.toContainText('未讨论理论论证')
+    await page.screenshot({ path: testInfo.outputPath('topic-desktop.png'), fullPage: true })
+
+    await page.setViewportSize({ width: 390, height: 844 })
+    await expect(page.getByRole('button', { name: '关联已有文献', exact: true })).toBeVisible()
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+    await page.getByRole('button', { name: '筛选与阅读记录', exact: true }).click()
+    await expect(page.getByLabel('筛选理由', { exact: true })).toHaveValue('符合纳入范围')
+    await page.getByRole('button', { name: '关闭筛选记录' }).click()
+    await page.screenshot({ path: testInfo.outputPath('topic-mobile.png'), fullPage: true })
+
+    await page.getByRole('button', { name: '移出主题', exact: true }).click()
+    await expect(page.locator('#topic-documents')).toContainText('导入新文献')
+    await topicFromHome(page, '理论研究')
+    await expect(page.locator('#topic-documents')).toContainText('材料与方法研究')
+    await page.getByRole('button', { name: '研究主题', exact: true }).click()
+    await page.getByRole('button', { name: '浏览全部文献 →' }).click()
+    await page.getByRole('searchbox', { name: '查找文献', exact: true }).fill('张三')
+    await page.locator('#all-documents-list').getByRole('button', { name: '打开研读', exact: true }).click()
+    await expect(page.locator('#reader-back')).toHaveText('← 全部文献')
+    await expect(page.locator('#references')).toContainText(app.original)
+    expect(errors).toEqual([])
+  } finally { await app.close() }
+})
+
+test('M1 import keeps its original topic while navigating and recovers after refresh', async ({ page }) => {
+  const app = await testApp()
+  const errors = []
+  page.on('pageerror', error => errors.push(error.message))
+  let releasePolling
+  try {
+    await page.goto(app.base)
+    await createTopic(page, '主题 A', 'A 的研究问题')
+    await createTopic(page, '主题 B', 'B 的研究问题')
+    const gate = new Promise(resolve => { releasePolling = resolve })
+    let polling = false
+    await page.route('**/api/imports/*', async route => {
+      if (route.request().method() === 'GET') { polling = true; await gate }
+      await route.continue().catch(() => {})
+    })
+    await page.locator('#topic-import').click()
+    await expect(page.locator('#import-topic option:checked')).toHaveText('主题 B')
+    await page.locator('#file').setInputFiles({ name: '新研究.md', mimeType: 'text/markdown', buffer: Buffer.from('# 新研究\n\n这份文献为主题 B 提供材料。') })
+    await expect.poll(() => polling).toBe(true)
+    await expect.poll(() => page.evaluate(() => localStorage.getItem('classifier-import'))).not.toBeNull()
+    await page.getByRole('button', { name: '关闭导入窗口' }).click()
+    await topicFromHome(page, '主题 A')
+    releasePolling()
+    await expect(page.locator('#app-message')).toContainText('已导入 1 份文档')
+    await expect(page.locator('#topic-title')).toHaveText('主题 A')
+    await expect(page.locator('#topic-documents')).not.toContainText('新研究')
+    await topicFromHome(page, '主题 B')
+    await expect(page.locator('#topic-documents')).toContainText('新研究')
+    await page.unrouteAll({ behavior: 'wait' })
+
+    const refreshGate = new Promise(resolve => { releasePolling = resolve })
+    polling = false
+    await page.route('**/api/imports/*', async route => {
+      if (route.request().method() === 'GET') { polling = true; await refreshGate }
+      await route.continue().catch(() => {})
+    })
+    await page.locator('#topic-import').click()
+    await page.locator('#file').setInputFiles({ name: '刷新恢复.txt', mimeType: 'text/plain', buffer: Buffer.from('刷新页面后仍能恢复的新材料。') })
+    await expect.poll(() => polling).toBe(true)
+    await expect.poll(() => page.evaluate(() => localStorage.getItem('classifier-import'))).not.toBeNull()
+    const reload = page.reload({ waitUntil: 'domcontentloaded' })
+    releasePolling()
+    await reload
+    await expect(page.locator('#topic-title')).toHaveText('主题 B')
+    await expect(page.locator('#topic-documents')).toContainText('刷新恢复')
+    await expect(page.locator('#import-dialog')).not.toBeVisible()
+    await expect.poll(() => page.evaluate(() => localStorage.getItem('classifier-import'))).toBeNull()
+    await app.restart()
+    await page.reload()
+    await expect(page.locator('#topic-documents .document-card')).toHaveCount(2)
+    expect(errors).toEqual([])
+  } finally { releasePolling?.(); await page.unrouteAll({ behavior: 'wait' }); await app.close() }
+})

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Classifier · 文档研读</title>
+  <title>Classifier · 文献研究工作台</title>
   <link rel="stylesheet" href="/style.css">
   <link rel="stylesheet" href="/katex.css">
 </head>
@@ -17,13 +17,33 @@
 
   <main>
     <header class="app-header">
-      <div class="header-start"><button id="library-toggle" class="header-button" type="button" aria-controls="library" aria-expanded="false">☰ <span>文献库</span></button><span class="header-divider"></span><span class="header-brand">Classifier</span></div>
+      <div class="header-start"><button id="research-home" class="header-button" type="button">研究主题</button><button id="library-toggle" class="header-button" type="button" aria-controls="library" aria-expanded="false">☰ <span>全部文献</span></button><span class="header-divider"></span><span class="header-brand">Classifier</span></div>
       <div class="header-actions"><button id="import-open" class="header-button" type="button">＋ 导入文档</button><a id="download" class="header-button" hidden>下载原文件 ↗</a></div>
     </header>
 
-    <section id="welcome" class="welcome"><span class="eyebrow">文档研读</span><h1>从原文找到答案。</h1><p>导入论文或其他资料，搜索内容、提出问题，并随时回到原文核对。</p><button id="welcome-import" type="button">导入第一份文档 ↗</button></section>
+    <p id="app-message" class="app-message" role="status" hidden></p>
+    <section id="research-home-panel" class="research-panel">
+      <div class="research-heading"><div><span class="eyebrow">文献研究工作台</span><h1>从一个研究问题开始。</h1><p>整理相关文献，记录筛选依据，继续每一次阅读。</p></div><button id="new-topic" type="button">＋ 创建研究主题</button></div>
+      <div id="topic-cards" class="topic-cards"></div>
+      <div class="library-shortcut"><div><h2>全部文献</h2><p id="all-document-count">已有资料也可以随时关联到研究主题。</p></div><button id="all-documents-open" class="quiet-button" type="button">浏览全部文献 →</button></div>
+    </section>
+    <section id="topic-panel" class="research-panel" hidden>
+      <button id="topic-back" class="quiet-button" type="button">← 研究主题</button>
+      <div class="research-heading"><div><span class="eyebrow">研究主题</span><h1 id="topic-title"></h1></div><button id="edit-topic" class="quiet-button" type="button">编辑主题</button></div>
+      <div class="topic-question"><h2>研究问题</h2><p id="topic-question"></p><div id="topic-scope-section" hidden><h2>研究范围</h2><p id="topic-scope"></p></div></div>
+      <div class="collection-head"><div><h2>主题文献</h2><p id="topic-stats" class="hint"></p></div><div class="collection-actions"><button id="attach-existing" class="quiet-button" type="button">关联已有文献</button><button id="topic-import" type="button">＋ 导入文献</button></div></div>
+      <div class="collection-filters"><label>筛选状态<select id="selection-filter"><option value="">全部筛选状态</option><option value="pending">待筛选</option><option value="included">已纳入</option><option value="excluded">已排除</option></select></label><label>阅读状态<select id="reading-filter"><option value="">全部阅读状态</option><option value="unread">未读</option><option value="reading">阅读中</option><option value="read">已读</option></select></label></div>
+      <div id="topic-documents" class="document-list"></div>
+    </section>
+    <section id="all-documents-panel" class="research-panel" hidden>
+      <div class="research-heading"><div><span class="eyebrow">文献库</span><h1>全部文献</h1><p>保存的原文件与书目信息在各研究主题中共享。</p></div><button id="all-import" type="button">＋ 导入文献</button></div>
+      <label class="search-label" for="library-query">查找文献</label><input id="library-query" class="library-query" type="search" placeholder="按标题、作者、年份或文件名查找">
+      <div id="all-documents-list" class="document-list"></div>
+    </section>
+    <section id="welcome" hidden><button id="welcome-import" type="button">导入文档</button></section>
 
     <section id="workspace" hidden>
+      <div class="reader-navigation"><button id="reader-back" class="quiet-button" type="button">← 全部文献</button><div class="collection-actions"><button id="reader-record" class="quiet-button" type="button" hidden>筛选与阅读记录</button><button id="edit-document" class="quiet-button" type="button">书目信息</button></div></div>
       <div class="document-heading"><div><h1 id="title"></h1><p id="meta"></p></div><button id="warnings-toggle" class="quiet-button" type="button" aria-controls="warnings" aria-expanded="false" hidden>识别提醒</button></div>
       <div id="warnings" class="warnings" hidden><p id="warning-text"></p><button id="warnings-close" class="icon-button" type="button" aria-label="关闭识别提醒">×</button></div>
       <div class="workspace-grid">
@@ -52,9 +72,45 @@
   <dialog id="import-dialog" class="import-dialog" aria-labelledby="import-title">
     <div class="dialog-head"><div><span class="eyebrow">添加资料</span><h2 id="import-title">导入文档</h2></div><button id="close-import" class="icon-button" type="button" aria-label="关闭导入窗口">×</button></div>
     <p>支持 PDF、Word、Markdown、TXT 和 HTML。导入后可直接查找原文。</p>
+    <label class="form-field">关联到研究主题<select id="import-topic"><option value="">仅保存到全部文献</option></select></label>
     <button id="choose-file" class="upload" type="button">选择文件</button><input id="file" type="file" accept=".pdf,.docx,.md,.markdown,.txt,.html" multiple hidden>
     <details class="import-advanced"><summary>识别设置</summary><label for="parse-mode">处理方式</label><select id="parse-mode"><option value="auto">本地自动识别（推荐）</option><option value="ocr">全页 OCR（扫描或混合文档）</option><option value="vision" disabled>视觉增强（尚未配置）</option></select><p id="parser-status" class="hint"></p></details>
     <p id="upload-status" role="status"></p><button id="cancel-import" class="quiet-button" type="button" hidden>取消当前导入</button>
+  </dialog>
+  <dialog id="topic-dialog" class="edit-dialog" aria-labelledby="topic-dialog-title">
+    <div class="dialog-head"><h2 id="topic-dialog-title">创建研究主题</h2><button id="close-topic" class="icon-button" type="button" aria-label="关闭主题编辑">×</button></div>
+    <form id="topic-form">
+      <label class="form-field">主题标题<input id="topic-name-input" required maxlength="200" placeholder="例如：大语言模型辅助文献研究"></label>
+      <label class="form-field">研究问题<textarea id="topic-question-input" required maxlength="4000" placeholder="你希望通过这组文献回答什么问题？"></textarea></label>
+      <label class="form-field">研究范围（选填）<textarea id="topic-scope-input" maxlength="2000" placeholder="时间范围、材料类型、关注对象或排除条件"></textarea></label>
+      <p id="topic-form-error" class="form-error" role="alert"></p><button type="submit">保存主题</button>
+    </form>
+  </dialog>
+  <dialog id="attach-dialog" class="edit-dialog" aria-labelledby="attach-title">
+    <div class="dialog-head"><h2 id="attach-title">关联已有文献</h2><button id="close-attach" class="icon-button" type="button" aria-label="关闭文献关联">×</button></div>
+    <form id="attach-form"><label class="form-field">查找文献<input id="attach-query" type="search" placeholder="按标题、作者或文件名查找"></label><div id="attach-options" class="attach-options"></div><p id="attach-error" class="form-error" role="alert"></p><button id="attach-submit" type="submit">关联所选文献</button></form>
+  </dialog>
+  <dialog id="metadata-dialog" class="edit-dialog" aria-labelledby="metadata-title">
+    <div class="dialog-head"><h2 id="metadata-title">书目信息</h2><button id="close-metadata" class="icon-button" type="button" aria-label="关闭书目信息">×</button></div>
+    <p class="hint">修改会同步到所有关联主题，原文和引用保持对应。</p>
+    <form id="metadata-form">
+      <label class="form-field">文献标题<input id="metadata-name" required maxlength="500"></label>
+      <label class="form-field">作者<input id="metadata-authors" maxlength="2000" placeholder="按原文顺序填写作者"></label>
+      <div class="field-pair"><label class="form-field">发表年份<input id="metadata-year" maxlength="4" pattern="[0-9]{4}" inputmode="numeric" placeholder="例如：2024"></label><label class="form-field">期刊／会议／出版来源<input id="metadata-venue" maxlength="500"></label></div>
+      <label class="form-field">DOI<input id="metadata-doi" maxlength="300" placeholder="10.xxxx/…"></label>
+      <label class="form-field">来源链接<input id="metadata-url" type="url" maxlength="2000" placeholder="https://…"></label>
+      <p id="metadata-error" class="form-error" role="alert"></p><button type="submit">保存书目信息</button>
+    </form>
+  </dialog>
+  <dialog id="record-dialog" class="edit-dialog" aria-labelledby="record-title">
+    <div class="dialog-head"><h2 id="record-title">筛选与阅读记录</h2><button id="close-record" class="icon-button" type="button" aria-label="关闭筛选记录">×</button></div>
+    <p id="record-context" class="hint"></p>
+    <form id="record-form">
+      <div class="field-pair"><label class="form-field">筛选决定<select id="record-selection"><option value="pending">待筛选</option><option value="included">已纳入</option><option value="excluded">已排除</option></select></label><label class="form-field">阅读进度<select id="record-reading"><option value="unread">未读</option><option value="reading">阅读中</option><option value="read">已读</option></select></label></div>
+      <label class="form-field">与研究问题的相关性<textarea id="record-relevance" maxlength="2000" placeholder="这份文献能帮助回答问题的哪一部分？"></textarea></label>
+      <label class="form-field">筛选理由<textarea id="record-reason" maxlength="2000" placeholder="记录纳入、排除或仍待确认的依据"></textarea></label>
+      <p id="record-error" class="form-error" role="alert"></p><button type="submit">保存记录</button>
+    </form>
   </dialog>
   <script type="module" src="/app.js"></script>
 </body>

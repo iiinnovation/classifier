@@ -34,7 +34,9 @@ export async function readUpload(req) {
     const form = await request.formData()
     const file = form.get('file')
     if (!file || typeof file.arrayBuffer !== 'function' || !file.size) throw new Error()
-    return { fileName: file.name, contentType: file.type, mode: form.get('mode') || 'auto', bytes: Buffer.from(await file.arrayBuffer()) }
+    const topicId = form.get('topicId') || null
+    if (topicId !== null && typeof topicId !== 'string') throw new Error()
+    return { fileName: file.name, contentType: file.type, mode: form.get('mode') || 'auto', topicId, bytes: Buffer.from(await file.arrayBuffer()) }
   } catch { throw new HttpError(400, '缺少有效文件，请重新上传。') }
 }
 

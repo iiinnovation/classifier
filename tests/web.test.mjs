@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises'
 
 test('switching documents blocks questions and discards the previous document response', async () => {
   class Element {
-    constructor(tag = 'div') { this.tag = tag; this.children = []; this.value = ''; this.hidden = false; this.disabled = false; this.attributes = new Map(); this.style = {}; this.classList = { add() {}, remove() {} } }
+    constructor(tag = 'div') { this.tag = tag; this.children = []; this.value = ''; this.hidden = false; this.disabled = false; this.attributes = new Map(); this.style = {}; this.dataset = {}; this.classList = { add() {}, remove() {} } }
     append(...nodes) { nodes.forEach(node => { node.parent = this }); this.children.push(...nodes) }
     replaceChildren(...nodes) { this.children = []; this.append(...nodes) }
     querySelector(selector) { return selector === '[value="vision"]' ? new Element('option') : this.children.find(node => node.className === selector.slice(1)) || null }
@@ -23,7 +23,7 @@ test('switching documents blocks questions and discards the previous document re
     createTextNode(text) { return { textContent: text } },
     querySelectorAll() { return [] },
   }
-  const values = new Map()
+  const values = new Map([['classifier-document', 'A']])
   const localStorage = { getItem: key => values.get(key), setItem: (key, value) => values.set(key, value) }
   const docs = ['A', 'B'].map(id => ({ id, title: id, referenceCount: 0 }))
   const full = id => id === 'B'
@@ -38,6 +38,7 @@ test('switching documents blocks questions and discards the previous document re
     if (path === '/api/parser-capabilities') return response({ ocr: { available: false, languages: [] }, vision: false })
     if (path === '/health') return response({ modelConfigured: false })
     if (path === '/api/documents') return response({ documents: docs })
+    if (path === '/api/topics') return response({ topics: [] })
     if (path === '/api/documents/A') return response(full('A'))
     if (path === '/api/documents/B') return delayedB
     if (path.endsWith('/questions') && options.method === 'POST') {
@@ -48,8 +49,10 @@ test('switching documents blocks questions and discards the previous document re
     if (path === '/api/runs/new') return response({ id: 'new', documentId: 'B', question: 'B question', status: 'completed', events: [], result: { mode: 'extractive', answer: 'B answer', references: [] } })
     throw new Error(`Unexpected request: ${path}`)
   }
-  const source = (await readFile(new URL('../apps/web/app.js', import.meta.url), 'utf8'))
+  const researchSource = (await readFile(new URL('../apps/web/research.js', import.meta.url), 'utf8')).replace('export function', 'function')
+  const source = researchSource + '\n' + (await readFile(new URL('../apps/web/app.js', import.meta.url), 'utf8'))
     .replace(/^import katex from '\/katex\.mjs'\n/, 'const katex = { render() {} }\n')
+    .replace("import { createResearchWorkspace } from '/research.js'\n", '')
   const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor
   const { openDocument } = await new AsyncFunction('document', 'fetch', 'localStorage', 'setTimeout', 'clearTimeout', `${source}\nreturn { openDocument }`)(document, fetch, localStorage, setTimeout, clearTimeout)
   assert.equal(nodes.get('title').textContent, 'A')

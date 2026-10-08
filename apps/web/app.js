@@ -1,4 +1,5 @@
 import katex from '/katex.mjs'
+import { createResearchWorkspace } from '/research.js'
 const $ = id => document.getElementById(id)
 let selected = null
 let epoch = 0
@@ -12,11 +13,12 @@ let reviewEpoch = 0
 let modelConfigured = false
 let blockIndex = new Map()
 let warningsLabel = '识别提醒'
+let research
 
 async function api(path, options) {
   const response = await fetch(path, options)
   const value = await response.json()
-  if (!response.ok) throw new Error(value.error || '请求失败')
+  if (!response.ok) throw Object.assign(new Error(value.error || '请求失败'), { status: response.status })
   return value
 }
 function element(tag, text, className) {
@@ -231,6 +233,7 @@ $('close-library').onclick = closeLibrary
 $('drawer-backdrop').onclick = closeLibrary
 function openImport() {
   closeLibrary()
+  research?.prepareImport()
   if (!$('import-dialog').open) $('import-dialog').showModal()
 }
 function closeImport() {
@@ -262,17 +265,31 @@ async function poll(id, token, documentId) {
   }
 }
 async function loadLibrary(expectedEpoch = null) {
+  const request = research.beginDocumentsRequest()
   const { documents } = await api('/api/documents')
   if (expectedEpoch !== null && expectedEpoch !== epoch) return documents
+  research.setDocuments(documents, request)
+  return documents
+}
+function renderLibrary(documents) {
   $('documents').replaceChildren(...documents.map(doc => {
     const button = element('button', doc.title, `doc-item${doc.id === selected?.id ? ' active' : ''}`)
     button.append(element('small', `${doc.referenceCount} 个片段`))
-    button.onclick = () => openDocument(doc.id).catch(error => { $('error').textContent = error.message })
+    button.onclick = () => openDocument(doc.id).catch(error => research.report(error))
     return button
   }))
-  return documents
+}
+function resetReader() {
+  epoch++; reviewEpoch++
+  clearTimeout(timer)
+  selected = null; loadingDocument = false; pendingQuestion = null
+  busy(null)
+  $('workspace').hidden = true; $('download').hidden = true
+  $('page-image').onload = null; $('page-image').onerror = null
+  closeLibrary()
 }
 async function openDocument(id) {
+  research?.readerOpening()
   const token = ++epoch
   loadingDocument = true
   pendingQuestion = null
@@ -287,6 +304,7 @@ async function openDocument(id) {
     closeLibrary()
     $('welcome').hidden = true
     $('workspace').hidden = false
+    research?.readerOpened(id)
     $('title').textContent = selected.title
     const pdf = selected.mediaType === 'application/pdf'
     $('meta').textContent = `${selected.fileName} · ${pdf ? `${selected.sections.length} 页` : `${selected.references.length} 段原文`}`
@@ -320,14 +338,24 @@ async function openDocument(id) {
   }
 }
 async function waitImport(id) {
-  let job
-  do {
-    job = await api(`/api/imports/${id}`)
+  while (true) {
+    let job
+    try { job = await api(`/api/imports/${id}`) }
+    catch (error) {
+      if (error.status && error.status !== 429 && error.status < 500) throw error
+      $('upload-status').textContent = '暂时无法获取导入进度，正在重试。后台任务仍会继续，可关闭此窗口。'
+      await new Promise(resolve => setTimeout(resolve, 1500))
+      continue
+    }
+    $('import-topic').value = job.topicId || ''
     $('upload-status').textContent = `${job.fileName}：${job.progress?.message || '等待开始解析…'}`
-    if (['running', 'queued'].includes(job.status)) await new Promise(resolve => setTimeout(resolve, 700))
-  } while (['running', 'queued'].includes(job.status))
-  if (job.status !== 'completed') throw new Error(job.error || '文档导入未完成')
-  return job.documentId
+    if (['running', 'queued'].includes(job.status)) {
+      await new Promise(resolve => setTimeout(resolve, 700))
+      continue
+    }
+    if (job.status !== 'completed') throw new Error((job.error || '文档导入未完成') + (job.documentId ? ' 文献已保存，可从全部文献重新关联。' : ''))
+    return job
+  }
 }
 $('cancel-import').onclick = async () => {
   if (!importing) return
@@ -339,27 +367,36 @@ $('file').onchange = async event => {
   const files = [...event.target.files]
   if (!files.length) return
   const mode = $('parse-mode').value
-  $('file').disabled = true; $('choose-file').disabled = true; $('parse-mode').disabled = true
+  const topicId = $('import-topic').value
+  const navigation = research.navigationKey()
+  $('file').disabled = true; $('choose-file').disabled = true; $('parse-mode').disabled = true; $('import-topic').disabled = true
   let latest, completed = 0
   const errors = []
   try {
     for (const file of files) {
       $('upload-status').textContent = `正在上传 ${file.name}…`
       const form = new FormData(); form.append('file', file); form.append('mode', mode)
+      if (topicId) form.append('topicId', topicId)
       try {
         const job = await api('/api/imports', { method: 'POST', body: form })
         importing = job.id
         localStorage.setItem('classifier-import', job.id)
         $('cancel-import').hidden = false
-        latest = await waitImport(job.id); completed++
+        latest = (await waitImport(job.id)).documentId; completed++
       } catch (error) { errors.push(`${file.name}：${error.message}`) }
       finally { importing = null; localStorage.removeItem('classifier-import'); $('cancel-import').hidden = true }
     }
-    if (latest) await openDocument(latest)
+    await research.refresh()
+    await loadLibrary()
+    if (latest && navigation === research.navigationKey()) {
+      if (topicId) await research.showTopic(topicId)
+      else await openDocument(latest)
+    }
     $('upload-status').textContent = [`已导入 ${completed} 份文档。`, ...errors].join('\n')
+    research.notice($('upload-status').textContent, Boolean(errors.length))
     if (completed && !errors.length) closeImport()
   } catch (error) { $('upload-status').textContent = error.message }
-  finally { $('file').disabled = false; $('choose-file').disabled = false; $('parse-mode').disabled = false; $('file').value = '' }
+  finally { $('file').disabled = false; $('choose-file').disabled = false; $('parse-mode').disabled = false; $('import-topic').disabled = false; $('file').value = '' }
 }
 $('question-form').onsubmit = async event => {
   event.preventDefault()
@@ -390,6 +427,10 @@ $('cancel').onclick = async () => {
   try { await api(`/api/runs/${activeRun}/cancel`, { method: 'POST' }) }
   catch (error) { $('error').textContent = error.message }
 }
+research = createResearchWorkspace({ api, element, openDocument, resetReader, openImport, libraryChanged: renderLibrary, metadataChanged(updated) {
+  if (selected?.id === updated.id) { selected.title = updated.title; selected.bibliography = updated.bibliography; $('title').textContent = updated.title }
+} })
+const initialNavigation = research.navigationKey()
 try {
   const capabilities = await api('/api/parser-capabilities')
   $('parser-status').textContent = capabilities.ocr.available ? `本地 OCR：${capabilities.ocr.languages.join(' + ')}。扫描数字与公式请核对页图。` : '本地 OCR 尚不可用，请安装 Tesseract 和中英文语言包。'
@@ -399,15 +440,16 @@ try {
   const health = await api('/health')
   modelConfigured = health.modelConfigured
   configureQuestionMode()
-  const documents = await loadLibrary()
-  const last = localStorage.getItem('classifier-document')
-  const target = documents.find(doc => doc.id === last) || documents[0]
-  if (target) await openDocument(target.id)
+  await loadLibrary()
+  await research.restore(initialNavigation)
   const previous = localStorage.getItem('classifier-import')
   if (previous) {
     openImport()
-    importing = previous; $('cancel-import').hidden = false; $('file').disabled = true; $('choose-file').disabled = true
-    try { await openDocument(await waitImport(previous)); $('upload-status').textContent = '文档已导入。'; closeImport() }
-    finally { importing = null; $('cancel-import').hidden = true; $('file').disabled = false; $('choose-file').disabled = false; localStorage.removeItem('classifier-import') }
+    importing = previous; $('cancel-import').hidden = false; $('file').disabled = true; $('choose-file').disabled = true; $('import-topic').disabled = true; $('parse-mode').disabled = true
+    try {
+      await waitImport(previous)
+      await research.refresh(); await loadLibrary()
+      research.notice('文献已导入。'); closeImport()
+    } finally { importing = null; $('cancel-import').hidden = true; $('file').disabled = false; $('choose-file').disabled = false; $('import-topic').disabled = false; $('parse-mode').disabled = false; localStorage.removeItem('classifier-import') }
   }
-} catch (error) { $('upload-status').textContent = error.message }
+} catch (error) { $('upload-status').textContent = error.message; research.report(error) }

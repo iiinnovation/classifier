@@ -33,12 +33,13 @@ export function parseInWorker(upload, { mode = 'auto', signal, onProgress = () =
   })
 }
 
-export function createImports(store) {
+export function createImports(store, topics) {
   const active = new Map()
   const tasks = new Set()
   async function start(upload, mode = 'auto') {
+    const topicId = upload.topicId ? (await topics.get(upload.topicId)).id : null
     if (active.size >= 2) throw new HttpError(429, '当前正在解析两份文档，请稍后重试。')
-    const job = { id: randomUUID(), status: 'queued', fileName: basename(upload.fileName.replaceAll('\\', '/')).slice(0, 200), mode, createdAt: new Date().toISOString() }
+    const job = { id: randomUUID(), status: 'queued', fileName: basename(upload.fileName.replaceAll('\\', '/')).slice(0, 200), topicId, mode, createdAt: new Date().toISOString() }
     const controller = new AbortController()
     active.set(job.id, controller)
     try { await store.write('imports', job) } catch (error) { active.delete(job.id); throw error }
@@ -64,7 +65,9 @@ export function createImports(store) {
         source: { kind: 'upload', sha256: createHash('sha256').update(upload.bytes).digest('hex'), byteLength: upload.bytes.length }, createdAt: new Date().toISOString() }
       await store.saveOriginal(document.id, upload.bytes)
       await store.write('documents', document)
-      job.documentId = document.id; job.status = 'completed'
+      job.documentId = document.id
+      if (job.topicId) await topics.attach(job.topicId, document.id)
+      job.status = 'completed'
     } catch (error) { job.status = controller.signal.aborted ? 'cancelled' : 'failed'; job.error = error.message }
     finally {
       job.finishedAt = new Date().toISOString()
