@@ -10,7 +10,7 @@ export function requireId(id) {
 }
 
 export async function createStore(root) {
-  for (const bucket of ['documents', 'runs', 'originals', 'imports', 'topics', 'notes']) await mkdir(join(root, bucket), { recursive: true })
+  for (const bucket of ['documents', 'runs', 'originals', 'imports', 'topics', 'notes', 'comparisons']) await mkdir(join(root, bucket), { recursive: true })
   const path = (bucket, id) => join(root, bucket, `${requireId(id)}.json`)
   async function read(bucket, id) {
     try { return JSON.parse(await readFile(path(bucket, id), 'utf8')) }

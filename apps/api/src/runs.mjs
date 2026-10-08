@@ -10,22 +10,25 @@ export function createRuns(store, qaOptions = {}) {
     const document = await store.document(documentId)
     // Recheck after disk read so concurrent requests cannot exceed this limit.
     if (active.size >= 3) throw new HttpError(429, '当前问答任务较多，请稍后重试。')
-    const run = { id: randomUUID(), documentId, documentTitle: document.title, documentVersion: evidenceVersion(document), ...metadata, question, status: 'queued', events: [], createdAt: new Date().toISOString() }
+    return startJob({ documentId, documentTitle: document.title, documentVersion: evidenceVersion(document), ...metadata, question }, options => answerQuestion(document, question, { ...qaOptions, ...options }))
+  }
+  async function startJob(metadata, work) {
+    if (active.size >= 3) throw new HttpError(429, '当前任务较多，请稍后重试。')
+    const run = { ...metadata, id: randomUUID(), status: 'queued', events: [], createdAt: new Date().toISOString() }
     const controller = new AbortController()
     active.set(run.id, controller)
     try { await store.write('runs', run) }
     catch (error) { active.delete(run.id); throw error }
     const initial = structuredClone(run)
-    void execute(run, document, controller).catch(error => console.error('Run persistence failed:', error.message))
+    void execute(run, work, controller).catch(error => console.error('Run persistence failed:', error.message))
     return initial
   }
-  async function execute(run, document, controller) {
+  async function execute(run, work, controller) {
     const timer = setTimeout(() => controller.abort(new Error('问答超过 90 秒，请缩小问题范围后重试。')), 90_000)
     try {
       run.status = 'running'
       await store.write('runs', run)
-      run.result = await answerQuestion(document, run.question, {
-        ...qaOptions,
+      run.result = await work({
         signal: controller.signal,
         onEvent: async event => {
           run.events.push({ ...event, at: new Date().toISOString() })
@@ -45,7 +48,7 @@ export function createRuns(store, qaOptions = {}) {
     }
   }
   return {
-    start,
+    start, startJob,
     cancel(id) {
       const controller = active.get(id)
       if (controller) controller.abort(new Error('用户已取消本次问答。'))

@@ -1,5 +1,36 @@
 # API 约定
 
+## 多文献比较（M3）
+
+- `GET /api/topics/:topicId/comparisons`：比较表摘要列表，包含归档项。
+- `POST /api/topics/:topicId/comparisons`：创建比较表，返回 201。字段为可选 `id`（UUID，用于幂等重试）、`title`、可选 `question`（默认主题问题）、`documentIds`（2–12 个当前主题文献 ID）和 `columns`。
+- `columns` 为 1–12 个 `{ id?, name, description? }`；标题最多 200 字，问题 4000 字，维度名称 80 字、说明 1000 字。省略维度时创建方法、研究对象、主要发现和局限四项。
+- `GET /api/comparisons/:id`：定义、文献摘要、全部比较项、综合判断及最近建议任务。
+- `PATCH /api/comparisons/:id`：携带 `revision`，部分修改标题、问题、文献和维度，或使用 `archived` 归档／恢复。移除项保存在历史中。
+- `GET /api/comparisons/:id/history`：详情与历史。历史引用的 `matchesCurrent` 按原文献的当前解析版本校验，包括已从比较表移除的文献；原文缺失或版本变化时为 `false`。`PATCH` 提交 `{ revision, restoreRevision }` 恢复为新版本。
+
+`GET /api/comparisons/:id/sources/:documentId` 返回本行原文、解析指纹及当前主题的未归档笔记，不接受范围外文献。
+
+`PATCH /api/comparisons/:id/cells/:documentId/:columnId` 接受部分字段：
+
+- `revision`：当前比较表版本；冲突返回 409。
+- `value`（最多 6000 字）、`status`（`unfilled` / `recorded` / `not_reported` / `not_found` / `not_applicable`）。已记录要求非空值，缺失状态的解释应写入条件字段。
+- `kind`（`source` / `inference` / `user`）；已记录的原文报告或模型归纳必须有证据。模型归纳只能继承模型笔记或建议的来源。
+- `conditions`、`reason`（各最多 2000 字）、`comparability`（`unchecked` / `comparable` / `conditional` / `not_comparable`）。后两种状态必须有理由。
+- `source: { type: "note", noteId, revision }`：绑定当前主题、本行文献的指定笔记版本；默认填入笔记内容及其原文证据。
+- `source: { type: "passages", referenceIds, documentVersion }`：选择本行当前原文，最多 12 个片段。省略 `source` 保留旧快照。
+- `reviewState: "checked"`：保存后单独确认，要求引用和来源笔记仍有效。修改内容后重新待核对。
+
+`PATCH /api/comparisons/:id/analyses/:columnId` 接受 `{ revision, value, relation, conditions, documentIds }`。`relation` 为 `agreement` / `difference` / `conflict` / `insufficient`；选择至少两行作为依据。保存行与证据快照，并在依据变化后返回 `outdated`。
+
+`POST /api/comparisons/:id/suggestions` 接受 `{ revision, columnId }`，返回 202 及 `purpose=comparison-suggestion` 的任务。模型只接收所选文献，引用 ID 包含文献身份；逐行和综合判断分别校验引用范围。未配置模型返回 409。可通过 `/api/runs/:id` 查询和取消。
+
+方法、研究对象、主要发现、局限及已支持别名使用中英文关键词扩展并优先读取相应章节；未命中时补充有限上下文。其他自定义维度按名称和说明作字面检索。模型输入的每篇文献附带 `retrieval: { strategy, query, partial: true }`，策略为 `expanded_keywords`、`literal_keywords`、`context_sample` 或 `no_match`。此标记说明检索方式，不保证相关性或完整覆盖。每篇文献最多 6 个原文片段、合计 6000 字符，完整输入最多 100000 字符。
+
+`POST /api/comparisons/:id/adopt` 接受 `{ revision, runId }`，原子采用本列全部建议与综合判断。仅接受本比较表的已完成任务；范围、维度、目标内容、相关笔记或原文变化时返回 409。采用前后都保留历史，生成任务本身不修改比较表。
+
+比较更新返回最新详情。响应中的 `matchesCurrent`、`noteChanged`、`outdated` 为服务端派生状态，不接受客户端写入。既有比较保留已移出主题的文献和出处；新任务要求所有选定文献仍与主题关联。
+
 ## 阅读笔记与证据（M2）
 
 - `GET /api/topics/:topicId/notes`：返回 `{ notes }`，每条标明原文献及是否仍关联主题。

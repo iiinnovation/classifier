@@ -15,6 +15,7 @@ import { modelConfigured } from './qa.mjs'
 import { createTopics, documentSummary, editBibliography } from './topics.mjs'
 import { createNotes } from './notes.mjs'
 import { evidenceVersion } from './evidence.mjs'
+import { createComparisons } from './comparisons.mjs'
 
 const root = fileURLToPath(new URL('../../../', import.meta.url))
 export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER_DATA_DIR || 'data'), qaOptions = {} } = {}) {
@@ -23,6 +24,7 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
   const topics = createTopics(store)
   const imports = createImports(store, topics)
   const notes = createNotes(store, topics, runs, qaOptions)
+  const comparisons = createComparisons(store, topics, runs, qaOptions)
   let syncImports = 0
   let rendering = false
   const assets = new Map([
@@ -30,6 +32,7 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
     ['/app.js', ['app.js', 'text/javascript; charset=utf-8']],
     ['/research.js', ['research.js', 'text/javascript; charset=utf-8']],
     ['/notes.js', ['notes.js', 'text/javascript; charset=utf-8']],
+    ['/comparisons.js', ['comparisons.js', 'text/javascript; charset=utf-8']],
     ['/katex.mjs', ['../../node_modules/katex/dist/katex.mjs', 'text/javascript; charset=utf-8']],
     ['/katex.css', ['../../node_modules/katex/dist/katex.min.css', 'text/css; charset=utf-8']],
     ['/style.css', ['style.css', 'text/css; charset=utf-8']],
@@ -58,6 +61,26 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
       }
       const topicNotes = url.pathname.match(/^\/api\/topics\/([^/]+)\/notes$/)
       if (topicNotes && req.method === 'GET') return sendJson(res, 200, { notes: await notes.list(requireId(topicNotes[1])) })
+      const topicComparisons = url.pathname.match(/^\/api\/topics\/([^/]+)\/comparisons$/)
+      if (topicComparisons) {
+        const topicId = requireId(topicComparisons[1])
+        if (req.method === 'GET') return sendJson(res, 200, { comparisons: await comparisons.list(topicId) })
+        if (req.method === 'POST') return sendJson(res, 201, await comparisons.create(topicId, await readJson(req)))
+      }
+      const comparison = url.pathname.match(/^\/api\/comparisons\/([^/]+)(?:\/(history|sources|cells|analyses|suggestions|adopt)(?:\/([^/]+))?(?:\/([^/]+))?)?$/)
+      if (comparison) {
+        const id = requireId(comparison[1]), action = comparison[2]
+        if (!action) {
+          if (req.method === 'GET') return sendJson(res, 200, await comparisons.get(id))
+          if (req.method === 'PATCH') return sendJson(res, 200, await comparisons.edit(id, await readJson(req)))
+        }
+        if (action === 'history' && req.method === 'GET') return sendJson(res, 200, await comparisons.get(id, true))
+        if (action === 'sources' && req.method === 'GET') return sendJson(res, 200, await comparisons.sources(id, requireId(comparison[3])))
+        if (action === 'cells' && req.method === 'PATCH') return sendJson(res, 200, await comparisons.editCell(id, requireId(comparison[3]), requireId(comparison[4]), await readJson(req)))
+        if (action === 'analyses' && req.method === 'PATCH') return sendJson(res, 200, await comparisons.editAnalysis(id, requireId(comparison[3]), await readJson(req)))
+        if (action === 'suggestions' && req.method === 'POST') return sendJson(res, 202, await comparisons.suggest(id, await readJson(req)))
+        if (action === 'adopt' && req.method === 'POST') return sendJson(res, 200, await comparisons.adopt(id, await readJson(req)))
+      }
       const documentNotes = url.pathname.match(/^\/api\/topics\/([^/]+)\/documents\/([^/]+)\/(notes|note-suggestions)$/)
       if (documentNotes) {
         const topicId = requireId(documentNotes[1]), documentId = requireId(documentNotes[2])

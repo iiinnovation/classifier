@@ -1,6 +1,7 @@
 import katex from '/katex.mjs'
 import { createResearchWorkspace } from '/research.js'
 import { createNotebook } from '/notes.js'
+import { createComparisonWorkspace } from '/comparisons.js'
 const $ = id => document.getElementById(id)
 let selected = null
 let epoch = 0
@@ -16,6 +17,7 @@ let blockIndex = new Map()
 let warningsLabel = '识别提醒'
 let research
 let notebook
+let comparisonWorkspace
 
 async function api(path, options) {
   const response = await fetch(path, options)
@@ -345,6 +347,10 @@ async function openDocument(id, options = {}) {
     if (!selected.questions.length) $('history').append(emptyState())
     $('error').textContent = ''
     void notebook?.load(selected, research.currentTopic(), { ...options, modelConfigured })
+    if (options.evidence) {
+      if (options.evidence.documentId === selected.id && options.evidence.documentVersion === selected.evidenceVersion) jump(options.evidence.reference.id)
+      else research.notice('原文版本已变化，请返回比较表核对保存的证据快照。', true)
+    }
     await loadLibrary(token)
     if (token !== epoch) return
     const running = selected.questions.find(run => ['running', 'queued'].includes(run.status))
@@ -446,7 +452,8 @@ $('cancel').onclick = async () => {
 notebook = createNotebook({ api, element, jump, notice: (message, error) => research.notice(message, error), async openNote(note) {
   if (await research.showTopic(note.topicId)) await openDocument(note.documentId, { retainTopic: true, noteId: note.id })
 } })
-research = createResearchWorkspace({ api, element, openDocument, resetReader, openImport, libraryChanged: renderLibrary, topicChanged: topic => notebook.showTopic(topic), metadataChanged(updated) {
+comparisonWorkspace = createComparisonWorkspace({ api, element, currentTopic: () => research.currentTopic(), enter: id => research.enterComparison(id), navigationKey: () => research.navigationKey(), showTopic: id => research.showTopic(id), modelConfigured: () => modelConfigured, notice: (message, error) => research.notice(message, error), openSource: (evidence, comparisonId) => openDocument(evidence.documentId, { retainTopic: true, evidence, comparisonId }) })
+research = createResearchWorkspace({ api, element, openDocument, resetReader, openImport, libraryChanged: renderLibrary, onNavigate: () => comparisonWorkspace.reset(), openComparison: id => comparisonWorkspace.open(id), topicChanged: topic => { void notebook.showTopic(topic); void comparisonWorkspace.showTopic(topic) }, metadataChanged(updated) {
   if (selected?.id === updated.id) { selected.title = updated.title; selected.bibliography = updated.bibliography; $('title').textContent = updated.title }
 } })
 const initialNavigation = research.navigationKey()
