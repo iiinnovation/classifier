@@ -1,5 +1,6 @@
 import katex from '/katex.mjs'
 import { createResearchWorkspace } from '/research.js'
+import { createNotebook } from '/notes.js'
 const $ = id => document.getElementById(id)
 let selected = null
 let epoch = 0
@@ -14,6 +15,7 @@ let modelConfigured = false
 let blockIndex = new Map()
 let warningsLabel = '识别提醒'
 let research
+let notebook
 
 async function api(path, options) {
   const response = await fetch(path, options)
@@ -92,6 +94,9 @@ function structuredReference(ref) {
     button.onclick = () => jump(ref.id)
     node.append(button)
   }
+  const save = element('button', '记入笔记', 'save-reference-note')
+  save.type = 'button'; save.onclick = () => notebook.fromReference(ref)
+  node.append(save)
   return node
 }
 async function showPage(number, bbox = null, ref = null) {
@@ -106,6 +111,9 @@ async function showPage(number, bbox = null, ref = null) {
     close.onclick = () => { $('selected-excerpt').hidden = true }
     $('selected-excerpt').replaceChildren(element('strong', ref.title), close, element('p', ref.text.slice(0, 360)))
     if (ref.needsReview) $('selected-excerpt').append(element('span', '识别结果 · 待核对', 'review-badge'))
+    const save = element('button', '记入笔记', 'save-reference-note')
+    save.type = 'button'; save.onclick = () => notebook.fromReference(ref)
+    $('selected-excerpt').append(save)
   } else $('selected-excerpt').replaceChildren()
   $('page-label').textContent = `第 ${reviewPage} / ${selected.sections.length} 页`
   $('prev-page').disabled = reviewPage === 1
@@ -172,10 +180,13 @@ function renderRun(run) {
   if (run.result) {
     const result = run.result
     if (result.mode === 'model') {
-      for (const claim of result.claims) {
+      for (const [claimIndex, claim] of result.claims.entries()) {
         const p = element('p')
         p.append(element('span', claim.kind === 'source' ? '原文事实' : '归纳判断', 'claim-label'), document.createTextNode(claim.text))
         citations(p, claim.referenceIds, result.references)
+        const save = element('button', '记入笔记', 'save-reference-note')
+        save.type = 'button'; save.onclick = () => notebook.fromAnswer(run, { claimIndex })
+        p.append(save)
         answer.append(p)
       }
       if (result.limitations) answer.append(element('p', `证据边界：${result.limitations}`, 'notice'))
@@ -184,6 +195,9 @@ function renderRun(run) {
       for (const ref of result.references) {
         const quote = element('div', ref.text, 'excerpt')
         citations(quote, [ref.id], result.references)
+        const save = element('button', '记入笔记', 'save-reference-note')
+        save.type = 'button'; save.onclick = () => notebook.fromAnswer(run, { referenceId: ref.id })
+        quote.append(save)
         answer.append(quote)
       }
       if (result.warning) answer.append(element('p', result.warning, 'notice'))
@@ -280,6 +294,7 @@ function renderLibrary(documents) {
   }))
 }
 function resetReader() {
+  notebook?.reset()
   epoch++; reviewEpoch++
   clearTimeout(timer)
   selected = null; loadingDocument = false; pendingQuestion = null
@@ -288,7 +303,7 @@ function resetReader() {
   $('page-image').onload = null; $('page-image').onerror = null
   closeLibrary()
 }
-async function openDocument(id) {
+async function openDocument(id, options = {}) {
   research?.readerOpening()
   const token = ++epoch
   loadingDocument = true
@@ -304,7 +319,7 @@ async function openDocument(id) {
     closeLibrary()
     $('welcome').hidden = true
     $('workspace').hidden = false
-    research?.readerOpened(id)
+    research?.readerOpened(id, options)
     $('title').textContent = selected.title
     const pdf = selected.mediaType === 'application/pdf'
     $('meta').textContent = `${selected.fileName} · ${pdf ? `${selected.sections.length} 页` : `${selected.references.length} 段原文`}`
@@ -329,6 +344,7 @@ async function openDocument(id) {
     $('history').replaceChildren(...[...selected.questions].reverse().map(renderRun))
     if (!selected.questions.length) $('history').append(emptyState())
     $('error').textContent = ''
+    void notebook?.load(selected, research.currentTopic(), { ...options, modelConfigured })
     await loadLibrary(token)
     if (token !== epoch) return
     const running = selected.questions.find(run => ['running', 'queued'].includes(run.status))
@@ -427,7 +443,10 @@ $('cancel').onclick = async () => {
   try { await api(`/api/runs/${activeRun}/cancel`, { method: 'POST' }) }
   catch (error) { $('error').textContent = error.message }
 }
-research = createResearchWorkspace({ api, element, openDocument, resetReader, openImport, libraryChanged: renderLibrary, metadataChanged(updated) {
+notebook = createNotebook({ api, element, jump, notice: (message, error) => research.notice(message, error), async openNote(note) {
+  if (await research.showTopic(note.topicId)) await openDocument(note.documentId, { retainTopic: true, noteId: note.id })
+} })
+research = createResearchWorkspace({ api, element, openDocument, resetReader, openImport, libraryChanged: renderLibrary, topicChanged: topic => notebook.showTopic(topic), metadataChanged(updated) {
   if (selected?.id === updated.id) { selected.title = updated.title; selected.bibliography = updated.bibliography; $('title').textContent = updated.title }
 } })
 const initialNavigation = research.navigationKey()

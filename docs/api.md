@@ -1,5 +1,30 @@
 # API 约定
 
+## 阅读笔记与证据（M2）
+
+- `GET /api/topics/:topicId/notes`：返回 `{ notes }`，每条标明原文献及是否仍关联主题。
+- `GET /api/topics/:topicId/documents/:documentId/notes`：返回 `{ notes, linked, fields, suggestions }`，包括通用字段和最近 10 次笔记建议任务。
+- `POST /api/topics/:topicId/documents/:documentId/notes`：创建笔记，返回 201；新建要求文献已关联主题。
+- `GET /api/notes/:id`：笔记与历史版本。移出主题后仍能访问已保存笔记。
+- `PATCH /api/notes/:id`：编辑、核对、归档或恢复，必须携带当前 `revision`；版本冲突返回 409。
+
+创建笔记的通用字段是 `id`（可选 UUID，浏览器固定提供以保证请求重试幂等）、`field`（1–80 字，自由命名）、`content`（最多 10000 字）、`kind`（`source` / `inference` / `user`）、`status`（`recorded` / `not_reported` / `not_applicable` / `not_found`）。`recorded` 要求非空内容，其他状态允许留空。已记录的原文报告和模型归纳要求原文证据。
+
+来源与引用：
+
+- 手工笔记：`origin: { "type": "manual" }`，默认类型为 `user`。
+- 原文笔记：`origin: { "type": "reference" }`，同时提供 `referenceIds` 和 `GET /api/documents/:id` 返回的 `evidenceVersion`（以 `documentVersion` 字段提交）；默认类型为 `source`。
+- 问答结论：`origin: { "type": "answer", "runId": "...", "claimIndex": 0 }`。服务端读取已完成任务中指定结论及其引用；归纳类型必须来自对应模型结论。
+- 问答中的原文：`origin: { "type": "answer", "runId": "...", "referenceId": "ref_00001" }`。该片段必须属于本次任务读取的证据。
+
+服务端生成 `evidence[]` 快照，客户端不能直接写入。每项含文献 ID、解析指纹、原文与定位；响应另含 `matchesCurrent`。旧任务没有指纹、或解析发生变化时返回 false，保留快照并阻止错误定位。最多关联 12 个片段。
+
+修改普通字段示例：`{ "revision": 1, "field": "方法", "content": "修订后的理解" }`。省略引用字段会保留原快照；显式提交 `referenceIds` 和 `documentVersion` 则重新选择当前证据。修改内容或证据后重新标记待核对。
+
+核对完成：`{ "revision": 2, "reviewState": "checked" }`，必须在保存内容后单独提交，且证据版本仍有效。归档／恢复归档：`{ "revision": 3, "archived": true }`。恢复历史版本：`{ "revision": 4, "restoreRevision": 1 }`，创建一个新版本，保留历史。
+
+`POST /api/topics/:topicId/documents/:documentId/note-suggestions` 接受 `{ "field": "方法" }`，返回 202 与问答任务。需要已配置模型；未配置返回 409。任务携带 `purpose=note-suggestion`、主题和字段，复用 `/api/runs/:id` 查询与取消，且不混入普通问答历史。完成任务本身不会写入或覆盖笔记。
+
 ## 研究主题与文献组织（M1）
 
 `GET /api/topics` 返回 `{ topics: [...] }`，每项含主题标题、问题、范围、时间和 `documentCount`、`includedCount`、`readCount`。

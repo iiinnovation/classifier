@@ -5,7 +5,7 @@ import { randomUUID } from 'node:crypto'
 import { once } from 'node:events'
 import { createApp } from '../../apps/api/src/server.mjs'
 
-export async function testApp() {
+export async function testApp(options = {}) {
   const dataDir = await mkdtemp(join(tmpdir(), 'classifier-m1-'))
   const original = '既有文献：研究者比较了两组材料，具体条件需结合原文核对。'
   const legacy = { id: randomUUID(), title: '既有研究资料', fileName: 'legacy.txt', mediaType: 'text/plain', createdAt: '2026-09-23T00:00:00.000Z', warnings: [], sections: [{ title: '原文', text: original }], references: [{ id: 'ref_00001', title: '原文第 1 段', text: original }] }
@@ -17,7 +17,7 @@ export async function testApp() {
   delete process.env.CLASSIFIER_MODEL_API_KEY
   let server, port = 0
   async function start() {
-    server = await createApp({ dataDir })
+    server = await createApp({ ...options, dataDir })
     server.listen(port, '127.0.0.1')
     await once(server, 'listening')
     port = server.address().port

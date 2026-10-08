@@ -1,15 +1,16 @@
 import { randomUUID } from 'node:crypto'
 import { answerQuestion } from './qa.mjs'
 import { HttpError } from './http.mjs'
+import { evidenceVersion } from './evidence.mjs'
 
-export function createRuns(store) {
+export function createRuns(store, qaOptions = {}) {
   const active = new Map()
-  async function start(documentId, question) {
+  async function start(documentId, question, metadata = {}) {
     if (active.size >= 3) throw new HttpError(429, '当前问答任务较多，请稍后重试。')
     const document = await store.document(documentId)
     // Recheck after disk read so concurrent requests cannot exceed this limit.
     if (active.size >= 3) throw new HttpError(429, '当前问答任务较多，请稍后重试。')
-    const run = { id: randomUUID(), documentId, documentTitle: document.title, question, status: 'queued', events: [], createdAt: new Date().toISOString() }
+    const run = { id: randomUUID(), documentId, documentTitle: document.title, documentVersion: evidenceVersion(document), ...metadata, question, status: 'queued', events: [], createdAt: new Date().toISOString() }
     const controller = new AbortController()
     active.set(run.id, controller)
     try { await store.write('runs', run) }
@@ -24,6 +25,7 @@ export function createRuns(store) {
       run.status = 'running'
       await store.write('runs', run)
       run.result = await answerQuestion(document, run.question, {
+        ...qaOptions,
         signal: controller.signal,
         onEvent: async event => {
           run.events.push({ ...event, at: new Date().toISOString() })

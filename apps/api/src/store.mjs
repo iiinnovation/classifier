@@ -5,12 +5,12 @@ import { HttpError } from './http.mjs'
 
 const idPattern = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i
 export function requireId(id) {
-  if (!idPattern.test(id)) throw new HttpError(400, '无效的记录 ID。')
+  if (typeof id !== 'string' || !idPattern.test(id)) throw new HttpError(400, '无效的记录 ID。')
   return id.toLowerCase()
 }
 
 export async function createStore(root) {
-  for (const bucket of ['documents', 'runs', 'originals', 'imports', 'topics']) await mkdir(join(root, bucket), { recursive: true })
+  for (const bucket of ['documents', 'runs', 'originals', 'imports', 'topics', 'notes']) await mkdir(join(root, bucket), { recursive: true })
   const path = (bucket, id) => join(root, bucket, `${requireId(id)}.json`)
   async function read(bucket, id) {
     try { return JSON.parse(await readFile(path(bucket, id), 'utf8')) }
@@ -29,11 +29,11 @@ export async function createStore(root) {
     return values.filter(Boolean).sort((a, b) => b.createdAt.localeCompare(a.createdAt))
   }
   const updates = new Map()
-  async function update(bucket, id, change) {
+  async function update(bucket, id, change, { allowCreate = false } = {}) {
     const key = path(bucket, id)
     const task = (updates.get(key) || Promise.resolve()).catch(() => {}).then(async () => {
       const current = await read(bucket, id)
-      if (!current) throw new HttpError(404, '未找到记录。')
+      if (!current && !allowCreate) throw new HttpError(404, '未找到记录。')
       return write(bucket, await change(current))
     })
     updates.set(key, task)

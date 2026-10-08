@@ -50,9 +50,11 @@ test('switching documents blocks questions and discards the previous document re
     throw new Error(`Unexpected request: ${path}`)
   }
   const researchSource = (await readFile(new URL('../apps/web/research.js', import.meta.url), 'utf8')).replace('export function', 'function')
-  const source = researchSource + '\n' + (await readFile(new URL('../apps/web/app.js', import.meta.url), 'utf8'))
+  const noteSource = (await readFile(new URL('../apps/web/notes.js', import.meta.url), 'utf8')).replace('export function', 'function')
+  const source = researchSource + '\n' + noteSource + '\n' + (await readFile(new URL('../apps/web/app.js', import.meta.url), 'utf8'))
     .replace(/^import katex from '\/katex\.mjs'\n/, 'const katex = { render() {} }\n')
     .replace("import { createResearchWorkspace } from '/research.js'\n", '')
+    .replace("import { createNotebook } from '/notes.js'\n", '')
   const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor
   const { openDocument } = await new AsyncFunction('document', 'fetch', 'localStorage', 'setTimeout', 'clearTimeout', `${source}\nreturn { openDocument }`)(document, fetch, localStorage, setTimeout, clearTimeout)
   assert.equal(nodes.get('title').textContent, 'A')

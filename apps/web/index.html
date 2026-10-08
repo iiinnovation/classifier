@@ -34,6 +34,7 @@
       <div class="collection-head"><div><h2>主题文献</h2><p id="topic-stats" class="hint"></p></div><div class="collection-actions"><button id="attach-existing" class="quiet-button" type="button">关联已有文献</button><button id="topic-import" type="button">＋ 导入文献</button></div></div>
       <div class="collection-filters"><label>筛选状态<select id="selection-filter"><option value="">全部筛选状态</option><option value="pending">待筛选</option><option value="included">已纳入</option><option value="excluded">已排除</option></select></label><label>阅读状态<select id="reading-filter"><option value="">全部阅读状态</option><option value="unread">未读</option><option value="reading">阅读中</option><option value="read">已读</option></select></label></div>
       <div id="topic-documents" class="document-list"></div>
+      <section class="topic-notebook"><div class="collection-head"><div><h2>阅读笔记</h2><p class="hint">按研究问题积累的笔记，移出文献后仍会保留。</p></div></div><div id="topic-note-list" class="document-list"></div></section>
     </section>
     <section id="all-documents-panel" class="research-panel" hidden>
       <div class="research-heading"><div><span class="eyebrow">文献库</span><h1>全部文献</h1><p>保存的原文件与书目信息在各研究主题中共享。</p></div><button id="all-import" type="button">＋ 导入文献</button></div>
@@ -48,10 +49,21 @@
       <div id="warnings" class="warnings" hidden><p id="warning-text"></p><button id="warnings-close" class="icon-button" type="button" aria-label="关闭识别提醒">×</button></div>
       <div class="workspace-grid">
         <section class="conversation" aria-label="问答与检索">
+          <div class="reader-tabs" role="tablist" aria-label="研读方式"><button id="qa-tab" role="tab" aria-controls="qa-panel" aria-selected="true" type="button">文档问答</button><button id="notes-tab" role="tab" aria-controls="notes-panel" aria-selected="false" type="button">阅读笔记</button></div>
+          <div id="qa-panel" class="qa-panel" role="tabpanel" aria-labelledby="qa-tab">
           <div class="section-head"><h2 id="conversation-title">文档问答</h2><span id="conversation-mode"></span></div>
           <div id="history" aria-live="polite"></div>
           <form id="question-form"><label id="question-label" for="question">问题</label><textarea id="question" required maxlength="4000"></textarea><div class="form-bottom"><span id="question-hint"></span><button id="cancel" type="button" hidden>停止</button><button id="ask" type="submit">提问 ↗</button></div></form>
           <p id="error" role="alert"></p>
+          </div>
+          <section id="notes-panel" class="notes-panel" role="tabpanel" aria-labelledby="notes-tab" hidden>
+            <div class="notes-heading"><div><h2>阅读笔记</h2><p id="notes-context" class="hint"></p></div><button id="new-note" type="button">＋ 写笔记</button></div>
+            <p id="notes-message" class="form-error" role="status"></p><button id="notes-retry" class="quiet-button" type="button" hidden>重新加载笔记</button>
+            <div id="note-draft-notice" class="draft-notice" hidden><label for="note-draft-choice">未保存的笔记草稿</label><select id="note-draft-choice"></select><button id="resume-note-draft" class="quiet-button" type="button">继续草稿</button><button id="discard-note-draft" class="quiet-button" type="button">清除所选草稿</button></div>
+            <label class="archive-filter"><input id="notes-show-archived" type="checkbox"> 显示归档笔记</label>
+            <div id="notes-list"></div>
+            <details id="note-suggestions"><summary>辅助整理笔记</summary><p id="suggestion-hint" class="hint"></p><label class="form-field">希望整理的字段<input id="suggestion-field" list="note-fields" maxlength="80" value="主要发现"></label><button id="generate-notes" type="button">生成笔记建议</button><div id="suggestions-list"></div></details>
+          </section>
         </section>
 
         <section id="source-panel" class="source" aria-label="文档原文">
@@ -112,6 +124,25 @@
       <p id="record-error" class="form-error" role="alert"></p><button type="submit">保存记录</button>
     </form>
   </dialog>
+  <datalist id="note-fields"><option value="研究问题"></option><option value="材料或对象"></option><option value="方法"></option><option value="主要发现"></option><option value="局限"></option><option value="待验证问题"></option></datalist>
+  <dialog id="note-dialog" class="edit-dialog note-dialog" aria-labelledby="note-dialog-title">
+    <div class="dialog-head"><h2 id="note-dialog-title">阅读笔记</h2><button id="close-note" class="icon-button" type="button" aria-label="关闭笔记编辑">×</button></div>
+    <p id="note-origin" class="hint"></p>
+    <form id="note-form">
+      <label class="form-field">笔记字段<input id="note-field" list="note-fields" required maxlength="80" placeholder="选择通用字段，或输入自己的字段"></label>
+      <div class="field-pair"><label class="form-field">内容状态<select id="note-status"><option value="recorded">已记录</option><option value="not_reported">未报告</option><option value="not_applicable">不适用</option><option value="not_found">未找到</option></select></label><label class="form-field">判断类型<select id="note-kind"><option value="user">用户判断</option><option value="source">原文报告</option><option value="inference">模型归纳</option></select></label></div>
+      <label class="form-field">笔记内容<textarea id="note-content" required maxlength="10000" rows="7" placeholder="记录理解、关键事实或需要继续核对的问题"></textarea></label>
+      <div class="note-evidence-heading"><h3>关联原文</h3><button id="note-change-evidence" class="quiet-button" type="button">重新选择原文</button></div>
+      <div id="note-existing-evidence"></div>
+      <div id="note-reference-picker" hidden><label class="form-field">查找可引用片段<input id="note-reference-query" type="search" placeholder="输入文中的关键词"></label><div id="note-reference-options" class="attach-options"></div><p class="hint">最多选择 12 个片段。未选择时可保存为用户判断。</p></div>
+      <p id="note-error" class="form-error" role="alert"></p><button id="note-load-latest" class="quiet-button" type="button" hidden>载入已保存版本</button><button id="save-note" type="submit">保存笔记</button>
+    </form>
+  </dialog>
+  <dialog id="evidence-dialog" class="edit-dialog" aria-labelledby="evidence-title">
+    <div class="dialog-head"><h2 id="evidence-title">笔记出处</h2><button id="close-evidence" class="icon-button" type="button" aria-label="关闭笔记出处">×</button></div>
+    <p id="evidence-location" class="hint"></p><p id="evidence-warning" class="notice"></p><blockquote id="evidence-text"></blockquote><button id="evidence-open-source" type="button">定位到原文</button>
+  </dialog>
+  <dialog id="note-history-dialog" class="edit-dialog" aria-labelledby="note-history-title"><div class="dialog-head"><h2 id="note-history-title">笔记版本记录</h2><button id="close-note-history" class="icon-button" type="button" aria-label="关闭版本记录">×</button></div><div id="note-history-list"></div><p id="note-history-error" class="form-error" role="alert"></p></dialog>
   <script type="module" src="/app.js"></script>
 </body>
 </html>

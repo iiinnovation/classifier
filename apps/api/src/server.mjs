@@ -13,19 +13,23 @@ import { createStore, requireId } from './store.mjs'
 import { createRuns } from './runs.mjs'
 import { modelConfigured } from './qa.mjs'
 import { createTopics, documentSummary, editBibliography } from './topics.mjs'
+import { createNotes } from './notes.mjs'
+import { evidenceVersion } from './evidence.mjs'
 
 const root = fileURLToPath(new URL('../../../', import.meta.url))
-export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER_DATA_DIR || 'data') } = {}) {
+export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER_DATA_DIR || 'data'), qaOptions = {} } = {}) {
   const store = await createStore(dataDir)
-  const runs = createRuns(store)
+  const runs = createRuns(store, qaOptions)
   const topics = createTopics(store)
   const imports = createImports(store, topics)
+  const notes = createNotes(store, topics, runs, qaOptions)
   let syncImports = 0
   let rendering = false
   const assets = new Map([
     ['/', ['index.html', 'text/html; charset=utf-8']],
     ['/app.js', ['app.js', 'text/javascript; charset=utf-8']],
     ['/research.js', ['research.js', 'text/javascript; charset=utf-8']],
+    ['/notes.js', ['notes.js', 'text/javascript; charset=utf-8']],
     ['/katex.mjs', ['../../node_modules/katex/dist/katex.mjs', 'text/javascript; charset=utf-8']],
     ['/katex.css', ['../../node_modules/katex/dist/katex.min.css', 'text/css; charset=utf-8']],
     ['/style.css', ['style.css', 'text/css; charset=utf-8']],
@@ -46,11 +50,27 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
         res.writeHead(200, { 'content-type': type, 'content-security-policy': "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self'; img-src 'self' data:; frame-src 'self'; object-src 'none'; base-uri 'self'" })
         return res.end(await readFile(resolve(root, 'apps/web', name)))
       }
-      if (req.method === 'GET' && url.pathname === '/health') return sendJson(res, 200, { status: 'ok', service: 'classifier', modelConfigured: modelConfigured() })
+      if (req.method === 'GET' && url.pathname === '/health') return sendJson(res, 200, { status: 'ok', service: 'classifier', modelConfigured: modelConfigured(qaOptions.config) })
       if (req.method === 'GET' && url.pathname === '/api/parser-capabilities') return sendJson(res, 200, { ocr: await ocrCapabilities(), vision: visionConfigured() })
       if (url.pathname === '/api/topics') {
         if (req.method === 'GET') return sendJson(res, 200, { topics: await topics.list() })
         if (req.method === 'POST') return sendJson(res, 201, await topics.create(await readJson(req)))
+      }
+      const topicNotes = url.pathname.match(/^\/api\/topics\/([^/]+)\/notes$/)
+      if (topicNotes && req.method === 'GET') return sendJson(res, 200, { notes: await notes.list(requireId(topicNotes[1])) })
+      const documentNotes = url.pathname.match(/^\/api\/topics\/([^/]+)\/documents\/([^/]+)\/(notes|note-suggestions)$/)
+      if (documentNotes) {
+        const topicId = requireId(documentNotes[1]), documentId = requireId(documentNotes[2])
+        if (documentNotes[3] === 'notes') {
+          if (req.method === 'GET') return sendJson(res, 200, await notes.forDocument(topicId, documentId))
+          if (req.method === 'POST') return sendJson(res, 201, await notes.create(topicId, documentId, await readJson(req)))
+        } else if (req.method === 'POST') return sendJson(res, 202, await notes.suggest(topicId, documentId, await readJson(req)))
+      }
+      const noteMatch = url.pathname.match(/^\/api\/notes\/([^/]+)$/)
+      if (noteMatch) {
+        const id = requireId(noteMatch[1])
+        if (req.method === 'GET') return sendJson(res, 200, await notes.get(id))
+        if (req.method === 'PATCH') return sendJson(res, 200, await notes.edit(id, await readJson(req)))
       }
       const topicMatch = url.pathname.match(/^\/api\/topics\/([^/]+)(?:\/documents\/([^/]+))?$/)
       if (topicMatch) {
@@ -124,8 +144,8 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
           return res.end(bytes)
         }
         if (req.method === 'GET' && !match[2]) {
-          const history = (await store.list('runs')).filter(run => run.documentId === id)
-          return sendJson(res, 200, { ...document, questions: history })
+          const history = (await store.list('runs')).filter(run => run.documentId === id && run.purpose !== 'note-suggestion')
+          return sendJson(res, 200, { ...document, evidenceVersion: evidenceVersion(document), questions: history })
         }
         if (req.method === 'POST' && match[2] === 'questions') {
           const body = await readJson(req)

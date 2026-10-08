@@ -231,3 +231,55 @@ main { width: min(100%, 1760px); min-height: 100vh; margin: 0 auto; padding: 0 3
   #reader-back { max-width: 100%; }
   .edit-dialog { padding: 20px; }
 }
+
+/* Reading notes keep the source visible while writing. */
+.reader-tabs { display: flex; gap: 8px; flex-shrink: 0; padding: 10px 15px; border-bottom: 1px solid #e3e9e2; background: #f7faf4; }
+.reader-tabs button { background: transparent; color: #6a7f6b; font-size: 13px; padding: 8px 14px; }
+.reader-tabs button[aria-selected="true"] { background: #e1ecdc; color: #294e37; font-weight: 650; }
+.reader-tabs button:hover:not(:disabled) { background: #e8f0e1; }
+.qa-panel { display: flex; flex-direction: column; min-height: 0; flex: 1; }
+.notes-panel { flex: 1; min-height: 0; overflow: auto; padding: 18px; }
+.notes-heading { position: sticky; top: -18px; z-index: 2; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin: -18px -18px 0; padding: 18px 18px 0; background: white; border-bottom: 1px solid #e6ece0; }
+.notes-heading h2 { margin: 0; font-size: 17px; }
+.notes-heading p { margin: 7px 0 14px; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.notes-heading > button { flex-shrink: 0; font-size: 12px; }
+.note-group { margin-top: 18px; }
+.note-group > h3 { padding-bottom: 7px; margin: 0 0 9px; border-bottom: 1px solid #e6ece0; color: #4b6d50; font-size: 13px; }
+.note-empty { margin: 0; color: #8b978a; font-size: 12px; }
+.note-card { padding: 13px; margin: 9px 0; border-radius: 9px; background: #f6f9f2; border: 1px solid #e1e9d9; }
+.note-labels { color: #768665; font-size: 11px; line-height: 1.7; margin: 0 0 8px; }
+.note-text { margin: 8px 0; color: #344f3a; line-height: 1.8; font-size: 13px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.note-actions, .note-evidence { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+.note-evidence button { overflow-wrap: anywhere; white-space: normal; text-align: left; }
+.note-actions button { padding: 4px 7px; font-size: 11px; }
+.save-reference-note { display: inline-block; margin: 7px 4px 0 0; border: 1px solid #d4e0cd; background: #f1f6ec; color: #496b3d; padding: 4px 8px; font-size: 11px; }
+.save-reference-note:hover:not(:disabled) { background: #e0edda; }
+.archive-filter { display: block; margin: 10px 0; color: #71826d; font-size: 12px; }
+.draft-notice { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; padding: 12px; margin: 10px 0; background: #fff6e6; border-radius: 8px; color: #8b673c; font-size: 12px; }
+#note-draft-choice { width: 100%; min-width: 0; padding: 8px; border: 1px solid #e2d7bd; border-radius: 6px; background: white; color: #665338; }
+.note-dialog { width: min(700px, calc(100vw - 28px)); }
+#note-content { min-height: 170px; }
+.note-evidence-heading { display: flex; gap: 12px; align-items: center; justify-content: space-between; }
+.note-evidence-heading h3 { font-size: 13px; }
+#note-existing-evidence { display: flex; gap: 6px; flex-wrap: wrap; }
+#note-existing-evidence button { white-space: normal; text-align: left; }
+#note-reference-options { max-height: 24vh; }
+#evidence-text { padding: 15px; margin: 16px 0; border-left: 3px solid #bdd0b4; background: #f4f8ef; line-height: 1.9; font-size: 14px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.note-history-item { padding: 15px 0; border-bottom: 1px solid #dce5d6; }
+.note-history-item strong { color: #53704d; font-size: 13px; }
+.note-history-item p { margin: 10px 0; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.7; font-size: 13px; }
+#note-load-latest { margin: 0 10px 10px 0; }
+#note-suggestions { margin-top: 26px; padding-top: 15px; border-top: 1px solid #dce5d6; }
+#note-suggestions > summary { color: #53704d; font-size: 13px; }
+.note-suggestion { margin-top: 16px; border-top: 1px solid #e1e9da; padding-top: 10px; }
+.note-suggestion h3 { color: #69815b; font-size: 12px; }
+.suggestion-row { padding: 10px 0; font-size: 13px; line-height: 1.7; }
+.suggestion-row p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.topic-notebook .document-card h3 { font-size: 14px; color: #456a46; margin: 0 0 8px; }
+.topic-notebook .document-card > button { align-self: flex-start; flex-shrink: 0; }
+@media (max-width: 620px) {
+  .notes-panel { padding: 14px; }
+  .notes-heading { top: -14px; margin: -14px -14px 0; padding: 14px 14px 0; }
+  .note-dialog .field-pair { grid-template-columns: 1fr; gap: 0; }
+  .note-dialog .field-pair .form-field { margin: 8px 0; }
+}
