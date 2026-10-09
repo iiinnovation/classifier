@@ -2,20 +2,20 @@ export class HttpError extends Error {
   constructor(status, message) { super(message); this.status = status }
 }
 
-export async function readBody(req, limit = 25 * 1024 * 1024) {
+export async function readBody(req, limit = 25 * 1024 * 1024, tooLarge = '文件过大，单次最多上传 25 MB。') {
   const chunks = []
   let total = 0
   for await (const chunk of req) {
     total += chunk.length
-    if (total > limit) throw new HttpError(413, '文件过大，单次最多上传 25 MB。')
+    if (total > limit) throw new HttpError(413, tooLarge)
     chunks.push(chunk)
   }
   return Buffer.concat(chunks)
 }
 
-export async function readJson(req) {
+export async function readJson(req, limit = 128 * 1024) {
   try {
-    const value = JSON.parse((await readBody(req, 128 * 1024)).toString('utf8'))
+    const value = JSON.parse((await readBody(req, limit, `JSON 请求体过大，上限 ${limit / 1024} KiB。`)).toString('utf8'))
     if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error()
     return value
   } catch (error) {

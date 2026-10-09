@@ -284,6 +284,31 @@ main { width: min(100%, 1760px); min-height: 100vh; margin: 0 auto; padding: 0 3
   .note-dialog .field-pair .form-field { margin: 8px 0; }
 }
 
+/* Research reports pair readable paragraphs with the selected source material. */
+.topic-reports { margin-top: 34px; padding-top: 20px; border-top: 1px solid #dce5d6; }
+.report-panel { max-width: 1280px; margin: 0 auto; padding: 28px 0; }
+.report-layout { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 28px; align-items: start; }
+.report-sidebar { min-width: 0; padding: 18px; background: #f1f6eb; border: 1px solid #dce5d6; border-radius: 12px; }
+.report-sidebar h2 { font-size: 17px; }
+.report-sidebar .collection-head { display: block; }
+.report-block { padding: 24px; margin: 0 0 16px; border: 1px solid #dce5d6; border-radius: 12px; background: #fff; }
+.report-block h2 { font-size: 20px; margin: 0 0 12px; overflow-wrap: anywhere; }
+.report-prose, .report-quote { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.9; color: #314f35; }
+.report-quote { padding: 16px; margin: 16px 0; background: #f3f7ed; border-left: 3px solid #b3caa6; }
+.report-citation { display: block; white-space: normal; text-align: left; overflow-wrap: anywhere; max-width: 100%; margin: 8px 0; font-size: 12px; }
+.report-material { border-bottom: 1px solid #dce5d6; padding: 12px 0; overflow-wrap: anywhere; }
+.report-material h3 { font-size: 14px; }
+.report-material summary, .report-reference-options summary { cursor: pointer; color: #53704d; font-size: 13px; }
+.report-editor { width: min(850px, calc(100vw - 28px)); }
+.report-block-editor { border: 1px solid #dce5d6; border-radius: 10px; margin: 14px 0; padding: 16px; }
+.report-block-editor textarea { min-height: 160px; }
+.report-block-kind, #report-document-choice { max-width: 100%; padding: 8px; border: 1px solid #c9d7c2; border-radius: 6px; background: #fff; }
+.report-material-options, .report-reference-picker, .report-reference-options[open] { max-height: 35vh; overflow: auto; }
+.report-reference-picker .attach-option { white-space: pre-wrap; overflow-wrap: anywhere; }
+.report-history-item { border-bottom: 2px solid #dce5d6; padding-bottom: 20px; margin-bottom: 20px; }
+@media (max-width: 850px) { .report-layout { grid-template-columns: minmax(0, 1fr); } .report-sidebar { grid-row: 1; } }
+@media (max-width: 620px) { .report-panel { padding-top: 18px; } .report-block { padding: 16px; } .report-block-editor { padding: 10px; } }
+
 /* Multi-document comparison keeps each row's sources and conditions visible. */
 .comparison-panel { max-width: 1400px; margin: 0 auto; padding: 28px 0; }
 .comparison-grid { max-width: 100%; overflow: auto; border: 1px solid #d7e1d4; border-radius: 12px; background: white; max-height: 72vh; }

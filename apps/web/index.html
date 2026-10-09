@@ -35,6 +35,7 @@
       <div class="collection-filters"><label>筛选状态<select id="selection-filter"><option value="">全部筛选状态</option><option value="pending">待筛选</option><option value="included">已纳入</option><option value="excluded">已排除</option></select></label><label>阅读状态<select id="reading-filter"><option value="">全部阅读状态</option><option value="unread">未读</option><option value="reading">阅读中</option><option value="read">已读</option></select></label></div>
       <div id="topic-documents" class="document-list"></div>
       <section class="topic-comparisons"><div class="collection-head"><div><h2>多文献比较</h2><p class="hint">选择材料与维度，保留每项判断的条件和出处。</p></div><button id="new-comparison" type="button">＋ 新建比较表</button></div><div id="comparison-list" class="document-list"></div></section>
+      <section class="topic-reports"><div class="collection-head"><div><h2>研究成果</h2><p class="hint">把笔记和证据组织成研究总结，修订后导出。</p></div><button id="new-report" type="button">＋ 新建研究成果</button></div><div id="report-list" class="document-list"></div></section>
       <section class="topic-notebook"><div class="collection-head"><div><h2>阅读笔记</h2><p class="hint">按研究问题积累的笔记，移出文献后仍会保留。</p></div></div><div id="topic-note-list" class="document-list"></div></section>
     </section>
     <section id="all-documents-panel" class="research-panel" hidden>
@@ -52,6 +53,14 @@
       <p class="comparison-scroll-hint hint">可左右滚动查看全部维度。</p><div id="comparison-grid" class="comparison-grid"></div>
       <section class="comparison-synthesis"><h2>跨文献判断</h2><p class="hint">判断只针对所选材料；比较项或研究问题变化后需重新复核。</p><div id="comparison-analyses" class="document-list"></div></section>
       <section class="comparison-model"><h2>辅助比较</h2><p id="comparison-model-hint" class="hint"></p><div class="collection-actions"><label for="comparison-column">比较维度</label><select id="comparison-column"></select><button id="comparison-generate" type="button">生成本列建议</button></div><div id="comparison-suggestions" class="document-list"></div></section>
+    </section>
+
+    <section id="report-panel" class="report-panel" hidden>
+      <button id="report-back" class="quiet-button" type="button">← 研究主题</button>
+      <div class="research-heading"><div><span class="eyebrow">研究成果</span><h1 id="report-title"></h1><p id="report-question"></p></div><div class="collection-actions"><button id="report-edit" type="button">编辑正文</button><button id="report-export" type="button">导出 Markdown</button><button id="report-history" class="quiet-button" type="button">版本记录</button><button id="report-archive" class="quiet-button" type="button">归档</button></div></div>
+      <p id="report-message" class="hint" role="status"></p><button id="report-retry" class="quiet-button" type="button" hidden>重新加载成果</button>
+      <div id="report-drafts" class="draft-notice" hidden><label for="report-draft-choice">当前标签页的未保存编辑</label><select id="report-draft-choice"></select><button id="report-resume" class="quiet-button" type="button">继续成果草稿</button><button id="report-discard" class="quiet-button" type="button">清除所选草稿</button></div>
+      <div class="report-layout"><section id="report-body" aria-label="研究成果正文"></section><aside class="report-sidebar"><div class="collection-head"><h2>所选材料</h2><button id="report-materials" class="quiet-button" type="button">选择研究材料</button></div><div id="report-sources"></div><button id="report-assemble" class="quiet-button" type="button">将所选材料加入正文</button><h2>辅助写作</h2><p id="report-model-hint" class="hint"></p><button id="report-generate" type="button">生成研究草稿</button><div id="report-suggestions"></div></aside></div>
     </section>
 
     <section id="workspace" hidden>
@@ -156,6 +165,8 @@
   <dialog id="note-history-dialog" class="edit-dialog" aria-labelledby="note-history-title"><div class="dialog-head"><h2 id="note-history-title">笔记版本记录</h2><button id="close-note-history" class="icon-button" type="button" aria-label="关闭版本记录">×</button></div><div id="note-history-list"></div><p id="note-history-error" class="form-error" role="alert"></p></dialog>
   <dialog id="comparison-editor" class="edit-dialog comparison-editor" aria-labelledby="comparison-editor-title"><div class="dialog-head"><h2 id="comparison-editor-title">编辑比较</h2><button id="comparison-editor-close" class="icon-button" type="button" aria-label="关闭比较编辑">×</button></div><p id="comparison-editor-context" class="hint"></p><form id="comparison-form"><div id="comparison-fields"></div><p id="comparison-editor-error" class="form-error" role="alert"></p><button id="comparison-editor-latest" class="quiet-button" type="button" hidden>载入已保存版本</button><button id="comparison-save" type="submit">保存比较</button></form></dialog>
   <dialog id="comparison-inspector" class="edit-dialog comparison-editor" aria-labelledby="comparison-inspector-title"><div class="dialog-head"><h2 id="comparison-inspector-title">比较详情</h2><button id="comparison-inspector-close" class="icon-button" type="button" aria-label="关闭比较详情">×</button></div><div id="comparison-inspector-body"></div><p id="comparison-inspector-error" class="form-error" role="alert"></p></dialog>
+  <dialog id="report-editor" class="edit-dialog report-editor" aria-labelledby="report-editor-title"><div class="dialog-head"><h2 id="report-editor-title">编辑研究成果</h2><button id="report-editor-close" class="icon-button" type="button" aria-label="关闭成果编辑">×</button></div><form id="report-form"><div id="report-fields"></div><p id="report-editor-error" class="form-error" role="alert"></p><button id="report-latest" class="quiet-button" type="button" hidden>核对已保存版本</button><button id="report-save" type="submit">保存成果</button></form></dialog>
+  <dialog id="report-inspector" class="edit-dialog report-editor" aria-labelledby="report-inspector-title"><div class="dialog-head"><h2 id="report-inspector-title">成果详情</h2><button id="report-inspector-close" class="icon-button" type="button" aria-label="关闭成果详情">×</button></div><div id="report-inspector-body"></div><p id="report-inspector-error" class="form-error" role="alert"></p></dialog>
   <script type="module" src="/app.js"></script>
 </body>
 </html>

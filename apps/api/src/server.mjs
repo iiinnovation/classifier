@@ -16,8 +16,12 @@ import { createTopics, documentSummary, editBibliography } from './topics.mjs'
 import { createNotes } from './notes.mjs'
 import { evidenceVersion } from './evidence.mjs'
 import { createComparisons } from './comparisons.mjs'
+import { createReports } from './reports.mjs'
 
 const root = fileURLToPath(new URL('../../../', import.meta.url))
+// Whole-report edits include up to 40 blocks, 30000 text characters and 960
+// citation IDs, plus headings and source selectors. Allow their serialized form.
+const reportEditBodyLimit = 1024 * 1024
 export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER_DATA_DIR || 'data'), qaOptions = {} } = {}) {
   const store = await createStore(dataDir)
   const runs = createRuns(store, qaOptions)
@@ -25,6 +29,7 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
   const imports = createImports(store, topics)
   const notes = createNotes(store, topics, runs, qaOptions)
   const comparisons = createComparisons(store, topics, runs, qaOptions)
+  const reports = createReports(store, topics, comparisons, runs, qaOptions)
   let syncImports = 0
   let rendering = false
   const assets = new Map([
@@ -33,6 +38,7 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
     ['/research.js', ['research.js', 'text/javascript; charset=utf-8']],
     ['/notes.js', ['notes.js', 'text/javascript; charset=utf-8']],
     ['/comparisons.js', ['comparisons.js', 'text/javascript; charset=utf-8']],
+    ['/reports.js', ['reports.js', 'text/javascript; charset=utf-8']],
     ['/katex.mjs', ['../../node_modules/katex/dist/katex.mjs', 'text/javascript; charset=utf-8']],
     ['/katex.css', ['../../node_modules/katex/dist/katex.min.css', 'text/css; charset=utf-8']],
     ['/style.css', ['style.css', 'text/css; charset=utf-8']],
@@ -58,6 +64,29 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
       if (url.pathname === '/api/topics') {
         if (req.method === 'GET') return sendJson(res, 200, { topics: await topics.list() })
         if (req.method === 'POST') return sendJson(res, 201, await topics.create(await readJson(req)))
+      }
+      const topicReports = url.pathname.match(/^\/api\/topics\/([^/]+)\/(reports|report-materials)$/)
+      if (topicReports) {
+        const topicId = requireId(topicReports[1])
+        if (topicReports[2] === 'report-materials' && req.method === 'GET') return sendJson(res, 200, await reports.catalog(topicId))
+        if (topicReports[2] === 'reports' && req.method === 'GET') return sendJson(res, 200, { reports: await reports.list(topicId) })
+        if (topicReports[2] === 'reports' && req.method === 'POST') return sendJson(res, 201, await reports.create(topicId, await readJson(req)))
+      }
+      const report = url.pathname.match(/^\/api\/reports\/([^/]+)(?:\/(history|assemble|suggestions|adopt|export))?$/)
+      if (report) {
+        const id = requireId(report[1]), action = report[2]
+        if (!action && req.method === 'GET') return sendJson(res, 200, await reports.get(id))
+        if (!action && req.method === 'PATCH') return sendJson(res, 200, await reports.edit(id, await readJson(req, reportEditBodyLimit)))
+        if (action === 'history' && req.method === 'GET') return sendJson(res, 200, await reports.get(id, true))
+        if (action === 'assemble' && req.method === 'POST') return sendJson(res, 200, await reports.assemble(id, await readJson(req)))
+        if (action === 'suggestions' && req.method === 'POST') return sendJson(res, 202, await reports.suggest(id, await readJson(req)))
+        if (action === 'adopt' && req.method === 'POST') return sendJson(res, 200, await reports.adopt(id, await readJson(req)))
+        if (action === 'export' && req.method === 'GET') {
+          const value = await reports.markdown(id, Number(url.searchParams.get('revision')))
+          const name = value.title.replace(/[\r\n\\/]/g, '-').slice(0, 100) + '.md'
+          res.writeHead(200, { 'content-type': 'text/markdown; charset=utf-8', 'content-disposition': `attachment; filename*=UTF-8''${encodeURIComponent(name)}`, 'cache-control': 'no-store' })
+          return res.end(value.markdown)
+        }
       }
       const topicNotes = url.pathname.match(/^\/api\/topics\/([^/]+)\/notes$/)
       if (topicNotes && req.method === 'GET') return sendJson(res, 200, { notes: await notes.list(requireId(topicNotes[1])) })
