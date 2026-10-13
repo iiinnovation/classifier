@@ -5,6 +5,7 @@ import { evidenceVersion, captureEvidence } from './evidence.mjs'
 import { modelConfigured } from './qa.mjs'
 import { generateReport } from './report-model.mjs'
 import { reportMarkdown } from './report-export.mjs'
+import { environmentSettings, taskSettings } from './settings.mjs'
 
 const hash = value => createHash('sha256').update(JSON.stringify(value)).digest('hex')
 const snapshot = value => { const { history, requestHash, ...rest } = value; return structuredClone(rest) }
@@ -88,7 +89,7 @@ function assembledItems(value) {
   return { known, legacySources }
 }
 
-export function createReports(store, topics, comparisons, runs, qaOptions = {}) {
+export function createReports(store, topics, comparisons, runs, qaOptions = {}, settingsProvider = environmentSettings()) {
   async function raw(id) {
     const value = await store.read('reports', id)
     if (!value) throw new HttpError(404, '未找到研究成果。')
@@ -289,14 +290,15 @@ export function createReports(store, topics, comparisons, runs, qaOptions = {}) 
     keys(body, ['revision'])
     const value = await raw(id); revision(value, body.revision)
     if (value.archived) throw new HttpError(409, '请先恢复已归档的成果。')
-    if (!modelConfigured(qaOptions.config)) throw new HttpError(409, '尚未配置模型，可以继续手工整理研究成果。')
+    const configuration = taskSettings(settingsProvider, qaOptions)
+    if (!modelConfigured(configuration.text)) throw new HttpError(409, '尚未配置模型，可以继续手工整理研究成果。')
     if (!value.sources.length) throw new HttpError(422, '请先选择研究材料。')
     await ensureCurrent(value)
     const evidence = unique(value.sources.flatMap(source => source.evidence))
     const input = { title: value.title, question: value.question, partial: true, sources: value.sources.map(({ evidence, ...source }) => ({ ...source, citationIds: evidence.map(item => item.id) })), evidence: evidence.map(item => ({ id: item.id, documentId: item.documentId, title: item.documentTitle, locator: item.reference.title, text: item.reference.text, needsReview: Boolean(item.reference.needsReview) })) }
     if (JSON.stringify(input).length > 100000) throw new HttpError(422, '生成材料超过 100000 字符，请缩小所选范围。')
-    return runs.startJob({ purpose: 'report-suggestion', topicId: value.topicId, reportId: value.id, reportTitle: value.title, baseRevision: value.revision }, async options => {
-      const result = await generateReport(input, { ...qaOptions, ...options }); keys(result, ['blocks'])
+    return runs.startJob({ purpose: 'report-suggestion', configurationRevision: configuration.revision, topicId: value.topicId, reportId: value.id, reportTitle: value.title, baseRevision: value.revision }, async options => {
+      const result = await generateReport(input, { ...qaOptions, config: configuration.text, ...options }); keys(result, ['blocks'])
       if (!result.blocks?.length) throw new HttpError(422, '模型没有返回研究段落。')
       return { blocks: blocks(result.blocks, evidence, [], { generated: true }), evidence }
     })

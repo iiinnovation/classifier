@@ -15,11 +15,14 @@ export function openPdf(bytes) {
   })
 }
 
-export async function rasterPage(page, maxSide = 2200) {
+export async function rasterPage(page, maxSide = 2200, reusableCanvas = null) {
   const base = page.getViewport({ scale: 1 })
   const scale = Math.min(3, maxSide / Math.max(base.width, base.height))
   const viewport = page.getViewport({ scale })
-  const canvas = createCanvas(Math.ceil(viewport.width), Math.ceil(viewport.height))
+  const width = Math.ceil(viewport.width), height = Math.ceil(viewport.height)
+  const canvas = reusableCanvas || createCanvas(width, height)
+  if (canvas.width !== width) canvas.width = width
+  if (canvas.height !== height) canvas.height = height
   await page.render({ canvasContext: canvas.getContext('2d'), viewport, background: 'white' }).promise
   return canvas
 }
@@ -50,10 +53,11 @@ export function textWords(content, viewport) {
   })
 }
 
-export async function parsePdf(bytes, { mode = 'auto', signal, onProgress = async () => {} } = {}) {
+export async function parsePdf(bytes, { mode = 'auto', signal, onProgress = async () => {}, visionConfig } = {}) {
   const task = openPdf(bytes), sections = [], warnings = []
   const capabilities = await ocrCapabilities()
   let total = 0, ocrPages = 0
+  let pageCanvas, tableCanvas
   try {
     const pdf = await task.promise
     if (pdf.numPages > 500) throw new Error('最多支持 500 页 PDF，请拆分后导入')
@@ -65,10 +69,13 @@ export async function parsePdf(bytes, { mode = 'auto', signal, onProgress = asyn
       const content = await page.getTextContent()
       let words = textWords(content, viewport), source = 'pdf-text'
       const nativeLength = words.reduce((sum, word) => sum + word.text.trim().length, 0)
-      const canvas = await rasterPage(page)
+      // Reuse native raster buffers across pages. Their lifetime must not rely
+      // on V8 noticing the much larger allocations owned by the canvas addon.
+      const canvas = await rasterPage(page, 2200, pageCanvas)
+      pageCanvas = canvas
       let blocks
       if (mode === 'vision') {
-        try { blocks = await recognizeStructures(canvas.toBuffer('image/png'), { signal }) }
+        try { blocks = await recognizeStructures(canvas.toBuffer('image/png'), { signal, config: visionConfig }) }
         catch (error) { signal?.throwIfAborted(); warnings.push(`第 ${number} 页视觉识别未完成（${error.message}），改用本地解析。`) }
       }
       // Also catches scanned pages with a small native page number or watermark.
@@ -89,7 +96,11 @@ export async function parsePdf(bytes, { mode = 'auto', signal, onProgress = asyn
       }
       if (!blocks) {
         // Border detection is bounded to a smaller raster; OCR keeps the higher resolution.
-        const small = createCanvas(Math.round(canvas.width * 0.55), Math.round(canvas.height * 0.55))
+        const width = Math.round(canvas.width * 0.55), height = Math.round(canvas.height * 0.55)
+        const small = tableCanvas || createCanvas(width, height)
+        tableCanvas = small
+        if (small.width !== width) small.width = width
+        if (small.height !== height) small.height = height
         small.getContext('2d').drawImage(canvas, 0, 0, small.width, small.height)
         const tables = ruledTables(small, words)
         let paragraphs = wordsToBlocks(words.filter(word => !insideTable(word, tables)), source)
@@ -118,7 +129,13 @@ export async function parsePdf(bytes, { mode = 'auto', signal, onProgress = asyn
       sections.push({ title: `第 ${number} 页`, page: number, text, blocks, width: viewport.width, height: viewport.height, extraction: blocks.some(block => block.source === 'vision') ? 'vision' : source })
       page.cleanup()
     }
-  } finally { await task.destroy() }
+  } finally {
+    try { await task.destroy() }
+    finally {
+      if (pageCanvas) { pageCanvas.width = 1; pageCanvas.height = 1 }
+      if (tableCanvas) { tableCanvas.width = 1; tableCanvas.height = 1 }
+    }
+  }
   if (ocrPages) warnings.push(`已使用本地 OCR 识别 ${ocrPages} 页；数字、专有名词和公式需核对原图。`)
   if (capabilities.missing.length && ocrPages) warnings.push(`缺少 OCR 语言包：${capabilities.missing.join('、')}。`)
   warnings.push('PDF 图像中的公式及无边框复杂表格可能未被自动识别；请结合页图核对。跨页表格暂不自动合并。')

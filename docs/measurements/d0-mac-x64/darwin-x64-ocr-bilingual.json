@@ -1,0 +1,948 @@
+{
+  "timestamp": "2026-10-11T06:20:36.788Z",
+  "platform": "darwin",
+  "arch": "x64",
+  "os": "25.6.0",
+  "memoryBytes": 34359738368,
+  "cpu": "Intel(R) Core(TM) i7-1068NG7 CPU @ 2.30GHz",
+  "logicalCpus": 8,
+  "mode": "ocr-bilingual",
+  "instrumentation": "Normal packaged executable with renderer CDP only; connectOverCDP(noDefaults:true), no Node inspector or Playwright launch switches. RSS includes shared-page double counting.",
+  "minimumHardwareVerified": false,
+  "results": {
+    "ocr-bilingual": {
+      "durationMs": 48082.468747,
+      "peakRss": 981659648,
+      "fixtureBytes": 172389,
+      "fixtureSha256": "c5c7d4716e5b1975b0bdd177cbe90489e948afcbe109480e0f5af70549974e26",
+      "samples": [
+        {
+          "at": 1791699638819,
+          "rss": 405360640,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699639160,
+          "rss": 502177792,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699639508,
+          "rss": 514834432,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699639840,
+          "rss": 636706816,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699640174,
+          "rss": 646021120,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699640510,
+          "rss": 651321344,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699640845,
+          "rss": 655036416,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699641186,
+          "rss": 658395136,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699641519,
+          "rss": 661274624,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699641847,
+          "rss": 664403968,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699642175,
+          "rss": 666816512,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699642506,
+          "rss": 669261824,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699642835,
+          "rss": 746786816,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699643170,
+          "rss": 798392320,
+          "processes": 7,
+          "ocrPids": [
+            53008
+          ]
+        },
+        {
+          "at": 1791699643517,
+          "rss": 902852608,
+          "processes": 7,
+          "ocrPids": [
+            53008
+          ]
+        },
+        {
+          "at": 1791699643858,
+          "rss": 909504512,
+          "processes": 7,
+          "ocrPids": [
+            53008
+          ]
+        },
+        {
+          "at": 1791699644196,
+          "rss": 761847808,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699644537,
+          "rss": 762007552,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699644894,
+          "rss": 761991168,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699645243,
+          "rss": 762142720,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699645583,
+          "rss": 762138624,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699645926,
+          "rss": 762273792,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699646258,
+          "rss": 762294272,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699646636,
+          "rss": 762281984,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699647019,
+          "rss": 762380288,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699647390,
+          "rss": 792412160,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699647727,
+          "rss": 758165504,
+          "processes": 7,
+          "ocrPids": [
+            53048
+          ]
+        },
+        {
+          "at": 1791699648061,
+          "rss": 873193472,
+          "processes": 7,
+          "ocrPids": [
+            53048
+          ]
+        },
+        {
+          "at": 1791699648405,
+          "rss": 884670464,
+          "processes": 7,
+          "ocrPids": [
+            53048
+          ]
+        },
+        {
+          "at": 1791699648739,
+          "rss": 746258432,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699649067,
+          "rss": 746258432,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699649409,
+          "rss": 746246144,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699649740,
+          "rss": 746377216,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699650068,
+          "rss": 746369024,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699650404,
+          "rss": 746758144,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699650758,
+          "rss": 746749952,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699651100,
+          "rss": 746889216,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699651440,
+          "rss": 746975232,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699651775,
+          "rss": 760762368,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699652109,
+          "rss": 831807488,
+          "processes": 7,
+          "ocrPids": [
+            53085
+          ]
+        },
+        {
+          "at": 1791699652442,
+          "rss": 905728000,
+          "processes": 7,
+          "ocrPids": [
+            53085
+          ]
+        },
+        {
+          "at": 1791699652771,
+          "rss": 761008128,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699653115,
+          "rss": 761122816,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699653446,
+          "rss": 761098240,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699653786,
+          "rss": 761638912,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699654125,
+          "rss": 761606144,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699654462,
+          "rss": 761671680,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699654806,
+          "rss": 761655296,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699655157,
+          "rss": 761745408,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699655516,
+          "rss": 761712640,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699655846,
+          "rss": 761802752,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699656173,
+          "rss": 775417856,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699656505,
+          "rss": 915181568,
+          "processes": 7,
+          "ocrPids": [
+            53122
+          ]
+        },
+        {
+          "at": 1791699656834,
+          "rss": 927965184,
+          "processes": 7,
+          "ocrPids": [
+            53122
+          ]
+        },
+        {
+          "at": 1791699657169,
+          "rss": 793526272,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699657501,
+          "rss": 793600000,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699657846,
+          "rss": 793583616,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699658174,
+          "rss": 793759744,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699658502,
+          "rss": 793743360,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699658834,
+          "rss": 793821184,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699659165,
+          "rss": 793808896,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699659493,
+          "rss": 793812992,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699659826,
+          "rss": 793796608,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699660163,
+          "rss": 803000320,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699660492,
+          "rss": 836710400,
+          "processes": 7,
+          "ocrPids": [
+            53151
+          ]
+        },
+        {
+          "at": 1791699660821,
+          "rss": 911126528,
+          "processes": 7,
+          "ocrPids": [
+            53151
+          ]
+        },
+        {
+          "at": 1791699661162,
+          "rss": 754372608,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699661494,
+          "rss": 773570560,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699661825,
+          "rss": 771244032,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699662155,
+          "rss": 771387392,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699662490,
+          "rss": 771383296,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699662831,
+          "rss": 771371008,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699663159,
+          "rss": 771461120,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699663489,
+          "rss": 771444736,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699663820,
+          "rss": 771842048,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699664153,
+          "rss": 806625280,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699664489,
+          "rss": 791298048,
+          "processes": 7,
+          "ocrPids": [
+            53183
+          ]
+        },
+        {
+          "at": 1791699664826,
+          "rss": 926552064,
+          "processes": 7,
+          "ocrPids": [
+            53183
+          ]
+        },
+        {
+          "at": 1791699665163,
+          "rss": 941248512,
+          "processes": 7,
+          "ocrPids": [
+            53183
+          ]
+        },
+        {
+          "at": 1791699665492,
+          "rss": 799285248,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699665838,
+          "rss": 798490624,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699666167,
+          "rss": 798482432,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699666496,
+          "rss": 798613504,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699666827,
+          "rss": 798580736,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699667155,
+          "rss": 798777344,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699667493,
+          "rss": 798748672,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699667821,
+          "rss": 798875648,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699668151,
+          "rss": 798720000,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699668488,
+          "rss": 812998656,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699668824,
+          "rss": 872493056,
+          "processes": 7,
+          "ocrPids": [
+            53230
+          ]
+        },
+        {
+          "at": 1791699669154,
+          "rss": 945070080,
+          "processes": 7,
+          "ocrPids": [
+            53230
+          ]
+        },
+        {
+          "at": 1791699669485,
+          "rss": 791498752,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699669823,
+          "rss": 805203968,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699670152,
+          "rss": 805367808,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699670483,
+          "rss": 805355520,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699670814,
+          "rss": 805928960,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699671143,
+          "rss": 805912576,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699671477,
+          "rss": 805965824,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699671805,
+          "rss": 805949440,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699672144,
+          "rss": 806055936,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699672491,
+          "rss": 850382848,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699672831,
+          "rss": 831619072,
+          "processes": 7,
+          "ocrPids": [
+            53276
+          ]
+        },
+        {
+          "at": 1791699673159,
+          "rss": 938385408,
+          "processes": 7,
+          "ocrPids": [
+            53276
+          ]
+        },
+        {
+          "at": 1791699673492,
+          "rss": 953921536,
+          "processes": 7,
+          "ocrPids": [
+            53276
+          ]
+        },
+        {
+          "at": 1791699673826,
+          "rss": 820649984,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699674159,
+          "rss": 820756480,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699674494,
+          "rss": 820723712,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699674843,
+          "rss": 820850688,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699675173,
+          "rss": 820842496,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699675504,
+          "rss": 820830208,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699675835,
+          "rss": 820908032,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699676163,
+          "rss": 820891648,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699676492,
+          "rss": 820985856,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699676824,
+          "rss": 834707456,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699677159,
+          "rss": 896286720,
+          "processes": 7,
+          "ocrPids": [
+            53322
+          ]
+        },
+        {
+          "at": 1791699677498,
+          "rss": 972627968,
+          "processes": 7,
+          "ocrPids": [
+            53322
+          ]
+        },
+        {
+          "at": 1791699677827,
+          "rss": 816779264,
+          "processes": 7,
+          "ocrPids": [
+            53322
+          ]
+        },
+        {
+          "at": 1791699678155,
+          "rss": 834822144,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699678483,
+          "rss": 834920448,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699678813,
+          "rss": 834908160,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699679145,
+          "rss": 835010560,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699679472,
+          "rss": 834977792,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699679819,
+          "rss": 835092480,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699680147,
+          "rss": 835182592,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699680478,
+          "rss": 835272704,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699680811,
+          "rss": 883773440,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699681143,
+          "rss": 851070976,
+          "processes": 7,
+          "ocrPids": [
+            53358
+          ]
+        },
+        {
+          "at": 1791699681479,
+          "rss": 971280384,
+          "processes": 7,
+          "ocrPids": [
+            53358
+          ]
+        },
+        {
+          "at": 1791699681814,
+          "rss": 981659648,
+          "processes": 7,
+          "ocrPids": [
+            53358
+          ]
+        },
+        {
+          "at": 1791699682167,
+          "rss": 436592640,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699682507,
+          "rss": 436576256,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699682842,
+          "rss": 472518656,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699683174,
+          "rss": 526118912,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699683501,
+          "rss": 599420928,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699683836,
+          "rss": 604844032,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699684163,
+          "rss": 609058816,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699684492,
+          "rss": 611917824,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699684832,
+          "rss": 614821888,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699685170,
+          "rss": 617426944,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699685497,
+          "rss": 620040192,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699685826,
+          "rss": 622313472,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699686156,
+          "rss": 651313152,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699686490,
+          "rss": 614014976,
+          "processes": 5,
+          "ocrPids": []
+        }
+      ],
+      "contentCheck": {
+        "pages": 10,
+        "ocrPages": 10,
+        "english": true,
+        "chinese": true
+      }
+    }
+  },
+  "gates": {
+    "installSize": true,
+    "downloadSize": true,
+    "ocr-bilingual": true
+  },
+  "installedBytes": 395041952,
+  "downloadBytes": 163763472,
+  "downloadSha256": "d52de6a1ed170459daee9394b2514f103ee35d99e69fb52c963050c0ece6c57e",
+  "appAsarSha256": "f776a02cda5a74c00da13790627114cabcd3012869880d1df82a18702707c478",
+  "completed": true
+}

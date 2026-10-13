@@ -1,0 +1,43 @@
+{
+  "generatedAt": "2026-10-11T06:27:02.787Z",
+  "platform": "darwin",
+  "arch": "x64",
+  "scope": "Local host only; distinct measurement runs of the same packaged build. Failed reports remain unchanged.",
+  "appAsarSha256": "f776a02cda5a74c00da13790627114cabcd3012869880d1df82a18702707c478",
+  "downloadSha256": "d52de6a1ed170459daee9394b2514f103ee35d99e69fb52c963050c0ece6c57e",
+  "minimumHardwareVerified": false,
+  "sourceFiles": [
+    "final-package-partial.json",
+    "darwin-x64-ocr-bilingual.json",
+    "darwin-x64-cancel.json"
+  ],
+  "gates": {
+    "installSize": true,
+    "downloadSize": true,
+    "startup": true,
+    "idle": true,
+    "pdf": true,
+    "ocr": true,
+    "ocr-bilingual": true,
+    "cancel": true,
+    "cancelProcesses": true
+  },
+  "metrics": {
+    "downloadBytes": 163763472,
+    "installedBytes": 395041952,
+    "startupP95Ms": 1468.2106310000017,
+    "idleP95Rss": 405581824,
+    "pdfPeakRss": 1283784704,
+    "ocrPeakRss": 981790720,
+    "bilingualOcrPeakRss": 981659648,
+    "bilingualContentCheck": {
+      "pages": 10,
+      "ocrPages": 10,
+      "english": true,
+      "chinese": true
+    },
+    "cancelGrowthRss": 45490176,
+    "cancelCycles": 10
+  },
+  "localResourceGatesPassed": true
+}

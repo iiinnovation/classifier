@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from '../helpers/browser-fixture.mjs'
 import { readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { reportFixture, reportReply } from '../helpers/report-fixture.mjs'

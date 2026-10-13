@@ -31,7 +31,7 @@ export async function recognizePage(png, width, height, { signal, languages } = 
   try {
     const input = join(folder, 'page.png')
     await writeFile(input, png)
-    const { stdout } = await execute(process.env.CLASSIFIER_TESSERACT || 'tesseract', [input, 'stdout', '-l', languages.join('+'), '--psm', '3', 'tsv'], {
+    const { stdout } = await execute(process.env.CLASSIFIER_TESSERACT || 'tesseract', [input, 'stdout', '-l', languages.join('+'), '--psm', '3', '-c', 'tessedit_create_tsv=1'], {
       signal, timeout: 60_000, maxBuffer: 8 * 1024 * 1024,
       env: { ...process.env, OMP_THREAD_LIMIT: '2' },
     })

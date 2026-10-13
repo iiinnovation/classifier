@@ -1,4 +1,5 @@
-export function createComparisonWorkspace({ api, element, currentTopic, enter, navigationKey, showTopic, openSource, modelConfigured, notice }) {
+export function createComparisonWorkspace({ api, element, currentTopic, enter, navigationKey, showTopic, openSource, modelConfigured, notice, storage }) {
+  const sessionStorage = storage?.drafts || globalThis.sessionStorage
   const $ = id => document.getElementById(id)
   const statuses = { unfilled: '未填写', recorded: '已记录', not_reported: '未报告', not_found: '未找到', not_applicable: '不适用' }
   const kinds = { user: '用户判断', source: '原文报告', inference: '模型归纳' }

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, readSessionDraft } from '../helpers/browser-fixture.mjs'
 import { reportFixture } from '../helpers/report-fixture.mjs'
 import { json } from '../helpers/test-app.mjs'
 
@@ -24,7 +24,7 @@ test('M4 restored passage drafts show exact selections and let the user remove o
     await page.locator('#report-materials').click()
     await pick(page, app.first); await pick(page, app.second)
     const draftKey = `classifier-report-draft:${app.topic.id}:${report.id}:sources`
-    const original = JSON.parse(await page.evaluate(key => sessionStorage.getItem(key), draftKey))
+    const original = JSON.parse(await readSessionDraft(page, draftKey))
     await page.reload(); await page.locator('#report-resume').click()
     const options = page.locator('.report-material-options')
     await expect(options.getByRole('checkbox', { name: app.first.title, exact: true })).toBeChecked()
@@ -34,7 +34,7 @@ test('M4 restored passage drafts show exact selections and let the user remove o
     await pick(page, app.second)
     await options.getByRole('checkbox', { name: app.first.title, exact: true }).check()
     await options.getByRole('checkbox', { name: app.second.title, exact: true }).uncheck()
-    const pending = JSON.parse(await page.evaluate(key => sessionStorage.getItem(key), draftKey))
+    const pending = JSON.parse(await readSessionDraft(page, draftKey))
     expect(pending.body.sources).toEqual([original.body.sources.find(source => source.documentId === app.first.id)])
     await save(page)
     const saved = await app.value(`/api/reports/${report.id}`)

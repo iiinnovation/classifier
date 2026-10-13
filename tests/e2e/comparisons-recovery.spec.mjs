@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, readSessionDraft } from '../helpers/browser-fixture.mjs'
 import { readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { randomUUID } from 'node:crypto'
@@ -49,7 +49,7 @@ test('M3 a removed analysis dimension retains an accessible draft after loading 
     await page.locator('#comparison-editor-latest').click()
     await expect(page.locator('#comparison-editor-error')).toContainText('已移除，草稿仍保留')
     await expect(page.locator('#cmp-analysis-value')).toHaveValue(content)
-    expect(JSON.parse(await page.evaluate(key => sessionStorage.getItem(key), key)).body.value).toBe(content)
+    expect(JSON.parse(await readSessionDraft(page, key)).body.value).toBe(content)
     await page.reload()
     await expect(page.locator('#comparison-drafts')).toBeVisible()
     await page.locator('#comparison-resume').click()

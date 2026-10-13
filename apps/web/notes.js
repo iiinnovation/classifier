@@ -1,4 +1,6 @@
-export function createNotebook({ api, element, jump, openNote, notice }) {
+export function createNotebook({ api, element, jump, openNote, notice, storage }) {
+  const localStorage = storage?.persistent || globalThis.localStorage
+  const sessionStorage = storage?.session || globalThis.sessionStorage
   const $ = id => document.getElementById(id)
   const fields = ['研究问题', '材料或对象', '方法', '主要发现', '局限', '待验证问题']
   const kinds = { source: '原文报告', inference: '模型归纳', user: '用户判断' }
@@ -10,7 +12,7 @@ export function createNotebook({ api, element, jump, openNote, notice }) {
   const previousOwner = typeof sessionStorage !== 'undefined' ? sessionStorage.getItem(ownerStorageKey) : null
   // A new tab may inherit sessionStorage from its opener. Fresh navigations get
   // a new owner; reloads retain ownership of that tab's drafts.
-  const ownerId = previousOwner && ['reload', 'back_forward'].includes(navigationType) ? previousOwner : crypto.randomUUID()
+  const ownerId = storage?.ownerId || (previousOwner && ['reload', 'back_forward'].includes(navigationType) ? previousOwner : crypto.randomUUID())
   if (typeof sessionStorage !== 'undefined') sessionStorage.setItem(ownerStorageKey, ownerId)
   const json = (method, body) => ({ method, headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })
   const draftPrefix = value => `classifier-note-draft:${value.topic.id}:${value.document.id}`

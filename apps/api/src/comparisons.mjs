@@ -6,6 +6,7 @@ import { documentSummary } from './topics.mjs'
 import { modelConfigured } from './qa.mjs'
 import { comparisonReferences } from './comparison-retrieval.mjs'
 import { generateComparison } from './comparison-model.mjs'
+import { environmentSettings, taskSettings } from './settings.mjs'
 
 const statuses = ['unfilled', 'recorded', 'not_reported', 'not_found', 'not_applicable']
 const comparabilities = ['unchecked', 'comparable', 'conditional', 'not_comparable']
@@ -44,7 +45,7 @@ function validateCell(cell) {
   if (['conditional', 'not_comparable'].includes(cell.comparability) && !cell.reason) throw new HttpError(422, '请说明有条件可比或不可比较的原因。')
 }
 
-export function createComparisons(store, topics, runs, qaOptions = {}) {
+export function createComparisons(store, topics, runs, qaOptions = {}, settingsProvider = environmentSettings()) {
   async function raw(id) {
     const table = await store.read('comparisons', id)
     if (!table) throw new HttpError(404, '未找到比较表。')
@@ -289,10 +290,11 @@ export function createComparisons(store, topics, runs, qaOptions = {}) {
     const table = await raw(id); revision(table, body.revision)
     const columnId = requireId(body.columnId)
     if (table.archived) throw new HttpError(409, '请先恢复已归档的比较表。')
-    if (!modelConfigured(qaOptions.config)) throw new HttpError(409, '尚未配置模型，仍可手工比较或使用笔记和原文。')
+    const configuration = taskSettings(settingsProvider, qaOptions)
+    if (!modelConfigured(configuration.text)) throw new HttpError(409, '尚未配置模型，仍可手工比较或使用笔记和原文。')
     const { input, evidenceMap, noteVersions } = await prepare(table, columnId)
     const baseCells = table.documentIds.map(documentId => ({ documentId, digest: hash(findCell(table, documentId, columnId)) }))
-    return runs.startJob({ purpose: 'comparison-suggestion', topicId: table.topicId, comparisonId: id, columnId, columnName: column(table, columnId).name, scopeHash: scope(table), baseCells, baseNotes: noteVersions, baseAnalysis: hash(table.analyses.find(item => item.columnId === columnId) || null) }, async options => validateResult(await generateComparison(input, { ...qaOptions, ...options }), table, columnId, evidenceMap))
+    return runs.startJob({ purpose: 'comparison-suggestion', configurationRevision: configuration.revision, topicId: table.topicId, comparisonId: id, columnId, columnName: column(table, columnId).name, scopeHash: scope(table), baseCells, baseNotes: noteVersions, baseAnalysis: hash(table.analyses.find(item => item.columnId === columnId) || null) }, async options => validateResult(await generateComparison(input, { ...qaOptions, config: configuration.text, ...options }), table, columnId, evidenceMap))
   }
   async function adopt(id, body) {
     keys(body, ['revision', 'runId'])

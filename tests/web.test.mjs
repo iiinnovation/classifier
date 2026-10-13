@@ -33,7 +33,7 @@ test('switching documents blocks questions and discards the previous document re
   const delayedB = new Promise(resolve => { resolveB = resolve })
   const delayedOldQuestion = new Promise(resolve => { resolveOldQuestion = resolve })
   const posts = []
-  const response = value => ({ ok: true, json: async () => value })
+  const response = value => new Response(JSON.stringify(value), { headers: { 'content-type': 'application/json' } })
   const fetch = async (path, options = {}) => {
     if (path === '/api/parser-capabilities') return response({ ocr: { available: false, languages: [] }, vision: false })
     if (path === '/health') return response({ modelConfigured: false })
@@ -53,12 +53,16 @@ test('switching documents blocks questions and discards the previous document re
   const noteSource = (await readFile(new URL('../apps/web/notes.js', import.meta.url), 'utf8')).replace('export function', 'function')
   const comparisonSource = (await readFile(new URL('../apps/web/comparisons.js', import.meta.url), 'utf8')).replace('export function', 'function')
   const reportSource = (await readFile(new URL('../apps/web/reports.js', import.meta.url), 'utf8')).replace('export function', 'function')
-  const source = researchSource + '\n' + noteSource + '\n' + comparisonSource + '\n' + reportSource + '\n' + (await readFile(new URL('../apps/web/app.js', import.meta.url), 'utf8'))
+  const apiSource = (await readFile(new URL('../apps/web/api.js', import.meta.url), 'utf8')).replace('export function', 'function')
+  const storageSource = (await readFile(new URL('../apps/web/storage.js', import.meta.url), 'utf8')).replace('export function', 'function')
+  const source = apiSource + '\n' + storageSource + '\n' + researchSource + '\n' + noteSource + '\n' + comparisonSource + '\n' + reportSource + '\n' + (await readFile(new URL('../apps/web/app.js', import.meta.url), 'utf8'))
     .replace(/^import katex from '\/katex\.mjs'\n/, 'const katex = { render() {} }\n')
     .replace("import { createResearchWorkspace } from '/research.js'\n", '')
     .replace("import { createNotebook } from '/notes.js'\n", '')
     .replace("import { createComparisonWorkspace } from '/comparisons.js'\n", '')
     .replace("import { createReportWorkspace } from '/reports.js'\n", '')
+    .replace("import { createApi } from '/api.js'\n", '')
+    .replace("import { createClientStorage } from '/storage.js'\n", '')
   const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor
   const { openDocument } = await new AsyncFunction('document', 'fetch', 'localStorage', 'setTimeout', 'clearTimeout', `${source}\nreturn { openDocument }`)(document, fetch, localStorage, setTimeout, clearTimeout)
   assert.equal(nodes.get('title').textContent, 'A')
@@ -113,7 +117,7 @@ test('switching documents blocks questions and discards the previous document re
   assert.match(nodes.get('page-notice').textContent, /表格需核对/)
   nodes.get('page-image').onload()
   assert.equal(nodes.get('page-highlight').style.left, '20%')
-  await assert.rejects(openDocument('missing'), /Unexpected request/)
+  await assert.rejects(openDocument('missing'), /暂时无法连接工作台/)
   assert.equal(nodes.get('ask').disabled, false)
   resolveOldQuestion(response({ id: 'old', documentId: 'A', question: 'A question', status: 'completed', events: [] }))
   await oldSubmit

@@ -1,0 +1,390 @@
+{
+  "timestamp": "2026-10-11T06:04:40.205Z",
+  "platform": "darwin",
+  "arch": "x64",
+  "os": "25.6.0",
+  "memoryBytes": 34359738368,
+  "cpu": "Intel(R) Core(TM) i7-1068NG7 CPU @ 2.30GHz",
+  "logicalCpus": 8,
+  "mode": "all",
+  "instrumentation": "Normal packaged executable with renderer CDP only; connectOverCDP(noDefaults:true), no Node inspector or Playwright launch switches. RSS includes shared-page double counting.",
+  "minimumHardwareVerified": false,
+  "results": {
+    "startup": {
+      "count": 20,
+      "p95Ms": 1627.8804109999983,
+      "durationsMs": [
+        1521.786724,
+        1377.4843749999995,
+        1356.4306370000004,
+        1424.798869000001,
+        1395.5191910000012,
+        1360.7034679999997,
+        1341.683531999999,
+        1364.4316659999968,
+        1398.3826960000006,
+        1264.7794109999995,
+        1469.0815680000014,
+        1385.881888,
+        1654.2216980000012,
+        1349.7405440000002,
+        1537.615058000003,
+        1384.6748920000027,
+        1315.1719880000019,
+        1363.2242479999986,
+        1373.8084279999966,
+        1627.8804109999983
+      ],
+      "cache": "Full process restart; OS file cache is not flushed."
+    },
+    "idle": {
+      "p95Rss": 404606976,
+      "samples": [
+        {
+          "at": 1791698786591,
+          "rss": 403496960,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698787182,
+          "rss": 403505152,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698787769,
+          "rss": 403505152,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698788367,
+          "rss": 403505152,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698788960,
+          "rss": 403505152,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698789549,
+          "rss": 403505152,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698790136,
+          "rss": 403505152,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698790729,
+          "rss": 403505152,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698791316,
+          "rss": 403505152,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698791895,
+          "rss": 403505152,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698792492,
+          "rss": 403468288,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698793078,
+          "rss": 403468288,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698793679,
+          "rss": 403468288,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698794263,
+          "rss": 403468288,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698794861,
+          "rss": 403468288,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698795449,
+          "rss": 403468288,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698796044,
+          "rss": 403468288,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698796635,
+          "rss": 403468288,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698797227,
+          "rss": 403468288,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698797809,
+          "rss": 403468288,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698798396,
+          "rss": 403468288,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698798987,
+          "rss": 403468288,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698799581,
+          "rss": 403468288,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698800175,
+          "rss": 403468288,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698800758,
+          "rss": 403472384,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698801352,
+          "rss": 403472384,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698801956,
+          "rss": 403472384,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698802548,
+          "rss": 403472384,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698803141,
+          "rss": 403472384,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698803729,
+          "rss": 403476480,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698804346,
+          "rss": 403476480,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698804946,
+          "rss": 403476480,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698805537,
+          "rss": 404586496,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698806125,
+          "rss": 404606976,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698806715,
+          "rss": 404606976,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698807311,
+          "rss": 404606976,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698807901,
+          "rss": 404606976,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698808485,
+          "rss": 404606976,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698809072,
+          "rss": 404606976,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698809660,
+          "rss": 404606976,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698810254,
+          "rss": 404606976,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698810846,
+          "rss": 404606976,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698811441,
+          "rss": 404590592,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698812031,
+          "rss": 404590592,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698812621,
+          "rss": 404590592,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698813216,
+          "rss": 404590592,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698813803,
+          "rss": 404590592,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698814391,
+          "rss": 404590592,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698814990,
+          "rss": 404590592,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698815578,
+          "rss": 404590592,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791698816205,
+          "rss": 404606976,
+          "processes": 5,
+          "ocrPids": []
+        }
+      ],
+      "privateMemory": {
+        "method": "vmmap physical footprint (distinct from RSS)",
+        "processes": [
+          {
+            "pid": 46372,
+            "bytes": 43830476.8
+          },
+          {
+            "pid": 46373,
+            "bytes": 33135001.6
+          },
+          {
+            "pid": 46374,
+            "bytes": 12268339.2
+          },
+          {
+            "pid": 46377,
+            "bytes": 24012390.4
+          },
+          {
+            "pid": 46384,
+            "bytes": 41418752
+          }
+        ]
+      }
+    }
+  },
+  "gates": {
+    "installSize": true,
+    "downloadSize": true,
+    "startup": true,
+    "idle": true
+  },
+  "installedBytes": 395041751,
+  "downloadBytes": 163763528,
+  "downloadSha256": "038aa25621bdfb536a6ec2521db3d52a4242b9db1e3ae5b3c62d8c8083630aa4",
+  "appAsarSha256": "b720dcaa09a2f3d3559287c37cc7aaa54eca9162cd8297e4781de6bfddea4265",
+  "error": "Import failed: 已导入 0 份文档。\npdf.pdf：解析进程提前退出",
+  "errorStack": "Error: Import failed: 已导入 0 份文档。\npdf.pdf：解析进程提前退出\n    at importFile (file:///Users/apple/Desktop/classifier/tools/measure-desktop.mjs:106:40)\n    at async workload (file:///Users/apple/Desktop/classifier/tools/measure-desktop.mjs:115:5)\n    at async file:///Users/apple/Desktop/classifier/tools/measure-desktop.mjs:146:41",
+  "completed": false
+}

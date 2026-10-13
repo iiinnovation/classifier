@@ -3,6 +3,8 @@ import { createResearchWorkspace } from '/research.js'
 import { createNotebook } from '/notes.js'
 import { createComparisonWorkspace } from '/comparisons.js'
 import { createReportWorkspace } from '/reports.js'
+import { createApi } from '/api.js'
+import { createClientStorage } from '/storage.js'
 const $ = id => document.getElementById(id)
 let selected = null
 let epoch = 0
@@ -21,12 +23,8 @@ let notebook
 let comparisonWorkspace
 let reportWorkspace
 
-async function api(path, options) {
-  const response = await fetch(path, options)
-  const value = await response.json()
-  if (!response.ok) throw Object.assign(new Error(value.error || '请求失败'), { status: response.status })
-  return value
-}
+const api = createApi()
+const clientStorage = createClientStorage({ persistent: localStorage, session: typeof sessionStorage === 'undefined' ? undefined : sessionStorage, desktop: globalThis.classifierDesktop })
 function element(tag, text, className) {
   const node = document.createElement(tag)
   if (text != null) node.textContent = text
@@ -451,12 +449,12 @@ $('cancel').onclick = async () => {
   try { await api(`/api/runs/${activeRun}/cancel`, { method: 'POST' }) }
   catch (error) { $('error').textContent = error.message }
 }
-notebook = createNotebook({ api, element, jump, notice: (message, error) => research.notice(message, error), async openNote(note) {
+notebook = createNotebook({ api, element, jump, storage: clientStorage, notice: (message, error) => research.notice(message, error), async openNote(note) {
   if (await research.showTopic(note.topicId)) await openDocument(note.documentId, { retainTopic: true, noteId: note.id })
 } })
-comparisonWorkspace = createComparisonWorkspace({ api, element, currentTopic: () => research.currentTopic(), enter: id => research.enterComparison(id), navigationKey: () => research.navigationKey(), showTopic: id => research.showTopic(id), modelConfigured: () => modelConfigured, notice: (message, error) => research.notice(message, error), openSource: (evidence, comparisonId) => openDocument(evidence.documentId, { retainTopic: true, evidence, comparisonId }) })
-reportWorkspace = createReportWorkspace({ api, element, currentTopic: () => research.currentTopic(), enter: id => research.enterReport(id), navigationKey: () => research.navigationKey(), showTopic: id => research.showTopic(id), modelConfigured: () => modelConfigured, notice: (message, error) => research.notice(message, error), openSource: (evidence, reportId) => openDocument(evidence.documentId, { retainTopic: true, evidence, reportId }) })
-research = createResearchWorkspace({ api, element, openDocument, resetReader, openImport, libraryChanged: renderLibrary, onNavigate: () => { comparisonWorkspace.reset(); reportWorkspace.reset() }, openComparison: id => comparisonWorkspace.open(id), openReport: id => reportWorkspace.open(id), topicChanged: topic => { void notebook.showTopic(topic); void comparisonWorkspace.showTopic(topic); void reportWorkspace.showTopic(topic) }, metadataChanged(updated) {
+comparisonWorkspace = createComparisonWorkspace({ api, element, storage: clientStorage, currentTopic: () => research.currentTopic(), enter: id => research.enterComparison(id), navigationKey: () => research.navigationKey(), showTopic: id => research.showTopic(id), modelConfigured: () => modelConfigured, notice: (message, error) => research.notice(message, error), openSource: (evidence, comparisonId) => openDocument(evidence.documentId, { retainTopic: true, evidence, comparisonId }) })
+reportWorkspace = createReportWorkspace({ api, element, storage: clientStorage, currentTopic: () => research.currentTopic(), enter: id => research.enterReport(id), navigationKey: () => research.navigationKey(), showTopic: id => research.showTopic(id), modelConfigured: () => modelConfigured, notice: (message, error) => research.notice(message, error), openSource: (evidence, reportId) => openDocument(evidence.documentId, { retainTopic: true, evidence, reportId }) })
+research = createResearchWorkspace({ api, element, storage: clientStorage, openDocument, resetReader, openImport, libraryChanged: renderLibrary, onNavigate: () => { comparisonWorkspace.reset(); reportWorkspace.reset() }, openComparison: id => comparisonWorkspace.open(id), openReport: id => reportWorkspace.open(id), topicChanged: topic => { void notebook.showTopic(topic); void comparisonWorkspace.showTopic(topic); void reportWorkspace.showTopic(topic) }, metadataChanged(updated) {
   if (selected?.id === updated.id) { selected.title = updated.title; selected.bibliography = updated.bibliography; $('title').textContent = updated.title }
 } })
 const initialNavigation = research.navigationKey()

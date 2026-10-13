@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-11",
+  "appAsarSha256": "574a4100474ee0c34aa631feb25b1c0a793a3b25ab3ebdf6993d5fc5e7c40920",
+  "downloadSha256": "1bb046aa72fadf957b17c3837702c9787603bcd5c8748bd5b9104027d4555b29",
+  "node": {
+    "passed": 66
+  },
+  "packagedDesktop": {
+    "passed": 7
+  },
+  "cancel": {
+    "passed": true,
+    "growthRss": 47915008,
+    "verifiedCancelledJobs": 10,
+    "ocrProcessesRemaining": 0
+  },
+  "limits": "Only reviewed lifecycle changes and real-OCR cancellation revalidated. Historical full resource results belong to the previous build."
+}

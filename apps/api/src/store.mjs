@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile, readdir, rename } from 'node:fs/promises'
+import { mkdir, readFile, writeFile, readdir, rename, unlink } from 'node:fs/promises'
 import { join } from 'node:path'
 import { randomUUID } from 'node:crypto'
 import { HttpError } from './http.mjs'
@@ -48,6 +48,7 @@ export async function createStore(root) {
     },
     async original(id) { return readFile(join(root, 'originals', requireId(id))) },
     async saveOriginal(id, bytes) { await writeFile(join(root, 'originals', requireId(id)), bytes, { mode: 0o600 }) },
+    async removeOriginal(id) { await unlink(join(root, 'originals', requireId(id))) },
   }
   // A process restart cannot resume an upstream model request; record interruption explicitly.
   for (const bucket of ['runs', 'imports']) for (const run of await list(bucket)) {

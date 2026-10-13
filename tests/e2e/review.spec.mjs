@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from '../helpers/browser-fixture.mjs'
 import { testApp, json } from '../helpers/test-app.mjs'
 
 async function topic(app, title) {

@@ -6,7 +6,7 @@ import { basename, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { HttpError, readJson, readUpload, sendJson } from './http.mjs'
 import { createImports, parseInWorker } from './imports.mjs'
-import { pageImage } from './pdf.mjs'
+import { pageImageInWorker } from './render.mjs'
 import { ocrCapabilities } from './ocr.mjs'
 import { visionConfigured } from './vision.mjs'
 import { createStore, requireId } from './store.mjs'
@@ -17,24 +17,31 @@ import { createNotes } from './notes.mjs'
 import { evidenceVersion } from './evidence.mjs'
 import { createComparisons } from './comparisons.mjs'
 import { createReports } from './reports.mjs'
+import { environmentSettings, taskSettings } from './settings.mjs'
+import { desktopRequestGuard } from './desktop-security.mjs'
 
 const root = fileURLToPath(new URL('../../../', import.meta.url))
 // Whole-report edits include up to 40 blocks, 30000 text characters and 960
 // citation IDs, plus headings and source selectors. Allow their serialized form.
 const reportEditBodyLimit = 1024 * 1024
-export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER_DATA_DIR || 'data'), qaOptions = {} } = {}) {
-  const store = await createStore(dataDir)
-  const runs = createRuns(store, qaOptions)
+export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER_DATA_DIR || 'data'), qaOptions = {}, settingsProvider = environmentSettings(), desktopToken, storeFactory = createStore } = {}) {
+  const guard = desktopToken === undefined ? null : desktopRequestGuard(desktopToken)
+  const store = await storeFactory(dataDir)
+  const runs = createRuns(store, qaOptions, settingsProvider)
   const topics = createTopics(store)
-  const imports = createImports(store, topics)
-  const notes = createNotes(store, topics, runs, qaOptions)
-  const comparisons = createComparisons(store, topics, runs, qaOptions)
-  const reports = createReports(store, topics, comparisons, runs, qaOptions)
+  const imports = createImports(store, topics, settingsProvider)
+  const notes = createNotes(store, topics, runs, qaOptions, settingsProvider)
+  const comparisons = createComparisons(store, topics, runs, qaOptions, settingsProvider)
+  const reports = createReports(store, topics, comparisons, runs, qaOptions, settingsProvider)
   let syncImports = 0
+  let closing = false
+  const requestTasks = new Set(), syncControllers = new Set()
   let rendering = false
   const assets = new Map([
     ['/', ['index.html', 'text/html; charset=utf-8']],
     ['/app.js', ['app.js', 'text/javascript; charset=utf-8']],
+    ['/api.js', ['api.js', 'text/javascript; charset=utf-8']],
+    ['/storage.js', ['storage.js', 'text/javascript; charset=utf-8']],
     ['/research.js', ['research.js', 'text/javascript; charset=utf-8']],
     ['/notes.js', ['notes.js', 'text/javascript; charset=utf-8']],
     ['/comparisons.js', ['comparisons.js', 'text/javascript; charset=utf-8']],
@@ -43,12 +50,20 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
     ['/katex.css', ['../../node_modules/katex/dist/katex.min.css', 'text/css; charset=utf-8']],
     ['/style.css', ['style.css', 'text/css; charset=utf-8']],
   ])
-  const server = createServer(async (req, res) => {
+  const server = createServer((req, res) => {
+    const task = handleRequest(req, res)
+    requestTasks.add(task)
+    void task.finally(() => requestTasks.delete(task)).catch(error => console.error('Request failed:', error.message))
+  })
+  async function handleRequest(req, res) {
     try {
+      if (closing) throw new HttpError(503, '服务正在关闭。')
       res.setHeader('x-content-type-options', 'nosniff')
       res.setHeader('referrer-policy', 'no-referrer')
+      res.setHeader('x-request-id', randomUUID())
       const origin = req.headers.origin
-      if (origin && origin !== `http://${req.headers.host}` && origin !== `https://${req.headers.host}`) throw new HttpError(403, '请从当前工作台发起请求。')
+      if (guard) guard(req, server.address())
+      else if (origin && origin !== `http://${req.headers.host}` && origin !== `https://${req.headers.host}`) throw new HttpError(403, '请从当前工作台发起请求。')
       const url = new URL(req.url, 'http://localhost')
       if (req.method === 'GET' && /^\/fonts\/KaTeX_[a-zA-Z0-9_-]+\.(woff2?|ttf)$/.test(url.pathname)) {
         res.writeHead(200, { 'content-type': url.pathname.endsWith('.woff2') ? 'font/woff2' : url.pathname.endsWith('.woff') ? 'font/woff' : 'font/ttf' })
@@ -59,8 +74,8 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
         res.writeHead(200, { 'content-type': type, 'content-security-policy': "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self'; img-src 'self' data:; frame-src 'self'; object-src 'none'; base-uri 'self'" })
         return res.end(await readFile(resolve(root, 'apps/web', name)))
       }
-      if (req.method === 'GET' && url.pathname === '/health') return sendJson(res, 200, { status: 'ok', service: 'classifier', modelConfigured: modelConfigured(qaOptions.config) })
-      if (req.method === 'GET' && url.pathname === '/api/parser-capabilities') return sendJson(res, 200, { ocr: await ocrCapabilities(), vision: visionConfigured() })
+      if (req.method === 'GET' && url.pathname === '/health') return sendJson(res, 200, { status: 'ok', service: 'classifier', modelConfigured: modelConfigured(taskSettings(settingsProvider, qaOptions).text) })
+      if (req.method === 'GET' && url.pathname === '/api/parser-capabilities') return sendJson(res, 200, { ocr: await ocrCapabilities(), vision: visionConfigured(settingsProvider.read().vision) })
       if (url.pathname === '/api/topics') {
         if (req.method === 'GET') return sendJson(res, 200, { topics: await topics.list() })
         if (req.method === 'POST') return sendJson(res, 201, await topics.create(await readJson(req)))
@@ -139,7 +154,6 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
       if (req.method === 'POST' && url.pathname === '/api/imports') {
         const upload = await readUpload(req)
         if (!['auto', 'ocr', 'vision'].includes(upload.mode)) throw new HttpError(422, '无效解析模式。')
-        if (upload.mode === 'vision' && !visionConfigured()) throw new HttpError(422, '尚未配置视觉模型。')
         return sendJson(res, 202, await imports.start(upload, upload.mode))
       }
       const importMatch = url.pathname.match(/^\/api\/imports\/([^/]+)(?:\/(cancel))?$/)
@@ -155,11 +169,14 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
         if (document.mediaType !== 'application/pdf' || number < 1 || number > document.sections.length) throw new HttpError(404, '未找到 PDF 页面。')
         if (rendering) throw new HttpError(429, '正在生成页图，请稍后重试。')
         rendering = true
+        const controller = new AbortController()
+        const abort = () => { if (!res.writableEnded) controller.abort(new Error('页图请求已断开')) }
+        res.once('close', abort)
         try {
-          const png = await pageImage(await store.original(id), number)
+          const png = await pageImageInWorker(await store.original(id), number, { signal: controller.signal })
           res.writeHead(200, { 'content-type': 'image/png', 'cache-control': 'private, max-age=3600' })
           return res.end(png)
-        } finally { rendering = false }
+        } finally { res.removeListener('close', abort); rendering = false }
       }
       if (req.method === 'GET' && url.pathname === '/api/documents') {
         const documents = await store.list('documents')
@@ -172,18 +189,38 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
         let parsed
         if (syncImports >= 1) throw new HttpError(429, '正在导入文档，请稍后重试。')
         syncImports++
-        try { parsed = await parseInWorker({ ...upload, fileName }) }
-        catch (error) { throw error instanceof HttpError ? error : new HttpError(422, `文档解析失败：${error.message}`) }
-        finally { syncImports-- }
-        const document = {
-          id: randomUUID(), schemaVersion: 2, fileName, ...parsed,
-          source: { kind: 'upload', sha256: createHash('sha256').update(upload.bytes).digest('hex'), byteLength: upload.bytes.length },
-          createdAt: new Date().toISOString(),
+        const controller = new AbortController()
+        syncControllers.add(controller)
+        let savedDocumentId = null
+        try {
+          if (closing) throw new HttpError(503, '服务正在关闭。')
+          try {
+            parsed = await parseInWorker({ ...upload, fileName }, { signal: controller.signal })
+            controller.signal.throwIfAborted()
+          } catch (error) {
+            if (controller.signal.aborted) throw new HttpError(503, '服务正在关闭。')
+            throw error instanceof HttpError ? error : new HttpError(422, `文档解析失败：${error.message}`)
+          }
+          const document = {
+            id: randomUUID(), schemaVersion: 2, fileName, ...parsed,
+            source: { kind: 'upload', sha256: createHash('sha256').update(upload.bytes).digest('hex'), byteLength: upload.bytes.length },
+            createdAt: new Date().toISOString(),
+          }
+          await store.saveOriginal(document.id, upload.bytes)
+          savedDocumentId = document.id
+          if (controller.signal.aborted) throw new HttpError(503, '服务正在关闭。')
+          syncControllers.delete(controller)
+          await store.write('documents', document)
+          if (upload.topicId) await topics.attach(upload.topicId, document.id)
+          return sendJson(res, 201, document)
+        } catch (error) {
+          if (savedDocumentId && syncControllers.has(controller)) {
+            try { await store.removeOriginal(savedDocumentId) }
+            catch (cleanupError) { throw new Error(`${error.message}；原文件清理失败：${cleanupError.message}`, { cause: error }) }
+          }
+          throw error
         }
-        await store.saveOriginal(document.id, upload.bytes)
-        await store.write('documents', document)
-        if (upload.topicId) await topics.attach(upload.topicId, document.id)
-        return sendJson(res, 201, document)
+        finally { syncImports--; syncControllers.delete(controller) }
       }
       const match = url.pathname.match(/^\/api\/documents\/([^/]+)(?:\/(original|questions))?$/)
       if (match) {
@@ -216,12 +253,22 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
       }
       throw new HttpError(404, '未找到此接口。')
     } catch (error) {
-      if (res.headersSent) return res.destroy()
+      if (res.headersSent || res.destroyed) return res.destroy()
       sendJson(res, error.status || 500, { error: error.status ? error.message : '服务处理失败，请查看服务日志。' })
       if (!error.status) console.error(error)
     }
-  })
-  server.on('close', () => { runs.stop(); void imports.stop() })
+  }
+  server.on('close', () => { void runs.stop(); void imports.stop() })
+  let shutdown
+  server.shutdown = () => shutdown ||= (async () => {
+    closing = true
+    for (const controller of syncControllers) controller.abort(new Error('服务正在关闭。'))
+    const closed = new Promise(resolve => {
+      if (!server.listening) return resolve()
+      server.close(resolve); server.closeAllConnections()
+    })
+    await Promise.all([closed, runs.stop(), imports.stop(), ...requestTasks])
+  })()
   server.requestTimeout = 120_000
   return server
 }
@@ -231,5 +278,5 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const host = process.env.CLASSIFIER_HOST || '127.0.0.1'
   const port = Number(process.env.CLASSIFIER_PORT || 8790)
   server.listen(port, host, () => console.log(`Classifier: http://${host}:${port}`))
-  for (const event of ['SIGINT', 'SIGTERM']) process.on(event, () => { server.close(); server.closeIdleConnections() })
+  for (const event of ['SIGINT', 'SIGTERM']) process.on(event, () => { void server.shutdown() })
 }

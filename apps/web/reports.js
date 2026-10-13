@@ -1,4 +1,5 @@
-export function createReportWorkspace({ api, element, currentTopic, enter, navigationKey, showTopic, openSource, modelConfigured, notice }) {
+export function createReportWorkspace({ api, element, currentTopic, enter, navigationKey, showTopic, openSource, modelConfigured, notice, storage }) {
+  const sessionStorage = storage?.drafts || globalThis.sessionStorage
   const $ = id => document.getElementById(id)
   const kinds = { source: '原文报告', inference: '模型归纳', user: '用户判断', question: '待验证问题' }
   const json = (method, body) => ({ method, headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })

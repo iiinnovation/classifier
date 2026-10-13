@@ -1,4 +1,5 @@
-export function createResearchWorkspace({ api, element, openDocument, resetReader, openImport, metadataChanged, libraryChanged, topicChanged = () => {}, onNavigate = () => {}, openComparison = () => {}, openReport = () => {} }) {
+export function createResearchWorkspace({ api, element, openDocument, resetReader, openImport, metadataChanged, libraryChanged, topicChanged = () => {}, onNavigate = () => {}, openComparison = () => {}, openReport = () => {}, storage }) {
+  const localStorage = storage?.persistent || globalThis.localStorage
   const $ = id => document.getElementById(id)
   const selectionLabels = { pending: '待筛选', included: '已纳入', excluded: '已排除' }
   const readingLabels = { unread: '未读', reading: '阅读中', read: '已读' }
