@@ -96,12 +96,32 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
     }
     return node
   }
+  function proposalUnavailable(run) {
+    return report.archived || run.baseRevision !== report.revision || report.sources.some(source => source.changed)
+  }
   function render() {
     controls(false)
     $('report-title').textContent = report.title; $('report-question').textContent = report.question
     $('report-message').textContent = report.archived ? '成果已归档。' : report.sources.some(source => source.changed) ? '研究材料已有更新，正文与引用仍保留保存时的版本。请复核所选材料。' : `版本 ${report.revision} · ${report.blocks.length} 个段落`
     $('report-body').replaceChildren(...report.blocks.map(block => blockNode(block, report, true)))
-    if (!report.blocks.length) $('report-body').append(element('p', '先选择研究材料，可将材料加入正文、手工编辑，或生成供审阅的研究草稿。', 'collection-empty'))
+    if (!report.blocks.length) {
+      const proposal = report.suggestions.find(run => run.status === 'completed' && run.baseRevision === report.revision)
+      const pending = report.suggestions.some(run => ['queued', 'running'].includes(run.status))
+      if (proposal) {
+        const preview = element('section', null, 'research-draft'), target = report, nav = navigationKey()
+        const value = { ...report, blocks: proposal.result.blocks, evidence: proposal.result.evidence.map(item => ({ ...item, matchesCurrent: report.evidence.find(ref => ref.id === item.id)?.matchesCurrent || false })) }
+        const adopt = button('采用研究总结', async () => {
+          adopt.disabled = true
+          try { await update({ runId: proposal.id }, '/adopt', 'POST') }
+          catch (error) { if (current(target, nav)) notice(error.message, true) }
+          finally { adopt.disabled = false }
+        }, '')
+        adopt.disabled = proposalUnavailable(proposal)
+        preview.append(element('h2', '研究总结草稿 · 待核对'), ...value.blocks.map(block => blockNode(block, value)), adopt)
+        if (adopt.disabled) preview.append(element('p', '成果已归档或研究材料已变化，请恢复成果并更新所选材料，再重新生成。', 'notice'))
+        $('report-body').append(preview)
+      } else $('report-body').append(element('p', pending ? '正在根据比较内容与原文证据组织研究总结…' : '先选择研究材料，可将材料加入正文、手工编辑，或生成供审阅的研究草稿。', 'collection-empty'))
+    }
     $('report-sources').replaceChildren(...report.sources.map(source => {
       const node = element('article', null, 'report-material')
       node.append(element('h3', source.title), element('p', `${source.revision ? `版本 ${source.revision} · ` : ''}${source.evidence.length} 个原文片段${source.changed ? ' · 材料已变化' : ''}`, 'hint'))
@@ -113,7 +133,7 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
     $('report-archive').textContent = report.archived ? '恢复归档' : '归档'
     for (const name of ['report-edit', 'report-materials', 'report-assemble']) $(name).disabled = report.archived
     $('report-assemble').disabled ||= !report.sources.length
-    $('report-generate').disabled = report.archived || !modelConfigured() || !report.sources.length || report.suggestions.some(run => ['queued', 'running'].includes(run.status))
+    $('report-generate').disabled = report.archived || report.sources.some(source => source.changed) || !modelConfigured() || !report.sources.length || report.suggestions.some(run => ['queued', 'running'].includes(run.status))
     $('report-model-hint').textContent = modelConfigured() ? '生成草稿后先审阅，采用时才替换正文；原版本保留。' : '尚未配置模型，可从材料整理正文并手工修订。'
     $('report-suggestions').replaceChildren(...report.suggestions.map(run => {
       const node = element('article', null, 'report-material')
@@ -287,7 +307,8 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
       catch (error) { if (current(target, nav)) $('report-inspector-error').textContent = error.message }
       finally { adopt.disabled = false }
     })
-    inspect('审阅研究草稿', [element('p', '采用后替换当前正文，原正文进入版本记录。生成后的人工保存或材料变化会阻止采用旧草稿。', 'notice'), ...value.blocks.map(block => blockNode(block, value)), adopt])
+    adopt.disabled = proposalUnavailable(run)
+    inspect('审阅研究草稿', [element('p', adopt.disabled ? '成果或材料已变化，旧草稿不会覆盖人工修改。请恢复成果或更新材料后重新生成。' : '采用后替换当前正文，原正文进入版本记录。生成后的人工保存或材料变化会阻止采用旧草稿。', 'notice'), ...value.blocks.map(block => blockNode(block, value)), adopt])
   }
   $('report-form').oninput = changed; $('report-form').onchange = changed
   $('report-editor-close').onclick = closeEditor
@@ -341,9 +362,20 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
     } catch (error) { if (current(target, nav)) notice(error.message, true) }
     finally { if (report) render() }
   }
+  async function generate(target) {
+    const requestKey = 'classifier-report-request:' + target.id
+    let request
+    try { request = JSON.parse(sessionStorage.getItem(requestKey)) } catch {}
+    const observed = target.suggestions.find(run => run.requestId === request?.requestId)
+    if (!request || request.revision !== target.revision || observed && !['queued', 'running'].includes(observed.status)) request = { revision: target.revision, requestId: crypto.randomUUID() }
+    sessionStorage.setItem(requestKey, JSON.stringify(request))
+    const run = await api(`/api/reports/${target.id}/suggestions`, json('POST', request))
+    sessionStorage.removeItem(requestKey)
+    return run
+  }
   $('report-generate').onclick = async () => {
     const target = report, nav = navigationKey(); $('report-generate').disabled = true
-    try { await api(`/api/reports/${target.id}/suggestions`, json('POST', { revision: target.revision })); if (current(target, nav)) await refresh() }
+    try { await generate(target); if (current(target, nav)) await refresh() }
     catch (error) { if (current(target, nav)) { notice(error.message, true); render() } }
   }
   $('report-history').onclick = async () => {
@@ -374,5 +406,18 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
     finally { if (current(target, nav)) $('report-export').disabled = false }
   }
   if (typeof window !== 'undefined') window.addEventListener('beforeunload', persist)
-  return { reset, open, showTopic: showTopicReports }
+  async function fromComparison(table) {
+    const nav = navigationKey()
+    const value = await api('/api/comparisons/' + table.id + '/report', json('POST', { revision: table.revision }))
+    if (nav !== navigationKey()) return
+    await open(value.id)
+    if (reportId !== value.id || !report || report.archived || report.sources.some(source => source.changed) || report.blocks.length || report.suggestions.some(run => ['queued', 'running'].includes(run.status) || run.status === 'completed' && run.baseRevision === report.revision)) return
+    const target = report, token = epoch
+    try {
+      const run = await generate(target)
+      if (token !== epoch) return
+      report.suggestions = [run, ...report.suggestions]; render()
+    } catch (error) { if (token === epoch) { $('report-message').textContent = error.message + ' 材料已保留，可点击“生成研究草稿”重试。'; renderDrafts() } }
+  }
+  return { reset, open, showTopic: showTopicReports, fromComparison, updateModel() { if (report) render() } }
 }

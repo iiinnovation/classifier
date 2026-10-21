@@ -5,7 +5,7 @@ import { evidenceVersion, captureEvidence } from './evidence.mjs'
 import { documentSummary } from './topics.mjs'
 import { modelConfigured } from './qa.mjs'
 import { comparisonReferences } from './comparison-retrieval.mjs'
-import { generateComparison } from './comparison-model.mjs'
+import { generateComparison, planComparison } from './comparison-model.mjs'
 import { environmentSettings, taskSettings } from './settings.mjs'
 
 const statuses = ['unfilled', 'recorded', 'not_reported', 'not_found', 'not_applicable']
@@ -46,6 +46,7 @@ function validateCell(cell) {
 }
 
 export function createComparisons(store, topics, runs, qaOptions = {}, settingsProvider = environmentSettings()) {
+  const draftStarts = new Map()
   async function raw(id) {
     const table = await store.read('comparisons', id)
     if (!table) throw new HttpError(404, '未找到比较表。')
@@ -92,7 +93,12 @@ export function createComparisons(store, topics, runs, qaOptions = {}, settingsP
       const cell = cells.find(cell => cell.documentId === item.documentId && cell.columnId === analysis.columnId)
       return !cell || cell.noteChanged || cell.evidence.some(evidence => !evidence.matchesCurrent) || item.digest !== hash(findCell(table, item.documentId, analysis.columnId))
     }) }))
-    const suggestions = (await store.list('runs')).filter(run => run.purpose === 'comparison-suggestion' && run.comparisonId === table.id).slice(0, 10)
+    const suggestions = (await store.list('runs')).filter(run => ['comparison-suggestion', 'comparison-draft'].includes(run.purpose) && run.comparisonId === table.id).slice(0, 10)
+    for (const run of suggestions.filter(run => run.purpose === 'comparison-draft')) {
+      run.stale = table.archived || run.baseRevision !== table.revision ||
+        run.documentVersions.some(doc => versions.get(doc.id) !== doc.version || !topic.documents.some(link => link.documentId === doc.id)) ||
+        (run.result?.baseNotes || []).some(note => notes.get(note.id)?.revision !== note.revision)
+    }
     const history = full ? table.history.map(version => ({ ...version,
       cells: version.cells.map(cell => ({ ...cell, evidence: decorateEvidence(cell.evidence) })),
       analyses: version.analyses.map(analysis => ({ ...analysis, evidence: decorateEvidence(analysis.evidence) })),
@@ -313,5 +319,79 @@ export function createComparisons(store, topics, runs, qaOptions = {}, settingsP
       return table
     })
   }
-  return { list, get, create, edit, sources, editCell, editAnalysis, suggest, adopt }
+  async function assertDraftCurrent(table, documentVersions, baseNotes) {
+    const current = await raw(table.id)
+    if (current.revision !== table.revision || current.archived) throw new HttpError(409, '比较内容已变化，草稿不会覆盖人工修改，请重新生成。')
+    await requireRows(table.topicId, table.documentIds)
+    for (const doc of documentVersions) if (evidenceVersion(await store.document(doc.id)) !== doc.version) throw new HttpError(409, '原文已变化，请重新生成比较草稿。')
+    for (const note of baseNotes) if ((await store.read('notes', note.id))?.revision !== note.revision) throw new HttpError(409, '来源笔记已变化，请重新生成比较草稿。')
+  }
+  async function startDraft(id, body) {
+    keys(body, ['revision', 'instruction', 'requestId'])
+    const requestId = requireId(body.requestId)
+    const table = await raw(id); revision(table, body.revision)
+    if (table.archived) throw new HttpError(409, '请先恢复已归档的比较表。')
+    await requireRows(table.topicId, table.documentIds)
+    const instruction = text(body.instruction ?? table.question, 4000, '研究目标', false)
+    const configuration = taskSettings(settingsProvider, qaOptions)
+    if (!modelConfigured(configuration.text)) throw new HttpError(409, '尚未配置模型，可以继续手工研读和比较。')
+    const previous = (await store.list('runs')).filter(run => run.purpose === 'comparison-draft' && run.comparisonId === id)
+    const existing = previous.find(run => run.requestId === requestId) || previous.find(run => ['queued', 'running'].includes(run.status))
+    if (existing) {
+      if (existing.requestId === requestId && (existing.instruction !== instruction || existing.baseRevision !== table.revision)) throw new HttpError(409, '任务请求已用于不同的研究内容。')
+      if (existing.instruction !== instruction || existing.baseRevision !== table.revision) throw new HttpError(409, '已有其他研究任务正在运行，请等待完成或先停止任务，再提交新要求。')
+      return existing
+    }
+    const documents = await Promise.all(table.documentIds.map(id => store.document(id)))
+    const documentVersions = documents.map(doc => ({ id: doc.id, title: doc.title, version: evidenceVersion(doc) }))
+    return runs.startJob({ purpose: 'comparison-draft', comparisonId: id, topicId: table.topicId, baseRevision: table.revision, instruction, requestId, documentVersions, configurationRevision: configuration.revision }, async options => {
+      const modelOptions = { ...qaOptions, config: configuration.text, ...options }
+      const plan = await planComparison({ question: table.question, instruction, existingColumns: table.columns, documents: documents.map(doc => ({ id: doc.id, title: doc.title, sample: doc.references.slice(0, 2).map(ref => ref.text.slice(0, 1000)), partial: true })) }, modelOptions)
+      keys(plan, ['columns'])
+      if (!Array.isArray(plan.columns) || !plan.columns.length || plan.columns.length > 6) throw new Error('请返回 1–6 个比较维度。')
+      plan.columns.forEach(col => keys(col, ['name', 'description']))
+      const proposed = { ...table, columns: columns(plan.columns, randomUUID()) }
+      proposed.columns = proposed.columns.map(col => table.columns.find(item => item.name === col.name && item.description === col.description) || col)
+      await options.onEvent({ type: 'plan', message: '比较维度：' + proposed.columns.map(col => col.name).join('、') })
+      const cells = [], analyses = [], baseNotes = new Map()
+      for (const [index, col] of proposed.columns.entries()) {
+        options.signal.throwIfAborted()
+        await options.onEvent({ type: 'progress', message: '正在整理 ' + (index + 1) + '/' + proposed.columns.length + '：' + col.name })
+        const { input, evidenceMap, noteVersions } = await prepare(proposed, col.id)
+        const result = validateResult(await generateComparison({ ...input, instruction }, modelOptions), proposed, col.id, evidenceMap)
+        cells.push(...result.cells); analyses.push(result.analysis)
+        for (const note of noteVersions) {
+          if (baseNotes.has(note.id) && baseNotes.get(note.id).revision !== note.revision) throw new Error('生成期间笔记发生变化，请重新生成。')
+          baseNotes.set(note.id, note)
+        }
+      }
+      await assertDraftCurrent(table, documentVersions, [...baseNotes.values()])
+      await options.onEvent({ type: 'ready', message: '整份比较草稿已生成，可核对出处后采用。' })
+      return { columns: proposed.columns, cells, analyses, baseNotes: [...baseNotes.values()] }
+    }, { timeoutMs: 300_000, purposeLimit: 2 })
+  }
+  async function suggestDraft(id, body) {
+    // Serialize starts until each job is persisted, including concurrent retries.
+    while (draftStarts.has(id)) await draftStarts.get(id).catch(() => {})
+    const pending = startDraft(id, body); draftStarts.set(id, pending)
+    try { return await pending } finally { draftStarts.delete(id) }
+  }
+  async function adoptDraft(id, body) {
+    keys(body, ['revision', 'runId'])
+    const run = await store.read('runs', requireId(body.runId)), table = await raw(id)
+    if (!run || run.purpose !== 'comparison-draft' || run.comparisonId !== id || run.status !== 'completed' || !run.result) throw new HttpError(422, '未找到可采用的比较草稿。')
+    if (table.lastDraftRunId === run.id) return present(table)
+    revision(table, body.revision)
+    if (table.revision !== run.baseRevision) throw new HttpError(409, '比较内容已变化，草稿不会覆盖人工修改，请重新生成。')
+    await assertDraftCurrent(table, run.documentVersions, run.result.baseNotes)
+    return mutate(id, body.revision, async value => {
+      await assertDraftCurrent(value, run.documentVersions, run.result.baseNotes)
+      value.columns = structuredClone(run.result.columns)
+      value.cells = structuredClone(run.result.cells).map(cell => ({ ...cell, origin: { ...cell.origin, runId: run.id } }))
+      value.analyses = structuredClone(run.result.analyses).map(analysis => ({ ...analysis, origin: { type: 'model', runId: run.id }, rows: value.cells.filter(cell => cell.columnId === analysis.columnId).map(cell => ({ documentId: cell.documentId, value: cell.value, status: cell.status, digest: hash(cell) })) }))
+      value.lastDraftRunId = run.id
+      return value
+    })
+  }
+  return { list, get, create, edit, sources, editCell, editAnalysis, suggest, adopt, suggestDraft, adoptDraft }
 }

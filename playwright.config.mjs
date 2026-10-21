@@ -4,7 +4,7 @@ export default defineConfig({
   testDir: './tests/e2e',
   timeout: 60_000,
   workers: 1,
-  outputDir: process.env.CLASSIFIER_E2E_TRANSPORT === 'electron' ? 'test-results/electron-business' : 'test-results/browser',
+  outputDir: (process.env.CLASSIFIER_E2E_TRANSPORT === 'electron' ? 'test-results/electron-business' : 'test-results/browser') + (process.env.CLASSIFIER_TEST_STORAGE === 'sqlite' ? '-sqlite' : ''),
   use: {
     browserName: 'chromium',
     ...(process.env.CLASSIFIER_BROWSER_CHANNEL ? { channel: process.env.CLASSIFIER_BROWSER_CHANNEL } : {}),

@@ -114,7 +114,7 @@ export function createNotebook({ api, element, jump, openNote, notice, storage }
     $('note-draft-choice').value = drafts.some(draft => draft._key === selected) ? selected : readDraft()?._key || ''
   }
   function captureEditor() {
-    return { ...editor, field: $('note-field').value, content: $('note-content').value, kind: $('note-kind').value, status: $('note-status').value }
+    return { ...editor, field: $('note-field').value.trim() || '主要发现', content: $('note-content').value, kind: $('note-kind').value, status: $('note-status').value }
   }
   function removeParentDraft(value) {
     if (value.parentDraft && (!value.parentDraft.ownerId || value.parentDraft.ownerId === ownerId) && localStorage.getItem(value.parentDraft.key) === value.parentDraft.raw) localStorage.removeItem(value.parentDraft.key)
@@ -155,6 +155,24 @@ export function createNotebook({ api, element, jump, openNote, notice, storage }
   function originLabel(value) {
     return value?.type === 'answer' ? '来自问答证据' : value?.type === 'reference' ? '来自原文片段' : '手动记录'
   }
+  function renderEditorSummary() {
+    const status = $('note-status').value
+    $('note-details-summary').textContent = ['分类与状态', $('note-field').value.trim() || '主要发现', kinds[$('note-kind').value], status === 'recorded' ? '' : statuses[status]].filter(Boolean).join(' · ')
+    $('note-content').required = status === 'recorded'
+  }
+  function renderEditorEvidence() {
+    // Keep the saved snapshot until the user explicitly replaces it. Selected
+    // references belong to the draft's version, not automatically today's text.
+    const currentVersion = editor.documentVersion === editor.context.document.evidenceVersion
+    const evidence = editor.replaceEvidence ? (currentVersion ? editor.referenceIds.map(id => editor.context.document.references.find(ref => ref.id === id)).filter(Boolean).map(reference => ({
+      documentId: editor.context.document.id, documentVersion: editor.documentVersion, documentTitle: editor.context.document.title, reference, matchesCurrent: true,
+    })) : []) : editor.evidence
+    $('note-existing-evidence').replaceChildren(...evidence.map(item => button(item.reference.title, () => showEvidence(item))))
+    if (editor.replaceEvidence && editor.referenceIds.length && !currentVersion) $('note-existing-evidence').append(element('p', '已选原文版本已变化，请重新选择原文。', 'form-error'))
+    else if (evidence.some(item => !item.matchesCurrent)) $('note-existing-evidence').append(element('p', '原文版本待核对，当前保留的是保存时的快照。', 'form-error'))
+    else if (!evidence.length) $('note-existing-evidence').append(element('p', '可按需关联原文。', 'hint'))
+    $('note-change-evidence').textContent = evidence.length || editor.referenceIds.length ? '重新选择原文' : '＋ 关联原文'
+  }
   function showEditor(value) {
     editor = { referenceIds: [], evidence: [], replaceEvidence: false, dirty: !value.revision && Boolean(value.content), documentVersion: value.context.document.evidenceVersion, ...value,
       draftId: crypto.randomUUID(), parentDraft: value._key ? { key: value._key, raw: value._raw, ownerId: value.ownerId } : null }
@@ -166,16 +184,17 @@ export function createNotebook({ api, element, jump, openNote, notice, storage }
     $('note-status').value = editor.status || 'recorded'
     $('note-kind').value = editor.kind || 'user'
     $('note-kind').querySelector('[value="inference"]').disabled = editor.origin?.generatedKind !== 'inference'
-    $('note-content').required = $('note-status').value === 'recorded'
+    $('note-details').open = false
+    renderEditorSummary()
     $('note-error').textContent = ''; $('note-load-latest').hidden = true; $('note-load-latest').disabled = false
     $('note-change-evidence').hidden = !editor.revision && editor.origin?.type === 'answer'
-    $('note-reference-picker').hidden = !editor.replaceEvidence
+    $('note-reference-picker').hidden = true
     $('note-reference-query').value = ''
-    $('note-existing-evidence').replaceChildren(...editor.evidence.map(item => button(item.reference.title, () => showEvidence(item))))
-    if (!editor.evidence.length && !editor.referenceIds.length) $('note-existing-evidence').append(element('p', '尚未关联原文，可记录为用户判断。', 'hint'))
+    renderEditorEvidence()
     renderReferencePicker()
     selectTab('notes')
     if (!$('note-dialog').open) $('note-dialog').showModal()
+    $('note-content').focus()
   }
   function ensureContext() {
     if (!context?.topic || !linked) { selectTab('notes'); notice('请从已关联的研究主题中创建笔记。', true); return false }
@@ -210,6 +229,7 @@ export function createNotebook({ api, element, jump, openNote, notice, storage }
       input.onchange = () => {
         editor.referenceIds = input.checked ? [...new Set([...editor.referenceIds, ref.id])] : editor.referenceIds.filter(id => id !== ref.id)
         editor.dirty = true
+        renderEditorEvidence()
         saveDraft()
       }
       label.append(input, element('span', `${ref.title} · ${ref.text.slice(0, 150)}`)); return label
@@ -217,14 +237,15 @@ export function createNotebook({ api, element, jump, openNote, notice, storage }
     if (matching.length > 60) $('note-reference-options').append(element('p', '显示前 60 个片段，可用关键词缩小范围。', 'hint'))
   }
   $('note-change-evidence').onclick = () => {
+    if (!editor.replaceEvidence || editor.documentVersion !== editor.context.document.evidenceVersion) editor.referenceIds = editor.evidence.filter(item => item.matchesCurrent).map(item => item.reference.id)
     editor.replaceEvidence = true
     editor.dirty = true; editor.documentVersion = editor.context.document.evidenceVersion
-    editor.referenceIds = editor.evidence.filter(item => item.matchesCurrent).map(item => item.reference.id)
-    $('note-reference-picker').hidden = false; renderReferencePicker(); saveDraft()
+    $('note-reference-picker').hidden = false; renderReferencePicker(); renderEditorEvidence(); saveDraft()
+    $('note-reference-query').focus()
   }
   $('note-reference-query').oninput = renderReferencePicker
   $('new-note').onclick = () => newNote()
-  for (const id of ['note-field', 'note-content', 'note-kind', 'note-status']) $(id).oninput = () => { editor.dirty = true; $('note-content').required = $('note-status').value === 'recorded'; saveDraft() }
+  for (const id of ['note-field', 'note-content', 'note-kind', 'note-status']) $(id).oninput = () => { editor.dirty = true; renderEditorSummary(); saveDraft() }
   $('close-note').onclick = () => { if (!saving) { saveDraft(); $('note-dialog').close(); editor = null } }
   $('note-dialog').oncancel = event => { if (saving) event.preventDefault(); else { saveDraft(); editor = null } }
   $('note-load-latest').onclick = async () => {
@@ -329,12 +350,16 @@ export function createNotebook({ api, element, jump, openNote, notice, storage }
   $('close-note-history').onclick = () => $('note-history-dialog').close()
   function renderNotes() {
     const visible = notes.filter(note => $('notes-show-archived').checked || !note.archived)
-    const allFields = [...new Set([...fields, ...visible.map(note => note.field)])]
+    if (!visible.length) {
+      $('notes-list').replaceChildren(element('p', notes.length ? '笔记已归档，可勾选“显示归档笔记”查看。' : '还没有笔记。可以直接写下想法，或从原文保存片段。', 'collection-empty'))
+      return
+    }
+    const presentFields = new Set(visible.map(note => note.field))
+    const allFields = [...new Set([...fields, ...presentFields])].filter(field => presentFields.has(field))
     $('notes-list').replaceChildren(...allFields.map(field => {
       const group = element('section', null, 'note-group')
       group.append(element('h3', field))
       const entries = visible.filter(note => note.field === field)
-      if (!entries.length) group.append(element('p', '未记录', 'note-empty'))
       for (const note of entries) {
         const card = element('article', null, 'note-card'); card.id = `note-${note.id}`
         const stale = note.evidence.some(item => !item.matchesCurrent)

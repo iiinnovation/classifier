@@ -259,6 +259,17 @@ main { width: min(100%, 1760px); min-height: 100vh; margin: 0 auto; padding: 0 3
 #note-draft-choice { width: 100%; min-width: 0; padding: 8px; border: 1px solid #e2d7bd; border-radius: 6px; background: white; color: #665338; }
 .note-dialog { width: min(700px, calc(100vw - 28px)); }
 #note-content { min-height: 170px; }
+.note-details { padding: 12px 0; border-top: 1px solid #e1e9d9; border-bottom: 1px solid #e1e9d9; }
+.note-details > summary { cursor: pointer; color: #53704d; font-size: 12px; line-height: 1.7; overflow-wrap: anywhere; }
+.research-task { margin: 24px 0; padding: 22px; background: #f0f5ec; border: 1px solid #d4e2cd; border-radius: 14px; }
+.research-task h2 { margin: 0 0 8px; font-size: 20px; }
+.research-task summary { cursor: pointer; color: #46634f; font-size: 13px; }
+#comparison-draft-preview:empty, #comparison-task-status:empty { display: none; }
+.research-draft { margin: 20px 0; padding: 20px; border: 1px solid #cbdcbd; border-radius: 12px; background: #fbfdf8; }
+.research-draft .comparison-grid { margin: 16px 0; }
+.research-draft-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+.research-progress { padding: 14px; background: #edf3e8; border-radius: 10px; margin: 12px 0; }
+.research-progress p { white-space: pre-wrap; }
 .note-evidence-heading { display: flex; gap: 12px; align-items: center; justify-content: space-between; }
 .note-evidence-heading h3 { font-size: 13px; }
 #note-existing-evidence { display: flex; gap: 6px; flex-wrap: wrap; }

@@ -19,6 +19,8 @@ import { createComparisons } from './comparisons.mjs'
 import { createReports } from './reports.mjs'
 import { environmentSettings, taskSettings } from './settings.mjs'
 import { desktopRequestGuard } from './desktop-security.mjs'
+import { acquireDataLock } from './data-lock.mjs'
+import { modelSession } from './model-session.mjs'
 
 const root = fileURLToPath(new URL('../../../', import.meta.url))
 // Whole-report edits include up to 40 blocks, 30000 text characters and 960
@@ -26,13 +28,17 @@ const root = fileURLToPath(new URL('../../../', import.meta.url))
 const reportEditBodyLimit = 1024 * 1024
 export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER_DATA_DIR || 'data'), qaOptions = {}, settingsProvider = environmentSettings(), desktopToken, storeFactory = createStore } = {}) {
   const guard = desktopToken === undefined ? null : desktopRequestGuard(desktopToken)
-  const store = await storeFactory(dataDir)
+  const ownership = await acquireDataLock(dataDir)
+  let store
+  try { store = await storeFactory(ownership.root) }
+  catch (error) { ownership.release(); throw error }
   const runs = createRuns(store, qaOptions, settingsProvider)
   const topics = createTopics(store)
   const imports = createImports(store, topics, settingsProvider)
   const notes = createNotes(store, topics, runs, qaOptions, settingsProvider)
   const comparisons = createComparisons(store, topics, runs, qaOptions, settingsProvider)
   const reports = createReports(store, topics, comparisons, runs, qaOptions, settingsProvider)
+  const modelSettings = modelSession(settingsProvider)
   let syncImports = 0
   let closing = false
   const requestTasks = new Set(), syncControllers = new Set()
@@ -75,6 +81,11 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
         return res.end(await readFile(resolve(root, 'apps/web', name)))
       }
       if (req.method === 'GET' && url.pathname === '/health') return sendJson(res, 200, { status: 'ok', service: 'classifier', modelConfigured: modelConfigured(taskSettings(settingsProvider, qaOptions).text) })
+      if (url.pathname === '/api/settings/text-model') {
+        res.setHeader('cache-control', 'no-store')
+        if (req.method === 'GET') return sendJson(res, 200, modelSettings.get())
+        if (req.method === 'PATCH') return sendJson(res, 200, modelSettings.update(await readJson(req)))
+      }
       if (req.method === 'GET' && url.pathname === '/api/parser-capabilities') return sendJson(res, 200, { ocr: await ocrCapabilities(), vision: visionConfigured(settingsProvider.read().vision) })
       if (url.pathname === '/api/topics') {
         if (req.method === 'GET') return sendJson(res, 200, { topics: await topics.list() })
@@ -111,9 +122,12 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
         if (req.method === 'GET') return sendJson(res, 200, { comparisons: await comparisons.list(topicId) })
         if (req.method === 'POST') return sendJson(res, 201, await comparisons.create(topicId, await readJson(req)))
       }
-      const comparison = url.pathname.match(/^\/api\/comparisons\/([^/]+)(?:\/(history|sources|cells|analyses|suggestions|adopt)(?:\/([^/]+))?(?:\/([^/]+))?)?$/)
+      const comparison = url.pathname.match(/^\/api\/comparisons\/([^/]+)(?:\/(history|sources|cells|analyses|suggestions|adopt|draft|adopt-draft|report)(?:\/([^/]+))?(?:\/([^/]+))?)?$/)
       if (comparison) {
         const id = requireId(comparison[1]), action = comparison[2]
+        if (action === 'draft' && req.method === 'POST') return sendJson(res, 202, await comparisons.suggestDraft(id, await readJson(req)))
+        if (action === 'adopt-draft' && req.method === 'POST') return sendJson(res, 200, await comparisons.adoptDraft(id, await readJson(req)))
+        if (action === 'report' && req.method === 'POST') return sendJson(res, 201, await reports.fromComparison(id, await readJson(req)))
         if (!action) {
           if (req.method === 'GET') return sendJson(res, 200, await comparisons.get(id))
           if (req.method === 'PATCH') return sendJson(res, 200, await comparisons.edit(id, await readJson(req)))
@@ -258,7 +272,16 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
       if (!error.status) console.error(error)
     }
   }
-  server.on('close', () => { void runs.stop(); void imports.stop() })
+  let draining
+  const drain = () => draining ||= (async () => {
+    closing = true
+    for (const controller of syncControllers) controller.abort(new Error('服务正在关闭。'))
+    const results = await Promise.allSettled([runs.stop(), imports.stop(), ...requestTasks])
+    try { await store.close?.() } finally { ownership.release() }
+    const failures = results.filter(result => result.status === 'rejected')
+    if (failures.length) throw new AggregateError(failures.map(result => result.reason), '资料库关闭期间发生错误。')
+  })()
+  server.on('close', () => { void drain().catch(error => console.error('Shutdown failed:', error.message)) })
   let shutdown
   server.shutdown = () => shutdown ||= (async () => {
     closing = true
@@ -267,7 +290,7 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
       if (!server.listening) return resolve()
       server.close(resolve); server.closeAllConnections()
     })
-    await Promise.all([closed, runs.stop(), imports.stop(), ...requestTasks])
+    await Promise.all([closed, drain()])
   })()
   server.requestTimeout = 120_000
   return server

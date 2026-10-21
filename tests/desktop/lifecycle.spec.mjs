@@ -103,3 +103,82 @@ test('D0 shutdown cancels and awaits a synchronous PDF import', async ({ desktop
   await expect.poll(desktop.remaining, { timeout: 15000 }).toEqual([])
   expect((await readdir(join(profile, 'data/documents'))).filter(file => file.endsWith('.json'))).toEqual([])
 })
+
+test('D0 failed backend startup reports an error and clears the failed child before retry', async ({ desktop }) => {
+  const result = await desktop.application.evaluate(async ({ app }, profile) => {
+    const require = process.getBuiltinModule('module').createRequire(`${app.getAppPath()}/package.json`)
+    const { BackendController } = require(`${app.getAppPath()}/apps/desktop/backend-controller.mjs`)
+    const { join } = require('node:path')
+    const controller = new BackendController({ dataDir: join(profile, 'failed-start'), ocrRoot: join(profile, 'missing-ocr') })
+    let message, retried = false
+    try {
+      try { await controller.start() } catch (error) { message = error.message }
+      for (let i = 0; controller.child && i < 100; i++) await new Promise(resolve => setTimeout(resolve, 20))
+      const cleared = controller.child === null && controller.connection === null
+      controller.ocrRoot = app.isPackaged ? join(process.resourcesPath, 'ocr') : join(app.getAppPath(), 'resources/ocr', `${process.platform}-${process.arch}`)
+      await controller.start(); retried = Boolean(controller.connection)
+      return { message, cleared, retried }
+    } finally { await controller.stop() }
+  }, desktop.profile)
+  expect(result.message).toContain('本地服务启动失败')
+  expect(result.cleared).toBe(true)
+  expect(result.retried).toBe(true)
+})
+
+test('D0 packaged window denies navigation, webviews, popups and device permissions', async ({ desktop }) => {
+  const policy = await desktop.application.evaluate(({ BrowserWindow }) => {
+    const contents = BrowserWindow.getAllWindows()[0].webContents
+    const prefs = contents.getLastWebPreferences()
+    const prevented = []
+    for (const name of ['will-navigate', 'will-redirect', 'will-attach-webview']) {
+      let denied = false
+      contents.emit(name, { preventDefault() { denied = true } }, 'https://untrusted.invalid')
+      prevented.push({ name, denied })
+    }
+    return { nodeIntegration: prefs.nodeIntegration, contextIsolation: prefs.contextIsolation, sandbox: prefs.sandbox, webSecurity: prefs.webSecurity, prevented }
+  })
+  expect(policy).toEqual({ nodeIntegration: false, contextIsolation: true, sandbox: true, webSecurity: true, prevented: ['will-navigate', 'will-redirect', 'will-attach-webview'].map(name => ({ name, denied: true })) })
+  const page = desktop.page
+  expect(await page.evaluate(() => window.open('https://untrusted.invalid/'))).toBeNull()
+  const permissions = await page.evaluate(async () => ({ notification: await Notification.requestPermission(), geolocation: (await navigator.permissions.query({ name: 'geolocation' })).state }))
+  expect(permissions).toEqual({ notification: 'denied', geolocation: 'denied' })
+  await desktop.application.evaluate(({ BrowserWindow }) => {
+    globalThis.blockedNavigation = false
+    BrowserWindow.getAllWindows()[0].webContents.once('will-navigate', event => { globalThis.blockedNavigation = event.defaultPrevented })
+  })
+  await page.evaluate(() => { location.href = 'https://untrusted.invalid/' })
+  await expect.poll(() => desktop.application.evaluate(() => globalThis.blockedNavigation)).toBe(true)
+  // Chromium reports a cancelled pending navigation to Playwright; inspect the
+  // still-live document through Electron rather than waiting for a new frame.
+  const retained = await desktop.application.evaluate(async ({ BrowserWindow }) => {
+    const contents = BrowserWindow.getAllWindows()[0].webContents
+    return { url: contents.getURL(), button: await contents.executeJavaScript("Boolean(document.getElementById('new-topic'))") }
+  })
+  expect(retained).toEqual({ url: 'app://classifier/', button: true })
+  expect(await desktop.application.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows().length)).toBe(1)
+})
+
+test('D1 packaged backends cannot share a data directory and recover ownership after a crash', async ({ desktop }) => {
+  const result = await desktop.application.evaluate(async ({ app }, profile) => {
+    const require = process.getBuiltinModule('module').createRequire(app.getAppPath() + '/package.json')
+    const { BackendController } = require(app.getAppPath() + '/apps/desktop/backend-controller.mjs')
+    const { join } = require('node:path')
+    const ocrRoot = app.isPackaged ? join(process.resourcesPath, 'ocr') : join(app.getAppPath(), 'resources/ocr', process.platform + '-' + process.arch)
+    const options = { dataDir: join(profile, 'ownership-test'), ocrRoot }
+    const first = new BackendController(options), second = new BackendController(options)
+    let refused, recovered = false
+    try {
+      await first.start()
+      try { await second.start() } catch (error) { refused = error.message }
+      for (let i = 0; second.child && i < 100; i++) await new Promise(resolve => setTimeout(resolve, 20))
+      const exited = new Promise(resolve => first.once('stopped', resolve))
+      process.kill(first.info.pid, 'SIGKILL')
+      await exited
+      await second.start()
+      recovered = Boolean(second.connection)
+      return { refused, recovered }
+    } finally { await first.stop(); await second.stop() }
+  }, desktop.profile)
+  expect(result.refused).toContain('资料库正在被另一个进程使用')
+  expect(result.recovered).toBe(true)
+})

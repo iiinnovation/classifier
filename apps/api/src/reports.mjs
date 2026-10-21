@@ -8,6 +8,8 @@ import { reportMarkdown } from './report-export.mjs'
 import { environmentSettings, taskSettings } from './settings.mjs'
 
 const hash = value => createHash('sha256').update(JSON.stringify(value)).digest('hex')
+const maxReportEvidence = 432
+const maxReportMaterialChars = 600000
 const snapshot = value => { const { history, requestHash, ...rest } = value; return structuredClone(rest) }
 const keyOf = source => `${source.type}:${source.id || source.documentId}`
 const unique = values => [...new Map(values.map(item => [item.id, item])).values()]
@@ -90,6 +92,7 @@ function assembledItems(value) {
 }
 
 export function createReports(store, topics, comparisons, runs, qaOptions = {}, settingsProvider = environmentSettings()) {
+  const suggestionStarts = new Map()
   async function raw(id) {
     const value = await store.read('reports', id)
     if (!value) throw new HttpError(404, '未找到研究成果。')
@@ -160,7 +163,7 @@ export function createReports(store, topics, comparisons, runs, qaOptions = {}, 
       source.evidence = unique(captured); source.key = key
       sources.push(source)
     }
-    if (unique(sources.flatMap(source => source.evidence)).length > 120 || JSON.stringify(sources).length > 240000) throw new HttpError(422, '所选材料过多，请缩小范围。')
+    if (unique(sources.flatMap(source => source.evidence)).length > maxReportEvidence || JSON.stringify(sources).length > maxReportMaterialChars) throw new HttpError(422, '所选材料过多，请缩小范围。')
     return sources
   }
   async function present(value, full = false) {
@@ -286,22 +289,34 @@ export function createReports(store, topics, comparisons, runs, qaOptions = {}, 
       return value
     })
   }
-  async function suggest(id, body) {
-    keys(body, ['revision'])
+  async function startSuggestion(id, body) {
+    keys(body, ['revision', 'requestId'])
+    const requestId = body.requestId === undefined ? undefined : requireId(body.requestId)
     const value = await raw(id); revision(value, body.revision)
     if (value.archived) throw new HttpError(409, '请先恢复已归档的成果。')
+    const previous = (await store.list('runs')).filter(run => run.purpose === 'report-suggestion' && run.reportId === id)
+    const existing = previous.find(run => requestId && run.requestId === requestId) || previous.find(run => ['queued', 'running'].includes(run.status))
+    if (existing) {
+      if (existing.baseRevision !== value.revision) throw new HttpError(409, '已有任务基于其他版本，请等待完成或先停止任务，再重新生成。')
+      return existing
+    }
     const configuration = taskSettings(settingsProvider, qaOptions)
     if (!modelConfigured(configuration.text)) throw new HttpError(409, '尚未配置模型，可以继续手工整理研究成果。')
     if (!value.sources.length) throw new HttpError(422, '请先选择研究材料。')
     await ensureCurrent(value)
     const evidence = unique(value.sources.flatMap(source => source.evidence))
     const input = { title: value.title, question: value.question, partial: true, sources: value.sources.map(({ evidence, ...source }) => ({ ...source, citationIds: evidence.map(item => item.id) })), evidence: evidence.map(item => ({ id: item.id, documentId: item.documentId, title: item.documentTitle, locator: item.reference.title, text: item.reference.text, needsReview: Boolean(item.reference.needsReview) })) }
-    if (JSON.stringify(input).length > 100000) throw new HttpError(422, '生成材料超过 100000 字符，请缩小所选范围。')
-    return runs.startJob({ purpose: 'report-suggestion', configurationRevision: configuration.revision, topicId: value.topicId, reportId: value.id, reportTitle: value.title, baseRevision: value.revision }, async options => {
+    if (JSON.stringify(input).length > maxReportMaterialChars) throw new HttpError(422, `生成材料超过 ${maxReportMaterialChars} 字符，请缩小所选范围。`)
+    return runs.startJob({ purpose: 'report-suggestion', ...(requestId ? { requestId } : {}), configurationRevision: configuration.revision, topicId: value.topicId, reportId: value.id, reportTitle: value.title, baseRevision: value.revision }, async options => {
       const result = await generateReport(input, { ...qaOptions, config: configuration.text, ...options }); keys(result, ['blocks'])
       if (!result.blocks?.length) throw new HttpError(422, '模型没有返回研究段落。')
       return { blocks: blocks(result.blocks, evidence, [], { generated: true }), evidence }
-    })
+    }, { timeoutMs: 300_000 })
+  }
+  async function suggest(id, body) {
+    while (suggestionStarts.has(id)) await suggestionStarts.get(id).catch(() => {})
+    const pending = startSuggestion(id, body); suggestionStarts.set(id, pending)
+    try { return await pending } finally { suggestionStarts.delete(id) }
   }
   async function adopt(id, body) {
     keys(body, ['revision', 'runId'])
@@ -316,5 +331,13 @@ export function createReports(store, topics, comparisons, runs, qaOptions = {}, 
     })
   }
   async function markdown(id, expected) { const value = await get(id); revision(value, expected); return { title: value.title, markdown: reportMarkdown(value) } }
-  return { catalog, list, get, create, edit, assemble, suggest, adopt, markdown }
+  async function fromComparison(id, body) {
+    keys(body, ['revision'])
+    const table = await comparisons.get(id)
+    if (table.revision !== body.revision || table.archived) throw new HttpError(409, '比较表已变化，请重新打开后生成总结。')
+    if (!table.cells.some(cell => cell.status !== 'unfilled')) throw new HttpError(422, '请先采用或填写比较内容，再生成研究总结。')
+    const reportId = hash(['comparison-report', id, table.revision]).slice(0, 32).replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/, '$1-$2-$3-$4-$5')
+    return create(table.topicId, { id: reportId, title: (table.title + ' · 研究总结').slice(0, 200), question: table.question, sources: [{ type: 'comparison', id, revision: table.revision }] })
+  }
+  return { catalog, list, get, create, edit, assemble, suggest, adopt, markdown, fromComparison }
 }

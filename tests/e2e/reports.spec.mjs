@@ -1,6 +1,5 @@
 import { test, expect } from '../helpers/browser-fixture.mjs'
-import { readFile, writeFile } from 'node:fs/promises'
-import { join } from 'node:path'
+import { readFile } from 'node:fs/promises'
 import { reportFixture, reportReply } from '../helpers/report-fixture.mjs'
 import { json } from '../helpers/test-app.mjs'
 
@@ -100,8 +99,7 @@ test('M4 original selection survives saved source removal and prevents navigatio
     await page.locator('#report-body .report-citation').first().click()
     await expect(page.getByRole('button', { name: '打开原文位置', exact: true })).toBeEnabled()
     await page.locator('#report-inspector-close').click()
-    const file = join(app.dataDir, 'documents', `${app.first.id}.json`), doc = JSON.parse(await readFile(file, 'utf8'))
-    doc.references[0].text = '新解析的原文'; await writeFile(file, JSON.stringify(doc))
+    await app.changeDocument(app.first.id, doc => { doc.references[0].text = '新解析的原文' })
     await page.reload()
     await expect(page.locator('#report-message')).toContainText('材料已有更新')
     await page.locator('#report-body .report-citation').first().click()
@@ -159,7 +157,8 @@ test('M4 model drafts require adoption, protect later edits and allow cancellati
     await page.locator('#report-generate').click()
     await page.getByRole('button', { name: '审阅研究草稿', exact: true }).first().click()
     await expect(page.locator('#report-inspector-body')).toContainText('所选研究需要结合各自条件解释')
-    await expect(page.locator('#report-body .report-block')).toHaveCount(0)
+    await expect(page.locator('#report-body')).toContainText('研究总结草稿 · 待核对')
+    await expect(page.locator('#report-body > .report-block')).toHaveCount(0)
     await page.getByRole('button', { name: '采用此草稿并替换正文', exact: true }).click()
     await expect(page.locator('#report-inspector')).not.toBeVisible()
     await expect(page.locator('#report-body')).toContainText('模型归纳')
@@ -169,8 +168,8 @@ test('M4 model drafts require adoption, protect later edits and allow cancellati
     await page.locator('.report-block-text').first().fill('模型生成之后的人工修改')
     await save(page)
     await page.getByRole('button', { name: '审阅研究草稿', exact: true }).first().click()
-    await page.getByRole('button', { name: '采用此草稿并替换正文', exact: true }).click()
-    await expect(page.locator('#report-inspector-error')).toContainText('不会覆盖人工修改')
+    await expect(page.getByRole('button', { name: '采用此草稿并替换正文', exact: true })).toBeDisabled()
+    await expect(page.locator('#report-inspector-body')).toContainText('不会覆盖人工修改')
     await page.locator('#report-inspector-close').click()
     hang = true
     await page.locator('#report-generate').click()

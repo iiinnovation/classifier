@@ -452,12 +452,46 @@ $('cancel').onclick = async () => {
 notebook = createNotebook({ api, element, jump, storage: clientStorage, notice: (message, error) => research.notice(message, error), async openNote(note) {
   if (await research.showTopic(note.topicId)) await openDocument(note.documentId, { retainTopic: true, noteId: note.id })
 } })
-comparisonWorkspace = createComparisonWorkspace({ api, element, storage: clientStorage, currentTopic: () => research.currentTopic(), enter: id => research.enterComparison(id), navigationKey: () => research.navigationKey(), showTopic: id => research.showTopic(id), modelConfigured: () => modelConfigured, notice: (message, error) => research.notice(message, error), openSource: (evidence, comparisonId) => openDocument(evidence.documentId, { retainTopic: true, evidence, comparisonId }) })
+comparisonWorkspace = createComparisonWorkspace({ api, element, storage: clientStorage, currentTopic: () => research.currentTopic(), enter: id => research.enterComparison(id), navigationKey: () => research.navigationKey(), showTopic: id => research.showTopic(id), openReport: table => reportWorkspace.fromComparison(table), modelConfigured: () => modelConfigured, notice: (message, error) => research.notice(message, error), openSource: (evidence, comparisonId) => openDocument(evidence.documentId, { retainTopic: true, evidence, comparisonId }) })
 reportWorkspace = createReportWorkspace({ api, element, storage: clientStorage, currentTopic: () => research.currentTopic(), enter: id => research.enterReport(id), navigationKey: () => research.navigationKey(), showTopic: id => research.showTopic(id), modelConfigured: () => modelConfigured, notice: (message, error) => research.notice(message, error), openSource: (evidence, reportId) => openDocument(evidence.documentId, { retainTopic: true, evidence, reportId }) })
 research = createResearchWorkspace({ api, element, storage: clientStorage, openDocument, resetReader, openImport, libraryChanged: renderLibrary, onNavigate: () => { comparisonWorkspace.reset(); reportWorkspace.reset() }, openComparison: id => comparisonWorkspace.open(id), openReport: id => reportWorkspace.open(id), topicChanged: topic => { void notebook.showTopic(topic); void comparisonWorkspace.showTopic(topic); void reportWorkspace.showTopic(topic) }, metadataChanged(updated) {
   if (selected?.id === updated.id) { selected.title = updated.title; selected.bibliography = updated.bibliography; $('title').textContent = updated.title }
 } })
 const initialNavigation = research.navigationKey()
+let settingsSaving = false
+function closeModelSettings() {
+  if (settingsSaving) return
+  $('model-settings-key').value = ''; $('model-settings-dialog').close()
+}
+$('model-settings-close').onclick = closeModelSettings
+$('model-settings-dialog').oncancel = event => { if (settingsSaving) event.preventDefault(); else $('model-settings-key').value = '' }
+$('model-settings-open').onclick = async () => {
+  try {
+    const value = await api('/api/settings/text-model')
+    $('model-settings-url').value = value.url; $('model-settings-model').value = value.model; $('model-settings-key').value = ''
+    $('model-settings-key').placeholder = value.hasKey ? '不换地址时可留空，保留本次密钥' : '只用于请求所填模型服务'
+    $('model-settings-error').textContent = value.editable ? '' : '当前配置由外部管理。'
+    $('model-settings-save').disabled = !value.editable; $('model-settings-clear').disabled = !value.editable
+    $('model-settings-dialog').showModal()
+  } catch (error) { research.notice(error.message, true) }
+}
+async function saveModelSettings(body) {
+  if (settingsSaving) return
+  settingsSaving = true; $('model-settings-save').disabled = true; $('model-settings-clear').disabled = true
+  $('model-settings-error').textContent = ''
+  try {
+    await api('/api/settings/text-model', { method: 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })
+    $('model-settings-key').value = ''
+    const health = await api('/health'); modelConfigured = health.modelConfigured
+    configureQuestionMode(); comparisonWorkspace.updateModel(); reportWorkspace.updateModel()
+    if (selected) await notebook.load(selected, research.currentTopic(), { modelConfigured })
+    $('model-settings-dialog').close()
+    research.notice(modelConfigured ? '本次运行已连接模型。发起任务后将调用该服务，尚未验证连接。' : '已清除本次模型连接。')
+  } catch (error) { $('model-settings-error').textContent = error.message }
+  finally { settingsSaving = false; $('model-settings-save').disabled = false; $('model-settings-clear').disabled = false }
+}
+$('model-settings-form').onsubmit = event => { event.preventDefault(); void saveModelSettings({ url: $('model-settings-url').value, model: $('model-settings-model').value, key: $('model-settings-key').value }) }
+$('model-settings-clear').onclick = () => saveModelSettings({ clear: true })
 try {
   const capabilities = await api('/api/parser-capabilities')
   $('parser-status').textContent = capabilities.ocr.available ? `本地 OCR：${capabilities.ocr.languages.join(' + ')}。扫描数字与公式请核对页图。` : '本地 OCR 尚不可用，请安装 Tesseract 和中英文语言包。'

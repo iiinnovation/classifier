@@ -1,0 +1,153 @@
+{
+  "recordedForDate": "2026-10-19",
+  "capturedAt": "2026-10-19T06:17:35.593Z",
+  "sourceCommit": "3d6ebfd0b369984baf0f9571848322a173edd1d4",
+  "sourceChanges": "Documentation only; application source unchanged from sourceCommit.",
+  "scope": {
+    "current": "macOS x64",
+    "deferred": [
+      "Windows x64",
+      "macOS arm64"
+    ],
+    "decisionDate": "2026-10-19"
+  },
+  "machine": {
+    "platform": "darwin",
+    "arch": "x64",
+    "macOS": "26.7",
+    "build": "25G229",
+    "kernel": "25.6.0",
+    "memoryBytes": 34359738368,
+    "cpu": "Intel(R) Core(TM) i7-1068NG7 CPU @ 2.30GHz"
+  },
+  "build": {
+    "command": "npm run desktop:dist -- --mac zip --x64 --publish never -c.directories.output=dist/desktop-d0-2026-10-19",
+    "exitCode": 0,
+    "signed": false,
+    "notarized": false,
+    "artifact": "dist/desktop-d0-2026-10-19/Classifier-0.1.0-mac.zip",
+    "downloadBytes": 163764113,
+    "installedBytes": 395044679,
+    "zipSha256": "f4a0d543d124a71584240f7df97713346f08b71fd3ee03e16a577eb792f2f847",
+    "appAsarSha256": "b59591b451dc21627d510df3cd9c64562c6b860108a36664e2a50419949dfd38",
+    "ocrManifestSha256": "3a0a2752c1be10c00e6f445003634af985abf6b4d0ec3361ef9fb16d75187a1c",
+    "sizeGates": {
+      "download": true,
+      "installed": true
+    }
+  },
+  "tests": {
+    "node": {
+      "command": "npm test",
+      "passed": 70,
+      "failed": 0,
+      "exitCode": 0
+    },
+    "packagedShell": {
+      "command": "CLASSIFIER_PACKAGED_EXECUTABLE=\"$PWD/dist/desktop-d0-2026-10-19/mac/Classifier.app/Contents/MacOS/Classifier\" npm run test:desktop:shell",
+      "passed": 7,
+      "failed": 0,
+      "exitCode": 0,
+      "lastRun": {
+        "status": "passed",
+        "failedTests": []
+      },
+      "systemCommandsOnlyPath": true,
+      "isolatedTemporaryUserData": true
+    },
+    "business": {
+      "rerun": false,
+      "lastRecordedDate": "2026-10-10",
+      "chromePassed": 38,
+      "electronPassed": 38,
+      "historicalEvidenceOnly": true
+    }
+  },
+  "runtime": {
+    "packaged": true,
+    "versions": {
+      "node": "24.21.0",
+      "acorn": "8.18.0",
+      "ada": "4.0.0",
+      "amaro": "1.1.11",
+      "ares": "1.34.8",
+      "brotli": "1.2.0",
+      "cldr": "48.0",
+      "icu": "78.2",
+      "llhttp": "9.4.3",
+      "merve": "1.2.2",
+      "modules": "149",
+      "napi": "10",
+      "nbytes": "0.1.4",
+      "ncrypto": "0.0.1",
+      "nghttp2": "1.70.0",
+      "nghttp3": "",
+      "ngtcp2": "",
+      "openssl": "0.0.0",
+      "simdjson": "4.6.7",
+      "simdutf": "7.7.0",
+      "sqlite": "3.53.4",
+      "tz": "2026d",
+      "undici": "7.29.1",
+      "unicode": "17.0",
+      "uv": "1.52.1",
+      "uvwasi": "0.0.23",
+      "v8": "15.2.124.28-electron.0",
+      "zlib": "1.3.2.1-motley",
+      "zstd": "1.6.0",
+      "electron": "44.7.0",
+      "chrome": "152.0.7977.130"
+    },
+    "platform": "darwin",
+    "arch": "x64"
+  },
+  "authentication": {
+    "initial": [
+      401,
+      403,
+      200
+    ],
+    "oldPortClosed": true,
+    "tokenRotated": true,
+    "restarted": [
+      401,
+      200
+    ],
+    "versions": {
+      "node": "24.21.0",
+      "electron": "44.7.0"
+    }
+  },
+  "acceptance": {
+    "d0Complete": false,
+    "resourceMeasurementRerun": true,
+    "minimumHardwareVerified": false,
+    "minimumOSVerified": false,
+    "cleanMachineVerified": false,
+    "pending": [
+      "Current-code Chrome and Electron business regression",
+      "Remaining startup-failure, navigation/permissions and multi-round/multi-page settings acceptance",
+      "Mac x64 minimum OS, 8 GiB/SSD and clean-machine validation"
+    ],
+    "deferredPlatformsBlockCurrentScope": false
+  },
+  "resourceMeasurement": {
+    "command": "node tools/measure-desktop.mjs dist/desktop-d0-2026-10-19/mac/Classifier.app/Contents/MacOS/Classifier all dist/desktop-d0-2026-10-19/Classifier-0.1.0-mac.zip",
+    "exitCode": 0,
+    "report": "resources.json",
+    "completed": true,
+    "gates": {
+      "installSize": true,
+      "downloadSize": true,
+      "startup": true,
+      "idle": true,
+      "pdf": true,
+      "ocr": true,
+      "ocr-bilingual": true,
+      "cancel": true,
+      "cancelProcesses": true
+    },
+    "appAsarSha256": "b59591b451dc21627d510df3cd9c64562c6b860108a36664e2a50419949dfd38",
+    "zipSha256": "f4a0d543d124a71584240f7df97713346f08b71fd3ee03e16a577eb792f2f847"
+  }
+}

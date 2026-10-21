@@ -13,7 +13,9 @@ export function createSettingsProvider(initial = {}) {
   }
 }
 export function environmentSettings(env = process.env) {
-  return { read: () => snapshot({ text: modelConfig(env), vision: { url: env.CLASSIFIER_VISION_API_URL, key: env.CLASSIFIER_VISION_API_KEY, model: env.CLASSIFIER_VISION_MODEL } }, 0) }
+  let override = null, revision = 0
+  const read = () => snapshot(override || { text: modelConfig(env), vision: { url: env.CLASSIFIER_VISION_API_URL, key: env.CLASSIFIER_VISION_API_KEY, model: env.CLASSIFIER_VISION_MODEL } }, revision)
+  return { read, update(value) { override = { ...read(), ...value }; revision++ } }
 }
 export function taskSettings(provider, qaOptions = {}) {
   const value = provider.read()

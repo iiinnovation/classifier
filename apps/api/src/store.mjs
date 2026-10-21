@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile, readdir, rename, unlink } from 'node:fs/pro
 import { join } from 'node:path'
 import { randomUUID } from 'node:crypto'
 import { HttpError } from './http.mjs'
+import { storageLayout } from './storage-layout.mjs'
 
 const idPattern = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i
 export function requireId(id) {
@@ -10,6 +11,8 @@ export function requireId(id) {
 }
 
 export async function createStore(root) {
+  const layout = await storageLayout(root)
+  if (layout.storage === 'sqlite') return (await import('./sqlite-store.mjs')).createSqliteStore(root)
   for (const bucket of ['documents', 'runs', 'originals', 'imports', 'topics', 'notes', 'comparisons', 'reports']) await mkdir(join(root, bucket), { recursive: true })
   const path = (bucket, id) => join(root, bucket, `${requireId(id)}.json`)
   async function read(bucket, id) {

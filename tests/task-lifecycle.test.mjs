@@ -58,6 +58,23 @@ for (const kind of ['imports', 'runs']) {
   })
 }
 
+test('long comparison drafts leave one shared run slot available to other task types', async () => {
+  const records = []
+  const manager = createRuns({ async write(_collection, record) { records.push(structuredClone(record)) } })
+  const waitForAbort = async ({ signal }) => new Promise((resolve, reject) => {
+    if (signal.aborted) reject(signal.reason)
+    else signal.addEventListener('abort', () => reject(signal.reason), { once: true })
+  })
+  try {
+    await manager.startJob({ purpose: 'comparison-draft' }, waitForAbort, { purposeLimit: 2, timeoutMs: 300_000 })
+    await manager.startJob({ purpose: 'comparison-draft' }, waitForAbort, { purposeLimit: 2, timeoutMs: 300_000 })
+    await assert.rejects(manager.startJob({ purpose: 'comparison-draft' }, waitForAbort, { purposeLimit: 2 }), error => error.status === 429)
+    const ordinary = await manager.startJob({ purpose: 'report-suggestion' }, waitForAbort, { timeoutMs: 300_000 })
+    assert.equal(ordinary.purpose, 'report-suggestion')
+  } finally { await manager.stop() }
+  assert.equal(records.filter(record => record.status === 'cancelled').length, 3)
+})
+
 test('shutdown rejects an import still resolving its topic', async () => {
   const entered = Promise.withResolvers(), release = Promise.withResolvers()
   const manager = createImports({ write: async () => {} }, { async get() { entered.resolve(); await release.promise; return { id: 'topic' } } })
