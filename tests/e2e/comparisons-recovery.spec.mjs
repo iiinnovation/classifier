@@ -1,6 +1,4 @@
-import { test, expect } from '@playwright/test'
-import { readFile, writeFile } from 'node:fs/promises'
-import { join } from 'node:path'
+import { test, expect, readSessionDraft } from '../helpers/browser-fixture.mjs'
 import { randomUUID } from 'node:crypto'
 import { testApp, json, upload } from '../helpers/test-app.mjs'
 
@@ -49,7 +47,7 @@ test('M3 a removed analysis dimension retains an accessible draft after loading 
     await page.locator('#comparison-editor-latest').click()
     await expect(page.locator('#comparison-editor-error')).toContainText('已移除，草稿仍保留')
     await expect(page.locator('#cmp-analysis-value')).toHaveValue(content)
-    expect(JSON.parse(await page.evaluate(key => sessionStorage.getItem(key), key)).body.value).toBe(content)
+    expect(JSON.parse(await readSessionDraft(page, key)).body.value).toBe(content)
     await page.reload()
     await expect(page.locator('#comparison-drafts')).toBeVisible()
     await page.locator('#comparison-resume').click()
@@ -97,9 +95,7 @@ test('M3 historical citations resolve removed rows and still reject changed sour
     await expect(page.locator(`#reference-${original.references[0].id}`)).toHaveClass(/highlight/)
     await page.locator('#reader-back').click()
     await expect(page.locator('#comparison-grid tbody tr')).toHaveCount(2)
-    const file = join(app.dataDir, 'documents', `${third.id}.json`)
-    const changed = JSON.parse(await readFile(file, 'utf8')); changed.references[0].text = '当前解析版本已变化。'
-    await writeFile(file, JSON.stringify(changed))
+    await app.changeDocument(third.id, changed => { changed.references[0].text = '当前解析版本已变化。' })
     await page.reload()
     await citation()
     await expect(page.getByRole('button', { name: '打开原文位置', exact: true })).toBeDisabled()

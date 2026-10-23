@@ -1,9 +1,11 @@
-export function createResearchWorkspace({ api, element, openDocument, resetReader, openImport, metadataChanged, libraryChanged, topicChanged = () => {}, onNavigate = () => {}, openComparison = () => {} }) {
+export function createResearchWorkspace({ api, element, openDocument, resetReader, openImport, metadataChanged, libraryChanged, topicChanged = () => {}, onNavigate = () => {}, openComparison = () => {}, openReport = () => {}, storage }) {
+  const localStorage = storage?.persistent || globalThis.localStorage
   const $ = id => document.getElementById(id)
   const selectionLabels = { pending: '待筛选', included: '已纳入', excluded: '已排除' }
   const readingLabels = { unread: '未读', reading: '阅读中', read: '已读' }
   let topics = [], documents = [], activeTopic = null, readerId = null
   let comparisonId = null, readerComparisonId = null
+  let reportId = null, readerReportId = null
   let view = 'home', navigation = 0, refreshVersion = 0, documentsVersion = 0
   let editingTopic = null, editingDocument = null, editingLink = null, attachingTopic = null
   const chosenDocuments = new Set()
@@ -18,13 +20,14 @@ export function createResearchWorkspace({ api, element, openDocument, resetReade
     $('app-message').setAttribute('role', error ? 'alert' : 'status')
   }
   function remember() {
-    localStorage.setItem('classifier-workspace', JSON.stringify({ view, topicId: activeTopic?.id || null, documentId: view === 'reader' ? readerId : null, comparisonId: view === 'comparison' ? comparisonId : null, readerComparisonId: view === 'reader' ? readerComparisonId : null }))
+    localStorage.setItem('classifier-workspace', JSON.stringify({ view, topicId: activeTopic?.id || null, documentId: view === 'reader' ? readerId : null, comparisonId: view === 'comparison' ? comparisonId : null, readerComparisonId: view === 'reader' ? readerComparisonId : null, reportId: view === 'report' ? reportId : null, readerReportId: view === 'reader' ? readerReportId : null }))
   }
   function panels() {
     $('research-home-panel').hidden = view !== 'home'
     $('topic-panel').hidden = view !== 'topic' || !activeTopic
     $('all-documents-panel').hidden = view !== 'all'
     $('comparison-panel').hidden = view !== 'comparison'
+    $('report-panel').hidden = view !== 'report'
     $('workspace').hidden = view !== 'reader'
     $('welcome').hidden = true
   }
@@ -102,7 +105,7 @@ export function createResearchWorkspace({ api, element, openDocument, resetReade
     const links = activeTopic.documents.filter(link => (!selection || link.selection === selection) && (!reading || link.readingStatus === reading))
     $('topic-documents').replaceChildren(...links.map(link => documentCard(link.document, link)))
     if (!links.length) $('topic-documents').append(element('p', activeTopic.documents.length ? '没有符合当前筛选条件的文献。' : '导入新文献，或从全部文献中关联已有资料。', 'collection-empty'))
-    $('reader-back').textContent = view === 'reader' && readerComparisonId ? '← 返回比较表' : `← ${activeTopic.title}`
+    $('reader-back').textContent = view === 'reader' && readerReportId ? '← 返回研究成果' : view === 'reader' && readerComparisonId ? '← 返回比较表' : `← ${activeTopic.title}`
     if (view === 'topic') topicChanged(activeTopic)
   }
   async function refresh() {
@@ -159,12 +162,13 @@ export function createResearchWorkspace({ api, element, openDocument, resetReade
       return false
     }
   }
-  function readerOpened(id, { retainTopic = false, comparisonId: fromComparison = null } = {}) {
+  function readerOpened(id, { retainTopic = false, comparisonId: fromComparison = null, reportId: fromReport = null } = {}) {
     readerId = id
     readerComparisonId = fromComparison
+    readerReportId = fromReport
     if (!retainTopic && !activeTopic?.documents.some(link => link.documentId === id)) activeTopic = null
     view = 'reader'; panels(); remember()
-    $('reader-back').textContent = readerComparisonId ? '← 返回比较表' : activeTopic ? `← ${activeTopic.title}` : '← 全部文献'
+    $('reader-back').textContent = readerReportId ? '← 返回研究成果' : readerComparisonId ? '← 返回比较表' : activeTopic ? `← ${activeTopic.title}` : '← 全部文献'
     $('reader-record').hidden = !activeTopic?.documents.some(link => link.documentId === id)
   }
   function beginDocumentsRequest() { return ++documentsVersion }
@@ -198,8 +202,9 @@ export function createResearchWorkspace({ api, element, openDocument, resetReade
       if (await showTopic(saved.topicId) !== true) return
     }
     if (saved?.view === 'comparison' && saved.comparisonId && activeTopic) { await openComparison(saved.comparisonId); return }
+    if (saved?.view === 'report' && saved.reportId && activeTopic) { await openReport(saved.reportId); return }
     if (saved?.view === 'reader' && documents.some(doc => doc.id === saved.documentId)) {
-      await openDocument(saved.documentId, { retainTopic: Boolean(activeTopic), comparisonId: saved.readerComparisonId || null })
+      await openDocument(saved.documentId, { retainTopic: Boolean(activeTopic), comparisonId: saved.readerComparisonId || null, reportId: saved.readerReportId || null })
     } else if (saved?.view === 'all') await showAll()
     else if (!activeTopic) {
       const legacy = !saved && localStorage.getItem('classifier-document')
@@ -313,7 +318,7 @@ export function createResearchWorkspace({ api, element, openDocument, resetReade
   $('selection-filter').onchange = renderTopic
   $('reading-filter').onchange = renderTopic
   $('library-query').oninput = renderAll
-  $('reader-back').onclick = () => (readerComparisonId ? openComparison(readerComparisonId) : activeTopic ? showTopic(activeTopic.id) : showAll()).catch(report)
+  $('reader-back').onclick = () => (readerReportId ? openReport(readerReportId) : readerComparisonId ? openComparison(readerComparisonId) : activeTopic ? showTopic(activeTopic.id) : showAll()).catch(report)
   $('edit-document').onclick = () => editMetadata(readerId)
   $('reader-record').onclick = () => editRecord(readerId)
   $('attach-existing').onclick = () => {
@@ -323,5 +328,6 @@ export function createResearchWorkspace({ api, element, openDocument, resetReade
   }
   $('attach-query').oninput = renderAttach
   function enterComparison(id) { comparisonId = id; navigate('comparison'); remember(); return navigation }
-  return { enterComparison, beginDocumentsRequest, setDocuments, restore, refresh, readerOpening: () => ++navigation, readerOpened, prepareImport, showTopic, notice, report, currentTopic: () => activeTopic, navigationKey: () => navigation }
+  function enterReport(id) { reportId = id; navigate('report'); remember(); return navigation }
+  return { enterReport, enterComparison, beginDocumentsRequest, setDocuments, restore, refresh, readerOpening: () => ++navigation, readerOpened, prepareImport, showTopic, notice, report, currentTopic: () => activeTopic, navigationKey: () => navigation }
 }

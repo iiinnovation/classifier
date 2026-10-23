@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "main": "apps/desktop/main.mjs",
   "engines": {
     "node": ">=22.13.0"
   },
@@ -12,7 +13,17 @@
     "dev:api": "npm run dev",
     "start:api": "npm start",
     "test": "node --test tests/*.test.mjs",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "desktop:dev": "electron .",
+    "desktop:prepare-ocr": "node tools/prepare-ocr.mjs",
+    "desktop:prepare-ocr:windows": "node tools/prepare-windows-ocr.mjs",
+    "desktop:pack": "electron-builder --dir",
+    "desktop:dist": "electron-builder",
+    "test:desktop": "node tools/run-desktop-tests.mjs all",
+    "test:desktop:business": "node tools/run-desktop-tests.mjs business",
+    "test:desktop:shell": "node tools/run-desktop-tests.mjs shell",
+    "desktop:measure": "node tools/measure-desktop.mjs",
+    "test:storage": "playwright test --config=playwright.storage.config.mjs"
   },
   "dependencies": {
     "@napi-rs/canvas": "^1.0.9",
@@ -22,6 +33,9 @@
     "pdfjs-dist": "^6.3.289"
   },
   "devDependencies": {
-    "@playwright/test": "^1.64.0"
+    "@playwright/test": "^1.64.0",
+    "electron": "44.7.0",
+    "electron-builder": "26.15.3",
+    "linkedom": "^0.18.13"
   }
 }

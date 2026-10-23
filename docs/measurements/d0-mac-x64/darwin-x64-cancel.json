@@ -1,0 +1,1033 @@
+{
+  "timestamp": "2026-10-11T06:21:53.482Z",
+  "platform": "darwin",
+  "arch": "x64",
+  "os": "25.6.0",
+  "memoryBytes": 34359738368,
+  "cpu": "Intel(R) Core(TM) i7-1068NG7 CPU @ 2.30GHz",
+  "logicalCpus": 8,
+  "mode": "cancel",
+  "instrumentation": "Normal packaged executable with renderer CDP only; connectOverCDP(noDefaults:true), no Node inspector or Playwright launch switches. RSS includes shared-page double counting.",
+  "minimumHardwareVerified": false,
+  "results": {
+    "cancel": {
+      "cycles": 10,
+      "growthRss": 45490176,
+      "fixtureBytes": 114494,
+      "fixtureSha256": "eea0c00717e577908c8445b53afc1a3a45e0124cd7495c3961e9bafed06228bd",
+      "before": [
+        {
+          "at": 1791699775487,
+          "rss": 403992576,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699776114,
+          "rss": 404000768,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699776705,
+          "rss": 404004864,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699777304,
+          "rss": 404004864,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699777910,
+          "rss": 404004864,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699778498,
+          "rss": 404004864,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699779093,
+          "rss": 404004864,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699779681,
+          "rss": 404004864,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699780277,
+          "rss": 404004864,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699780862,
+          "rss": 404004864,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699781479,
+          "rss": 403976192,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699782062,
+          "rss": 403976192,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699782653,
+          "rss": 403976192,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699783242,
+          "rss": 403976192,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699783840,
+          "rss": 403976192,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699784439,
+          "rss": 403976192,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699785033,
+          "rss": 403976192,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699785636,
+          "rss": 403976192,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699786232,
+          "rss": 403976192,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699786846,
+          "rss": 403976192,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699787434,
+          "rss": 403976192,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699788021,
+          "rss": 403976192,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699788606,
+          "rss": 403976192,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699789199,
+          "rss": 403976192,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699789801,
+          "rss": 403976192,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699790387,
+          "rss": 403976192,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699790977,
+          "rss": 403976192,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699791566,
+          "rss": 403976192,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699792156,
+          "rss": 403980288,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699792745,
+          "rss": 403980288,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699793344,
+          "rss": 403980288,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699793945,
+          "rss": 403980288,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699794534,
+          "rss": 403980288,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699795143,
+          "rss": 403980288,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699795728,
+          "rss": 404037632,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699796325,
+          "rss": 404037632,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699796919,
+          "rss": 404037632,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699797503,
+          "rss": 404037632,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699798099,
+          "rss": 404037632,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699798696,
+          "rss": 404037632,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699799292,
+          "rss": 404037632,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699799880,
+          "rss": 404037632,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699800473,
+          "rss": 403988480,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699801058,
+          "rss": 403988480,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699801655,
+          "rss": 403988480,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699802257,
+          "rss": 403988480,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699802851,
+          "rss": 403988480,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699803439,
+          "rss": 403988480,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699804023,
+          "rss": 403988480,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699804623,
+          "rss": 403988480,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699805205,
+          "rss": 403996672,
+          "processes": 5,
+          "ocrPids": []
+        }
+      ],
+      "after": [
+        {
+          "at": 1791699917797,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699918395,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699918991,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699919585,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699920173,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699920760,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699921356,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699921954,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699922545,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699923132,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699923721,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699924310,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699924897,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699925478,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699926075,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699926675,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699927258,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699927840,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699928433,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699929020,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699929607,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699930196,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699930789,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699931372,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699931966,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699932556,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699933148,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699933739,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699934327,
+          "rss": 449523712,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699934911,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699935503,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699936093,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699936679,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699937260,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699937843,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699938436,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699939017,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699939615,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699940197,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699940788,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699941386,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699941980,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699942571,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699943154,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699943750,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699944338,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699944926,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699945522,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699946108,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699946689,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1791699947288,
+          "rss": 449527808,
+          "processes": 5,
+          "ocrPids": []
+        }
+      ],
+      "baselineTree": [
+        {
+          "pid": 53530,
+          "parent": 53524,
+          "rss": 147722240,
+          "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/MacOS/Classifier"
+        },
+        {
+          "pid": 53531,
+          "parent": 53530,
+          "rss": 60424192,
+          "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+        },
+        {
+          "pid": 53532,
+          "parent": 53530,
+          "rss": 30433280,
+          "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+        },
+        {
+          "pid": 53535,
+          "parent": 53530,
+          "rss": 60780544,
+          "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+        },
+        {
+          "pid": 53539,
+          "parent": 53530,
+          "rss": 104640512,
+          "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+        }
+      ],
+      "cycleTrees": [
+        [
+          {
+            "pid": 53530,
+            "parent": 53524,
+            "rss": 150769664,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/MacOS/Classifier"
+          },
+          {
+            "pid": 53531,
+            "parent": 53530,
+            "rss": 66408448,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53532,
+            "parent": 53530,
+            "rss": 30433280,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53535,
+            "parent": 53530,
+            "rss": 63184896,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53539,
+            "parent": 53530,
+            "rss": 120922112,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+          }
+        ],
+        [
+          {
+            "pid": 53530,
+            "parent": 53524,
+            "rss": 152297472,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/MacOS/Classifier"
+          },
+          {
+            "pid": 53531,
+            "parent": 53530,
+            "rss": 66682880,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53532,
+            "parent": 53530,
+            "rss": 30437376,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53535,
+            "parent": 53530,
+            "rss": 64712704,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53539,
+            "parent": 53530,
+            "rss": 123613184,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+          }
+        ],
+        [
+          {
+            "pid": 53530,
+            "parent": 53524,
+            "rss": 154251264,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/MacOS/Classifier"
+          },
+          {
+            "pid": 53531,
+            "parent": 53530,
+            "rss": 66715648,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53532,
+            "parent": 53530,
+            "rss": 30420992,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53535,
+            "parent": 53530,
+            "rss": 66355200,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53539,
+            "parent": 53530,
+            "rss": 126136320,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+          }
+        ],
+        [
+          {
+            "pid": 53530,
+            "parent": 53524,
+            "rss": 154640384,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/MacOS/Classifier"
+          },
+          {
+            "pid": 53531,
+            "parent": 53530,
+            "rss": 66846720,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53532,
+            "parent": 53530,
+            "rss": 30420992,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53535,
+            "parent": 53530,
+            "rss": 66387968,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53539,
+            "parent": 53530,
+            "rss": 123867136,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+          }
+        ],
+        [
+          {
+            "pid": 53530,
+            "parent": 53524,
+            "rss": 155439104,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/MacOS/Classifier"
+          },
+          {
+            "pid": 53531,
+            "parent": 53530,
+            "rss": 66871296,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53532,
+            "parent": 53530,
+            "rss": 30420992,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53535,
+            "parent": 53530,
+            "rss": 67096576,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53539,
+            "parent": 53530,
+            "rss": 124243968,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+          }
+        ],
+        [
+          {
+            "pid": 53530,
+            "parent": 53524,
+            "rss": 155987968,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/MacOS/Classifier"
+          },
+          {
+            "pid": 53531,
+            "parent": 53530,
+            "rss": 67072000,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53532,
+            "parent": 53530,
+            "rss": 30420992,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53535,
+            "parent": 53530,
+            "rss": 67350528,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53539,
+            "parent": 53530,
+            "rss": 126935040,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+          }
+        ],
+        [
+          {
+            "pid": 53530,
+            "parent": 53524,
+            "rss": 156643328,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/MacOS/Classifier"
+          },
+          {
+            "pid": 53531,
+            "parent": 53530,
+            "rss": 67129344,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53532,
+            "parent": 53530,
+            "rss": 30420992,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53535,
+            "parent": 53530,
+            "rss": 67321856,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53539,
+            "parent": 53530,
+            "rss": 128712704,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+          }
+        ],
+        [
+          {
+            "pid": 53530,
+            "parent": 53524,
+            "rss": 157859840,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/MacOS/Classifier"
+          },
+          {
+            "pid": 53531,
+            "parent": 53530,
+            "rss": 67112960,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53532,
+            "parent": 53530,
+            "rss": 30425088,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53535,
+            "parent": 53530,
+            "rss": 67985408,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53539,
+            "parent": 53530,
+            "rss": 125181952,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+          }
+        ],
+        [
+          {
+            "pid": 53530,
+            "parent": 53524,
+            "rss": 159244288,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/MacOS/Classifier"
+          },
+          {
+            "pid": 53531,
+            "parent": 53530,
+            "rss": 67129344,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53532,
+            "parent": 53530,
+            "rss": 30425088,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53535,
+            "parent": 53530,
+            "rss": 68222976,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53539,
+            "parent": 53530,
+            "rss": 126476288,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+          }
+        ],
+        [
+          {
+            "pid": 53530,
+            "parent": 53524,
+            "rss": 159182848,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/MacOS/Classifier"
+          },
+          {
+            "pid": 53531,
+            "parent": 53530,
+            "rss": 67153920,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53532,
+            "parent": 53530,
+            "rss": 30425088,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53535,
+            "parent": 53530,
+            "rss": 68759552,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 53539,
+            "parent": 53530,
+            "rss": 128094208,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+          }
+        ]
+      ],
+      "afterTree": [
+        {
+          "pid": 53530,
+          "parent": 53524,
+          "rss": 158695424,
+          "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/MacOS/Classifier"
+        },
+        {
+          "pid": 53531,
+          "parent": 53530,
+          "rss": 66965504,
+          "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+        },
+        {
+          "pid": 53532,
+          "parent": 53530,
+          "rss": 30425088,
+          "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+        },
+        {
+          "pid": 53535,
+          "parent": 53530,
+          "rss": 67764224,
+          "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+        },
+        {
+          "pid": 53539,
+          "parent": 53530,
+          "rss": 125677568,
+          "name": "/Users/apple/Desktop/classifier/dist/desktop/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+        }
+      ]
+    }
+  },
+  "gates": {
+    "installSize": true,
+    "downloadSize": true,
+    "cancel": true,
+    "cancelProcesses": true
+  },
+  "installedBytes": 395041952,
+  "downloadBytes": 163763472,
+  "downloadSha256": "d52de6a1ed170459daee9394b2514f103ee35d99e69fb52c963050c0ece6c57e",
+  "appAsarSha256": "f776a02cda5a74c00da13790627114cabcd3012869880d1df82a18702707c478",
+  "completed": true
+}

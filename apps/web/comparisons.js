@@ -1,4 +1,5 @@
-export function createComparisonWorkspace({ api, element, currentTopic, enter, navigationKey, showTopic, openSource, modelConfigured, notice }) {
+export function createComparisonWorkspace({ api, element, currentTopic, enter, navigationKey, showTopic, openSource, openReport, modelConfigured, notice, storage }) {
+  const sessionStorage = storage?.drafts || globalThis.sessionStorage
   const $ = id => document.getElementById(id)
   const statuses = { unfilled: '未填写', recorded: '已记录', not_reported: '未报告', not_found: '未找到', not_applicable: '不适用' }
   const kinds = { user: '用户判断', source: '原文报告', inference: '模型归纳' }
@@ -6,6 +7,7 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
   const relations = { agreement: '共同点', difference: '差异', conflict: '相互冲突', insufficient: '材料不足' }
   const json = (method, body) => ({ method, headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })
   let table = null, tableId = null, epoch = 0, readVersion = 0, topicVersion = 0, editorEpoch = 0, editor = null, saving = false, timer
+  let taskTopic = null, taskBusy = false, goalTable = null
   const draftKey = value => `classifier-comparison-draft:${value.topicId}:${value.tableId}:${value.kind}:${value.documentId || ''}:${value.columnId || ''}`
   function button(label, action, className = 'quiet-button') {
     const node = element('button', label, className); node.type = 'button'
@@ -50,6 +52,8 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
     if (!saving) { $('comparison-editor').close(); editor = null }
     $('comparison-inspector').close()
     table = null; tableId = null
+    goalTable = null
+    $('comparison-draft-preview').replaceChildren(); $('comparison-task-status').replaceChildren()
   }
   async function open(id) {
     const navigation = enter(id), token = ++epoch
@@ -57,7 +61,7 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
     $('comparison-title').textContent = '正在打开比较表…'; $('comparison-question').textContent = ''
     $('comparison-grid').replaceChildren(); $('comparison-analyses').replaceChildren(); $('comparison-suggestions').replaceChildren()
     $('comparison-message').textContent = ''; $('comparison-retry').hidden = true
-    for (const name of ['comparison-configure', 'comparison-history', 'comparison-archive', 'comparison-generate']) $(name).disabled = true
+    for (const name of ['comparison-configure', 'comparison-history', 'comparison-archive', 'comparison-generate', 'comparison-draft-generate', 'comparison-to-report']) $(name).disabled = true
     const value = await fetchTable(id, token)
     if (navigation !== navigationKey() || token !== epoch || !value) return
     table = value; render()
@@ -85,6 +89,7 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
   }
   function accept(value) { readVersion++; table = value; render() }
   async function showTopicComparisons(topic) {
+    renderTaskComposer(topic)
     const token = ++topicVersion
     $('comparison-list').replaceChildren(element('p', '正在读取比较表…', 'hint'))
     try {
@@ -120,6 +125,7 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
   function render() {
     $('comparison-title').textContent = table.title
     $('comparison-question').textContent = table.question
+    if (goalTable !== table.id) { $('comparison-task-goal').value = sessionStorage.getItem('classifier-research-followup:' + table.id) || ''; goalTable = table.id }
     $('comparison-message').textContent = table.archived ? '此比较表已归档，可恢复后继续生成建议。' : table.documents.some(doc => !doc.linked) ? '部分文献已移出主题，旧比较与证据仍保留。生成新建议前请调整范围。' : ''
     for (const name of ['comparison-configure', 'comparison-history', 'comparison-archive']) $(name).disabled = false
     $('comparison-archive').textContent = table.archived ? '恢复比较表' : '归档'
@@ -172,6 +178,11 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
     if (table.columns.some(col => col.id === previous)) $('comparison-column').value = previous
     $('comparison-model-hint').textContent = modelConfigured() ? '每次针对一列读取所选文献的证据。建议经明确采用才更新表格，原版本会保留。' : '尚未配置模型，可以继续手工比较或从笔记、原文取值。'
     $('comparison-generate').disabled = !modelConfigured() || table.archived || table.documents.some(doc => !doc.linked) || table.suggestions.some(run => ['queued', 'running'].includes(run.status))
+    $('comparison-draft-generate').disabled = $('comparison-generate').disabled
+    $('comparison-to-report').disabled = !modelConfigured() || table.archived || table.cells.every(cell => cell.status === 'unfilled') || table.suggestions.some(run => ['queued', 'running'].includes(run.status))
+    const latestTask = table.suggestions.find(run => run.purpose === 'comparison-draft')
+    $('comparison-saved').hidden = false
+    renderTaskResult()
     renderSuggestions(); renderDrafts(); schedule()
   }
   async function mutate(path, body) {
@@ -329,7 +340,7 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
     } finally { saving = false; controls.forEach((node, index) => { node.disabled = disabled[index] }) }
   }
   function renderSuggestions() {
-    $('comparison-suggestions').replaceChildren(...table.suggestions.map(run => {
+    $('comparison-suggestions').replaceChildren(...table.suggestions.filter(run => run.purpose !== 'comparison-draft').map(run => {
       const card = element('article', null, 'comparison-analysis')
       card.append(element('h3', `${run.columnName} · 比较建议`))
       if (run.status === 'completed') card.append(button('审阅本列建议', () => inspectSuggestion(run)))
@@ -399,5 +410,135 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
   $('comparison-back').onclick = () => showTopic(currentTopic().id)
   $('comparison-retry').onclick = refresh
   $('new-comparison').onclick = () => { table = null; void configure().catch(error => notice(error.message, true)) }
-  return { open, reset, showTopic: showTopicComparisons }
+  function taskKey(topic) { return 'classifier-research-task:' + topic.id }
+  function readTask(topic) { try { return JSON.parse(sessionStorage.getItem(taskKey(topic))) } catch { return null } }
+  function captureTask() {
+    if (!taskTopic || taskBusy) return
+    const previous = readTask(taskTopic)
+    const next = { goal: $('research-task-goal').value, documentIds: [...$('research-task-documents').querySelectorAll('input:checked')].map(node => node.value) }
+    if (previous?.goal === next.goal && JSON.stringify(previous.documentIds) === JSON.stringify(next.documentIds)) Object.assign(next, { id: previous.id, requestId: previous.requestId, title: previous.title })
+    sessionStorage.setItem(taskKey(taskTopic), JSON.stringify(next))
+    updateTaskScope()
+  }
+  function updateTaskScope() {
+    const count = $('research-task-documents').querySelectorAll('input:checked').length
+    $('research-task-scope').textContent = '已选 ' + count + ' 篇文献 · 调整范围'
+    $('research-task-start').disabled = taskBusy || !modelConfigured() || count < 2 || count > 12
+    $('research-task-hint').textContent = !modelConfigured() ? '尚未配置模型，仍可使用下方的阅读、笔记和手工比较。' : '选择 2–12 篇文献。开始后会将相关节选和笔记发送至已配置的模型；AI 建议比较维度并逐项取证。'
+  }
+  function renderTaskComposer(topic) {
+    taskTopic = topic
+    const draft = readTask(topic)
+    $('research-task-goal').value = draft?.goal ?? topic.question
+    $('research-task-error').textContent = ''
+    const selected = draft?.documentIds || topic.documents.filter(link => link.selection !== 'excluded').map(link => link.documentId)
+    $('research-task-documents').replaceChildren(...topic.documents.map(link => {
+      const row = element('label', null, 'attach-option'), check = element('input'); check.type = 'checkbox'; check.value = link.documentId; check.checked = selected.includes(link.documentId)
+      row.append(check, element('span', link.document.title + (link.selection === 'excluded' ? '（已排除）' : ''))); return row
+    }))
+    updateTaskScope()
+  }
+  $('research-task-form').oninput = captureTask
+  $('research-task-form').onchange = captureTask
+  $('research-task-form').onsubmit = async event => {
+    event.preventDefault(); if (taskBusy || !taskTopic) return
+    captureTask()
+    const topic = taskTopic, draft = readTask(topic), nav = navigationKey()
+    if (draft.documentIds.length < 2 || draft.documentIds.length > 12) return
+    draft.id ||= crypto.randomUUID(); draft.requestId ||= crypto.randomUUID()
+    draft.title ||= (topic.title + ' · AI 比较').slice(0, 200)
+    sessionStorage.setItem(taskKey(topic), JSON.stringify(draft))
+    taskBusy = true; updateTaskScope(); $('research-task-error').textContent = ''
+    let created
+    try {
+      created = await api('/api/topics/' + topic.id + '/comparisons', json('POST', { id: draft.id, title: draft.title, question: draft.goal, documentIds: draft.documentIds }))
+      await api('/api/comparisons/' + created.id + '/draft', json('POST', { revision: created.revision, instruction: draft.goal, requestId: draft.requestId }))
+      sessionStorage.removeItem(taskKey(topic))
+      if (nav === navigationKey()) await open(created.id)
+    } catch (error) {
+      if (nav === navigationKey()) {
+        if (created) { await open(created.id); $('comparison-message').textContent = error.message + ' 可在此重试生成。' }
+        else $('research-task-error').textContent = error.message
+      }
+    } finally { taskBusy = false; updateTaskScope() }
+  }
+  $('comparison-task-goal').oninput = () => { if (table) sessionStorage.setItem('classifier-research-followup:' + table.id, $('comparison-task-goal').value) }
+  $('comparison-task-form').onsubmit = async event => {
+    event.preventDefault(); const target = table, token = epoch
+    if (!target || $('comparison-draft-generate').disabled) return
+    $('comparison-draft-generate').disabled = true
+    const requestKey = 'classifier-research-request:' + target.id
+    const instruction = $('comparison-task-goal').value.trim() || target.question
+    let request
+    try { request = JSON.parse(sessionStorage.getItem(requestKey)) } catch {}
+    const observed = target.suggestions.find(run => run.requestId === request?.requestId)
+    if (!request || request.revision !== target.revision || request.instruction !== instruction || observed && !['queued', 'running'].includes(observed.status)) request = { revision: target.revision, instruction, requestId: crypto.randomUUID() }
+    sessionStorage.setItem(requestKey, JSON.stringify(request))
+    try {
+      const run = await api('/api/comparisons/' + target.id + '/draft', json('POST', request))
+      sessionStorage.removeItem(requestKey)
+      if (token !== epoch) return
+      table.suggestions = [run, ...table.suggestions.filter(item => item.id !== run.id)]; render()
+    } catch (error) { if (token === epoch) { render(); $('comparison-message').textContent = error.message } }
+  }
+  $('comparison-to-report').onclick = async () => {
+    if (!table) return
+    const target = table, token = epoch; $('comparison-to-report').disabled = true
+    try { await openReport(target) }
+    catch (error) { if (token === epoch) { render(); $('comparison-message').textContent = error.message } }
+  }
+  function renderTaskResult() {
+    const target = table, token = epoch
+    const run = table.suggestions.find(run => run.purpose === 'comparison-draft')
+    $('comparison-draft-preview').replaceChildren(); $('comparison-task-status').replaceChildren()
+    if (!run) return
+    if (['queued', 'running'].includes(run.status)) {
+      const progress = element('div', null, 'research-progress')
+      progress.append(element('strong', 'AI 正在整理所选文献'), ...run.events.filter(event => ['plan', 'progress'].includes(event.type)).slice(-2).map(event => element('p', event.message)), button('停止任务', async () => { await api('/api/runs/' + run.id + '/cancel', { method: 'POST' }); if (token === epoch) await refresh() }))
+      $('comparison-task-status').append(progress); return
+    }
+    if (run.status !== 'completed') { $('comparison-task-status').append(element('p', (run.error || '任务中断。') + ' 已保存的比较内容不受影响，可重新生成。', 'notice')); return }
+    if (table.lastDraftRunId === run.id) { $('comparison-task-status').append(element('p', '比较草稿已采用，可直接修订、核对出处，再生成研究总结。', 'hint')); return }
+    if (sessionStorage.getItem(`classifier-comparison-dismissed-draft:${run.id}`) === '1') { $('comparison-task-status').append(element('p', '已放弃此比较草稿。', 'hint')); return }
+    const draft = element('div', null, 'research-draft')
+    draft.append(element('h2', 'AI 比较草稿 · 待核对'), element('p', '以下内容基于所选文献的部分证据；未找到不代表论文未报告。采用会更新全部维度与内容，原版本保留。', 'hint'))
+    const wrapper = element('div', null, 'comparison-grid'), matrix = element('table'), head = element('thead'), heading = element('tr')
+    heading.append(element('th', '文献')); run.result.columns.forEach(col => heading.append(element('th', col.name))); head.append(heading); matrix.append(head)
+    const body = element('tbody')
+    const documents = run.documentVersions || [...new Set(run.result.cells.map(cell => cell.documentId))].map(id => ({ id }))
+    for (const doc of documents) {
+      const title = doc.title || table.documents.find(item => item.id === doc.id)?.title || run.result.cells.find(cell => cell.documentId === doc.id)?.evidence[0]?.documentTitle || '原任务文献'
+      const row = element('tr'); row.append(element('th', title))
+      for (const col of run.result.columns) {
+        const cell = run.result.cells.find(cell => cell.documentId === doc.id && cell.columnId === col.id), td = element('td')
+        if (!cell) { td.append(element('p', '此草稿未包含该项', 'hint')); row.append(td); continue }
+        td.append(element('p', cell.value || statuses[cell.status], 'comparison-value'), element('p', kinds[cell.kind] + ' · ' + comparabilities[cell.comparability], 'hint'))
+        if (cell.conditions || cell.reason) td.append(element('p', [cell.conditions, cell.reason].filter(Boolean).join('；'), 'hint'))
+        cell.evidence.forEach(item => td.append(evidenceButton(item))); row.append(td)
+      }
+      body.append(row)
+    }
+    matrix.append(body); wrapper.append(matrix); draft.append(wrapper)
+    for (const analysis of run.result.analyses) {
+      draft.append(element('h3', run.result.columns.find(col => col.id === analysis.columnId).name + ' · ' + relations[analysis.relation]), element('p', analysis.value, 'comparison-value'), element('p', analysis.conditions, 'hint'))
+      analysis.evidence.forEach(item => draft.append(evidenceButton(item)))
+    }
+    const actions = element('div', null, 'research-draft-actions'), errorNode = element('p', '', 'form-error')
+    errorNode.setAttribute('role', 'alert')
+    const apply = button('采用比较草稿', async () => {
+      apply.disabled = true
+      try {
+        const updated = await api('/api/comparisons/' + target.id + '/adopt-draft', json('POST', { revision: target.revision, runId: run.id }))
+        if (token === epoch) { accept(updated); notice('比较草稿已保存，可核对并生成研究总结。') }
+      } catch (error) { if (token === epoch) errorNode.textContent = error.message }
+      finally { apply.disabled = false }
+    }, '')
+    const discard = button('放弃草稿', () => {
+      sessionStorage.setItem(`classifier-comparison-dismissed-draft:${run.id}`, '1')
+      renderTaskResult()
+    })
+    if (run.stale || table.archived || run.baseRevision !== table.revision) { apply.disabled = true; errorNode.textContent = table.archived ? '比较表已归档，请先恢复后再生成。' : '比较表或来源已修改，请重新生成；旧草稿按原范围保留供参考。' }
+    actions.append(apply, discard); draft.append(actions, errorNode); $('comparison-draft-preview').append(draft)
+  }
+  return { open, reset, showTopic: showTopicComparisons, updateModel() { updateTaskScope(); if (table) render() } }
 }

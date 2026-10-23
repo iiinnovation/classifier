@@ -1,6 +1,4 @@
-import { test, expect } from '@playwright/test'
-import { readFile, writeFile } from 'node:fs/promises'
-import { join } from 'node:path'
+import { test, expect } from '../helpers/browser-fixture.mjs'
 import { testApp, json } from '../helpers/test-app.mjs'
 
 async function setup(page, options) {
@@ -18,6 +16,81 @@ async function save(page) {
   await expect(page.locator('#note-dialog')).not.toBeVisible()
 }
 
+test('UX notes start with content and only populated categories are shown', async ({ page }, testInfo) => {
+  const app = await setup(page)
+  try {
+    await page.locator('#notes-tab').click()
+    await expect(page.locator('#notes-list .note-group')).toHaveCount(0)
+    await expect(page.locator('#notes-list')).toContainText('还没有笔记')
+    await page.locator('#new-note').click()
+    await expect(page.locator('#note-content')).toBeFocused()
+    await expect(page.locator('#note-field')).not.toBeVisible()
+    await expect(page.locator('#note-status')).not.toBeVisible()
+    await expect(page.locator('#note-kind')).not.toBeVisible()
+    await expect(page.locator('#note-reference-picker')).not.toBeVisible()
+    await page.locator('#note-content').fill('先记下一个想法，稍后整理。')
+    await save(page)
+    const first = (await (await app.request(app.notesPath)).json()).notes[0]
+    expect(first).toMatchObject({ field: '主要发现', content: '先记下一个想法，稍后整理。', kind: 'user', status: 'recorded', evidence: [] })
+    await expect(page.locator('#notes-list .note-group')).toHaveCount(1)
+    await expect(page.locator('#notes-list .note-group > h3')).toHaveText('主要发现')
+    await page.locator('#notes-list .note-card').getByRole('button', { name: '归档', exact: true }).click()
+    await expect(page.locator('#notes-list .note-group')).toHaveCount(0)
+    await expect(page.locator('#notes-list')).toContainText('笔记已归档')
+    await page.locator('#notes-show-archived').check()
+    await expect(page.locator('#notes-list .note-card')).toHaveCount(1)
+    await page.locator('#notes-list .note-card').getByRole('button', { name: '编辑', exact: true }).click()
+    await page.locator('#note-details > summary').click()
+    await page.locator('#note-field').fill('')
+    await page.locator('#note-content').fill('分类可以留空，内容仍然保存。')
+    await save(page)
+    expect((await (await app.request(`/api/notes/${first.id}`)).json()).field).toBe('主要发现')
+    await page.locator('#new-note').click()
+    await expect(page.locator('#note-field')).not.toBeVisible()
+    await page.locator('#note-content').fill('随手记录，不必填写其他字段。')
+    await page.screenshot({ path: testInfo.outputPath('note-content-first-desktop.png'), fullPage: true })
+    await page.setViewportSize({ width: 390, height: 844 })
+    await expect(page.locator('#save-note')).toBeInViewport()
+    expect(await page.locator('#note-dialog').evaluate(node => node.scrollWidth <= node.clientWidth)).toBe(true)
+    await page.screenshot({ path: testInfo.outputPath('note-content-first-mobile.png'), fullPage: true })
+    await save(page)
+  } finally { await app.close() }
+})
+
+test('UX captured sources keep citations without reopening the reference picker', async ({ page }) => {
+  const app = await setup(page)
+  try {
+    await page.locator('#references .save-reference-note').first().click()
+    await expect(page.locator('#note-content')).toHaveValue(app.original)
+    await expect(page.locator('#note-details-summary')).toContainText('原文报告')
+    await expect(page.locator('#note-reference-picker')).not.toBeVisible()
+    await expect(page.locator('#note-existing-evidence button')).toHaveText('原文第 1 段')
+    await page.locator('#note-existing-evidence button').click()
+    await expect(page.locator('#evidence-text')).toHaveText(app.original)
+    await page.locator('#close-evidence').click()
+    await save(page)
+    let notes = (await (await app.request(app.notesPath)).json()).notes
+    expect(notes[0].kind).toBe('source')
+    expect(notes[0].evidence[0].reference.text).toBe(app.original)
+    await page.locator('#new-note').click()
+    await page.locator('#note-content').fill('手动记下的观察，也可以补充出处。')
+    await page.locator('#note-change-evidence').click()
+    await page.locator('#note-reference-options input').first().check()
+    await page.locator('#note-change-evidence').click()
+    await expect(page.locator('#note-reference-options input:checked')).toHaveCount(1)
+    await page.locator('#close-note').click()
+    await page.reload()
+    await page.locator('#resume-note-draft').click()
+    await expect(page.locator('#note-reference-picker')).not.toBeVisible()
+    await expect(page.locator('#note-existing-evidence button')).toHaveText('原文第 1 段')
+    await save(page)
+    notes = (await (await app.request(app.notesPath)).json()).notes
+    const manual = notes.find(note => note.content.startsWith('手动记下'))
+    expect(manual.kind).toBe('user')
+    expect(manual.evidence[0].reference.text).toBe(app.original)
+  } finally { await app.close() }
+})
+
 test('M2 source notes, editable fields, missing information, history, archive and restart', async ({ page }, testInfo) => {
   const app = await setup(page)
   const errors = []
@@ -25,6 +98,7 @@ test('M2 source notes, editable fields, missing information, history, archive an
   try {
     await page.locator('#references .save-reference-note').first().click()
     await expect(page.locator('#note-content')).toHaveValue(app.original)
+    await page.locator('#note-details > summary').click()
     await page.locator('#note-field').fill('材料或对象')
     await page.locator('#note-content').fill('两组研究材料，具体条件需要核对原文。')
     await save(page)
@@ -37,17 +111,23 @@ test('M2 source notes, editable fields, missing information, history, archive an
     await card.getByRole('button', { name: '已核对出处', exact: true }).click()
     await expect(card).toContainText('已人工核对')
     await card.getByRole('button', { name: '编辑', exact: true }).click()
+    await page.locator('#note-details > summary').click()
     await page.locator('#note-field').fill('材料与研究条件')
     await page.locator('#note-content').fill('修订：文中只给出两组材料，没有提供数量。')
     await save(page)
     card = page.locator('#notes-list .note-card').filter({ hasText: '修订：' })
     await expect(card).toContainText('待核对')
     await page.locator('#new-note').click()
+    await page.locator('#note-details > summary').click()
     await page.locator('#note-field').fill('样本数量')
     await page.locator('#note-status').selectOption('not_reported')
     await save(page)
     await expect(page.locator('#notes-list')).toContainText('样本数量')
     await expect(page.locator('#notes-list')).toContainText('未报告')
+    await page.locator('#notes-list .note-card').filter({ hasText: '未报告' }).getByRole('button', { name: '编辑', exact: true }).click()
+    await expect(page.locator('#note-details-summary')).toContainText('未报告')
+    await expect(page.locator('#note-content')).not.toHaveAttribute('required', '')
+    await save(page)
 
     await card.getByRole('button', { name: '编辑', exact: true }).click()
     await page.locator('#note-content').fill('尚未提交的阅读修订草稿')
@@ -140,12 +220,10 @@ test('M2 parse changes retain saved excerpts and stale drafts cannot capture a d
     await save(page)
     await page.locator('#qa-tab').click()
     await page.locator('#references .save-reference-note').click()
+    await page.locator('#note-details > summary').click()
     await page.locator('#note-field').fill('尚未保存的原文')
     await page.locator('#close-note').click()
-    const file = join(app.dataDir, 'documents', `${app.legacy.id}.json`)
-    const changed = JSON.parse(await readFile(file, 'utf8'))
-    changed.references[0].text = '解析变化后，同一个片段编号对应了新的文字。'
-    await writeFile(file, JSON.stringify(changed))
+    await app.changeDocument(app.legacy.id, changed => { changed.references[0].text = '解析变化后，同一个片段编号对应了新的文字。' })
     await page.reload()
     await expect(page.locator('#notes-list')).toContainText('原文版本待核对')
     await page.locator('#notes-list .note-card').getByRole('button', { name: /^出处：/ }).click()
@@ -153,6 +231,7 @@ test('M2 parse changes retain saved excerpts and stale drafts cannot capture a d
     await expect(page.locator('#evidence-open-source')).toBeDisabled()
     await page.locator('#close-evidence').click()
     await page.locator('#resume-note-draft').click()
+    await expect(page.locator('#note-existing-evidence')).toContainText('已选原文版本已变化')
     await page.locator('#save-note').click()
     await expect(page.locator('#note-error')).toContainText('原文版本已变化')
     expect((await (await app.request(app.notesPath)).json()).notes).toHaveLength(1)
@@ -189,10 +268,7 @@ test('M2 an edited note draft rechecks evidence versions after reload', async ({
     await page.locator('#notes-list .note-card').getByRole('button', { name: '编辑', exact: true }).click()
     await page.locator('#note-content').fill('带旧版证据的人工草稿')
     await page.locator('#close-note').click()
-    const file = join(app.dataDir, 'documents', `${app.legacy.id}.json`)
-    const changed = JSON.parse(await readFile(file, 'utf8'))
-    changed.references[0].text = '原文 ID 被复用后的另一段内容。'
-    await writeFile(file, JSON.stringify(changed))
+    await app.changeDocument(app.legacy.id, changed => { changed.references[0].text = '原文 ID 被复用后的另一段内容。' })
     await page.reload()
     await page.locator('#resume-note-draft').click()
     await page.locator('#note-existing-evidence button').click()

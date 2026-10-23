@@ -2,6 +2,7 @@ import { randomUUID, createHash } from 'node:crypto'
 import { HttpError } from './http.mjs'
 import { requireId } from './store.mjs'
 import { evidenceVersion, captureEvidence } from './evidence.mjs'
+import { environmentSettings, taskSettings } from './settings.mjs'
 import { modelConfigured } from './qa.mjs'
 
 export const noteFields = ['研究问题', '材料或对象', '方法', '主要发现', '局限', '待验证问题']
@@ -41,7 +42,7 @@ function canonical(value) {
   return value
 }
 
-export function createNotes(store, topics, runs, qaOptions = {}) {
+export function createNotes(store, topics, runs, qaOptions = {}, settingsProvider = environmentSettings()) {
   async function context(topicId, documentId, requireLinked = false) {
     const topic = await topics.get(topicId), document = await store.document(documentId)
     const linked = topic.documents.some(link => link.documentId === document.id)
@@ -168,8 +169,9 @@ export function createNotes(store, topics, runs, qaOptions = {}) {
     keys(body, ['field'])
     const field = text(body.field, 80, '建议字段')
     const { topic } = await context(topicId, documentId, true)
-    if (!modelConfigured(qaOptions.config)) throw new HttpError(409, '尚未配置问答模型，可手动记录或从原文创建笔记。')
-    return runs.start(documentId, `围绕研究问题“${topic.question}”，为阅读笔记字段“${field}”提出简洁建议。只使用已读取原文，逐项引用，区分原文报告与归纳；未找到、未报告和不适用须明确说明，不补写信息。`, { purpose: 'note-suggestion', topicId, field })
+    const configuration = taskSettings(settingsProvider, qaOptions)
+    if (!modelConfigured(configuration.text)) throw new HttpError(409, '尚未配置问答模型，可手动记录或从原文创建笔记。')
+    return runs.start(documentId, `围绕研究问题“${topic.question}”，为阅读笔记字段“${field}”提出简洁建议。只使用已读取原文，逐项引用，区分原文报告与归纳；未找到、未报告和不适用须明确说明，不补写信息。`, { purpose: 'note-suggestion', topicId, field }, configuration)
   }
   return { get, list, forDocument, create, edit, suggest }
 }

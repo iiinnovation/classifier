@@ -1,0 +1,17 @@
+{
+  "initial": [
+    401,
+    403,
+    200
+  ],
+  "oldPortClosed": true,
+  "tokenRotated": true,
+  "restarted": [
+    401,
+    200
+  ],
+  "versions": {
+    "node": "24.21.0",
+    "electron": "44.7.0"
+  }
+}

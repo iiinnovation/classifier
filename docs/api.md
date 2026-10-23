@@ -1,5 +1,35 @@
 # API 约定
 
+## 研究成果（M4）
+
+- `GET /api/topics/:topicId/reports`：成果摘要列表，包含归档项。
+- `GET /api/topics/:topicId/report-materials`：当前主题可选的笔记、比较表及文献目录。
+- `POST /api/topics/:topicId/reports`：创建成果，返回 201。字段为可选 `id`（UUID，用于幂等重试）、`title`（最多 200 字符）、可选 `question`（默认主题问题，最多 4000 字符）、可选 `sources`。
+- `GET /api/reports/:id`：成果、段落、材料与原文快照、派生复核状态及最近建议任务。
+- `PATCH /api/reports/:id`：携带 `revision`，更新 `title`、`question`、`blocks`、`sources`、`archived`；并发冲突返回 409。
+- `GET /api/reports/:id/history`：当前成果与完整历史。通过 `PATCH { revision, restoreRevision }` 恢复为新版本。
+
+`sources` 最多 20 组，同一笔记、比较表或原文献只选择一次：
+
+- 笔记：`{ type: "note", id, revision }`。
+- 比较表：`{ type: "comparison", id, revision }`，包含所选表的全部比较项和综合判断，保留条件、可比性及缺失状态。
+- 原文：`{ type: "passages", documentId, documentVersion, referenceIds }`，每篇选择 1–12 个片段。
+- 保留已有快照：`{ type, id, retain: true }`；原文使用 `documentId`。只接受该成果已保存的材料，不能伪造快照。
+
+新选材料须属于当前主题，其文献仍在主题中；材料版本或原文已变化时返回 409。材料快照最多 120 个去重原文片段、合计 240000 字符。更新材料保留正文已引用的旧证据；没有被当前材料或正文使用的证据移入历史。来源书目信息随选择时的快照保存。
+
+`blocks` 最多 40 段，全文最多 30000 字符。每段为 `{ id?, section, text, kind, citationIds }`，章节标题最多 120 字符，正文最多 4000 字符。`kind` 为 `source`（原文报告）、`inference`（模型归纳）、`user`（用户判断）、`question`（待验证问题）。前两种必须引用已选证据；模型归纳只能继承模型草稿或对应材料的来源。每段最多 24 个引用。客户端不能写入来源身份或核对状态。
+
+完整成果编辑的 `PATCH /api/reports/:id` 接受最多 1 MiB 的 JSON 请求体，以容纳正文、章节标题及引用 ID 序列化后的字节数；上述字段限制仍适用。其他 JSON 接口保持 128 KiB 上限。超限返回 413，并注明实际请求大小上限。
+
+- `POST /api/reports/:id/assemble { revision }`：将尚未加入的材料条目追加到正文。相同条目内容和证据只加入一次；已人工编辑的段落保留，材料变化后只追加发生变化的条目，删除段落后可再次加入。没有新条目时返回当前成果，不增加版本与历史；版本过期仍返回 409。超出段落或长度上限时整次拒绝。无需配置模型。
+- `PATCH /api/reports/:id { revision, reviewBlockId }`：单独确认已保存段落的核对状态；材料或原文已变化时拒绝。
+- `POST /api/reports/:id/suggestions { revision }`：生成待审阅草稿，返回 202 和 `purpose=report-suggestion` 的任务。只读取所选材料；完整模型输入最多 100000 字符，注明有限阅读。复用 `/api/runs/:id` 查询和取消。
+- `POST /api/reports/:id/adopt { revision, runId }`：明确采用草稿并替换正文，原正文进入历史。成果版本、材料、原文或主题关联变化时拒绝旧建议。
+- `GET /api/reports/:id/export?revision=N`：下载指定当前版本的 Markdown，含段落判断类型、复核状态、引用清单、书目信息、原文摘录与页码或段落位置；版本不符返回 409。
+
+响应中的 `evidence[].matchesCurrent`、`sources[].changed`、`blocks[].outdated` 为派生状态，不改写历史快照。移出主题不删除成果或引用；解析变化后保留旧摘录并阻止错误跳转。Markdown 将用户和原文内容作为文字转义，不执行嵌入 HTML 或图片。
+
 ## 多文献比较（M3）
 
 - `GET /api/topics/:topicId/comparisons`：比较表摘要列表，包含归档项。

@@ -7,3 +7,7 @@ data/
 coverage/
 test-results/
 playwright-report/
+dist/
+resources/ocr/darwin-*/
+resources/ocr/win32-*/
+resources/ocr/.downloads/

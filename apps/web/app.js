@@ -2,6 +2,9 @@ import katex from '/katex.mjs'
 import { createResearchWorkspace } from '/research.js'
 import { createNotebook } from '/notes.js'
 import { createComparisonWorkspace } from '/comparisons.js'
+import { createReportWorkspace } from '/reports.js'
+import { createApi } from '/api.js'
+import { createClientStorage } from '/storage.js'
 const $ = id => document.getElementById(id)
 let selected = null
 let epoch = 0
@@ -18,13 +21,10 @@ let warningsLabel = '识别提醒'
 let research
 let notebook
 let comparisonWorkspace
+let reportWorkspace
 
-async function api(path, options) {
-  const response = await fetch(path, options)
-  const value = await response.json()
-  if (!response.ok) throw Object.assign(new Error(value.error || '请求失败'), { status: response.status })
-  return value
-}
+const api = createApi()
+const clientStorage = createClientStorage({ persistent: localStorage, session: typeof sessionStorage === 'undefined' ? undefined : sessionStorage, desktop: globalThis.classifierDesktop })
 function element(tag, text, className) {
   const node = document.createElement(tag)
   if (text != null) node.textContent = text
@@ -317,7 +317,7 @@ async function openDocument(id, options = {}) {
     if (token !== epoch) return
     selected = documentData
     blockIndex = new Map(selected.sections.flatMap(section => section.blocks || []).map(block => [block.id, block]))
-    localStorage.setItem('classifier-document', id)
+    clientStorage.persistent.setItem('classifier-document', id)
     closeLibrary()
     $('welcome').hidden = true
     $('workspace').hidden = false
@@ -349,7 +349,7 @@ async function openDocument(id, options = {}) {
     void notebook?.load(selected, research.currentTopic(), { ...options, modelConfigured })
     if (options.evidence) {
       if (options.evidence.documentId === selected.id && options.evidence.documentVersion === selected.evidenceVersion) jump(options.evidence.reference.id)
-      else research.notice('原文版本已变化，请返回比较表核对保存的证据快照。', true)
+      else research.notice('原文版本已变化，请返回核对保存的证据快照。', true)
     }
     await loadLibrary(token)
     if (token !== epoch) return
@@ -402,11 +402,11 @@ $('file').onchange = async event => {
       try {
         const job = await api('/api/imports', { method: 'POST', body: form })
         importing = job.id
-        localStorage.setItem('classifier-import', job.id)
+        clientStorage.persistent.setItem('classifier-import', job.id)
         $('cancel-import').hidden = false
         latest = (await waitImport(job.id)).documentId; completed++
       } catch (error) { errors.push(`${file.name}：${error.message}`) }
-      finally { importing = null; localStorage.removeItem('classifier-import'); $('cancel-import').hidden = true }
+      finally { importing = null; clientStorage.persistent.removeItem('classifier-import'); $('cancel-import').hidden = true }
     }
     await research.refresh()
     await loadLibrary()
@@ -449,14 +449,49 @@ $('cancel').onclick = async () => {
   try { await api(`/api/runs/${activeRun}/cancel`, { method: 'POST' }) }
   catch (error) { $('error').textContent = error.message }
 }
-notebook = createNotebook({ api, element, jump, notice: (message, error) => research.notice(message, error), async openNote(note) {
+notebook = createNotebook({ api, element, jump, storage: clientStorage, notice: (message, error) => research.notice(message, error), async openNote(note) {
   if (await research.showTopic(note.topicId)) await openDocument(note.documentId, { retainTopic: true, noteId: note.id })
 } })
-comparisonWorkspace = createComparisonWorkspace({ api, element, currentTopic: () => research.currentTopic(), enter: id => research.enterComparison(id), navigationKey: () => research.navigationKey(), showTopic: id => research.showTopic(id), modelConfigured: () => modelConfigured, notice: (message, error) => research.notice(message, error), openSource: (evidence, comparisonId) => openDocument(evidence.documentId, { retainTopic: true, evidence, comparisonId }) })
-research = createResearchWorkspace({ api, element, openDocument, resetReader, openImport, libraryChanged: renderLibrary, onNavigate: () => comparisonWorkspace.reset(), openComparison: id => comparisonWorkspace.open(id), topicChanged: topic => { void notebook.showTopic(topic); void comparisonWorkspace.showTopic(topic) }, metadataChanged(updated) {
+comparisonWorkspace = createComparisonWorkspace({ api, element, storage: clientStorage, currentTopic: () => research.currentTopic(), enter: id => research.enterComparison(id), navigationKey: () => research.navigationKey(), showTopic: id => research.showTopic(id), openReport: table => reportWorkspace.fromComparison(table), modelConfigured: () => modelConfigured, notice: (message, error) => research.notice(message, error), openSource: (evidence, comparisonId) => openDocument(evidence.documentId, { retainTopic: true, evidence, comparisonId }) })
+reportWorkspace = createReportWorkspace({ api, element, storage: clientStorage, currentTopic: () => research.currentTopic(), enter: id => research.enterReport(id), navigationKey: () => research.navigationKey(), showTopic: id => research.showTopic(id), modelConfigured: () => modelConfigured, notice: (message, error) => research.notice(message, error), openSource: (evidence, reportId) => openDocument(evidence.documentId, { retainTopic: true, evidence, reportId }) })
+research = createResearchWorkspace({ api, element, storage: clientStorage, openDocument, resetReader, openImport, libraryChanged: renderLibrary, onNavigate: () => { comparisonWorkspace.reset(); reportWorkspace.reset() }, openComparison: id => comparisonWorkspace.open(id), openReport: id => reportWorkspace.open(id), topicChanged: topic => { void notebook.showTopic(topic); void comparisonWorkspace.showTopic(topic); void reportWorkspace.showTopic(topic) }, metadataChanged(updated) {
   if (selected?.id === updated.id) { selected.title = updated.title; selected.bibliography = updated.bibliography; $('title').textContent = updated.title }
 } })
 const initialNavigation = research.navigationKey()
+let settingsSaving = false
+function closeModelSettings() {
+  if (settingsSaving) return
+  $('model-settings-key').value = ''; $('model-settings-dialog').close()
+}
+$('model-settings-close').onclick = closeModelSettings
+$('model-settings-dialog').oncancel = event => { if (settingsSaving) event.preventDefault(); else $('model-settings-key').value = '' }
+$('model-settings-open').onclick = async () => {
+  try {
+    const value = await api('/api/settings/text-model')
+    $('model-settings-url').value = value.url; $('model-settings-model').value = value.model; $('model-settings-key').value = ''
+    $('model-settings-key').placeholder = value.hasKey ? '不换地址时可留空，保留本次密钥' : '只用于请求所填模型服务'
+    $('model-settings-error').textContent = value.editable ? '' : '当前配置由外部管理。'
+    $('model-settings-save').disabled = !value.editable; $('model-settings-clear').disabled = !value.editable
+    $('model-settings-dialog').showModal()
+  } catch (error) { research.notice(error.message, true) }
+}
+async function saveModelSettings(body) {
+  if (settingsSaving) return
+  settingsSaving = true; $('model-settings-save').disabled = true; $('model-settings-clear').disabled = true
+  $('model-settings-error').textContent = ''
+  try {
+    await api('/api/settings/text-model', { method: 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })
+    $('model-settings-key').value = ''
+    const health = await api('/health'); modelConfigured = health.modelConfigured
+    configureQuestionMode(); comparisonWorkspace.updateModel(); reportWorkspace.updateModel()
+    if (selected) await notebook.load(selected, research.currentTopic(), { modelConfigured })
+    $('model-settings-dialog').close()
+    research.notice(modelConfigured ? '本次运行已连接模型。发起任务后将调用该服务，尚未验证连接。' : '已清除本次模型连接。')
+  } catch (error) { $('model-settings-error').textContent = error.message }
+  finally { settingsSaving = false; $('model-settings-save').disabled = false; $('model-settings-clear').disabled = false }
+}
+$('model-settings-form').onsubmit = event => { event.preventDefault(); void saveModelSettings({ url: $('model-settings-url').value, model: $('model-settings-model').value, key: $('model-settings-key').value }) }
+$('model-settings-clear').onclick = () => saveModelSettings({ clear: true })
 try {
   const capabilities = await api('/api/parser-capabilities')
   $('parser-status').textContent = capabilities.ocr.available ? `本地 OCR：${capabilities.ocr.languages.join(' + ')}。扫描数字与公式请核对页图。` : '本地 OCR 尚不可用，请安装 Tesseract 和中英文语言包。'
@@ -468,7 +503,7 @@ try {
   configureQuestionMode()
   await loadLibrary()
   await research.restore(initialNavigation)
-  const previous = localStorage.getItem('classifier-import')
+  const previous = clientStorage.persistent.getItem('classifier-import')
   if (previous) {
     openImport()
     importing = previous; $('cancel-import').hidden = false; $('file').disabled = true; $('choose-file').disabled = true; $('import-topic').disabled = true; $('parse-mode').disabled = true
@@ -476,6 +511,6 @@ try {
       await waitImport(previous)
       await research.refresh(); await loadLibrary()
       research.notice('文献已导入。'); closeImport()
-    } finally { importing = null; $('cancel-import').hidden = true; $('file').disabled = false; $('choose-file').disabled = false; $('import-topic').disabled = false; $('parse-mode').disabled = false; localStorage.removeItem('classifier-import') }
+    } finally { importing = null; $('cancel-import').hidden = true; $('file').disabled = false; $('choose-file').disabled = false; $('import-topic').disabled = false; $('parse-mode').disabled = false; clientStorage.persistent.removeItem('classifier-import') }
   }
 } catch (error) { $('upload-status').textContent = error.message; research.report(error) }
