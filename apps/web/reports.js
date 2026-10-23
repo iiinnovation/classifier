@@ -170,11 +170,35 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
     const value = draft?.body || report || { title: '研究总结', question: currentTopic().question, blocks: [] }
     const title = input('成果标题', 'report-title-input', value.title, false, 200), question = input('研究问题', 'report-question-input', value.question)
     title.node.required = true; question.node.required = true
-    const container = element('div', null, 'report-block-editors')
+    const container = element('div', null, 'report-block-editors'), status = element('p', '', 'hint report-writing-status')
+    const undo = button('撤销移除段落', () => {
+      const previous = removed.pop()
+      if (!previous) return
+      container.insertBefore(previous.row, container.children[previous.index] || null)
+      updateStatus(); fit(previous.row.querySelector('textarea')); changed()
+    })
+    const removed = []
+    undo.hidden = true
+    function fit(node) { node.style.height = 'auto'; node.style.height = node.scrollHeight + 'px' }
+    function updateStatus() {
+      const rows = [...container.children], count = rows.reduce((sum, row) => sum + row.read().text.length, 0)
+      status.textContent = `${rows.length}/40 段 · ${count}/30000 字符 · 修改后点击“保存成果”`
+      undo.hidden = !removed.length; undo.disabled = rows.length >= 40
+      addButton.disabled = rows.length >= 40
+    }
+    const addButton = button('＋ 添加段落', () => {
+      const previous = container.lastElementChild?.read()
+      add({ id: crypto.randomUUID(), section: previous?.section || '研究总结', text: '', kind: 'user', citationIds: [] })
+      updateStatus(); changed()
+      const body = container.lastElementChild.querySelector('textarea'); fit(body); body.focus()
+    })
     function add(block = { id: crypto.randomUUID(), section: '研究总结', text: '', kind: 'user', citationIds: [] }) {
       const row = element('section', null, 'report-block-editor'); row.dataset.blockId = block.id
       const heading = input('章节标题', `report-section-${block.id}`, block.section, false, 120), body = input('段落正文', `report-text-${block.id}`, block.text, true)
       heading.node.className = 'report-block-section'; body.node.className = 'report-block-text'; heading.node.required = true
+      body.node.rows = 2; body.node.placeholder = '在这里继续写作…'
+      body.node.oninput = () => { fit(body.node); updateStatus() }
+      heading.wrapper.classList.add('report-section-field'); body.wrapper.classList.add('report-prose-field')
       const type = element('select'); type.className = 'report-block-kind'; type.setAttribute('aria-label', '段落判断类型')
       for (const [id, label] of Object.entries(kinds)) {
         const option = element('option', label); option.value = id
@@ -183,21 +207,44 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
       }
       type.value = block.kind
       const refs = new Set(block.citationIds), choices = element('details', null, 'report-reference-options')
-      choices.append(element('summary', '选择本段引用'))
+      const referenceSummary = element('summary', '选择本段引用'), selected = element('div', null, 'report-selected-citations')
+      choices.append(referenceSummary)
+      const settings = element('details', null, 'report-paragraph-settings'), settingsSummary = element('summary')
+      function updateReferences() {
+        settingsSummary.textContent = `${kinds[type.value]} · ${refs.size} 条引用 · 段落设置`
+        referenceSummary.textContent = `选择本段引用（已选 ${refs.size}/24）`
+        selected.replaceChildren(...[...refs].map(id => {
+          const item = report?.evidence.find(item => item.id === id)
+          return item ? evidenceButton(item) : element('p', '引用当前不可用，保存前请核对材料。', 'notice')
+        }))
+      }
+      type.onchange = updateReferences
       for (const item of report?.evidence || []) {
         const label = element('label', null, 'attach-option'), check = element('input'); check.type = 'checkbox'; check.value = item.id; check.checked = refs.has(item.id)
-        check.onchange = () => check.checked ? refs.add(item.id) : refs.delete(item.id)
+        check.onchange = () => { check.checked ? refs.add(item.id) : refs.delete(item.id); updateReferences() }
         label.append(check, element('span', `${item.documentTitle} · ${item.reference.title}：${item.reference.text.slice(0, 140)}${item.matchesCurrent ? '' : '（原文已变化）'}`)); choices.append(label)
       }
       row.read = () => ({ id: block.id, section: heading.node.value, text: body.node.value, kind: type.value, citationIds: [...refs] })
-      row.append(heading.wrapper, type, body.wrapper, choices, button('上移段落', () => { if (row.previousElementSibling) container.insertBefore(row, row.previousElementSibling); changed() }), button('移除段落', () => { row.remove(); changed() }))
+      settings.append(settingsSummary, type, choices, button('上移段落', () => { if (row.previousElementSibling) container.insertBefore(row, row.previousElementSibling); changed() }), button('移除段落', () => {
+        removed.push({ row, index: [...container.children].indexOf(row) }); row.remove(); updateStatus(); changed(); undo.focus()
+      }))
+      updateReferences()
+      row.append(heading.wrapper, body.wrapper, selected, settings)
       container.append(row)
     }
     for (const block of value.blocks || []) add(block)
-    const nodes = [title.wrapper, question.wrapper]
-    if (state.revision) nodes.push(container, button('＋ 添加段落', () => { add(); changed() }))
+    const context = element('details', null, 'report-writing-context'); context.append(element('summary', '研究问题'), question.wrapper)
+    // Reveal invalid fields before native validation tries to focus them.
+    question.node.oninvalid = () => { context.open = true }
+    const nodes = [title.wrapper, state.revision ? context : question.wrapper]
+    if (state.revision) nodes.push(status, container, addButton, undo)
     else nodes.push(element('p', '创建后选择笔记、比较表或原文片段，再开始整理正文。', 'hint'))
     showEditor(state, state.revision ? '编辑研究成果' : '新建研究成果', nodes, () => ({ title: title.node.value, question: question.node.value, ...(state.revision ? { blocks: [...container.children].map(row => row.read()) } : {}) }))
+    if (state.revision) {
+      updateStatus()
+      for (const node of container.querySelectorAll('textarea')) fit(node)
+      container.querySelector('textarea')?.focus()
+    }
   }
   async function editSources(draft = null) {
     const target = report, nav = navigationKey(), ticket = ++editVersion

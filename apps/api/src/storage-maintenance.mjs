@@ -10,7 +10,7 @@ import { initializeDatabase } from './sqlite-store.mjs'
 import { requireId } from './store.mjs'
 
 const limits = { files: 200000, bytes: 20 * 1024 ** 3 }
-const directories = [...recordBuckets, 'originals', 'quarantine']
+const directories = [...recordBuckets, 'originals', 'quarantine', '.file-operations']
 const allowed = path => !isAbsolute(path) && !path.includes('\\') && !path.split('/').some(part => !part || part === '.' || part === '..') && (['library.sqlite', storageManifestName].includes(path) || directories.includes(path.split('/')[0]))
 async function hash(path) { const digest = createHash('sha256'); for await (const chunk of createReadStream(path)) digest.update(chunk); return digest.digest('hex') }
 async function exists(path) { try { await access(path); return true } catch (error) { if (error.code === 'ENOENT') return false; throw error } }

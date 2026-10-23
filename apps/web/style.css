@@ -311,14 +311,25 @@ main { width: min(100%, 1760px); min-height: 100vh; margin: 0 auto; padding: 0 3
 .report-material h3 { font-size: 14px; }
 .report-material summary, .report-reference-options summary { cursor: pointer; color: #53704d; font-size: 13px; }
 .report-editor { width: min(850px, calc(100vw - 28px)); }
-.report-block-editor { border: 1px solid #dce5d6; border-radius: 10px; margin: 14px 0; padding: 16px; }
-.report-block-editor textarea { min-height: 160px; }
+.report-block-editors { padding: 20px 28px; margin: 16px 0; background: #fff; border: 1px solid #dce5d6; border-radius: 10px; }
+.report-block-editor { margin: 0 0 26px; padding: 0 0 20px; border-bottom: 1px solid #edf1e9; min-width: 0; }
+.report-block-editor:last-child { margin-bottom: 0; border-bottom: 0; }
+.report-section-field > span, .report-prose-field > span { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.report-block-editor .report-section-field input { font-size: 20px; font-weight: 600; border: 0; border-radius: 0; padding: 8px 0; background: transparent; }
+.report-block-editor .report-prose-field textarea { min-height: 5em; line-height: 1.9; border: 0; border-radius: 0; padding: 8px 0; background: transparent; resize: vertical; }
+@supports (field-sizing: content) { .report-block-editor .report-prose-field textarea { field-sizing: content; height: auto !important; } }
+.report-block-editor input:focus-visible, .report-block-editor textarea:focus-visible { outline: 2px solid #75956b; outline-offset: 4px; }
+.report-paragraph-settings summary, .report-writing-context summary { cursor: pointer; font-size: 13px; color: #53704d; padding: 6px 0; }
+.report-paragraph-settings[open] { background: #f3f7ed; padding: 10px; border-radius: 8px; }
+.report-paragraph-settings > button { margin: 8px 8px 0 0; }
+.report-selected-citations .report-citation { display: inline-block; margin: 4px 8px 4px 0; }
+.report-writing-status { margin: 16px 0 0; }
 .report-block-kind, #report-document-choice { max-width: 100%; padding: 8px; border: 1px solid #c9d7c2; border-radius: 6px; background: #fff; }
 .report-material-options, .report-reference-picker, .report-reference-options[open] { max-height: 35vh; overflow: auto; }
 .report-reference-picker .attach-option { white-space: pre-wrap; overflow-wrap: anywhere; }
 .report-history-item { border-bottom: 2px solid #dce5d6; padding-bottom: 20px; margin-bottom: 20px; }
 @media (max-width: 850px) { .report-layout { grid-template-columns: minmax(0, 1fr); } .report-sidebar { grid-row: 1; } }
-@media (max-width: 620px) { .report-panel { padding-top: 18px; } .report-block { padding: 16px; } .report-block-editor { padding: 10px; } }
+@media (max-width: 620px) { .report-panel { padding-top: 18px; } .report-block { padding: 16px; } .report-block-editors { padding: 16px; } }
 
 /* Multi-document comparison keeps each row's sources and conditions visible. */
 .comparison-panel { max-width: 1400px; margin: 0 auto; padding: 28px 0; }

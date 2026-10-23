@@ -317,7 +317,7 @@ async function openDocument(id, options = {}) {
     if (token !== epoch) return
     selected = documentData
     blockIndex = new Map(selected.sections.flatMap(section => section.blocks || []).map(block => [block.id, block]))
-    localStorage.setItem('classifier-document', id)
+    clientStorage.persistent.setItem('classifier-document', id)
     closeLibrary()
     $('welcome').hidden = true
     $('workspace').hidden = false
@@ -402,11 +402,11 @@ $('file').onchange = async event => {
       try {
         const job = await api('/api/imports', { method: 'POST', body: form })
         importing = job.id
-        localStorage.setItem('classifier-import', job.id)
+        clientStorage.persistent.setItem('classifier-import', job.id)
         $('cancel-import').hidden = false
         latest = (await waitImport(job.id)).documentId; completed++
       } catch (error) { errors.push(`${file.name}：${error.message}`) }
-      finally { importing = null; localStorage.removeItem('classifier-import'); $('cancel-import').hidden = true }
+      finally { importing = null; clientStorage.persistent.removeItem('classifier-import'); $('cancel-import').hidden = true }
     }
     await research.refresh()
     await loadLibrary()
@@ -503,7 +503,7 @@ try {
   configureQuestionMode()
   await loadLibrary()
   await research.restore(initialNavigation)
-  const previous = localStorage.getItem('classifier-import')
+  const previous = clientStorage.persistent.getItem('classifier-import')
   if (previous) {
     openImport()
     importing = previous; $('cancel-import').hidden = false; $('file').disabled = true; $('choose-file').disabled = true; $('import-topic').disabled = true; $('parse-mode').disabled = true
@@ -511,6 +511,6 @@ try {
       await waitImport(previous)
       await research.refresh(); await loadLibrary()
       research.notice('文献已导入。'); closeImport()
-    } finally { importing = null; $('cancel-import').hidden = true; $('file').disabled = false; $('choose-file').disabled = false; $('import-topic').disabled = false; $('parse-mode').disabled = false; localStorage.removeItem('classifier-import') }
+    } finally { importing = null; $('cancel-import').hidden = true; $('file').disabled = false; $('choose-file').disabled = false; $('import-topic').disabled = false; $('parse-mode').disabled = false; clientStorage.persistent.removeItem('classifier-import') }
   }
 } catch (error) { $('upload-status').textContent = error.message; research.report(error) }
