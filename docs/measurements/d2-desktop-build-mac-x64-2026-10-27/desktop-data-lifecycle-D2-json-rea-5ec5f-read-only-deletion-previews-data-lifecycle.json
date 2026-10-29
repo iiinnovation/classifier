@@ -1,0 +1,127 @@
+{
+  "packaged": true,
+  "source": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Resources/app.asar",
+  "versions": {
+    "node": "24.21.0",
+    "acorn": "8.18.0",
+    "ada": "4.0.0",
+    "amaro": "1.1.11",
+    "ares": "1.34.8",
+    "brotli": "1.2.0",
+    "cldr": "48.0",
+    "icu": "78.2",
+    "llhttp": "9.4.3",
+    "merve": "1.2.2",
+    "modules": "149",
+    "napi": "10",
+    "nbytes": "0.1.4",
+    "ncrypto": "0.0.1",
+    "nghttp2": "1.70.0",
+    "nghttp3": "",
+    "ngtcp2": "",
+    "openssl": "0.0.0",
+    "simdjson": "4.6.7",
+    "simdutf": "7.7.0",
+    "sqlite": "3.53.4",
+    "tz": "2026d",
+    "undici": "7.29.1",
+    "unicode": "17.0",
+    "uv": "1.52.1",
+    "uvwasi": "0.0.23",
+    "v8": "15.2.124.28-electron.0",
+    "zlib": "1.3.2.1-motley",
+    "zstd": "1.6.0",
+    "electron": "44.7.0",
+    "chrome": "152.0.7977.130"
+  },
+  "storage": "json",
+  "state": "missing",
+  "previews": [
+    {
+      "bucket": "documents",
+      "counts": {
+        "records": 1,
+        "historyVersions": 0,
+        "topicLinks": 2,
+        "originalDocuments": 1,
+        "retainedResearch": 3,
+        "activeTasks": 0,
+        "synchronousImports": 0
+      },
+      "readOnly": true,
+      "executionAvailable": false
+    },
+    {
+      "bucket": "topics",
+      "counts": {
+        "records": 4,
+        "historyVersions": 4,
+        "topicLinks": 2,
+        "originalDocuments": 0,
+        "retainedResearch": 0,
+        "activeTasks": 0,
+        "synchronousImports": 0
+      },
+      "readOnly": true,
+      "executionAvailable": false
+    },
+    {
+      "bucket": "notes",
+      "counts": {
+        "records": 1,
+        "historyVersions": 1,
+        "topicLinks": 0,
+        "originalDocuments": 0,
+        "retainedResearch": 1,
+        "activeTasks": 0,
+        "synchronousImports": 0
+      },
+      "readOnly": true,
+      "executionAvailable": false
+    },
+    {
+      "bucket": "comparisons",
+      "counts": {
+        "records": 1,
+        "historyVersions": 2,
+        "topicLinks": 0,
+        "originalDocuments": 0,
+        "retainedResearch": 1,
+        "activeTasks": 0,
+        "synchronousImports": 0
+      },
+      "readOnly": true,
+      "executionAvailable": false
+    },
+    {
+      "bucket": "reports",
+      "counts": {
+        "records": 1,
+        "historyVersions": 1,
+        "topicLinks": 0,
+        "originalDocuments": 0,
+        "retainedResearch": 2,
+        "activeTasks": 0,
+        "synchronousImports": 0
+      },
+      "readOnly": true,
+      "executionAvailable": false
+    }
+  ],
+  "detach": {
+    "records": 0,
+    "historyVersions": 0,
+    "topicLinks": 1,
+    "originalDocuments": 0,
+    "retainedResearch": 3,
+    "activeTasks": 0,
+    "synchronousImports": 0
+  },
+  "originalPreserved": true,
+  "retainedReportRevision": 2,
+  "historyRestoredAndListRefreshed": true,
+  "exportState": "原文缺失",
+  "lostSourceGenerationAndAdoptionRejected": true,
+  "modelCalls": 1,
+  "pageErrors": []
+}

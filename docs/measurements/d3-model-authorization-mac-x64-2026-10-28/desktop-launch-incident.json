@@ -1,0 +1,36 @@
+{
+  "pid": 80110,
+  "parentPid": 80100,
+  "captureTime": "2026-10-28 16:36:33.4538 +0800",
+  "launchTime": "2026-10-28 16:36:33.2595 +0800",
+  "incident": "3FC264C1-9B47-4BEA-BC38-5C8DD5EE760C",
+  "exception": {
+    "codes": "0x0000000000000000, 0x0000000000000000",
+    "rawCodes": [
+      0,
+      0
+    ],
+    "type": "EXC_CRASH",
+    "signal": "SIGABRT"
+  },
+  "crashedFrames": [
+    "__pthread_kill",
+    "pthread_kill",
+    "abort",
+    "___RegisterApplication_block_invoke",
+    "_dispatch_client_callout",
+    "_dispatch_once_callout",
+    "_RegisterApplication",
+    "GetCurrentProcess",
+    "-[NSMenuBarPresentationInstance _getAggregateUIMode:withOptions:]",
+    "_NSGetAggregateUIMode",
+    "-[NSMenuBarPresentationInstance _isVisible]",
+    "+[NSMenuBarPresentationInstance _isMenuBarVisible]",
+    "_NSInitializeAppContext",
+    "-[NSApplication init]",
+    "+[NSApplication sharedApplication]"
+  ],
+  "rawReportSha256": "8724dca13d3e949cdb0f13984bf3cfb80efc100a6ab2ae7e138894ca9788ded5",
+  "matchedToDesktopSandboxAttempt": true,
+  "sandboxOutsideSameApplicationPassed": 27
+}

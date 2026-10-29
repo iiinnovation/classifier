@@ -1,0 +1,15 @@
+{
+  "packaged": true,
+  "opened": true,
+  "status": 200,
+  "title": "compatible snapshot",
+  "originalManifestIntact": true,
+  "originalTaskState": "running",
+  "selected": "/private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-lifecycle-8gNP0g/recovered-profile/libraries/be6bf314-cb4f-466d-a7fb-39a99ba3b242",
+  "current": "/private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-lifecycle-8gNP0g/recovered-profile/libraries/be6bf314-cb4f-466d-a7fb-39a99ba3b242",
+  "cutoffExplained": true,
+  "runtime": {
+    "node": "24.21.0",
+    "electron": "44.7.0"
+  }
+}

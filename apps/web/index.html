@@ -10,65 +10,77 @@
 <body>
   <div id="drawer-backdrop" class="drawer-backdrop" hidden></div>
   <aside id="library" class="library" aria-label="文献库" hidden>
-    <div class="library-head"><div class="brand"><span class="logo">C</span><div>Classifier<small>文档研读</small></div></div><button id="close-library" class="icon-button" type="button" aria-label="关闭文献库">×</button></div>
-    <button id="drawer-import" class="library-import" type="button">＋ 导入文档</button>
+    <div class="library-head"><div class="brand"><span class="logo">C</span><div>Classifier<small>文献研读</small></div></div><button id="close-library" class="icon-button" type="button" aria-label="关闭文献库">×</button></div>
+    <button id="drawer-import" class="library-import" type="button">＋ 导入文献</button>
     <div class="library-section"><span class="eyebrow">我的文档</span><nav id="documents" aria-label="文档列表"></nav></div>
   </aside>
 
   <main>
     <header class="app-header">
       <div class="header-start"><button id="research-home" class="header-button" type="button">研究主题</button><button id="library-toggle" class="header-button" type="button" aria-controls="library" aria-expanded="false">☰ <span>全部文献</span></button><span class="header-divider"></span><span class="header-brand">Classifier</span></div>
-      <div class="header-actions"><button id="model-settings-open" class="header-button" type="button">模型连接</button><button id="import-open" class="header-button" type="button">＋ 导入文档</button><a id="download" class="header-button" hidden>下载原文件 ↗</a></div>
+      <div class="header-actions"><button id="model-settings-open" class="header-button" type="button">模型连接</button><button id="import-open" class="header-button" type="button">＋ 导入文献</button><a id="download" class="header-button" hidden>下载原文件 ↗</a><details class="more-actions"><summary>更多</summary><div class="more-actions-list"><button id="storage-usage-open" class="header-button" type="button">存储用量</button></div></details></div>
     </header>
 
     <p id="app-message" class="app-message" role="status" hidden></p>
+    <section id="library-health" class="library-health notice" aria-label="资料库异常" hidden>
+      <p id="library-health-summary" role="status"></p>
+      <p>损坏记录暂不载入，原始文件仍保留。可在桌面“资料库”菜单检查并选择性恢复。</p>
+      <details><summary>查看异常记录</summary><ul id="library-health-items"></ul></details>
+      <button id="library-health-refresh" class="quiet-button" type="button">刷新检查信息</button>
+    </section>
     <section id="research-home-panel" class="research-panel">
-      <div class="research-heading"><div><span class="eyebrow">文献研究工作台</span><h1>从一个研究问题开始。</h1><p>整理相关文献，记录筛选依据，继续每一次阅读。</p></div><button id="new-topic" type="button">＋ 创建研究主题</button></div>
+      <div class="research-heading"><div><span class="eyebrow">文献研究工作台</span><h1>从一个研究问题开始。</h1></div><button id="new-topic" type="button">＋ 创建研究主题</button></div>
       <div id="topic-cards" class="topic-cards"></div>
       <div class="library-shortcut"><div><h2>全部文献</h2><p id="all-document-count">已有资料也可以随时关联到研究主题。</p></div><button id="all-documents-open" class="quiet-button" type="button">浏览全部文献 →</button></div>
     </section>
     <section id="topic-panel" class="research-panel" hidden>
       <button id="topic-back" class="quiet-button" type="button">← 研究主题</button>
-      <div class="research-heading"><div><span class="eyebrow">研究主题</span><h1 id="topic-title"></h1></div><button id="edit-topic" class="quiet-button" type="button">编辑主题</button></div>
-      <div class="topic-question"><h2>研究问题</h2><p id="topic-question"></p><div id="topic-scope-section" hidden><h2>研究范围</h2><p id="topic-scope"></p></div></div>
-      <section class="research-task"><h2>让 AI 整理这些文献</h2><p class="hint">说出研究目标，得到带出处的比较草稿，再继续形成研究总结。</p>
-        <form id="research-task-form"><label class="form-field">这次想研究什么？<textarea id="research-task-goal" required maxlength="4000" rows="3" placeholder="比较这些论文的方法和结论，看看分歧在哪里"></textarea></label>
+      <div class="research-heading"><div><span class="eyebrow">研究主题</span><h1 id="topic-title"></h1></div><details class="more-actions"><summary>更多</summary><div class="more-actions-list"><button id="edit-topic" class="quiet-button" type="button">编辑主题</button><button id="topic-impact" class="quiet-button" type="button" data-deletion-bucket="topics">删除影响</button></div></details></div>
+      <nav class="topic-navigation" aria-label="主题内容"><a id="topic-nav-documents" href="#topic-literature">文献</a><a id="topic-nav-comparisons" href="#topic-comparisons">比较</a><a id="topic-nav-reports" href="#topic-reports">总结</a><a id="topic-nav-notes" href="#topic-notebook">笔记</a></nav>
+      <div id="topic-recent" class="topic-recent" hidden></div>
+      <details id="topic-description" class="topic-question"><summary id="topic-description-summary">研究问题与范围</summary><div id="topic-question-section"><h2>研究问题</h2><p id="topic-question"></p></div><div id="topic-scope-section" hidden><h2>研究范围</h2><p id="topic-scope"></p></div></details>
+      <section class="research-task"><h2 id="research-task-title">比较文献</h2>
+        <form id="research-task-form"><div id="research-task-input"><label class="form-field">这次想比较什么？<textarea id="research-task-goal" required maxlength="4000" rows="2" placeholder="比较方法和结论，看看分歧在哪里"></textarea></label>
           <details><summary id="research-task-scope">选择研究材料</summary><div id="research-task-documents" class="attach-options"></div></details>
-          <p id="research-task-hint" class="hint"></p><p id="research-task-error" class="form-error" role="alert"></p><button id="research-task-start" type="submit">生成比较草稿</button>
+          </div><p id="research-task-hint" class="hint"></p><p id="research-task-error" class="form-error" role="alert"></p><div class="collection-actions"><button id="research-task-start" type="submit">生成比较草稿</button><button id="research-task-next" class="quiet-button" type="button" hidden></button></div>
         </form>
       </section>
+      <section id="topic-literature" class="topic-section">
       <div class="collection-head"><div><h2>主题文献</h2><p id="topic-stats" class="hint"></p></div><div class="collection-actions"><button id="attach-existing" class="quiet-button" type="button">关联已有文献</button><button id="topic-import" type="button">＋ 导入文献</button></div></div>
       <div class="collection-filters"><label>筛选状态<select id="selection-filter"><option value="">全部筛选状态</option><option value="pending">待筛选</option><option value="included">已纳入</option><option value="excluded">已排除</option></select></label><label>阅读状态<select id="reading-filter"><option value="">全部阅读状态</option><option value="unread">未读</option><option value="reading">阅读中</option><option value="read">已读</option></select></label></div>
       <div id="topic-documents" class="document-list"></div>
-      <section class="topic-comparisons"><div class="collection-head"><div><h2>多文献比较</h2><p class="hint">选择材料与维度，保留每项判断的条件和出处。</p></div><button id="new-comparison" type="button">＋ 新建比较表</button></div><div id="comparison-list" class="document-list"></div></section>
-      <section class="topic-reports"><div class="collection-head"><div><h2>研究成果</h2><p class="hint">把笔记和证据组织成研究总结，修订后导出。</p></div><button id="new-report" type="button">＋ 新建研究成果</button></div><div id="report-list" class="document-list"></div></section>
-      <section class="topic-notebook"><div class="collection-head"><div><h2>阅读笔记</h2><p class="hint">按研究问题积累的笔记，移出文献后仍会保留。</p></div></div><div id="topic-note-list" class="document-list"></div></section>
+      </section>
+      <section id="topic-comparisons" class="topic-comparisons topic-section"><div class="collection-head"><h2>比较</h2><button id="new-comparison" type="button">＋ 新建比较表</button></div><div id="comparison-list" class="document-list"></div></section>
+      <section id="topic-reports" class="topic-reports topic-section"><div class="collection-head"><h2>总结</h2><button id="new-report" type="button">＋ 新建研究成果</button></div><div id="report-list" class="document-list"></div></section>
+      <section id="topic-notebook" class="topic-notebook topic-section"><div class="collection-head"><h2>笔记</h2></div><div id="topic-note-list" class="document-list"></div></section>
     </section>
     <section id="all-documents-panel" class="research-panel" hidden>
       <div class="research-heading"><div><span class="eyebrow">文献库</span><h1>全部文献</h1><p>保存的原文件与书目信息在各研究主题中共享。</p></div><button id="all-import" type="button">＋ 导入文献</button></div>
       <label class="search-label" for="library-query">查找文献</label><input id="library-query" class="library-query" type="search" placeholder="按标题、作者、年份或文件名查找">
       <div id="all-documents-list" class="document-list"></div>
     </section>
-    <section id="welcome" hidden><button id="welcome-import" type="button">导入文档</button></section>
+    <section id="welcome" hidden><button id="welcome-import" type="button">导入文献</button></section>
 
     <section id="comparison-panel" class="comparison-panel" hidden>
       <button id="comparison-back" class="quiet-button" type="button">← 研究主题</button>
-      <div class="research-heading"><div><span class="eyebrow">证据比较</span><h1 id="comparison-title"></h1><p id="comparison-question"></p></div><div class="collection-actions"><button id="comparison-configure" class="quiet-button" type="button">调整范围与维度</button><button id="comparison-history" class="quiet-button" type="button">版本记录</button><button id="comparison-archive" class="quiet-button" type="button">归档</button></div></div>
+      <div class="research-heading"><div><span class="eyebrow">证据比较</span><h1 id="comparison-title"></h1><p id="comparison-question"></p></div><div class="collection-actions"><button id="comparison-to-report" type="button">生成研究总结</button><details class="more-actions"><summary>更多</summary><div class="more-actions-list"><button id="comparison-configure" class="quiet-button" type="button">调整范围与维度</button><button id="comparison-history" class="quiet-button" type="button">版本记录</button><button id="comparison-archive" class="quiet-button" type="button">归档</button><button id="comparison-impact" class="quiet-button" type="button" data-deletion-bucket="comparisons" disabled>删除影响</button></div></details></div></div>
       <p id="comparison-message" class="form-error" role="status"></p><button id="comparison-retry" class="quiet-button" type="button" hidden>重新加载比较表</button>
       <div id="comparison-drafts" class="draft-notice" hidden><label for="comparison-draft-choice">当前标签页的未保存编辑</label><select id="comparison-draft-choice"></select><button id="comparison-resume" class="quiet-button" type="button">继续编辑</button><button id="comparison-discard" class="quiet-button" type="button">清除所选草稿</button></div>
-      <section class="research-task"><h2>继续研究</h2><form id="comparison-task-form"><label class="form-field">补充要求（可选）<textarea id="comparison-task-goal" maxlength="4000" rows="2" placeholder="例如：增加样本量，重点比较研究局限"></textarea></label><p class="hint">将所选文献的相关节选和笔记发送至已配置的模型。生成结果先供审阅，采用后才更新比较表。</p><div class="collection-actions"><button id="comparison-draft-generate" type="submit">生成整份比较草稿</button><button id="comparison-to-report" type="button">生成研究总结</button></div></form></section>
       <div id="comparison-task-status" role="status" aria-live="polite"></div><section id="comparison-draft-preview" aria-label="AI 比较草稿"></section>
+      <button id="comparison-saved-toggle" class="quiet-button" type="button" aria-controls="comparison-saved" aria-expanded="false" hidden>查看／编辑已保存表格</button>
       <div id="comparison-saved"><p class="comparison-scroll-hint hint">可左右滚动查看全部维度。</p><div id="comparison-grid" class="comparison-grid"></div>
-      <section class="comparison-synthesis"><h2>跨文献判断</h2><p class="hint">判断只针对所选材料；比较项或研究问题变化后需重新复核。</p><div id="comparison-analyses" class="document-list"></div></section>
-      <section class="comparison-model"><h2>辅助比较</h2><p id="comparison-model-hint" class="hint"></p><div class="collection-actions"><label for="comparison-column">比较维度</label><select id="comparison-column"></select><button id="comparison-generate" type="button">生成本列建议</button></div><div id="comparison-suggestions" class="document-list"></div></section></div>
+      <section class="comparison-synthesis"><h2>综合判断</h2><div id="comparison-analyses" class="document-list"></div></section></div>
+      <details id="comparison-task-options" class="research-task"><summary>调整研究要求</summary><form id="comparison-task-form"><label class="form-field">补充要求（可选）<textarea id="comparison-task-goal" maxlength="4000" rows="2" placeholder="例如：增加样本量这一维度，重点比较研究局限"></textarea></label><p class="hint">将相关节选和笔记发送至已配置服务；采用后更新整份比较，原版本保留。</p><button id="comparison-draft-generate" type="submit">生成整份比较草稿</button></form></details>
+      <details id="comparison-model-options" class="comparison-model"><summary>按维度生成建议</summary><p id="comparison-model-hint" class="hint"></p><div class="collection-actions"><label for="comparison-column">比较维度</label><select id="comparison-column"></select><button id="comparison-generate" type="button">生成本列建议</button></div><div id="comparison-suggestions" class="document-list"></div></details>
     </section>
 
     <section id="report-panel" class="report-panel" hidden>
       <button id="report-back" class="quiet-button" type="button">← 研究主题</button>
-      <div class="research-heading"><div><span class="eyebrow">研究成果</span><h1 id="report-title"></h1><p id="report-question"></p></div><div class="collection-actions"><button id="report-edit" type="button">编辑正文</button><button id="report-export" type="button">导出 Markdown</button><button id="report-history" class="quiet-button" type="button">版本记录</button><button id="report-archive" class="quiet-button" type="button">归档</button></div></div>
+      <div class="research-heading"><div><span class="eyebrow">研究总结</span><h1 id="report-title"></h1></div><div class="collection-actions"><button id="report-edit" type="button">编辑正文</button><button id="report-export" type="button">导出 Markdown</button><details class="more-actions"><summary>更多</summary><div class="more-actions-list"><button id="report-history" class="quiet-button" type="button">版本记录</button><button id="report-archive" class="quiet-button" type="button">归档</button><button id="report-impact" class="quiet-button" type="button" data-deletion-bucket="reports" disabled>删除影响</button></div></details></div></div>
+      <details class="report-question-details"><summary>研究问题</summary><p id="report-question"></p></details>
       <p id="report-message" class="hint" role="status"></p><button id="report-retry" class="quiet-button" type="button" hidden>重新加载成果</button>
       <div id="report-drafts" class="draft-notice" hidden><label for="report-draft-choice">当前标签页的未保存编辑</label><select id="report-draft-choice"></select><button id="report-resume" class="quiet-button" type="button">继续成果草稿</button><button id="report-discard" class="quiet-button" type="button">清除所选草稿</button></div>
-      <div class="report-layout"><section id="report-body" aria-label="研究成果正文"></section><aside class="report-sidebar"><div class="collection-head"><h2>所选材料</h2><button id="report-materials" class="quiet-button" type="button">选择研究材料</button></div><div id="report-sources"></div><button id="report-assemble" class="quiet-button" type="button">将所选材料加入正文</button><h2>辅助写作</h2><p id="report-model-hint" class="hint"></p><button id="report-generate" type="button">生成研究草稿</button><div id="report-suggestions"></div></aside></div>
+      <div id="report-pending" class="report-pending"></div><div class="report-layout"><section id="report-body" aria-label="研究成果正文"></section><aside class="report-sidebar"><details id="report-material-details"><summary id="report-material-summary">研究材料</summary><button id="report-materials" class="quiet-button" type="button">选择研究材料</button><div id="report-sources"></div><button id="report-assemble" class="quiet-button" type="button">将所选材料加入正文</button></details><details id="report-model-options"><summary>调整与生成</summary><p id="report-model-hint" class="hint"></p><button id="report-generate" type="button">生成研究草稿</button><div id="report-suggestions"></div></details></aside></div>
     </section>
 
     <section id="workspace" hidden>
@@ -77,9 +89,9 @@
       <div id="warnings" class="warnings" hidden><p id="warning-text"></p><button id="warnings-close" class="icon-button" type="button" aria-label="关闭识别提醒">×</button></div>
       <div class="workspace-grid">
         <section class="conversation" aria-label="问答与检索">
-          <div class="reader-tabs" role="tablist" aria-label="研读方式"><button id="qa-tab" role="tab" aria-controls="qa-panel" aria-selected="true" type="button">文档问答</button><button id="notes-tab" role="tab" aria-controls="notes-panel" aria-selected="false" type="button">阅读笔记</button></div>
+          <div class="reader-tabs" role="tablist" aria-label="研读方式"><button id="qa-tab" role="tab" aria-controls="qa-panel" aria-selected="true" type="button">文献问答</button><button id="notes-tab" role="tab" aria-controls="notes-panel" aria-selected="false" type="button">阅读笔记</button></div>
           <div id="qa-panel" class="qa-panel" role="tabpanel" aria-labelledby="qa-tab">
-          <div class="section-head"><h2 id="conversation-title">文档问答</h2><span id="conversation-mode"></span></div>
+          <div class="section-head"><h2 id="conversation-title">文献问答</h2><span id="conversation-mode"></span></div>
           <div id="history" aria-live="polite"></div>
           <form id="question-form"><label id="question-label" for="question">问题</label><textarea id="question" required maxlength="4000"></textarea><div class="form-bottom"><span id="question-hint"></span><button id="cancel" type="button" hidden>停止</button><button id="ask" type="submit">提问 ↗</button></div></form>
           <p id="error" role="alert"></p>
@@ -109,54 +121,70 @@
     </section>
   </main>
 
-  <dialog id="model-settings-dialog" class="edit-dialog" aria-labelledby="model-settings-title"><div class="dialog-head"><h2 id="model-settings-title">连接研究模型</h2><button id="model-settings-close" class="icon-button" type="button" aria-label="关闭模型设置">×</button></div>
-    <p class="hint">填写兼容 Chat Completions 的服务地址和模型。本次运行有效，退出后需重新连接；API Key 不写入资料库或浏览器存储。</p>
-    <form id="model-settings-form"><label class="form-field">接口地址<input id="model-settings-url" type="url" required maxlength="2000" placeholder="https://你的服务/v1/chat/completions"></label><label class="form-field">模型名称<input id="model-settings-model" required maxlength="200" placeholder="服务商提供的模型标识"></label><label class="form-field">API Key<input id="model-settings-key" type="password" maxlength="8192" autocomplete="off" placeholder="只用于请求所填模型服务"></label><p class="hint">只有发起 AI 任务才发送相关资料。更换或清除连接只影响新任务；正在进行的任务可在任务页停止。</p><p id="model-settings-error" class="form-error" role="alert"></p><div class="collection-actions"><button id="model-settings-save" type="submit">启用本次连接</button><button id="model-settings-clear" type="button" class="quiet-button">清除连接</button></div></form>
+  <dialog id="model-settings-dialog" class="edit-dialog" aria-labelledby="model-settings-title"><div class="dialog-head"><div><span class="eyebrow">AI 研究助手</span><h2 id="model-settings-title">连接研究模型</h2></div><button id="model-settings-close" class="icon-button" type="button" aria-label="关闭模型设置">×</button></div>
+    <p class="dialog-intro">使用你选择的模型服务，辅助问答、比较和总结。</p>
+    <form id="model-settings-form">
+      <label class="form-field">接口地址<input id="model-settings-url" type="url" required maxlength="2000" placeholder="https://你的服务/v1/chat/completions"><small>填写服务商提供的完整 Chat Completions 地址。</small></label>
+      <div class="field-pair"><label class="form-field">模型名称<input id="model-settings-model" required maxlength="200" placeholder="服务商提供的模型标识"></label><label class="form-field">API Key<input id="model-settings-key" type="password" maxlength="8192" autocomplete="off" placeholder="服务商提供的密钥"></label></div>
+      <div class="dialog-callout"><strong>资料何时发送？</strong><p>只有发起 AI 任务，才将问题、相关文献节选和所选研究材料发送到此服务。</p><p>连接仅在本次运行有效，退出后需重新连接；API Key 不写入资料库或浏览器存储。</p></div>
+      <details id="model-connection-management" class="connection-management"><summary>管理当前连接</summary><p class="hint">清除连接只影响新任务，正在进行的任务继续使用原配置。</p><div class="collection-actions"><button id="model-settings-clear" type="button" class="quiet-button">清除连接</button><button id="model-settings-revoke" type="button" class="quiet-button danger-button">撤销模型授权</button></div><p class="hint">撤销会立即禁止后续发送，并停止相关文字和页图任务；已保存内容保留。</p></details>
+      <div class="dialog-actions"><p id="model-settings-error" class="form-error" role="alert"></p><button type="button" class="quiet-button" data-dialog-close="model-settings-close">取消</button><button id="model-settings-save" type="submit">启用本次连接</button></div>
+    </form>
   </dialog>
   <dialog id="import-dialog" class="import-dialog" aria-labelledby="import-title">
-    <div class="dialog-head"><div><span class="eyebrow">添加资料</span><h2 id="import-title">导入文档</h2></div><button id="close-import" class="icon-button" type="button" aria-label="关闭导入窗口">×</button></div>
-    <p>支持 PDF、Word、Markdown、TXT 和 HTML。导入后可直接查找原文。</p>
+    <div class="dialog-head"><div><span class="eyebrow">添加资料</span><h2 id="import-title">导入文献</h2></div><button id="close-import" class="icon-button" type="button" aria-label="关闭导入窗口">×</button></div>
+    <p>支持 PDF、Word（.docx）、Markdown、TXT 和 HTML。</p>
     <label class="form-field">关联到研究主题<select id="import-topic"><option value="">仅保存到全部文献</option></select></label>
     <button id="choose-file" class="upload" type="button">选择文件</button><input id="file" type="file" accept=".pdf,.docx,.md,.markdown,.txt,.html" multiple hidden>
     <details class="import-advanced"><summary>识别设置</summary><label for="parse-mode">处理方式</label><select id="parse-mode"><option value="auto">本地自动识别（推荐）</option><option value="ocr">全页 OCR（扫描或混合文档）</option><option value="vision" disabled>视觉增强（尚未配置）</option></select><p id="parser-status" class="hint"></p></details>
     <p id="upload-status" role="status"></p><button id="cancel-import" class="quiet-button" type="button" hidden>取消当前导入</button>
   </dialog>
   <dialog id="topic-dialog" class="edit-dialog" aria-labelledby="topic-dialog-title">
-    <div class="dialog-head"><h2 id="topic-dialog-title">创建研究主题</h2><button id="close-topic" class="icon-button" type="button" aria-label="关闭主题编辑">×</button></div>
+    <div class="dialog-head"><div><span class="eyebrow">组织研究资料</span><h2 id="topic-dialog-title">创建研究主题</h2></div><button id="close-topic" class="icon-button" type="button" aria-label="关闭主题编辑">×</button></div>
+    <p class="dialog-intro">先取一个名字，就可以开始收集和阅读文献。</p>
     <form id="topic-form">
-      <label class="form-field">主题标题<input id="topic-name-input" required maxlength="200" placeholder="例如：大语言模型辅助文献研究"></label>
-      <label class="form-field">研究问题<textarea id="topic-question-input" required maxlength="4000" placeholder="你希望通过这组文献回答什么问题？"></textarea></label>
-      <label class="form-field">研究范围（选填）<textarea id="topic-scope-input" maxlength="2000" placeholder="时间范围、材料类型、关注对象或排除条件"></textarea></label>
-      <p id="topic-form-error" class="form-error" role="alert"></p><button type="submit">保存主题</button>
+      <label class="form-field">主题标题<input id="topic-name-input" required maxlength="200" placeholder="例如：城市绿地与居民健康" autofocus></label>
+      <details id="topic-details" class="form-details"><summary>补充研究问题与范围<span class="optional-tag">可稍后填写</span></summary>
+        <label class="form-field">研究问题（可选）<textarea id="topic-question-input" maxlength="4000" rows="3" placeholder="你希望通过这组文献回答什么问题？"></textarea></label>
+        <label class="form-field">研究范围（可选）<textarea id="topic-scope-input" maxlength="2000" rows="2" placeholder="时间范围、材料类型或关注对象"></textarea></label>
+      </details>
+      <div class="dialog-actions"><p id="topic-form-error" class="form-error" role="alert"></p><button type="button" class="quiet-button" data-dialog-close="close-topic">取消</button><button type="submit">保存主题</button></div>
     </form>
   </dialog>
   <dialog id="attach-dialog" class="edit-dialog" aria-labelledby="attach-title">
     <div class="dialog-head"><h2 id="attach-title">关联已有文献</h2><button id="close-attach" class="icon-button" type="button" aria-label="关闭文献关联">×</button></div>
-    <form id="attach-form"><label class="form-field">查找文献<input id="attach-query" type="search" placeholder="按标题、作者或文件名查找"></label><div id="attach-options" class="attach-options"></div><p id="attach-error" class="form-error" role="alert"></p><button id="attach-submit" type="submit">关联所选文献</button></form>
+    <p class="dialog-intro">复用文献库中的资料，同一篇文献可以用于多个主题。</p>
+    <form id="attach-form"><label class="form-field">查找文献<input id="attach-query" type="search" placeholder="按标题、作者或文件名查找"></label><div id="attach-options" class="attach-options"></div><div class="dialog-actions"><p id="attach-error" class="form-error" role="alert"></p><button type="button" class="quiet-button" data-dialog-close="close-attach">取消</button><button id="attach-submit" type="submit">关联所选文献</button></div></form>
   </dialog>
   <dialog id="metadata-dialog" class="edit-dialog" aria-labelledby="metadata-title">
     <div class="dialog-head"><h2 id="metadata-title">书目信息</h2><button id="close-metadata" class="icon-button" type="button" aria-label="关闭书目信息">×</button></div>
-    <p class="hint">修改会同步到所有关联主题，原文和引用保持对应。</p>
+    <p class="dialog-intro">可以直接使用导入标题，其他信息按需补充。</p>
     <form id="metadata-form">
       <label class="form-field">文献标题<input id="metadata-name" required maxlength="500"></label>
-      <label class="form-field">作者<input id="metadata-authors" maxlength="2000" placeholder="按原文顺序填写作者"></label>
-      <div class="field-pair"><label class="form-field">发表年份<input id="metadata-year" maxlength="4" pattern="[0-9]{4}" inputmode="numeric" placeholder="例如：2024"></label><label class="form-field">期刊／会议／出版来源<input id="metadata-venue" maxlength="500"></label></div>
-      <label class="form-field">DOI<input id="metadata-doi" maxlength="300" placeholder="10.xxxx/…"></label>
-      <label class="form-field">来源链接<input id="metadata-url" type="url" maxlength="2000" placeholder="https://…"></label>
-      <p id="metadata-error" class="form-error" role="alert"></p><button type="submit">保存书目信息</button>
+      <div class="field-pair"><label class="form-field">作者（可选）<input id="metadata-authors" maxlength="2000" placeholder="按原文顺序填写"></label><label class="form-field">发表年份（可选）<input id="metadata-year" maxlength="4" pattern="[0-9]{4}" inputmode="numeric" placeholder="例如：2024"></label></div>
+      <details id="metadata-details" class="form-details"><summary>出版来源与链接<span id="metadata-details-summary" class="optional-tag">可选</span></summary>
+        <label class="form-field">期刊／会议／出版来源<input id="metadata-venue" maxlength="500"></label>
+        <label class="form-field">DOI<input id="metadata-doi" maxlength="300" placeholder="10.xxxx/…"></label>
+        <label class="form-field">来源链接<input id="metadata-url" type="url" maxlength="2000" placeholder="https://…"></label>
+      </details>
+      <p class="hint">修改会同步到所有关联主题，原文和引用保持对应。</p>
+      <div class="dialog-actions"><p id="metadata-error" class="form-error" role="alert"></p><button type="button" class="quiet-button" data-dialog-close="close-metadata">取消</button><button type="submit">保存书目信息</button></div>
     </form>
   </dialog>
   <dialog id="record-dialog" class="edit-dialog" aria-labelledby="record-title">
     <div class="dialog-head"><h2 id="record-title">筛选与阅读记录</h2><button id="close-record" class="icon-button" type="button" aria-label="关闭筛选记录">×</button></div>
-    <p id="record-context" class="hint"></p>
+    <p id="record-context" class="dialog-context"></p>
     <form id="record-form">
       <div class="field-pair"><label class="form-field">筛选决定<select id="record-selection"><option value="pending">待筛选</option><option value="included">已纳入</option><option value="excluded">已排除</option></select></label><label class="form-field">阅读进度<select id="record-reading"><option value="unread">未读</option><option value="reading">阅读中</option><option value="read">已读</option></select></label></div>
-      <label class="form-field">与研究问题的相关性<textarea id="record-relevance" maxlength="2000" placeholder="这份文献能帮助回答问题的哪一部分？"></textarea></label>
-      <label class="form-field">筛选理由<textarea id="record-reason" maxlength="2000" placeholder="记录纳入、排除或仍待确认的依据"></textarea></label>
-      <p id="record-error" class="form-error" role="alert"></p><button type="submit">保存记录</button>
+      <details id="record-details" class="form-details"><summary>补充筛选说明<span id="record-details-summary" class="optional-tag">可选</span></summary>
+        <label class="form-field">筛选理由（可选）<textarea id="record-reason" maxlength="2000" rows="3" placeholder="例如：研究对象符合范围，保留用于方法比较"></textarea></label>
+        <details id="record-relevance-details" class="form-details nested-details"><summary>与研究问题的关联<span class="optional-tag">可选</span></summary><label class="form-field">这篇文献帮助回答哪一部分？<textarea id="record-relevance" maxlength="2000" rows="3" placeholder="需要进一步说明时填写"></textarea></label></details>
+      </details>
+      <div class="dialog-actions"><p id="record-error" class="form-error" role="alert"></p><button type="button" class="quiet-button" data-dialog-close="close-record">取消</button><button type="submit">保存记录</button></div>
     </form>
   </dialog>
   <datalist id="note-fields"><option value="研究问题"></option><option value="材料或对象"></option><option value="方法"></option><option value="主要发现"></option><option value="局限"></option><option value="待验证问题"></option></datalist>
+  <dialog id="note-topic-dialog" class="edit-dialog" aria-labelledby="note-topic-title"><div class="dialog-head"><h2 id="note-topic-title">选择笔记所属主题</h2><button id="note-topic-close" class="icon-button" type="button" aria-label="关闭主题选择">×</button></div><p class="hint">当前文献将关联到所选主题，随后继续记录笔记。</p><form id="note-topic-form"><label class="form-field">研究主题<select id="note-topic-choice"></select></label><label id="note-topic-new-field" class="form-field" hidden>新主题标题<input id="note-topic-new-title" maxlength="200" placeholder="给研究主题取个名字"></label><div class="dialog-actions"><p id="note-topic-error" class="form-error" role="alert"></p><button id="note-topic-submit" type="submit">继续记笔记</button></div></form></dialog>
   <dialog id="note-dialog" class="edit-dialog note-dialog" aria-labelledby="note-dialog-title">
     <div class="dialog-head"><h2 id="note-dialog-title">阅读笔记</h2><button id="close-note" class="icon-button" type="button" aria-label="关闭笔记编辑">×</button></div>
     <p id="note-origin" class="hint"></p>
@@ -169,7 +197,7 @@
       <div class="note-evidence-heading"><h3>关联原文</h3><button id="note-change-evidence" class="quiet-button" type="button">重新选择原文</button></div>
       <div id="note-existing-evidence"></div>
       <div id="note-reference-picker" hidden><label class="form-field">查找可引用片段<input id="note-reference-query" type="search" placeholder="输入文中的关键词"></label><div id="note-reference-options" class="attach-options"></div><p class="hint">最多选择 12 个片段。未选择时可保存为用户判断。</p></div>
-      <p id="note-error" class="form-error" role="alert"></p><button id="note-load-latest" class="quiet-button" type="button" hidden>载入已保存版本</button><button id="save-note" type="submit">保存笔记</button>
+      <div class="dialog-actions"><p id="note-error" class="form-error" role="alert"></p><button id="note-load-latest" class="quiet-button" type="button" hidden>载入已保存版本</button><button type="button" class="quiet-button" data-dialog-close="close-note">取消</button><button id="save-note" type="submit">保存笔记</button></div>
     </form>
   </dialog>
   <dialog id="evidence-dialog" class="edit-dialog" aria-labelledby="evidence-title">
@@ -177,9 +205,9 @@
     <p id="evidence-location" class="hint"></p><p id="evidence-warning" class="notice"></p><blockquote id="evidence-text"></blockquote><button id="evidence-open-source" type="button">定位到原文</button>
   </dialog>
   <dialog id="note-history-dialog" class="edit-dialog" aria-labelledby="note-history-title"><div class="dialog-head"><h2 id="note-history-title">笔记版本记录</h2><button id="close-note-history" class="icon-button" type="button" aria-label="关闭版本记录">×</button></div><div id="note-history-list"></div><p id="note-history-error" class="form-error" role="alert"></p></dialog>
-  <dialog id="comparison-editor" class="edit-dialog comparison-editor" aria-labelledby="comparison-editor-title"><div class="dialog-head"><h2 id="comparison-editor-title">编辑比较</h2><button id="comparison-editor-close" class="icon-button" type="button" aria-label="关闭比较编辑">×</button></div><p id="comparison-editor-context" class="hint"></p><form id="comparison-form"><div id="comparison-fields"></div><p id="comparison-editor-error" class="form-error" role="alert"></p><button id="comparison-editor-latest" class="quiet-button" type="button" hidden>载入已保存版本</button><button id="comparison-save" type="submit">保存比较</button></form></dialog>
+  <dialog id="comparison-editor" class="edit-dialog comparison-editor" aria-labelledby="comparison-editor-title"><div class="dialog-head"><h2 id="comparison-editor-title">编辑比较</h2><button id="comparison-editor-close" class="icon-button" type="button" aria-label="关闭比较编辑">×</button></div><p id="comparison-editor-context" class="dialog-context"></p><form id="comparison-form"><div id="comparison-fields"></div><div class="dialog-actions"><p id="comparison-editor-error" class="form-error" role="alert"></p><button id="comparison-editor-latest" class="quiet-button" type="button" hidden>载入已保存版本</button><button type="button" class="quiet-button" data-dialog-close="comparison-editor-close">取消</button><button id="comparison-save" type="submit">保存比较</button></div></form></dialog>
   <dialog id="comparison-inspector" class="edit-dialog comparison-editor" aria-labelledby="comparison-inspector-title"><div class="dialog-head"><h2 id="comparison-inspector-title">比较详情</h2><button id="comparison-inspector-close" class="icon-button" type="button" aria-label="关闭比较详情">×</button></div><div id="comparison-inspector-body"></div><p id="comparison-inspector-error" class="form-error" role="alert"></p></dialog>
-  <dialog id="report-editor" class="edit-dialog report-editor" aria-labelledby="report-editor-title"><div class="dialog-head"><h2 id="report-editor-title">编辑研究成果</h2><button id="report-editor-close" class="icon-button" type="button" aria-label="关闭成果编辑">×</button></div><form id="report-form"><div id="report-fields"></div><p id="report-editor-error" class="form-error" role="alert"></p><button id="report-latest" class="quiet-button" type="button" hidden>核对已保存版本</button><button id="report-save" type="submit">保存成果</button></form></dialog>
+  <dialog id="report-editor" class="edit-dialog report-editor" aria-labelledby="report-editor-title"><div class="dialog-head"><h2 id="report-editor-title">编辑研究成果</h2><button id="report-editor-close" class="icon-button" type="button" aria-label="关闭成果编辑">×</button></div><form id="report-form"><div id="report-fields"></div><div class="dialog-actions"><p id="report-editor-error" class="form-error" role="alert"></p><button id="report-latest" class="quiet-button" type="button" hidden>核对已保存版本</button><button type="button" class="quiet-button" data-dialog-close="report-editor-close">取消</button><button id="report-save" type="submit">保存成果</button></div></form></dialog>
   <dialog id="report-inspector" class="edit-dialog report-editor" aria-labelledby="report-inspector-title"><div class="dialog-head"><h2 id="report-inspector-title">成果详情</h2><button id="report-inspector-close" class="icon-button" type="button" aria-label="关闭成果详情">×</button></div><div id="report-inspector-body"></div><p id="report-inspector-error" class="form-error" role="alert"></p></dialog>
   <script type="module" src="/app.js"></script>
 </body>

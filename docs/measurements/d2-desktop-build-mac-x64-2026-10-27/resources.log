@@ -1,0 +1,77 @@
+all measurement; exit code 1
+/Users/apple/.zprofile:12: no such file or directory: /opt/homebrew/bin/brew
+startup 1/20: 2088 ms
+startup 2/20: 1302 ms
+startup 3/20: 1290 ms
+startup 4/20: 1336 ms
+startup 5/20: 1465 ms
+startup 6/20: 2026 ms
+startup 7/20: 1933 ms
+startup 8/20: 1634 ms
+startup 9/20: 1363 ms
+startup 10/20: 1337 ms
+startup 11/20: 1379 ms
+startup 12/20: 1494 ms
+startup 13/20: 1335 ms
+startup 14/20: 1311 ms
+startup 15/20: 1322 ms
+startup 16/20: 1379 ms
+startup 17/20: 1478 ms
+startup 18/20: 1397 ms
+startup 19/20: 1335 ms
+startup 20/20: 1326 ms
+idle warmup: 15000/60000 ms
+idle warmup: 30000/60000 ms
+idle warmup: 45000/60000 ms
+idle warmup: 60000/60000 ms
+idle P95: 390.2 MiB
+pdf: peak 1240.4 MiB
+ocr: peak 936.4 MiB
+ocr-bilingual: peak 947.6 MiB
+cancel baseline: 15000/60000 ms
+cancel baseline: 30000/60000 ms
+cancel baseline: 45000/60000 ms
+cancel baseline: 60000/60000 ms
+cancel cycle 1/10 complete
+cancel cycle 2/10 complete
+cancel cycle 3/10 complete
+cancel cycle 4/10 complete
+cancel cycle 5/10 complete
+cancel cycle 6/10 complete
+cancel cycle 7/10 complete
+cancel cycle 8/10 complete
+cancel cycle 9/10 complete
+cancel cycle 10/10 complete
+cancel recovery: 15000/60000 ms
+cancel recovery: 30000/60000 ms
+cancel recovery: 45000/60000 ms
+cancel recovery: 60000/60000 ms
+cancel growth: 45.4 MiB; OCR processes remaining: 0
+{
+  "file": "/private/tmp/classifier-d2-package-metrics-uw2Rhq/dist/desktop/measurements/darwin-x64-all.json",
+  "completed": true,
+  "gates": {
+    "installSize": true,
+    "downloadSize": true,
+    "startup": true,
+    "idle": true,
+    "pdf": false,
+    "ocr": true,
+    "ocr-bilingual": true,
+    "cancel": true,
+    "cancelProcesses": true
+  }
+}
+
+PDF repeat; exit code 0
+pdf: peak 1222.6 MiB
+{
+  "file": "/private/tmp/classifier-d2-package-metrics-uw2Rhq/dist/desktop/measurements/darwin-x64-pdf.json",
+  "completed": true,
+  "gates": {
+    "installSize": true,
+    "downloadSize": true,
+    "pdf": true
+  }
+}
+

@@ -1,0 +1,152 @@
+{
+  "timestamp": "2026-10-27T13:17:11.700Z",
+  "platform": "darwin",
+  "arch": "x64",
+  "os": "25.6.0",
+  "memoryBytes": 34359738368,
+  "cpu": "Intel(R) Core(TM) i7-1068NG7 CPU @ 2.30GHz",
+  "logicalCpus": 8,
+  "mode": "pdf",
+  "instrumentation": "Normal packaged executable with renderer CDP only; connectOverCDP(noDefaults:true), no Node inspector or Playwright launch switches. RSS includes shared-page double counting.",
+  "minimumHardwareVerified": false,
+  "results": {
+    "pdf": {
+      "durationMs": 7096.279278,
+      "peakRss": 1281990656,
+      "fixtureBytes": 201994,
+      "fixtureSha256": "cbcbb43a76b065a99246fe64fafbafe54abcc4ec25a42d72dd4759147d1cb0eb",
+      "samples": [
+        {
+          "at": 1793107033693,
+          "rss": 408772608,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793107034037,
+          "rss": 508928000,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793107034383,
+          "rss": 539078656,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793107034724,
+          "rss": 613974016,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793107035082,
+          "rss": 665796608,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793107035434,
+          "rss": 733691904,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793107035779,
+          "rss": 798519296,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793107036128,
+          "rss": 839114752,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793107036477,
+          "rss": 894988288,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793107036821,
+          "rss": 945786880,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793107037167,
+          "rss": 995282944,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793107037507,
+          "rss": 1054797824,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793107037861,
+          "rss": 1120849920,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793107038210,
+          "rss": 1171795968,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793107038557,
+          "rss": 1231052800,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793107038909,
+          "rss": 1281990656,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793107039250,
+          "rss": 462389248,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793107039601,
+          "rss": 558551040,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793107039939,
+          "rss": 571404288,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793107040319,
+          "rss": 615550976,
+          "processes": 5,
+          "ocrPids": []
+        }
+      ]
+    }
+  },
+  "gates": {
+    "installSize": true,
+    "downloadSize": true,
+    "pdf": true
+  },
+  "installedBytes": 395410566,
+  "downloadBytes": 163857948,
+  "downloadSha256": "acec8d5794e13bf2b0a31c8387afba71d623aa32a61f418d2f69a61b204cf717",
+  "appAsarSha256": "9265e72c7133dc1529ea3d89105b915456416bf125e81e9e3fd575c4967fc2d4",
+  "completed": true
+}

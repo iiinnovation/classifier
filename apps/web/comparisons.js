@@ -1,4 +1,6 @@
-export function createComparisonWorkspace({ api, element, currentTopic, enter, navigationKey, showTopic, openSource, openReport, modelConfigured, notice, storage }) {
+export function createComparisonWorkspace({ api, element, currentTopic, enter, navigationKey, showTopic, openSource, openReport, modelConfigured, notice, storage, updateTopicContent = () => {}, openDocument = () => {} }) {
+  const sourceText = (state, noun = '原文') => ({ deleted: `${noun}已删除`, missing: `${noun}缺失`, corrupt: `${noun}记录损坏`, unavailable: `${noun}暂时无法读取` })[state] || ''
+  const issueText = issues => [...new Set((issues || []).map(item => sourceText(item.state, '来源')))].filter(Boolean).join('、')
   const sessionStorage = storage?.drafts || globalThis.sessionStorage
   const $ = id => document.getElementById(id)
   const statuses = { unfilled: '未填写', recorded: '已记录', not_reported: '未报告', not_found: '未找到', not_applicable: '不适用' }
@@ -8,6 +10,7 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
   const json = (method, body) => ({ method, headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })
   let table = null, tableId = null, epoch = 0, readVersion = 0, topicVersion = 0, editorEpoch = 0, editor = null, saving = false, timer
   let taskTopic = null, taskBusy = false, goalTable = null
+  let savedVisible = false, visibleRunId = null
   const draftKey = value => `classifier-comparison-draft:${value.topicId}:${value.tableId}:${value.kind}:${value.documentId || ''}:${value.columnId || ''}`
   function button(label, action, className = 'quiet-button') {
     const node = element('button', label, className); node.type = 'button'
@@ -25,6 +28,11 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
     for (const [key, text] of Object.entries(labels)) { const option = element('option', text); option.value = key; node.append(option) }
     node.value = value; wrapper.append(element('span', label), node)
     return { wrapper, node }
+  }
+  function details(label, id, nodes, open = false) {
+    const wrapper = element('details', null, 'form-details'); wrapper.id = id; wrapper.open = open
+    wrapper.append(element('summary', label), ...nodes)
+    return wrapper
   }
   function drafts(topicId = currentTopic()?.id, id = tableId) {
     if (typeof sessionStorage === 'undefined') return []
@@ -53,6 +61,8 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
     $('comparison-inspector').close()
     table = null; tableId = null
     goalTable = null
+    savedVisible = false; visibleRunId = null
+    $('comparison-task-options').open = false; $('comparison-model-options').open = false
     $('comparison-draft-preview').replaceChildren(); $('comparison-task-status').replaceChildren()
   }
   async function open(id) {
@@ -61,7 +71,7 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
     $('comparison-title').textContent = '正在打开比较表…'; $('comparison-question').textContent = ''
     $('comparison-grid').replaceChildren(); $('comparison-analyses').replaceChildren(); $('comparison-suggestions').replaceChildren()
     $('comparison-message').textContent = ''; $('comparison-retry').hidden = true
-    for (const name of ['comparison-configure', 'comparison-history', 'comparison-archive', 'comparison-generate', 'comparison-draft-generate', 'comparison-to-report']) $(name).disabled = true
+    for (const name of ['comparison-configure', 'comparison-history', 'comparison-archive', 'comparison-impact', 'comparison-generate', 'comparison-draft-generate', 'comparison-to-report']) $(name).disabled = true
     const value = await fetchTable(id, token)
     if (navigation !== navigationKey() || token !== epoch || !value) return
     table = value; render()
@@ -95,14 +105,20 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
     try {
       const result = await api(`/api/topics/${topic.id}/comparisons`)
       if (token !== topicVersion) return
-      $('comparison-list').replaceChildren(...result.comparisons.map(item => {
+      updateTopicContent(topic.id, 'comparisons', result.comparisons, open)
+      const cardFor = item => {
         const card = element('article', null, 'document-card'), info = element('div', null, 'document-card-body')
-        info.append(element('h3', item.title), element('p', `${item.documentCount} 篇文献 · ${item.columnCount} 个维度 · 版本 ${item.revision}${item.archived ? ' · 已归档' : ''}`, 'hint'))
+        info.append(element('h3', item.title), element('p', `${item.documentCount} 篇文献 · ${item.columnCount} 个维度${item.archived ? ' · 已归档' : ''}`, 'hint'))
+        if (issueText(item.sourceIssues)) info.append(element('p', `${issueText(item.sourceIssues)}，保留已保存比较。`, 'notice'))
         card.append(info, button('打开比较', () => open(item.id))); return card
-      }))
+      }
+      const active = result.comparisons.filter(item => !item.archived)
+      $('comparison-list').replaceChildren(...active.map(cardFor))
+      const archived = result.comparisons.filter(item => item.archived)
+      if (archived.length) { const group = element('details'); group.append(element('summary', `归档比较（${archived.length}）`), ...archived.map(cardFor)); $('comparison-list').append(group) }
       const pending = drafts(topic.id, null).filter(value => value.kind === 'config' && !value.revision && !result.comparisons.some(item => item.id === value.tableId))
       for (const draft of pending) $('comparison-list').append(button(`继续创建：${draft.body.title || '未命名比较表'}`, () => configure(draft)))
-      if (!result.comparisons.length && !pending.length) $('comparison-list').append(element('p', '选定两篇或更多文献，开始整理证据与差异。', 'collection-empty'))
+      if (!active.length && !pending.length) $('comparison-list').append(element('p', '选定两篇或更多文献，开始比较。', 'collection-empty'))
     } catch (error) { if (token === topicVersion) $('comparison-list').replaceChildren(element('p', error.message, 'form-error')) }
   }
   function evidenceButton(item) { return button(`出处：${item.reference.title}`, () => inspectEvidence(item), 'quiet-button comparison-citation') }
@@ -111,22 +127,33 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
     $('comparison-inspector-error').textContent = ''
     if (!$('comparison-inspector').open) $('comparison-inspector').showModal()
   }
-  function inspectEvidence(item) {
-    const valid = item.matchesCurrent ?? table?.documents.find(doc => doc.id === item.documentId)?.evidenceVersion === item.documentVersion
+  function inspectEvidence(item, cell = null) {
+    const current = table?.documents.find(doc => doc.id === item.documentId)
+    const valid = item.matchesCurrent ?? Boolean(current && !current.unavailable && typeof item.documentVersion === 'string' && current.evidenceVersion === item.documentVersion)
     const nodes = [element('p', `${item.documentTitle} · ${item.reference.title}`, 'hint'), element('blockquote', item.reference.text, 'comparison-quote')]
-    nodes.push(element('p', valid ? (item.reference.needsReview ? '识别结果需要对照原文核对。' : '请核对这段原文是否支持比较项。') : '原文版本已变化或无法确认，下面保留的是保存时的证据。', 'notice'))
+    const unavailable = sourceText(item.sourceState || current?.unavailable)
+    nodes.push(element('p', unavailable ? `${unavailable}，保存时的证据仍保留。请先检查资料。` : valid ? (item.reference.needsReview ? '识别结果需要对照原文核对。' : '请核对这段原文是否支持比较项。') : '原文版本已变化或无法确认，下面保留的是保存时的证据。', 'notice'))
     const go = button('打开原文位置', async () => {
       persistEditor(); $('comparison-editor').close(); editor = null; editorEpoch++
       $('comparison-inspector').close(); await openSource(item, table.id)
     })
     go.disabled = !valid
-    nodes.push(go); inspect('比较项出处', nodes)
+    nodes.push(go)
+    if (cell && valid && !cell.noteChanged && cell.evidence.every(ref => ref.matchesCurrent) && cell.reviewState !== 'checked') {
+      const target = table, token = epoch
+      nodes.push(button('标记已核对', async () => {
+        const updated = await api(`/api/comparisons/${target.id}/cells/${cell.documentId}/${cell.columnId}`, json('PATCH', { revision: target.revision, reviewState: 'checked' }))
+        if (token === epoch) { $('comparison-inspector').close(); accept(updated) }
+      }))
+    }
+    inspect('比较项出处', nodes)
   }
   function render() {
     $('comparison-title').textContent = table.title
+    $('comparison-impact').dataset.deletionId = table.id; $('comparison-impact').disabled = false
     $('comparison-question').textContent = table.question
     if (goalTable !== table.id) { $('comparison-task-goal').value = sessionStorage.getItem('classifier-research-followup:' + table.id) || ''; goalTable = table.id }
-    $('comparison-message').textContent = table.archived ? '此比较表已归档，可恢复后继续生成建议。' : table.documents.some(doc => !doc.linked) ? '部分文献已移出主题，旧比较与证据仍保留。生成新建议前请调整范围。' : ''
+    $('comparison-message').textContent = issueText(table.sourceIssues) ? `${issueText(table.sourceIssues)}，旧比较与证据仍保留。请先检查资料再生成新内容。` : table.archived ? '此比较表已归档，可恢复后继续生成建议。' : table.documents.some(doc => !doc.linked) ? '部分文献已移出主题，旧比较与证据仍保留。生成新建议前请调整范围。' : ''
     for (const name of ['comparison-configure', 'comparison-history', 'comparison-archive']) $(name).disabled = false
     $('comparison-archive').textContent = table.archived ? '恢复比较表' : '归档'
     const matrix = element('table'), head = element('thead'), heading = element('tr')
@@ -142,24 +169,35 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
       for (const col of table.columns) {
         const cell = table.cells.find(item => item.documentId === doc.id && item.columnId === col.id)
         const td = element('td'); td.dataset.columnId = col.id
-        td.append(element('span', `${statuses[cell.status]} · ${kinds[cell.kind]}`, 'note-labels'))
+        if (cell.status !== 'recorded') td.append(element('span', statuses[cell.status], 'note-labels'))
         if (cell.value) td.append(element('p', cell.value, 'comparison-value'))
-        if (cell.conditions) td.append(element('p', `条件：${cell.conditions}`, 'record-preview'))
-        td.append(element('p', `${comparabilities[cell.comparability]}${cell.reason ? `：${cell.reason}` : ''}`, 'comparison-condition'))
+        if (cell.comparability !== 'unchecked' || cell.conditions) {
+          const condition = element('details', null, 'comparison-condition')
+          condition.append(element('summary', comparabilities[cell.comparability]))
+          if (cell.conditions) condition.append(element('p', `条件：${cell.conditions}`, 'record-preview'))
+          if (cell.reason) condition.append(element('p', cell.reason, 'record-preview'))
+          td.append(condition)
+        }
         const stale = cell.noteChanged || cell.evidence.some(item => !item.matchesCurrent)
-        if (stale) td.append(element('p', cell.noteChanged ? '来源笔记已更新，当前保留旧版本内容。' : '原文版本已变化，请复核。', 'notice'))
-        else if (cell.reviewState === 'checked') td.append(element('p', '已人工核对', 'hint'))
-        else if (cell.evidence.length) td.append(element('p', '待人工核对', 'hint'))
+        if (stale) td.append(element('p', cell.noteChanged ? ([...new Set(cell.noteSources.map(note => sourceText(note.sourceState, '来源笔记')))].filter(Boolean).join('、') || '来源笔记已更新') + '，当前保留旧版本内容。' : sourceText(doc.unavailable) || '原文版本已变化，请复核。', 'notice'))
+        else if (cell.evidence.length) td.append(element('p', `${kinds[cell.kind]} · ${cell.reviewState === 'checked' ? '已人工核对' : '待人工核对'}`, 'hint'))
         const actions = element('div', null, 'note-actions')
         actions.append(button('编辑比较项', () => editCell(doc.id, col.id)))
-        if (cell.evidence.length) actions.append(button(`查看出处 (${cell.evidence.length})`, () => inspect(`${doc.title} · ${col.name}`, cell.evidence.map(evidenceButton))))
-        if (!stale && cell.evidence.length && cell.reviewState !== 'checked') actions.append(button('标记已核对', () => mutate(`/api/comparisons/${table.id}/cells/${doc.id}/${col.id}`, { reviewState: 'checked' })))
+        if (cell.evidence.length) actions.append(button(`查看出处 (${cell.evidence.length})`, () => {
+          if (cell.evidence.length === 1) return inspectEvidence(cell.evidence[0], cell)
+          inspect(`${doc.title} · ${col.name}`, cell.evidence.map(item => {
+            const section = element('section', null, 'evidence-preview')
+            section.append(element('p', item.reference.text.slice(0, 260)), button(`出处：${item.reference.title}`, () => inspectEvidence(item, cell)))
+            return section
+          }))
+        }))
         td.append(actions); tr.append(td)
       }
       body.append(tr)
     }
     matrix.append(body); $('comparison-grid').replaceChildren(matrix)
-    $('comparison-analyses').replaceChildren(...table.columns.map(col => {
+    const emptyAnalyses = element('details'); emptyAnalyses.append(element('summary', '添加综合判断'))
+    const analysisCards = table.columns.map(col => {
       const value = table.analyses.find(item => item.columnId === col.id), card = element('article', null, 'comparison-analysis')
       card.dataset.columnId = col.id
       card.append(element('h3', col.name))
@@ -170,21 +208,33 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
         if (value.evidence.some(item => !item.matchesCurrent)) card.append(element('p', '引用的原文版本已变化。', 'notice'))
         card.append(element('p', `依据 ${value.rows.length} 篇文献的已保存比较项`, 'hint'))
         for (const item of value.evidence) card.append(evidenceButton(item))
-      } else card.append(element('p', '尚未记录跨文献判断。', 'hint'))
+      } else { card.append(button('编辑综合判断', () => editAnalysis(col.id))); emptyAnalyses.append(card); return null }
       card.append(button('编辑综合判断', () => editAnalysis(col.id))); return card
-    }))
+    }).filter(Boolean)
+    $('comparison-analyses').replaceChildren(...analysisCards)
+    if (emptyAnalyses.children.length > 1) $('comparison-analyses').append(emptyAnalyses)
     const previous = $('comparison-column').value
     $('comparison-column').replaceChildren(...table.columns.map(col => { const option = element('option', col.name); option.value = col.id; return option }))
     if (table.columns.some(col => col.id === previous)) $('comparison-column').value = previous
-    $('comparison-model-hint').textContent = modelConfigured() ? '每次针对一列读取所选文献的证据。建议经明确采用才更新表格，原版本会保留。' : '尚未配置模型，可以继续手工比较或从笔记、原文取值。'
-    $('comparison-generate').disabled = !modelConfigured() || table.archived || table.documents.some(doc => !doc.linked) || table.suggestions.some(run => ['queued', 'running'].includes(run.status))
+    $('comparison-model-hint').textContent = modelConfigured() ? '将本维度的相关原文发送至已配置服务，采用后更新本列。' : '尚未配置模型，可继续手工比较。'
+    $('comparison-generate').disabled = !modelConfigured() || table.archived || table.documents.some(doc => !doc.linked || doc.unavailable) || Boolean(table.sourceIssues?.length) || table.suggestions.some(run => ['queued', 'running'].includes(run.status))
     $('comparison-draft-generate').disabled = $('comparison-generate').disabled
-    $('comparison-to-report').disabled = !modelConfigured() || table.archived || table.cells.every(cell => cell.status === 'unfilled') || table.suggestions.some(run => ['queued', 'running'].includes(run.status))
-    const latestTask = table.suggestions.find(run => run.purpose === 'comparison-draft')
-    $('comparison-saved').hidden = false
+    $('comparison-to-report').disabled = !modelConfigured() || table.archived || Boolean(table.sourceIssues?.length) || table.cells.every(cell => cell.status === 'unfilled') || table.suggestions.some(run => ['queued', 'running'].includes(run.status))
+    syncSavedVisibility()
     renderTaskResult()
     renderSuggestions(); renderDrafts(); schedule()
   }
+  function syncSavedVisibility() {
+    const run = table?.suggestions.find(item => item.purpose === 'comparison-draft')
+    const previewing = run && ['queued', 'running', 'completed'].includes(run.status) && table.lastDraftRunId !== run.id && sessionStorage.getItem(`classifier-comparison-dismissed-draft:${run.id}`) !== '1'
+    if (visibleRunId !== run?.id) { savedVisible = false; visibleRunId = run?.id }
+    $('comparison-saved').hidden = Boolean(previewing && !savedVisible)
+    $('comparison-saved-toggle').hidden = !previewing
+    $('comparison-saved-toggle').textContent = savedVisible ? '收起已保存表格' : '查看／编辑已保存表格'
+    $('comparison-saved-toggle').setAttribute('aria-expanded', String(savedVisible))
+    $('comparison-to-report').hidden = Boolean(previewing)
+  }
+  $('comparison-saved-toggle').onclick = () => { savedVisible = !savedVisible; syncSavedVisibility() }
   async function mutate(path, body) {
     const target = table, token = epoch
     const result = await api(path, json('PATCH', { revision: target.revision, ...body }))
@@ -204,9 +254,10 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
     const token = ++editorEpoch, navigation = navigationKey()
     const topic = loadedTopic || await api(`/api/topics/${base.topicId}`)
     if (token !== editorEpoch || navigation !== navigationKey()) return
-    const data = base.body || (base.revision ? table : { title: '文献比较', question: topic.question, documentIds: [], columns: ['方法', '研究对象', '主要发现', '局限'].map(name => ({ id: crypto.randomUUID(), name, description: '' })) })
+    const data = base.body || (base.revision ? table : { title: '文献比较', question: topic.question, documentIds: topic.documents.filter(link => link.selection !== 'excluded' && !link.document.unavailable).slice(0, 12).map(link => link.documentId), columns: ['方法', '研究对象', '主要发现', '局限'].map(name => ({ id: crypto.randomUUID(), name, description: '' })) })
     const title = input('比较表标题', 'cmp-title', data.title, false, 200), question = input('比较研究问题', 'cmp-question', data.question, true, 4000)
     title.node.required = true; question.node.required = true
+    question.node.placeholder = '这次希望比较什么？已有主题问题会自动带入。'
     const options = new Map(topic.documents.map(link => [link.documentId, link.document]))
     if (base.revision) for (const doc of table.documents) if (!options.has(doc.id)) options.set(doc.id, { ...doc, removed: true })
     const documentBox = element('div', null, 'comparison-document-options'), checks = []
@@ -219,12 +270,12 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
       const row = element('div', null, 'comparison-column-option'); row.dataset.columnId = col.id
       const name = input('维度名称', '', col.name, false, 80), description = input('维度说明', '', col.description, false, 1000)
       name.node.className = 'column-name'; description.node.className = 'column-description'; name.node.required = true
-      row.append(name.wrapper, description.wrapper, button('上移', () => { if (row.previousElementSibling) columnBox.insertBefore(row, row.previousElementSibling); changed() }), button('移除维度', () => { row.remove(); changed() }))
+      row.append(name.wrapper, button('上移', () => { if (row.previousElementSibling) columnBox.insertBefore(row, row.previousElementSibling); changed() }), button('移除维度', () => { row.remove(); changed() }), details(col.description ? `说明：${col.description.slice(0, 40)}` : '补充维度说明（可选）', '', [description.wrapper]))
       columnBox.append(row)
     }
     data.columns.forEach(addColumn)
     const add = button('＋ 添加维度', () => { addColumn(); changed() })
-    showEditor(base, base.revision ? '调整比较范围与维度' : '新建比较表', [title.wrapper, question.wrapper, element('h3', '选定文献（2–12 篇）'), documentBox, element('h3', '比较维度（1–12 项）'), columnBox, add, element('p', '移除行或维度的旧内容仍保留在版本记录中。', 'hint')], () => ({ title: title.node.value, question: question.node.value, documentIds: checks.filter(check => check.checked).map(check => check.value), columns: [...columnBox.children].map(row => ({ id: row.dataset.columnId, name: row.querySelector('.column-name').value, description: row.querySelector('.column-description').value })) }))
+    showEditor(base, base.revision ? '调整比较范围与维度' : '新建比较表', [title.wrapper, question.wrapper, element('h3', '选定文献（2–12 篇）'), element('p', base.revision || base.body ? '已保留当前比较范围，可以按需调整。' : '已带入主题内未排除的文献，可以调整本次比较范围。', 'hint'), documentBox, element('h3', '比较维度（1–12 项）'), columnBox, add, element('p', '移除行或维度的旧内容仍保留在版本记录中。', 'hint')], () => ({ title: title.node.value, question: question.node.value, documentIds: checks.filter(check => check.checked).map(check => check.value), columns: [...columnBox.children].map(row => ({ id: row.dataset.columnId, name: row.querySelector('.column-name').value, description: row.querySelector('.column-description').value })) }))
   }
   async function editCell(documentId, columnId, draft = null, loadedSources = null) {
     const target = table, token = ++editorEpoch, navigation = navigationKey()
@@ -235,8 +286,16 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
     let source = data.source
     const value = input('比较内容', 'cmp-value', data.value, true), status = select('信息状态', 'cmp-status', statuses, data.status), kind = select('判断类型', 'cmp-kind', kinds, data.kind)
     const conditions = input('适用条件', 'cmp-conditions', data.conditions, true, 2000), comparable = select('可比性', 'cmp-comparability', comparabilities, data.comparability), reason = input('可比性理由', 'cmp-reason', data.reason, true, 2000)
+    value.node.rows = 5; value.node.placeholder = '先记录这篇文献在当前维度上的内容，也可以从已有笔记填入。'
+    conditions.node.rows = 2; reason.node.rows = 2
+    const reasonBox = element('div', null, 'comparison-reason'); reasonBox.append(reason.wrapper)
+    function showReason() { reasonBox.hidden = !['conditional', 'not_comparable'].includes(comparable.node.value) && !reason.node.value.trim() }
+    comparable.node.onchange = showReason; showReason()
+    const states = element('div', null, 'field-pair'); states.append(status.wrapper, comparable.wrapper)
+    const attributes = details(`${kinds[data.kind]} · 适用条件${data.conditions ? '已填写' : '可选'}`, 'cmp-details', [kind.wrapper, conditions.wrapper], Boolean(data.conditions))
+    function updateSummary() { attributes.querySelector('summary').textContent = `${kinds[kind.node.value]} · 适用条件${conditions.node.value.trim() ? '已填写' : '可选'}` }
     const noteChoice = select('选择已有笔记', 'cmp-note-choice', { '': '请选择笔记', ...Object.fromEntries(sourceData.notes.map(note => [note.id, `${note.field} · ${note.content.slice(0, 80) || statuses[note.status]}`])) }, '')
-    function allowInference(allowed) { kind.node.querySelector('[value="inference"]').disabled = !allowed; if (!allowed && kind.node.value === 'inference') kind.node.value = 'user' }
+    function allowInference(allowed) { kind.node.querySelector('[value="inference"]').disabled = !allowed; if (!allowed && kind.node.value === 'inference') kind.node.value = 'user'; updateSummary() }
     allowInference(cell.origin.generatedKind === 'inference' || (source?.type === 'note' && sourceData.notes.find(note => note.id === source.noteId)?.kind === 'inference'))
     value.node.oninput = () => { if (status.node.value === 'unfilled' && value.node.value.trim()) status.node.value = 'recorded' }
     const copyNote = button('从笔记填入', () => {
@@ -245,6 +304,7 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
       source = { type: 'note', noteId: note.id, revision: note.revision }
       allowInference(note.kind === 'inference'); value.node.value = note.status === 'recorded' ? note.content : ''; status.node.value = note.status; kind.node.value = note.kind
       if (note.status !== 'recorded' && note.content) conditions.node.value = note.content
+      updateSummary()
       $('cmp-source-description').textContent = `已选笔记：${note.field} · 版本 ${note.revision}`; changed()
     })
     const quoteBox = element('div', null, 'comparison-reference-options'); quoteBox.hidden = source?.type !== 'passages'
@@ -266,7 +326,10 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
     })
     const evidence = element('div', null, 'note-evidence'); for (const item of cell.evidence) evidence.append(evidenceButton(item))
     const sourceDescription = element('p', source?.type === 'note' ? '继续使用草稿中选定的笔记版本。' : '未更换来源时保留当前证据快照。', 'hint'); sourceDescription.id = 'cmp-source-description'
-    showEditor(state, `${target.columns.find(col => col.id === columnId).name} · 比较项`, [element('p', sourceData.document.title, 'hint'), noteChoice.wrapper, copyNote, sourceDescription, value.wrapper, status.wrapper, kind.wrapper, conditions.wrapper, comparable.wrapper, reason.wrapper, evidence, chooseRefs, quoteBox], () => ({ value: value.node.value, status: status.node.value, kind: kind.node.value, conditions: conditions.node.value, comparability: comparable.node.value, reason: reason.node.value, ...(source ? { source: source.type === 'passages' ? { ...source, referenceIds: [...selectedIds] } : source } : {}) }))
+    const sources = details('从笔记或原文补充', 'cmp-sources', [noteChoice.wrapper, copyNote, chooseRefs, quoteBox], source?.type === 'passages')
+    if (!sourceData.notes.length) { noteChoice.wrapper.hidden = true; copyNote.hidden = true }
+    kind.node.onchange = updateSummary; conditions.node.oninput = updateSummary
+    showEditor(state, `${target.columns.find(col => col.id === columnId).name} · 比较项`, [element('p', sourceData.document.title, 'dialog-context'), value.wrapper, states, reasonBox, attributes, element('h3', '内容依据'), sourceDescription, evidence, sources], () => ({ value: value.node.value, status: status.node.value, kind: kind.node.value, conditions: conditions.node.value, comparability: comparable.node.value, reason: reason.node.value, ...(source ? { source: source.type === 'passages' ? { ...source, referenceIds: [...selectedIds] } : source } : {}) }))
   }
   function editAnalysis(columnId, draft = null) {
     const current = table.analyses.find(item => item.columnId === columnId), data = draft?.body || current || { value: '', relation: 'insufficient', conditions: '' }
@@ -275,11 +338,14 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
     value.node.required = true
     const chosen = new Set(data.documentIds || current?.rows.map(row => row.documentId) || table.documentIds), rows = element('div'), checks = []
     for (const doc of table.documents) { const label = element('label', null, 'attach-option'), check = element('input'); check.type = 'checkbox'; check.value = doc.id; check.checked = chosen.has(doc.id); checks.push(check); label.append(check, element('span', doc.title)); rows.append(label) }
-    showEditor(state, `${table.columns.find(col => col.id === columnId).name} · 综合判断`, [relation.wrapper, value.wrapper, conditions.wrapper, element('h3', '选择判断所依据的文献'), rows, element('p', '保存这些行的当前比较项与证据快照。材料不足只能针对已选范围作出说明。', 'hint')], () => ({ relation: relation.node.value, value: value.node.value, conditions: conditions.node.value, documentIds: checks.filter(check => check.checked).map(check => check.value) }))
+    showEditor(state, `${table.columns.find(col => col.id === columnId).name} · 综合判断`, [value.wrapper, relation.wrapper, details('条件差异或材料不足（可选）', 'cmp-analysis-details', [conditions.wrapper], Boolean(data.conditions)), details('判断所依据的文献 · 已带入当前范围', 'cmp-analysis-sources', [rows, element('p', '保存这些行的当前比较项与证据快照。材料不足只能针对已选范围作出说明。', 'hint')])], () => ({ relation: relation.node.value, value: value.node.value, conditions: conditions.node.value, documentIds: checks.filter(check => check.checked).map(check => check.value) }))
   }
   function changed() { if (editor && !saving) { editor = { ...editor, dirty: true }; persistEditor() } }
   $('comparison-form').oninput = changed
   $('comparison-form').onchange = changed
+  $('comparison-form').addEventListener('invalid', event => {
+    for (let node = event.target.parentElement; node && node !== $('comparison-form'); node = node.parentElement) if (node.tagName === 'DETAILS') node.open = true
+  }, true)
   $('comparison-editor-close').onclick = () => { if (!saving) { persistEditor(); editor = null; editorEpoch++; $('comparison-editor').close(); renderDrafts() } }
   $('comparison-editor').oncancel = event => { if (saving) event.preventDefault(); else { persistEditor(); editor = null; editorEpoch++; renderDrafts() } }
   async function resume(draft) {
@@ -424,17 +490,41 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
     const count = $('research-task-documents').querySelectorAll('input:checked').length
     $('research-task-scope').textContent = '已选 ' + count + ' 篇文献 · 调整范围'
     $('research-task-start').disabled = taskBusy || !modelConfigured() || count < 2 || count > 12
-    $('research-task-hint').textContent = !modelConfigured() ? '尚未配置模型，仍可使用下方的阅读、笔记和手工比较。' : '选择 2–12 篇文献。开始后会将相关节选和笔记发送至已配置的模型；AI 建议比较维度并逐项取证。'
+    const next = $('research-task-next'), total = taskTopic?.documents.length || 0
+    $('research-task-input').hidden = total < 2
+    $('research-task-start').hidden = total < 2
+    next.hidden = false
+    if (!total) {
+      $('research-task-title').textContent = '先添加研究文献'
+      $('research-task-hint').textContent = '导入新文献，或关联已有资料。'
+      next.textContent = '导入文献'; next.onclick = () => $('topic-import').click()
+    } else if (total === 1) {
+      $('research-task-title').textContent = '开始阅读'
+      $('research-task-hint').textContent = '可先阅读这一篇；比较需要至少两篇文献。'
+      next.textContent = '阅读本篇'; next.onclick = () => openDocument(taskTopic.documents[0].documentId)
+    } else if (count < 2 || count > 12) {
+      $('research-task-title').textContent = '比较文献'
+      $('research-task-hint').textContent = count > 12 ? `已选 ${count} 篇，最多 12 篇。请调整本次比较范围。` : '请至少选择两篇文献。'
+      next.textContent = '调整选择'; next.onclick = () => { $('research-task-scope').parentElement.open = true; $('research-task-scope').focus() }
+    } else if (!modelConfigured()) {
+      $('research-task-title').textContent = '比较文献'
+      $('research-task-hint').textContent = '尚未配置模型，可手工比较或连接模型生成草稿。'
+      next.textContent = '连接模型'; next.onclick = () => $('model-settings-open').click()
+    } else {
+      $('research-task-title').textContent = '比较文献'
+      $('research-task-hint').textContent = '将所选文献节选与笔记发送至已配置的模型服务。'
+      next.hidden = true
+    }
   }
   function renderTaskComposer(topic) {
     taskTopic = topic
     const draft = readTask(topic)
     $('research-task-goal').value = draft?.goal ?? topic.question
     $('research-task-error').textContent = ''
-    const selected = draft?.documentIds || topic.documents.filter(link => link.selection !== 'excluded').map(link => link.documentId)
+    const selected = draft?.documentIds || topic.documents.filter(link => link.selection !== 'excluded' && !link.document.unavailable).map(link => link.documentId)
     $('research-task-documents').replaceChildren(...topic.documents.map(link => {
-      const row = element('label', null, 'attach-option'), check = element('input'); check.type = 'checkbox'; check.value = link.documentId; check.checked = selected.includes(link.documentId)
-      row.append(check, element('span', link.document.title + (link.selection === 'excluded' ? '（已排除）' : ''))); return row
+      const row = element('label', null, 'attach-option'), check = element('input'); check.type = 'checkbox'; check.value = link.documentId; check.checked = !link.document.unavailable && selected.includes(link.documentId); check.disabled = Boolean(link.document.unavailable)
+      row.append(check, element('span', link.document.title + (link.document.unavailable ? '（暂不可用，请先核对资料库）' : link.selection === 'excluded' ? '（已排除）' : ''))); return row
     }))
     updateTaskScope()
   }
@@ -498,7 +588,7 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
       $('comparison-task-status').append(progress); return
     }
     if (run.status !== 'completed') { $('comparison-task-status').append(element('p', (run.error || '任务中断。') + ' 已保存的比较内容不受影响，可重新生成。', 'notice')); return }
-    if (table.lastDraftRunId === run.id) { $('comparison-task-status').append(element('p', '比较草稿已采用，可直接修订、核对出处，再生成研究总结。', 'hint')); return }
+    if (table.lastDraftRunId === run.id) { $('comparison-task-status').append(element('p', '比较草稿已采用。', 'hint')); return }
     if (sessionStorage.getItem(`classifier-comparison-dismissed-draft:${run.id}`) === '1') { $('comparison-task-status').append(element('p', '已放弃此比较草稿。', 'hint')); return }
     const draft = element('div', null, 'research-draft')
     draft.append(element('h2', 'AI 比较草稿 · 待核对'), element('p', '以下内容基于所选文献的部分证据；未找到不代表论文未报告。采用会更新全部维度与内容，原版本保留。', 'hint'))
@@ -535,7 +625,7 @@ export function createComparisonWorkspace({ api, element, currentTopic, enter, n
     }, '')
     const discard = button('放弃草稿', () => {
       sessionStorage.setItem(`classifier-comparison-dismissed-draft:${run.id}`, '1')
-      renderTaskResult()
+      renderTaskResult(); syncSavedVisibility()
     })
     if (run.stale || table.archived || run.baseRevision !== table.revision) { apply.disabled = true; errorNode.textContent = table.archived ? '比较表已归档，请先恢复后再生成。' : '比较表或来源已修改，请重新生成；旧草稿按原范围保留供参考。' }
     actions.append(apply, discard); draft.append(actions, errorNode); $('comparison-draft-preview').append(draft)

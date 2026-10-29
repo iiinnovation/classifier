@@ -4,7 +4,7 @@
 
 - `GET /api/topics/:topicId/reports`：成果摘要列表，包含归档项。
 - `GET /api/topics/:topicId/report-materials`：当前主题可选的笔记、比较表及文献目录。
-- `POST /api/topics/:topicId/reports`：创建成果，返回 201。字段为可选 `id`（UUID，用于幂等重试）、`title`（最多 200 字符）、可选 `question`（默认主题问题，最多 4000 字符）、可选 `sources`。
+- `POST /api/topics/:topicId/reports`：创建成果，返回 201。字段为可选 `id`（UUID，用于幂等重试）、`title`（最多 200 字符）、可选 `question`（默认主题问题，最多 4000 字符）、可选 `sources` 和 `blocks`。首次正文复用下方段落校验，与标题及材料一起保存到版本 1；不传 `blocks` 时创建空正文。
 - `GET /api/reports/:id`：成果、段落、材料与原文快照、派生复核状态及最近建议任务。
 - `PATCH /api/reports/:id`：携带 `revision`，更新 `title`、`question`、`blocks`、`sources`、`archived`；并发冲突返回 409。
 - `GET /api/reports/:id/history`：当前成果与完整历史。通过 `PATCH { revision, restoreRevision }` 恢复为新版本。
@@ -26,7 +26,7 @@
 - `PATCH /api/reports/:id { revision, reviewBlockId }`：单独确认已保存段落的核对状态；材料或原文已变化时拒绝。
 - `POST /api/reports/:id/suggestions { revision }`：生成待审阅草稿，返回 202 和 `purpose=report-suggestion` 的任务。只读取所选材料；完整模型输入最多 100000 字符，注明有限阅读。复用 `/api/runs/:id` 查询和取消。
 - `POST /api/reports/:id/adopt { revision, runId }`：明确采用草稿并替换正文，原正文进入历史。成果版本、材料、原文或主题关联变化时拒绝旧建议。
-- `GET /api/reports/:id/export?revision=N`：下载指定当前版本的 Markdown，含段落判断类型、复核状态、引用清单、书目信息、原文摘录与页码或段落位置；版本不符返回 409。
+- `GET /api/reports/:id/export?revision=N`：下载指定当前版本的 Markdown，含段落判断类型、复核状态、引用清单、书目信息、原文摘录与页码或段落位置；版本不符或尚无非空已保存正文时返回 409。草稿须先明确采用后才属于导出正文。
 
 响应中的 `evidence[].matchesCurrent`、`sources[].changed`、`blocks[].outdated` 为派生状态，不改写历史快照。移出主题不删除成果或引用；解析变化后保留旧摘录并阻止错误跳转。Markdown 将用户和原文内容作为文字转义，不执行嵌入 HTML 或图片。
 

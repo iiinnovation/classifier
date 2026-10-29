@@ -1,0 +1,747 @@
+{
+  "date": "2026-10-29",
+  "verifiedAt": "2026-10-29T07:18:48.377Z",
+  "scope": "UX-03 mainline product adjustments in the current workspace source and Electron development entry; synthetic libraries and controlled model responses.",
+  "implementedReviewItems": [
+    "PM-01",
+    "PM-02",
+    "PM-03",
+    "PM-04",
+    "PM-05",
+    "PM-06",
+    "PM-07",
+    "PM-08",
+    "PM-09",
+    "PM-10",
+    "PM-11",
+    "PM-12",
+    "PM-13",
+    "PM-14",
+    "PM-15",
+    "PM-16"
+  ],
+  "results": {
+    "productUnitTests": {
+      "status": "passed",
+      "passed": 31,
+      "failed": 0,
+      "cancelled": 0,
+      "command": "node --test tests/topics.test.mjs tests/web.test.mjs tests/comparisons.test.mjs tests/reports.test.mjs tests/report-editor.test.mjs tests/notes.test.mjs",
+      "output": "unit-completion.log"
+    },
+    "fullBrowser": {
+      "status": "passed",
+      "passed": 61,
+      "command": "CLASSIFIER_BROWSER_CHANNEL=chrome npm run test:e2e -- --reporter=line --output=docs/measurements/mainline-adjustments-2026-10-29/browser-regression --max-failures=1",
+      "output": "browser-completion.log"
+    },
+    "desktopUtility": {
+      "status": "passed",
+      "passed": 2,
+      "command": "npm run test:desktop:shell -- tests/desktop/form-experience.spec.mjs tests/desktop/research-workflow.spec.mjs --reporter=line --output=docs/measurements/mainline-adjustments-2026-10-29/desktop",
+      "output": "desktop-completion.log"
+    },
+    "electronBusiness": {
+      "status": "passed",
+      "passed": 4,
+      "command": "npm run test:desktop:business -- tests/e2e/mainline-experience.spec.mjs --reporter=line --output=docs/measurements/mainline-adjustments-2026-10-29/electron-business"
+    },
+    "fullNodeInitial": {
+      "status": "completed-with-timeout-cancellations",
+      "total": 421,
+      "passed": 418,
+      "failed": 0,
+      "cancelled": 3,
+      "command": "npm test",
+      "cancelledCases": [
+        "migration SIGKILL at validated",
+        "migration SIGKILL at records",
+        "migration SIGKILL at file-published"
+      ],
+      "note": "30-second timeouts in the concurrent run; not reported as a single fully passing full-Node run."
+    },
+    "migrationRecoveryRerun": {
+      "status": "passed",
+      "passed": 12,
+      "failed": 0,
+      "cancelled": 0,
+      "command": "node --test --test-concurrency=1 tests/migration-recovery.test.mjs",
+      "note": "Includes the three timed-out cases; result observed in the tool output, without an archived complete raw log."
+    },
+    "walkthrough": {
+      "status": "passed",
+      "count": 32,
+      "errors": [],
+      "overflow": [],
+      "command": "node docs/measurements/mainline-adjustments-2026-10-29/walkthrough/audit.mjs"
+    },
+    "whitespace": {
+      "status": "passed",
+      "command": "git diff --check"
+    }
+  },
+  "limits": [
+    "No new distribution package was built.",
+    "No real user research material or real external model provider was used.",
+    "This verifies product flows and persistence boundaries, not scientific output quality."
+  ],
+  "sources": [
+    {
+      "path": "apps/web/index.html",
+      "bytes": 33429,
+      "sha256": "fa91840953fbce3906fefaa8966f39490736a03dc16052ceb5ed149fca4cd8d9"
+    },
+    {
+      "path": "apps/web/style.css",
+      "bytes": 37908,
+      "sha256": "50b10739f3a2b48e0da270f30229713e9d891de61e5e91353424e9cf4486619f"
+    },
+    {
+      "path": "apps/web/app.js",
+      "bytes": 30274,
+      "sha256": "8dd5bce364ef1256d4155a125d13ef28be19509f01c53a6c57e6c111e013b976"
+    },
+    {
+      "path": "apps/web/research.js",
+      "bytes": 23132,
+      "sha256": "e13ff75b15fad62e13785c92e3abfc2699b5d76688879853d5e83c9e31bd4cdf"
+    },
+    {
+      "path": "apps/web/notes.js",
+      "bytes": 34327,
+      "sha256": "85be5f21e65c427eed6a28fece95efe256c8139cdb322a48e657836c210e258c"
+    },
+    {
+      "path": "apps/web/comparisons.js",
+      "bytes": 52804,
+      "sha256": "dca28e0d43840f9b94e7f411f13809bc38f8eff4d4d6395f89929f69ab47e23b"
+    },
+    {
+      "path": "apps/web/reports.js",
+      "bytes": 39105,
+      "sha256": "118103ec96850ca81dd9b4b24e5c01515758b59be72d172bcb79cbb1fa51cf81"
+    },
+    {
+      "path": "apps/web/deletion-preview.js",
+      "bytes": 7331,
+      "sha256": "2b88caea7dca7c07a1a7c214c993e98cb2bbc6ab18512814310af9f1d0bb53cf"
+    },
+    {
+      "path": "apps/web/storage-usage.js",
+      "bytes": 4203,
+      "sha256": "f5329d133e50ef1808eca66012b1c77ff9c1022c8dda2b7f789e9367cf182006"
+    },
+    {
+      "path": "apps/api/src/reports.mjs",
+      "bytes": 30810,
+      "sha256": "73724945f0035e4a68e23a5d17fed0193a08216e85952e04bbe942f90dbb2a21"
+    },
+    {
+      "path": "apps/api/src/comparisons.mjs",
+      "bytes": 35633,
+      "sha256": "2d207409e4e801bfd0cd03132e5efadc14b25d22a86c626a8f129e11e3d393a4"
+    },
+    {
+      "path": "tests/helpers/ui-actions.mjs",
+      "bytes": 841,
+      "sha256": "12d5e47ad01df2fa0e01fffa95f28bd2d35d625cad751c9875a5c79539d78b13"
+    },
+    {
+      "path": "tests/e2e/mainline-experience.spec.mjs",
+      "bytes": 9608,
+      "sha256": "95df83ece56805bdf05d78bfdf4ce487184e7566371a59f7d3b9db14c35b8417"
+    },
+    {
+      "path": "tests/reports.test.mjs",
+      "bytes": 23664,
+      "sha256": "a41d1e5853c7f0b9417b742e1f49720ad75ad796d4b43466f16c8fc6d2437675"
+    },
+    {
+      "path": "tests/comparisons.test.mjs",
+      "bytes": 18752,
+      "sha256": "53fb56f8d080a0673ae9ede321840abd79e186f8a97dadb5d15d1a08c5f87ed8"
+    }
+  ],
+  "documents": [
+    {
+      "path": "docs/ux-03-mainline-implementation.md",
+      "bytes": 7815,
+      "sha256": "c16eea2b368876f7e8a8eed0a0e8a3be7dda87057622a4816acc59ae1227a7c5"
+    },
+    {
+      "path": "docs/product-mainline-review-2026-10-29.md",
+      "bytes": 23382,
+      "sha256": "01cfb19bbbe3605b176e9071015f751ebdca3ab80c5f28d85be1849b319e9e35"
+    },
+    {
+      "path": "docs/product-discussion.md",
+      "bytes": 10045,
+      "sha256": "843ad7d3a728a0c9c6fc5019b790d735f69efa670fa27c3799dc94bf38575c81"
+    },
+    {
+      "path": "docs/work-items.md",
+      "bytes": 32486,
+      "sha256": "50ec58158330f0a897b302a98bd3716289a7bdd536966480326e580a8c31012c"
+    },
+    {
+      "path": "docs/api.md",
+      "bytes": 15660,
+      "sha256": "baf31b41d22fb0b96075ff3ec9dca9662c4454b1106831171a691fdb43e225a1"
+    },
+    {
+      "path": "README.md",
+      "bytes": 17340,
+      "sha256": "fd4653b50d260fa522ae732742e2bd6e16402dbfb5af791c437aef1a9ea8a853"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser/mainline-experience-result-9b5b3-ary-leads-the-narrow-layout/summary-content-first.png",
+      "bytes": 73207,
+      "sha256": "5adb790dd9abb6eba4c18b340d634f9ef45923d70659234a2ffd45eade2dc91f"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser/mainline-experience-theme--781ca-tions-explain-the-next-step/theme-content-first.png",
+      "bytes": 239120,
+      "sha256": "761214413dda9806cc1c336310a17d219e7e82f8867f08962c9b42687f0c1975"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-completion.log",
+      "bytes": 24952,
+      "sha256": "3ef21badea1f516db90a711324e691372fe0506727ae8f405c54a98760e12c6b"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/comparisons-M3-create-edit-4c997--history-drafts-and-restart/comparison-desktop.png",
+      "bytes": 121819,
+      "sha256": "19e1560f5ab5cd2e32658861def287e5173b6f2c5524f046a0c785f5f37ef35c"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/comparisons-M3-create-edit-4c997--history-drafts-and-restart/comparison-mobile.png",
+      "bytes": 105646,
+      "sha256": "7019e5399c2b67b73b61a5ce82bd875aef0bd461fb8245cc40aa930e4848af3d"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/deletion-preview-D2-previe-b3af7-ned-copies-without-deleting/topic-impact.png",
+      "bytes": 231372,
+      "sha256": "2fb81d8a61bb631eecbd51b895fa2e5c2ba88a2db419080ba00de3e92f9e7880"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/mainline-experience-result-9b5b3-ary-leads-the-narrow-layout/summary-content-first.png",
+      "bytes": 73223,
+      "sha256": "b9ea1d581a1e92da39aa4a8b40bbf5d6486a914528897a91729ad24abee02ecf"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/mainline-experience-theme--781ca-tions-explain-the-next-step/theme-content-first.png",
+      "bytes": 239120,
+      "sha256": "761214413dda9806cc1c336310a17d219e7e82f8867f08962c9b42687f0c1975"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/model-revocation-D3-model--e76fb-h-and-survives-page-refresh/model-revocation-narrow.png",
+      "bytes": 72296,
+      "sha256": "704df6c1e6085cb34265654b7978b64d63dffa27ba79ff9171915a2cca7e5ce8"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/model-revocation-D3-model--e76fb-h-and-survives-page-refresh/model-revocation.json",
+      "bytes": 226,
+      "sha256": "b0bb50695bcdfd2494685649640ab0c556c0e6da568c8c9042456fefac6a61cf"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/notes-M2-source-notes-edit-899b5-history-archive-and-restart/note-editor-mobile.png",
+      "bytes": 72918,
+      "sha256": "b3f7ec7e4f01d7de2758fbec5e2a74227201d060eefb65ff7e4de0dd73c6a2d8"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/notes-M2-source-notes-edit-899b5-history-archive-and-restart/notes-desktop.png",
+      "bytes": 86405,
+      "sha256": "4415cf909728375b86a61cc35c52e65c598b588c74e7de67baddd3fa264e7fbf"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/notes-UX-notes-start-with--acb71-ulated-categories-are-shown/note-content-first-desktop.png",
+      "bytes": 114075,
+      "sha256": "56845f723c230b44f0a8e9016d4df0b09bf889677a619a18ac67b7bedd5728b5"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/notes-UX-notes-start-with--acb71-ulated-categories-are-shown/note-content-first-mobile.png",
+      "bytes": 77253,
+      "sha256": "9b7e9c4f9187fcfaf100cb572444ce278397fdb9fd227c26b770c54b45c563cf"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/reports-M4-selected-notes--d43d0-ch-with-history-and-restart/report-desktop.png",
+      "bytes": 172385,
+      "sha256": "7ecb51da18be56481a1836049b42502968b138b9fd6365bd9236940f3f445866"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/reports-M4-selected-notes--d43d0-ch-with-history-and-restart/report-mobile.png",
+      "bytes": 150884,
+      "sha256": "98c6457042d631df9992b06e40cd210a2829ef4ac40b4977f34f0b4f493323a9"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/reports-manuscript-editing-e0fe1-der-undo-and-draft-recovery/manuscript-desktop.png",
+      "bytes": 227539,
+      "sha256": "cfbd8af6c07fd19b670cb52c44a531ee8f056feae616887af046ebc5890292d8"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/reports-manuscript-editing-e0fe1-der-undo-and-draft-recovery/manuscript-mobile.png",
+      "bytes": 141944,
+      "sha256": "66f51ff175f6acaa7fb4325682cec4ffdfa947eda8beee85c284bb4e9566329e"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/research-workflow-AI-task--8b9f1-arison-and-editable-summary/research-comparison-draft.png",
+      "bytes": 146728,
+      "sha256": "302840d261b755a1875c960a2de62fc79dcf51321138cd86eec86c2de12cfd6f"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/research-workflow-AI-task--8b9f1-arison-and-editable-summary/research-summary-draft.png",
+      "bytes": 93590,
+      "sha256": "ce0f0cab8ed5948e14b126fd8fa37b564ca18935a649400f81559cd902ef13fc"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/source-states-D2-corrupt-s-ca2bd--unavailable-source-actions/source-corrupt.png",
+      "bytes": 217624,
+      "sha256": "6e31affe19e8d2cd8936ae0d40da26f993753014ed09828005bc9ef95c9c0953"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/source-states-D2-missing-s-c5740--unavailable-source-actions/source-missing.png",
+      "bytes": 199370,
+      "sha256": "56333282b05cd631963ad2a9102a3cd1b537b32d52e60c6f7448f5cf495300ad"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/storage-usage-D2-storage-u-b0ba8-es-and-fits-a-narrow-window/storage-usage-desktop.png",
+      "bytes": 224488,
+      "sha256": "91c13fbb1c7e23b67b740a516adb991c751085308993faffa3eda63776a2a144"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/storage-usage-D2-storage-u-b0ba8-es-and-fits-a-narrow-window/storage-usage-narrow.png",
+      "bytes": 80260,
+      "sha256": "7428f660fd01fe2a65e30b6662fc00508c24a0ac423709c0db1045036805b51d"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/topics-M1-complete-browser-1f2ea-s-reader-restart-and-mobile/topic-desktop.png",
+      "bytes": 119441,
+      "sha256": "3b0075bfd3a098f86abd9a071324e89d4f97df61763748bacb4bd28bb732aa9f"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/topics-M1-complete-browser-1f2ea-s-reader-restart-and-mobile/topic-mobile.png",
+      "bytes": 100637,
+      "sha256": "2d7c2bee93d475e12c425dcbf5a3caec7214c5314c1e30b928e8eee75d9ff95a"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-tail/reports-M4-selected-notes--d43d0-ch-with-history-and-restart/report-desktop.png",
+      "bytes": 172385,
+      "sha256": "7ecb51da18be56481a1836049b42502968b138b9fd6365bd9236940f3f445866"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-tail/reports-M4-selected-notes--d43d0-ch-with-history-and-restart/report-mobile.png",
+      "bytes": 150884,
+      "sha256": "98c6457042d631df9992b06e40cd210a2829ef4ac40b4977f34f0b4f493323a9"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-tail/reports-manuscript-editing-e0fe1-der-undo-and-draft-recovery/manuscript-desktop.png",
+      "bytes": 224579,
+      "sha256": "856b5bd22b80a13e1634c0076eecb1ea3345143e8b53cdcfa953e5d24c243fd9"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-tail/reports-manuscript-editing-e0fe1-der-undo-and-draft-recovery/manuscript-mobile.png",
+      "bytes": 160114,
+      "sha256": "d88d2cb43af419989fa422fd7236b680433a0a8f0b5b61d2460ed4fadfde1d91"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-tail/research-workflow-AI-task--8b9f1-arison-and-editable-summary/research-comparison-draft.png",
+      "bytes": 146728,
+      "sha256": "302840d261b755a1875c960a2de62fc79dcf51321138cd86eec86c2de12cfd6f"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-tail/research-workflow-AI-task--8b9f1-arison-and-editable-summary/research-summary-draft.png",
+      "bytes": 93590,
+      "sha256": "ce0f0cab8ed5948e14b126fd8fa37b564ca18935a649400f81559cd902ef13fc"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-tail/source-states-D2-corrupt-s-ca2bd--unavailable-source-actions/source-corrupt.png",
+      "bytes": 217624,
+      "sha256": "6e31affe19e8d2cd8936ae0d40da26f993753014ed09828005bc9ef95c9c0953"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-tail/source-states-D2-missing-s-c5740--unavailable-source-actions/source-missing.png",
+      "bytes": 199383,
+      "sha256": "c5ae91f713404a6a6f456f45ca47e9f6608b4b5d2f2fd7486650e26b0b26ee9d"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-tail/storage-usage-D2-storage-u-b0ba8-es-and-fits-a-narrow-window/storage-usage-desktop.png",
+      "bytes": 224720,
+      "sha256": "bd8c64c8edb7733035d78b7c775df986e8930aad9443d73390d3762b1240e2c3"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-tail/storage-usage-D2-storage-u-b0ba8-es-and-fits-a-narrow-window/storage-usage-narrow.png",
+      "bytes": 80465,
+      "sha256": "bd3cbfb63728fa113663aa19bc5653dafae7103841c7645937bbdeb8cb59d9f0"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-tail/topics-M1-complete-browser-1f2ea-s-reader-restart-and-mobile/topic-desktop.png",
+      "bytes": 119420,
+      "sha256": "ff5abf0a409fe8a636a52122ef4b58965d9998d19da30e96d33c2c8082ecc887"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/browser-tail/topics-M1-complete-browser-1f2ea-s-reader-restart-and-mobile/topic-mobile.png",
+      "bytes": 100637,
+      "sha256": "2d7c2bee93d475e12c425dcbf5a3caec7214c5314c1e30b928e8eee75d9ff95a"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/desktop/form-experience-research-f-d543f--desktop-and-narrow-layouts/comparison-cell-desktop.png",
+      "bytes": 115425,
+      "sha256": "f62c3df231ad5de99e42067df1b14077f114d1b2e18943f2427afbcbdac618d3"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/desktop/form-experience-research-f-d543f--desktop-and-narrow-layouts/comparison-cell-narrow.png",
+      "bytes": 52642,
+      "sha256": "1dce41bb7fb4e899c03100e045490f2e6d966f74795d8858653fcc3ded5d8b68"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/desktop/form-experience-research-f-d543f--desktop-and-narrow-layouts/comparison-config-desktop.png",
+      "bytes": 142593,
+      "sha256": "a61ceec2f14df9c376476773417ca5c3e44aa654bdc9dcb4705cc4dd55e63ab7"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/desktop/form-experience-research-f-d543f--desktop-and-narrow-layouts/comparison-config-narrow.png",
+      "bytes": 68428,
+      "sha256": "1350a6b95c37c9e285961601009cb776b0aa57f51e79ef8c5f35c8c612a6b428"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/desktop/form-experience-research-f-d543f--desktop-and-narrow-layouts/desktop-runtime.json",
+      "bytes": 804,
+      "sha256": "40e1d639734dca76973e8a3542e4317c88e29584ef0375dcf40acf131521eb55"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/desktop/form-experience-research-f-d543f--desktop-and-narrow-layouts/metadata-desktop.png",
+      "bytes": 128605,
+      "sha256": "df918ecaef102f89a0506ade5cf2a96ff4361c18bb8a7aaee4c53a12eff9e8b3"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/desktop/form-experience-research-f-d543f--desktop-and-narrow-layouts/metadata-narrow.png",
+      "bytes": 66727,
+      "sha256": "ae81b40c4aa556d0cbabb74f6f329ec57544f3982fd6661ddfd3397158b7f20d"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/desktop/form-experience-research-f-d543f--desktop-and-narrow-layouts/model-desktop.png",
+      "bytes": 145519,
+      "sha256": "2be87d060e331eb66135eb2ed274d4841bd25e16ee7a3971567ada97182fba9f"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/desktop/form-experience-research-f-d543f--desktop-and-narrow-layouts/model-narrow.png",
+      "bytes": 78559,
+      "sha256": "c753181466d5cb4cbef4fb6e60910fe73c0e650ab2241a26e34e7ca6e0078744"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/desktop/form-experience-research-f-d543f--desktop-and-narrow-layouts/record-desktop.png",
+      "bytes": 118210,
+      "sha256": "d31440245a96e5835d7a9ca84b2665fe5a3fda83b30b11b821925f534fb7e01c"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/desktop/form-experience-research-f-d543f--desktop-and-narrow-layouts/record-narrow.png",
+      "bytes": 56843,
+      "sha256": "bbbe8636b2d8e1ff93bfa3275e9fc1e69cb05e2bc6d18a6c5a73d2dcd45e0161"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/desktop/form-experience-research-f-d543f--desktop-and-narrow-layouts/topic-desktop.png",
+      "bytes": 174648,
+      "sha256": "f777d69287eaf25d7b51909d161190cc69f7793e4a55a362e6dd849fc078351c"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/desktop/form-experience-research-f-d543f--desktop-and-narrow-layouts/topic-narrow.png",
+      "bytes": 51652,
+      "sha256": "542b5c50be3c11c55a9acba52d951b3b16cc16435268f554bac19f5e26778d88"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/desktop/research-workflow-real-des-edc91-ask-through-utility-backend/desktop-research-completed.png",
+      "bytes": 184965,
+      "sha256": "79c89ca20a7b2edece949c2c4c6d55e4aa4e0a5dc6ff87a239929be274694d71"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/desktop/research-workflow-real-des-edc91-ask-through-utility-backend/desktop-runtime.json",
+      "bytes": 804,
+      "sha256": "40e1d639734dca76973e8a3542e4317c88e29584ef0375dcf40acf131521eb55"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/desktop-completion.log",
+      "bytes": 802,
+      "sha256": "1b6a397000ab5e02b4a757b3af93828fe54c4d23b95e9779cf83427eecc3002e"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/electron-business/mainline-experience-result-9b5b3-ary-leads-the-narrow-layout/summary-content-first.png",
+      "bytes": 74145,
+      "sha256": "2f85b8f91c1f6222e9b7dcd5428055e6fd850429024dfa1ed79296f5e8e9bb71"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/electron-business/mainline-experience-theme--781ca-tions-explain-the-next-step/theme-content-first.png",
+      "bytes": 242605,
+      "sha256": "ad5882ffd3001622893af3a93c50e29f0a5e658c9d70cf097a20f3ef9056511c"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/unit-completion.log",
+      "bytes": 4100,
+      "sha256": "abb9b7ff108d4aa52ff3a64a7f77a96a72dc37dec007e6497ae335a5547b89dc"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/01-home.png",
+      "bytes": 55666,
+      "sha256": "14626eb2badd0bb5c895420e42d9047be40a6da9ced346f2bb16e5b1df8aefc5"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/02-topic-two.png",
+      "bytes": 143672,
+      "sha256": "64fe53d8c19bcb12d124d3742bdb96b726f9d21c4201f4b94a5a4d0228cef25d"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/03-import.png",
+      "bytes": 171488,
+      "sha256": "03fba3049090a480ccd44027c6ea4b3bbe1609dd53121d22309d3f0618e0f551"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/04-model.png",
+      "bytes": 212015,
+      "sha256": "d1d56156ef5c2b0f9f993ba477a4389c0ae63c4b4b17e4896d442cb5a5211dad"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/05-reader.png",
+      "bytes": 75929,
+      "sha256": "30fa868d5f71ccb68e24459a837afb57096feadfe3f5219b06c142b2b1f7b2ec"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/06-notes-empty.png",
+      "bytes": 70293,
+      "sha256": "1fe2bc9295e4f5073f5148af8c8a894c660e0eed493bdea5a5d3d3e7205e83b3"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/07-note-editor.png",
+      "bytes": 108783,
+      "sha256": "202720cee2bb03ee98d8f0189ff7929a9735dede97c65520a591fd44804041a3"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/08-notes-saved.png",
+      "bytes": 78139,
+      "sha256": "42cb05c17ef9c7122be62d0a7f46cc43ab3c7279658ce725dcdb9053dee5bc72"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/09-comparison-draft.png",
+      "bytes": 146758,
+      "sha256": "7d735c7db8b72fc7d62d0bce92397bd04ee91860e8f8b72561867a5043f67660"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/10-comparison-saved.png",
+      "bytes": 155544,
+      "sha256": "f0f34df3a2c6b9c2175861e17354427b992429c5915b8f816a8befbad23e45cf"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/11-evidence-list.png",
+      "bytes": 181615,
+      "sha256": "a60e2030aea66c4148727ba59fc515f0a3b773503394f948688f27be6e21cc7a"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/12-evidence-excerpt.png",
+      "bytes": 181615,
+      "sha256": "a60e2030aea66c4148727ba59fc515f0a3b773503394f948688f27be6e21cc7a"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/13-export-before-adoption.json",
+      "bytes": 124,
+      "sha256": "9d39753072aa5e941ff63a22acaab7aa7bb0afc77e80d506ad99c8aa9436d6b4"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/13-report-draft.png",
+      "bytes": 93590,
+      "sha256": "ce0f0cab8ed5948e14b126fd8fa37b564ca18935a649400f81559cd902ef13fc"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/14-report-saved.png",
+      "bytes": 86678,
+      "sha256": "40892ddbdad6f27a3ea0c8bfdc16db10be77852b768c48dd255f70c7f23d6812"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/14-saved-export.md",
+      "bytes": 1363,
+      "sha256": "123e40f598b2694917b75e86369af6a384808018ad2795e43536fd0ef364667b"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/15-report-editor.png",
+      "bytes": 133713,
+      "sha256": "d9ce3064ed8f332ff9a658a8e1f0f171fe7fba27bc6ca857fcac78ab5e36e8fd"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/16-report-materials.png",
+      "bytes": 124579,
+      "sha256": "3b06c028b9b4ce8f9c56fccc1e43e245fc4f5ed95b926ba0aaaa7178b1a5b93e"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/17-library-reader-notes.png",
+      "bytes": 49492,
+      "sha256": "5e082975b1c94024fb2fd65af440da83ff07c5e7ed10b24f7a5f92997eae12a4"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/18-all-documents.png",
+      "bytes": 55387,
+      "sha256": "cd3e9e6ff7dd6aee78abd7f6345b1aa6135dfad51163d1e0042b9c07b0ad13d7"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/19-delete-preview.png",
+      "bytes": 230353,
+      "sha256": "f298b0f6cb82ae6c0c8906f02b9a1fd41f558976ff21421aee2744e73f073912"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/20-storage.png",
+      "bytes": 239235,
+      "sha256": "bd3c01dc79a4c05366bdaeae260d1632078e07da7bcfb1ac0d2cb55e660feeb0"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/21-topic-thirteen.png",
+      "bytes": 273829,
+      "sha256": "ff0be97a6ccbcd24486dfc94beae4cb08daae4d207700ad7ded1ba306db454cb"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/21a-topic-eight.png",
+      "bytes": 222783,
+      "sha256": "af9d8ce144077e5e50cfbebe63590175dce9e04083c68c715769afeed82578a2"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/22-topic-thirteen-narrow.png",
+      "bytes": 244820,
+      "sha256": "7f244a4b145b1b0858692d44ae488376425f03d5810ecd8f2ab5a95d23edb35a"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/23-comparison-narrow.png",
+      "bytes": 123851,
+      "sha256": "f8985e483c3d70ec8fee544a5ef6b03394ec6ddd25b09ce1baa6b0258a43b6eb"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/24-report-narrow.png",
+      "bytes": 70444,
+      "sha256": "80eac3319a48c5b4f1aa6c47d974c3fdb0b783289403c5dd32f0d872e4364a90"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/25-topic-empty.png",
+      "bytes": 92691,
+      "sha256": "cdc3bc43f67b95cee8ff0b8d4115ac40c3ec57d54dcd701bc5148d159697bff6"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/26-topic-one.png",
+      "bytes": 103040,
+      "sha256": "07e0cc0b328e5382d6ae99d4e01d703ce161d8ebbd83670562e932f8b8be7c55"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/27-topic-no-model.png",
+      "bytes": 110544,
+      "sha256": "8927f843790f43a0c8bcc171130bb6e7ac35825288ef5061b9e3e23a921afa25"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/28-manual-comparison-config.png",
+      "bytes": 169523,
+      "sha256": "b0b3ce4bd99efc7b26afc14698d38fd1a694db2c74d280d6b43c419ea61e7804"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/29-manual-report-create.png",
+      "bytes": 142141,
+      "sha256": "f54c5c5aaf624766de6c5ac4715d70cb367958f35c7ce460ca69e1b8d458d7a0"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/30-manual-report-empty.png",
+      "bytes": 54477,
+      "sha256": "ad8e0b114dcb493bae734976afb8d694d04ca4966eab14bac9a5773d131d0b10"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/31-manual-report-edit-empty.png",
+      "bytes": 91019,
+      "sha256": "b0f51e1d904cf941f76b31ad40d7a44ebbe4f380783a4818b178b692034df365"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/audit.mjs",
+      "bytes": 9916,
+      "sha256": "bf9eb4cd86af80334e601e0b018bab44dd2de3595c7b787428ea9d6b965aaec1"
+    },
+    {
+      "path": "docs/measurements/mainline-adjustments-2026-10-29/walkthrough/observations.json",
+      "bytes": 115647,
+      "sha256": "d57913e744a6d6eac5206e2c8c0483a119040d75784ada57bfc3d0e392f2a414"
+    }
+  ],
+  "lastRuns": {
+    "browser": {
+      "status": "passed",
+      "failedTests": [],
+      "file": "docs/measurements/mainline-adjustments-2026-10-29/browser/.last-run.json",
+      "updatedAt": "2026-10-29T03:37:39.423Z"
+    },
+    "browser-regression": {
+      "status": "passed",
+      "failedTests": [],
+      "file": "docs/measurements/mainline-adjustments-2026-10-29/browser-regression/.last-run.json",
+      "updatedAt": "2026-10-29T06:58:42.173Z"
+    },
+    "browser-tail": {
+      "status": "passed",
+      "failedTests": [],
+      "file": "docs/measurements/mainline-adjustments-2026-10-29/browser-tail/.last-run.json",
+      "updatedAt": "2026-10-29T06:51:12.268Z"
+    },
+    "desktop": {
+      "status": "passed",
+      "failedTests": [],
+      "file": "docs/measurements/mainline-adjustments-2026-10-29/desktop/.last-run.json",
+      "updatedAt": "2026-10-29T06:55:55.616Z"
+    },
+    "electron-business": {
+      "status": "passed",
+      "failedTests": [],
+      "file": "docs/measurements/mainline-adjustments-2026-10-29/electron-business/.last-run.json",
+      "updatedAt": "2026-10-29T06:09:55.042Z"
+    }
+  },
+  "metrics": [
+    {
+      "name": "21a-topic-eight",
+      "before": {
+        "buttons": 73,
+        "pageHeight": 3025
+      },
+      "after": {
+        "buttons": 32,
+        "pageHeight": 2895
+      }
+    },
+    {
+      "name": "21-topic-thirteen",
+      "before": {
+        "buttons": 108,
+        "pageHeight": 3850
+      },
+      "after": {
+        "buttons": 43,
+        "pageHeight": 3649
+      }
+    },
+    {
+      "name": "09-comparison-draft",
+      "before": {
+        "buttons": 35,
+        "pageHeight": 2949
+      },
+      "after": {
+        "buttons": 16,
+        "pageHeight": 1488
+      }
+    },
+    {
+      "name": "24-report-narrow",
+      "before": {
+        "buttons": 19,
+        "pageHeight": 1480
+      },
+      "after": {
+        "buttons": 11,
+        "pageHeight": 992
+      }
+    }
+  ],
+  "walkthrough": {
+    "count": 32,
+    "errors": [],
+    "overflow": []
+  }
+}

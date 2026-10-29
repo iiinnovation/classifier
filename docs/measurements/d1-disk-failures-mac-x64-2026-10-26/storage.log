@@ -1,0 +1,27 @@
+
+> classifier@0.1.0 test:storage
+> playwright test --config=playwright.storage.config.mjs --reporter=line
+
+
+Running 15 tests using 1 worker
+
+(node:80469) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/15] tests/storage/disk-failures.spec.mjs:6:67 › D1 production utility disk faults: sqlite
+[2/15] tests/storage/disk-failures.spec.mjs:6:67 › D1 production utility disk faults: migration
+[3/15] tests/storage/disk-failures.spec.mjs:6:67 › D1 production utility disk faults: imports
+[4/15] tests/storage/disk-failures.spec.mjs:6:67 › D1 production utility disk faults: backup
+[5/15] tests/storage/disk-failures.spec.mjs:6:67 › D1 production utility disk faults: restore
+[6/15] tests/storage/disk-failures.spec.mjs:6:67 › D1 production utility disk faults: preservation
+[7/15] tests/storage/disk-failures.spec.mjs:6:67 › D1 production utility disk faults: zip
+[8/15] tests/storage/imports.spec.mjs:5:72 › D1 packaged atomic imports survive utility SIGKILL at stage-synced
+[9/15] tests/storage/imports.spec.mjs:5:72 › D1 packaged atomic imports survive utility SIGKILL at before-commit
+[10/15] tests/storage/imports.spec.mjs:5:72 › D1 packaged atomic imports survive utility SIGKILL at after-commit
+[11/15] tests/storage/maintenance.spec.mjs:4:1 › D1 packaged storage migrates restores and serves a SQLite library with directory ownership
+[12/15] tests/storage/migration.spec.mjs:6:3 › D1 packaged migration resumes after utility SIGKILL at records
+[13/15] tests/storage/migration.spec.mjs:6:3 › D1 packaged migration resumes after utility SIGKILL at file-published
+[14/15] tests/storage/migration.spec.mjs:6:3 › D1 packaged migration resumes after utility SIGKILL at published
+[15/15] tests/storage/sqlite.spec.mjs:6:1 › S0 packaged utility runtime validates SQLite transactions and file recovery
+  15 passed (1.5m)

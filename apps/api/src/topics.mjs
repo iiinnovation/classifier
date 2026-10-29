@@ -1,5 +1,7 @@
 import { randomUUID } from 'node:crypto'
 import { HttpError } from './http.mjs'
+import { availableRecord } from './record-integrity.mjs'
+import { sourceStateText } from './evidence.mjs'
 
 const topicFields = { title: 200, question: 4000, scope: 2000 }
 const bibliographyFields = { authors: 2000, year: 4, venue: 500, doi: 300, url: 2000 }
@@ -15,13 +17,13 @@ function validate(body, fields, required = []) {
     if (Array.isArray(rule) ? !rule.includes(trimmed) : trimmed.length > rule) throw new HttpError(422, `字段 ${key} 的值或长度无效。`)
     result[key] = trimmed
   }
-  if (required.some(key => !result[key])) throw new HttpError(422, '主题标题和研究问题不能为空。')
+  if (required.some(key => !result[key])) throw new HttpError(422, '主题标题不能为空。')
   return result
 }
 
 export function documentSummary(document) {
   const { id, title, fileName, createdAt, bibliography = {}, references, warnings } = document
-  return { id, title, fileName, createdAt, bibliography, referenceCount: references.length, warnings }
+  return { id, title, fileName, createdAt, bibliography, referenceCount: references?.length || 0, warnings }
 }
 
 export async function editBibliography(store, id, body) {
@@ -54,16 +56,19 @@ export function createTopics(store) {
   }
   async function detail(id) {
     const topic = await get(id)
-    const documents = await Promise.all(topic.documents.map(async link => ({ ...link, document: documentSummary(await store.document(link.documentId)) })))
+    const documents = await Promise.all(topic.documents.map(async link => {
+      const current = await availableRecord(store, 'documents', link.documentId)
+      return { ...link, document: current.value ? documentSummary(current.value) : { id: link.documentId, title: sourceStateText(current.state, '文献'), unavailable: current.state, referenceCount: 0, warnings: [] } }
+    }))
     return { ...summary(topic), documents }
   }
   async function create(body) {
-    const fields = validate(body, topicFields, ['title', 'question'])
+    const fields = validate(body, topicFields, ['title'])
     const now = new Date().toISOString()
-    return store.write('topics', { id: randomUUID(), scope: '', ...fields, documents: [], createdAt: now, updatedAt: now })
+    return store.write('topics', { id: randomUUID(), question: '', scope: '', ...fields, documents: [], createdAt: now, updatedAt: now })
   }
   async function edit(id, body) {
-    const fields = validate(body, topicFields, ['title', 'question'].filter(key => Object.hasOwn(body, key)))
+    const fields = validate(body, topicFields, ['title'].filter(key => Object.hasOwn(body, key)))
     return store.update('topics', id, topic => ({ ...topic, ...fields, updatedAt: new Date().toISOString() }))
   }
   async function attach(id, documentId) {

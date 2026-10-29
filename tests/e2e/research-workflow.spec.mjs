@@ -1,3 +1,4 @@
+import { clickControl, revealControl, moreAction } from '../helpers/ui-actions.mjs'
 import { test, expect } from '../helpers/browser-fixture.mjs'
 import { researchFixture, researchReply, waitResearch } from '../helpers/research-fixture.mjs'
 import { json } from '../helpers/test-app.mjs'
@@ -19,6 +20,8 @@ test('AI task turns a goal and documents into a cited comparison and editable su
     await expect(page.locator('#comparison-draft-preview tbody tr')).toHaveCount(2)
     await expect(page.locator('#comparison-draft-preview thead th')).toHaveCount(3)
     await expect(page.locator('#comparison-grid')).toContainText('未填写')
+    await expect(page.locator('#comparison-saved')).not.toBeVisible()
+    await page.locator('#comparison-saved-toggle').click()
     await expect(page.locator('#comparison-saved')).toBeVisible()
     await page.locator('#comparison-draft-preview .comparison-citation').first().click()
     await expect(page.locator('.comparison-quote')).toHaveText(app.original)
@@ -88,10 +91,10 @@ test('AI task survives refresh, cancels and retries, then accepts a follow-up us
     await page.getByRole('button', { name: '停止任务', exact: true }).click()
     await expect(page.locator('#comparison-task-status')).toContainText('已取消')
     hang = false
-    await page.locator('#comparison-task-goal').fill('重点比较方法，再增加样本量')
+    await revealControl(page.locator('#comparison-task-goal')); await page.locator('#comparison-task-goal').fill('重点比较方法，再增加样本量')
     await page.reload()
     await expect(page.locator('#comparison-task-goal')).toHaveValue('重点比较方法，再增加样本量')
-    await page.locator('#comparison-draft-generate').click()
+    await clickControl(page, '#comparison-draft-generate')
     await expect(page.locator('#comparison-draft-preview')).toContainText('样本量')
     await page.getByRole('button', { name: '采用比较草稿', exact: true }).click()
     await expect(page.locator('#comparison-grid')).toContainText('样本量')
@@ -151,6 +154,8 @@ test('old comparison draft keeps its original paper scope after documents are re
     await expect(page.locator('#comparison-draft-preview tbody tr')).toHaveCount(2)
     await expect(page.locator('#comparison-draft-preview tbody')).toContainText(app.second.title)
     await expect(page.locator('#comparison-draft-preview tbody')).not.toContainText(app.outside.title)
+    await expect(page.locator('#comparison-saved')).not.toBeVisible()
+    await page.locator('#comparison-saved-toggle').click()
     await expect(page.locator('#comparison-saved')).toBeVisible()
     await expect(page.getByRole('button', { name: '采用比较草稿', exact: true })).toBeDisabled()
     await expect(page.locator('#comparison-draft-preview [role=alert]')).toContainText('原范围')
@@ -171,10 +176,10 @@ test('lost follow-up and report task responses reuse completed requests on retry
       const response = await route.fetch(), run = await response.json()
       await waitResearch(app, run.id); await route.abort()
     })
-    await page.locator('#comparison-task-goal').fill('增加样本量')
-    await page.locator('#comparison-draft-generate').click()
+    await revealControl(page.locator('#comparison-task-goal')); await page.locator('#comparison-task-goal').fill('增加样本量')
+    await clickControl(page, '#comparison-draft-generate')
     await expect(page.locator('#comparison-message')).not.toBeEmpty()
-    await page.locator('#comparison-draft-generate').click()
+    await clickControl(page, '#comparison-draft-generate')
     await expect(page.locator('#comparison-draft-preview')).toContainText('样本量')
     expect(app.inputs).toHaveLength(6)
     await page.getByRole('button', { name: '采用比较草稿', exact: true }).click()
@@ -187,7 +192,7 @@ test('lost follow-up and report task responses reuse completed requests on retry
     })
     await page.locator('#comparison-to-report').click()
     await expect(page.locator('#report-message')).toContainText('重试')
-    await page.locator('#report-generate').click()
+    await clickControl(page, '#report-generate')
     await expect(page.locator('#report-body')).toContainText('研究总结草稿')
     expect(app.inputs).toHaveLength(7)
     const table = (await app.value('/api/topics/' + app.topic.id + '/comparisons')).comparisons[0]

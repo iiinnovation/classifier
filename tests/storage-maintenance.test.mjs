@@ -21,7 +21,7 @@ async function fixture(t) {
   const document = { id, title: 'Storage fixture', fileName: 'fixture.txt', mediaType: 'text/plain', createdAt, warnings: [], schemaVersion: 2, source: { sha256: createHash('sha256').update(text).digest('hex'), byteLength: Buffer.byteLength(text) }, sections: [{ title: 'Text', text }], references: [{ id: 'ref_00001', title: 'Text', text }] }
   await store.saveOriginal(id, Buffer.from(text)); await store.write('documents', document)
   await store.write('topics', { id: topicId, title: 'Research', question: 'Retain evidence?', documents: [{ documentId: id }], createdAt })
-  const note = { id: randomUUID(), documentId: id, topicId, createdAt, revision: 1, content: 'User text', history: [{ revision: 0, content: 'Earlier text' }], evidence: [{ documentId: id, documentVersion: evidenceVersion(document), reference: document.references[0] }] }
+  const note = { id: randomUUID(), documentId: id, topicId, createdAt, revision: 1, content: 'User text', history: [{ revision: 0, content: 'Earlier text', evidence: [] }], evidence: [{ documentId: id, documentVersion: evidenceVersion(document), reference: document.references[0] }] }
   await store.write('notes', note)
   await writeFile(join(source, '.env'), 'TEST_SECRET=never-copy-this')
   return { root, source, store, document, topicId, note, text }

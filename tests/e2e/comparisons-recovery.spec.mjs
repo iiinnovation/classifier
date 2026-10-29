@@ -1,3 +1,4 @@
+import { clickControl, revealControl, moreAction } from '../helpers/ui-actions.mjs'
 import { test, expect, readSessionDraft } from '../helpers/browser-fixture.mjs'
 import { randomUUID } from 'node:crypto'
 import { testApp, json, upload } from '../helpers/test-app.mjs'
@@ -37,7 +38,7 @@ test('M3 a removed analysis dimension retains an accessible draft after loading 
   try {
     const { topic, table, columns } = await seed(app)
     await open(page, app, topic)
-    await page.locator(`#comparison-analyses [data-column-id="${columns[0].id}"]`).getByRole('button', { name: '编辑综合判断', exact: true }).click()
+    await moreAction(page.locator(`#comparison-analyses [data-column-id="${columns[0].id}"]`), '编辑综合判断')
     const content = '未保存的跨文献判断，删除维度后仍然需要恢复。'
     await page.locator('#cmp-analysis-value').fill(content)
     const key = `classifier-comparison-draft:${topic.id}:${table.id}:analysis::${columns[0].id}`
@@ -84,7 +85,7 @@ test('M3 historical citations resolve removed rows and still reject changed sour
     await value(app, `/api/comparisons/${table.id}`, json('PATCH', { revision: filled.revision, documentIds: [app.legacy.id, second.id] }))
     await open(page, app, topic)
     async function citation() {
-      await page.locator('#comparison-history').click()
+      await clickControl(page, '#comparison-history')
       await page.locator('#comparison-inspector-body .comparison-analysis').filter({ has: page.getByRole('heading', { name: `版本 ${filled.revision} · ${table.title}`, exact: true }) }).getByRole('button', { name: /^出处：/ }).click()
       await expect(page.locator('.comparison-quote')).toHaveText(original.references[0].text)
     }

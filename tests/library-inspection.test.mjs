@@ -15,7 +15,7 @@ async function fixture(t) {
   const root = await mkdtemp(join(tmpdir(), 'classifier-inspect-')), source = join(root, 'library')
   t.after(() => rm(root, { recursive: true, force: true }))
   const store = await createStore(source), id = randomUUID(), bytes = Buffer.from('private research text')
-  const document = { id, title: 'private title', createdAt: new Date().toISOString(), source: { sha256: createHash('sha256').update(bytes).digest('hex') } }
+  const document = { id, title: 'private title', createdAt: new Date().toISOString(), sections: [], references: [], source: { sha256: createHash('sha256').update(bytes).digest('hex') } }
   await store.write('documents', document); await store.saveOriginal(id, bytes)
   return { root, source, store, document, bytes }
 }

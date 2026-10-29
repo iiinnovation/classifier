@@ -2,17 +2,18 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { libraryMenu } from '../apps/desktop/library-menu.mjs'
 
-function fixture({ responses = [], paths = [], manager = {} } = {}) {
-  const messages = [], calls = [], checklists = []
+function fixture({ responses = [], paths = [], savePaths = [], manager = {} } = {}) {
+  const messages = [], calls = [], checklists = [], openDialogs = [], saveDialogs = []
   const menu = libraryMenu({
     dialog: {
       async showMessageBox(_window, options) { messages.push(options); return { response: responses.shift() ?? 0 } },
-      async showOpenDialog() { const path = paths.shift(); return path ? { canceled: false, filePaths: [path] } : { canceled: true } },
+      async showOpenDialog(_window, options) { openDialogs.push(options); const path = paths.shift(); return path ? { canceled: false, filePaths: [path] } : { canceled: true } },
+      async showSaveDialog(_window, options) { saveDialogs.push(options); const path = savePaths.shift(); return path ? { canceled: false, filePath: path } : { canceled: true } },
     }, manager, currentDirectory: () => '/library/current', getWindow: () => ({}),
     afterOperation: async () => { calls.push('reload') }, saveChecklist: async result => { checklists.push(result) },
   })
   async function click(label) { menu.template.submenu.find(item => item.label === label).click(); await menu.idle() }
-  return { menu, click, messages, calls, checklists }
+  return { menu, click, messages, calls, checklists, openDialogs, saveDialogs }
 }
 
 test('desktop inspect requires confirmation and presents the checklist with an export choice', async () => {
@@ -76,4 +77,66 @@ test('migration status can be viewed without resuming and continuation explains 
   assert.match(resume.messages[1].detail, /2026-10-21T00:00:00Z/)
   assert.match(resume.messages[1].detail, /不会合并/)
   assert.match(resume.messages[2].detail, /current-backup/)
+})
+
+test('ZIP export and restore use native file dialogs and preserve the snapshot cutoff explanation', async () => {
+  let exported, restored
+  const f = fixture({ savePaths: ['/chosen/backup.zip'], paths: ['/chosen/backup.zip'], responses: [1, 0, 1], manager: {
+    backupZip: async destination => { exported = destination; return { destination } },
+    restore: async (source, options) => { restored = { source, options }; return { destination: '/new', previousBackup: '/safety' } },
+  } })
+  await f.click('导出 ZIP 备份…')
+  assert.equal(exported, '/chosen/backup.zip'); assert.deepEqual(f.saveDialogs[0].filters[0].extensions, ['zip'])
+  await f.click('从 ZIP 备份恢复…')
+  assert.deepEqual(restored, { source: '/chosen/backup.zip', options: { format: 'zip' } })
+  assert.deepEqual(f.openDialogs[0].properties, ['openFile'])
+  assert.match(f.messages[2].detail, /不会合并/); assert.match(f.messages[3].detail, /\/safety/)
+  assert.deepEqual(f.calls, ['reload', 'reload'])
+})
+
+test('cancelling either ZIP dialog or confirmation performs no maintenance', async () => {
+  for (const responses of [[], [0]]) {
+    const f = fixture({ responses, ...(responses.length ? { paths: ['/backup.zip'], savePaths: ['/backup.zip'] } : {}), manager: {
+      backupZip: () => assert.fail('cancelled export must not run'), restore: () => assert.fail('cancelled restore must not run'),
+    } })
+    await f.click('导出 ZIP 备份…'); await f.click('从 ZIP 备份恢复…')
+    assert.deepEqual(f.calls, [])
+  }
+})
+
+test('selective recovery previews versions, passes only chosen keys, and confirms preservation before applying', async () => {
+  const plan = { revision: 'revision', snapshotCreatedAt: '2026-10-23', itemCount: 2, items: [
+    { target: 'notes/a', type: 'record', choices: [{ key: 'selected-key', from: 'backup', savedAt: '2026-10-22', revision: 2 }] },
+    { target: 'originals/b', type: 'original', choices: [{ key: 'skipped-key', from: 'backup', savedAt: '2026-10-22', revision: null }] },
+  ] }
+  let received
+  const f = fixture({ paths: ['/backup'], responses: [1, 1, 1, 0, 1], manager: {
+    recoveryPreview: async (source, options) => { assert.equal(source, '/backup'); assert.equal(options.format, 'directory'); return plan },
+    recover: async (source, options) => { received = { source, options }; return { destination: '/new', preservation: '/preserved', restored: 1, remainingIssues: 1 } },
+  } })
+  await f.click('选择性恢复损坏资料…')
+  assert.deepEqual(received, { source: '/backup', options: { format: 'directory', revision: 'revision', selections: ['selected-key'] } })
+  assert.match(f.messages[4].detail, /未选的异常项目继续隔离/)
+  assert.match(f.messages[5].detail, /\/preserved/); assert.equal(f.messages[5].type, 'warning')
+  assert.deepEqual(f.calls, ['reload', 'reload'])
+})
+
+test('declining the final selective-recovery scope leaves all records intact', async () => {
+  const plan = { revision: 'r', snapshotCreatedAt: '2026-10-23', itemCount: 1, items: [{ target: 'notes/a', choices: [{ key: 'key', from: 'backup', savedAt: '2026-10-22', revision: 1 }] }] }
+  const f = fixture({ paths: ['/backup.zip'], responses: [2, 1, 1, 0], manager: {
+    recoveryPreview: async (_source, options) => { assert.equal(options.format, 'zip'); return plan },
+    recover: () => assert.fail('final cancellation must not apply recovery'),
+  } })
+  await f.click('选择性恢复损坏资料…')
+  assert.deepEqual(f.openDialogs[0].properties, ['openFile']); assert.deepEqual(f.calls, ['reload'])
+})
+
+test('preparation rebuild explains the snapshot cutoff and preserves old partial work before switching', async () => {
+  let source
+  const f = fixture({ paths: ['/old-json-backup'], responses: [1], manager: { migrateFromBackup: async chosen => {
+    source = chosen; return { destination: '/new-sqlite', backup: chosen, previousBackup: '/current-safety', snapshotCreatedAt: '2026-10-25' }
+  } } })
+  await f.click('从升级前备份重新准备迁移…')
+  assert.equal(source, '/old-json-backup'); assert.match(f.messages[0].detail, /旧暂存目录完整保留/); assert.match(f.messages[0].detail, /不会合并/)
+  assert.match(f.messages[1].detail, /current-safety/); assert.deepEqual(f.calls, ['reload'])
 })

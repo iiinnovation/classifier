@@ -1,7 +1,8 @@
 import { randomUUID, createHash } from 'node:crypto'
+import { createSourceReader } from './record-integrity.mjs'
 import { HttpError } from './http.mjs'
 import { requireId } from './store.mjs'
-import { evidenceVersion, captureEvidence } from './evidence.mjs'
+import { evidenceVersion, captureEvidence, evidenceStatus } from './evidence.mjs'
 import { modelConfigured } from './qa.mjs'
 import { generateReport } from './report-model.mjs'
 import { reportMarkdown } from './report-export.mjs'
@@ -102,10 +103,24 @@ export function createReports(store, topics, comparisons, runs, qaOptions = {}, 
     const topic = await topics.detail(topicId)
     const notes = (await store.list('notes')).filter(item => item.topicId === topicId && !item.archived)
     const tables = (await store.list('comparisons')).filter(item => item.topicId === topicId && !item.archived)
-    return { documents: topic.documents.map(item => item.document), materials: [
+    const materials = [
       ...notes.map(note => ({ type: 'note', id: note.id, revision: note.revision, title: `笔记 · ${note.field}`, preview: note.content, documentIds: [note.documentId] })),
       ...tables.map(table => ({ type: 'comparison', id: table.id, revision: table.revision, title: `比较表 · ${table.title}`, preview: table.question, documentIds: table.documentIds })),
-    ] }
+    ]
+    const readSource = createSourceReader(store)
+    for (const material of materials) {
+      material.sourceIssues = []
+      for (const id of material.documentIds) {
+        const current = await readSource('documents', id)
+        if (current.state !== 'available') material.sourceIssues.push({ bucket: 'documents', id, state: current.state })
+      }
+      if (material.type === 'comparison') for (const cell of tables.find(table => table.id === material.id).cells) for (const note of cell.noteSources) {
+        const current = await readSource('notes', note.id)
+        if (current.state !== 'available' && !material.sourceIssues.some(item => item.bucket === 'notes' && item.id === note.id)) material.sourceIssues.push({ bucket: 'notes', id: note.id, state: current.state })
+      }
+      material.unavailable = material.sourceIssues[0]?.state || null
+    }
+    return { documents: topic.documents.map(item => item.document), materials }
   }
   async function selectSources(topicId, selectors, previous = []) {
     if (!Array.isArray(selectors) || selectors.length > 20) throw new HttpError(422, '每份成果最多选择 20 组研究材料。')
@@ -157,7 +172,7 @@ export function createReports(store, topics, comparisons, runs, qaOptions = {}, 
       for (const item of evidence) {
         const doc = await document(item.documentId)
         if (item.documentVersion !== evidenceVersion(doc)) throw new HttpError(409, '所选材料的原文已变化，请先更新来源。')
-        const { matchesCurrent, ...original } = item
+        const { matchesCurrent, sourceState, ...original } = item
         captured.push({ ...structuredClone(original), id: evidenceId(item), bibliography: structuredClone(doc.bibliography || {}) })
       }
       source.evidence = unique(captured); source.key = key
@@ -167,30 +182,42 @@ export function createReports(store, topics, comparisons, runs, qaOptions = {}, 
     return sources
   }
   async function present(value, full = false) {
-    const records = new Map(), docs = new Map()
-    async function doc(id) { if (!docs.has(id)) docs.set(id, await store.read('documents', id)); return docs.get(id) }
-    async function sourceChanged(source) {
-      if (source.type === 'passages') return !await doc(source.documentId) || evidenceVersion(await doc(source.documentId)) !== source.documentVersion
-      if (!records.has(source.key)) records.set(source.key, await store.read(source.type === 'note' ? 'notes' : 'comparisons', source.id))
-      const record = records.get(source.key)
-      if (!record || record.revision !== source.revision || record.archived) return true
+    const readSource = createSourceReader(store), comparisonStates = new Map(), documentVersions = new Map()
+    async function sourceStatus(source) {
+      const current = await readSource(source.type === 'passages' ? 'documents' : source.type === 'note' ? 'notes' : 'comparisons', source.type === 'passages' ? source.documentId : source.id)
+      const record = current.value
+      if (!record) return { sourceState: current.state, changed: true }
+      if (source.type === 'passages') return { sourceState: current.state, changed: evidenceVersion(record) !== source.documentVersion }
+      let changed = record.revision !== source.revision || record.archived
       if (source.type === 'comparison') {
-        const table = await comparisons.get(source.id)
-        if (table.cells.some(cell => cell.noteChanged) || table.analyses.some(item => item.outdated)) return true
+        if (!comparisonStates.has(source.id)) comparisonStates.set(source.id, await comparisons.get(source.id))
+        const table = comparisonStates.get(source.id)
+        changed ||= table.topicState !== 'available' || table.sourceIssues.length > 0 || table.cells.some(cell => cell.noteChanged) || table.analyses.some(item => item.outdated)
       }
-      return false
+      return { sourceState: current.state, changed: Boolean(changed) }
     }
     async function decorate(record) {
       const evidence = []
       for (const item of record.evidence) {
-        const current = await doc(item.documentId)
-        evidence.push({ ...item, matchesCurrent: Boolean(current && evidenceVersion(current) === item.documentVersion) })
+        const current = await readSource('documents', item.documentId), id = item.documentId.toLowerCase()
+        if (!documentVersions.has(id)) documentVersions.set(id, current.value ? evidenceVersion(current.value) : null)
+        evidence.push(evidenceStatus(item, current, documentVersions.get(id)))
       }
       const byId = new Map(evidence.map(item => [item.id, item]))
       const sources = []
-      for (const source of record.sources) sources.push({ ...source, changed: await sourceChanged(source) || source.evidence.some(item => !byId.get(item.id)?.matchesCurrent) })
+      for (const source of record.sources) {
+        const status = await sourceStatus(source), documents = []
+        for (const doc of source.documents) documents.push({ ...doc, sourceState: (await readSource('documents', doc.id)).state })
+        const unavailableDocument = (await Promise.all(source.documentIds.map(id => readSource('documents', id)))).some(current => current.state !== 'available')
+        sources.push({ ...source, ...status, documents, evidence: source.evidence.map(item => byId.get(item.id) || item), changed: status.changed || unavailableDocument || source.evidence.some(item => !byId.get(item.id)?.matchesCurrent) })
+      }
       const changed = sources.some(item => item.changed)
-      return { ...snapshot(record), evidence, sources, blocks: record.blocks.map(block => ({ ...block, outdated: changed || block.citationIds.some(id => !byId.get(id)?.matchesCurrent) })) }
+      const blocks = []
+      for (const block of record.blocks) {
+        const origin = materialIdentity(block), sourceState = origin ? (await readSource(...origin)).state : 'available'
+        blocks.push({ ...block, sourceState, outdated: changed || sourceState !== 'available' || block.citationIds.some(id => !byId.get(id)?.matchesCurrent) })
+      }
+      return { ...snapshot(record), evidence, sources, blocks, sourceIssues: await sourceIssues(record, readSource) }
     }
     const result = await decorate(value)
     result.suggestions = (await store.list('runs')).filter(run => run.purpose === 'report-suggestion' && run.reportId === value.id).slice(0, 10)
@@ -199,10 +226,35 @@ export function createReports(store, topics, comparisons, runs, qaOptions = {}, 
     return result
   }
   const summary = value => ({ id: value.id, topicId: value.topicId, title: value.title, revision: value.revision, archived: value.archived, updatedAt: value.updatedAt, createdAt: value.createdAt, blockCount: value.blocks.length })
-  async function list(topicId) { await topics.get(topicId); return (await store.list('reports')).filter(value => value.topicId === topicId).map(summary) }
+  function materialIdentity(block) {
+    if (block.origin?.type !== 'material') return null
+    const match = /^(note|comparison|passages):([a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12})$/i.exec(block.origin.sourceKey || '')
+    return match ? [{ note: 'notes', comparison: 'comparisons', passages: 'documents' }[match[1].toLowerCase()], match[2]] : null
+  }
+  async function sourceIssues(value, readSource) {
+    const result = [], seen = new Set(), refs = value.evidence.map(item => ['documents', item.documentId])
+    for (const source of value.sources) {
+      refs.push([source.type === 'passages' ? 'documents' : source.type === 'note' ? 'notes' : 'comparisons', source.type === 'passages' ? source.documentId : source.id])
+      refs.push(...source.documentIds.map(id => ['documents', id]))
+      if (source.type === 'comparison') {
+        const current = await readSource('comparisons', source.id)
+        if (current.value) for (const cell of current.value.cells) refs.push(...cell.noteSources.map(note => ['notes', note.id]))
+      }
+    }
+    for (const block of value.blocks) { const identity = materialIdentity(block); if (identity) refs.push(identity) }
+    for (const [bucket, id] of refs) {
+      const key = bucket + '/' + id.toLowerCase(); if (seen.has(key)) continue; seen.add(key)
+      const source = await readSource(bucket, id); if (source.state !== 'available') result.push({ bucket, id, state: source.state })
+    }
+    return result
+  }
+  async function list(topicId) {
+    await topics.get(topicId); const readSource = createSourceReader(store)
+    return Promise.all((await store.list('reports')).filter(value => value.topicId === topicId).map(async value => ({ ...summary(value), sourceIssues: await sourceIssues(value, readSource) })))
+  }
   async function get(id, full = false) { return present(await raw(id), full) }
   async function create(topicId, body) {
-    keys(body, ['id', 'title', 'question', 'sources'])
+    keys(body, ['id', 'title', 'question', 'sources', 'blocks'])
     const id = body.id ? requireId(body.id) : randomUUID(), requestHash = hash([topicId, body])
     const existing = await store.read('reports', id)
     if (existing) {
@@ -213,6 +265,7 @@ export function createReports(store, topics, comparisons, runs, qaOptions = {}, 
     const sources = await selectSources(topicId, body.sources || [])
     const value = { id, topicId, title: text(body.title, 200, '成果标题'), question: text(body.question ?? topic.question, 4000, '研究问题'), sources, evidence: unique(sources.flatMap(source => source.evidence)),
       blocks: [], archived: false, revision: 1, history: [], requestHash, createdAt: now, updatedAt: now }
+    if (body.blocks !== undefined) value.blocks = blocks(body.blocks, value.evidence)
     const saved = await store.update('reports', id, current => {
       if (current && current.requestHash !== requestHash) throw new HttpError(409, '成果 ID 已被使用。')
       return current || value
@@ -311,7 +364,7 @@ export function createReports(store, topics, comparisons, runs, qaOptions = {}, 
       const result = await generateReport(input, { ...qaOptions, config: configuration.text, ...options }); keys(result, ['blocks'])
       if (!result.blocks?.length) throw new HttpError(422, '模型没有返回研究段落。')
       return { blocks: blocks(result.blocks, evidence, [], { generated: true }), evidence }
-    }, { timeoutMs: 300_000 })
+    }, { timeoutMs: 300_000, authorizationSignal: configuration.authorization?.text })
   }
   async function suggest(id, body) {
     while (suggestionStarts.has(id)) await suggestionStarts.get(id).catch(() => {})
@@ -330,7 +383,11 @@ export function createReports(store, topics, comparisons, runs, qaOptions = {}, 
       return value
     })
   }
-  async function markdown(id, expected) { const value = await get(id); revision(value, expected); return { title: value.title, markdown: reportMarkdown(value) } }
+  async function markdown(id, expected) {
+    const value = await get(id); revision(value, expected)
+    if (!value.blocks.some(block => block.text.trim())) throw new HttpError(409, '尚无已保存正文。请先采用草稿或保存正文，再导出。')
+    return { title: value.title, markdown: reportMarkdown(value) }
+  }
   async function fromComparison(id, body) {
     keys(body, ['revision'])
     const table = await comparisons.get(id)

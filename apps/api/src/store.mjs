@@ -1,9 +1,10 @@
-import { mkdir, readFile, writeFile, readdir, rename, unlink } from 'node:fs/promises'
+import { mkdir, readFile, writeFile, readdir, rename, unlink, lstat } from 'node:fs/promises'
 import { createHash, randomUUID } from 'node:crypto'
 import { join } from 'node:path'
 import { HttpError } from './http.mjs'
-import { storageLayout } from './storage-layout.mjs'
+import { storageLayout, recordBuckets } from './storage-layout.mjs'
 import { fileOperationPath, readFileOperation, requireDirectory, writeFileOperation } from './file-operations.mjs'
+import { createRecordIntegrity, isRecordFault, recordFault, recordSizeLimit, encodeRecord } from './record-integrity.mjs'
 
 const idPattern = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i
 export function requireId(id) {
@@ -18,21 +19,53 @@ export async function createStore(root) {
   const operationDirectory = join(root, '.file-operations')
   await mkdir(operationDirectory, { recursive: true, mode: 0o700 })
   await requireDirectory(operationDirectory)
-  const path = (bucket, id) => join(root, bucket, `${requireId(id)}.json`)
+  const integrity = createRecordIntegrity(root)
+  const path = (bucket, id) => {
+    if (!recordBuckets.includes(bucket)) throw new HttpError(400, '无效的记录类型。')
+    return join(root, bucket, `${requireId(id)}.json`)
+  }
   async function read(bucket, id) {
-    try { return JSON.parse(await readFile(path(bucket, id), 'utf8')) }
-    catch (error) { if (error.code === 'ENOENT') return null; throw error }
+    const target = path(bucket, id), relative = `${bucket}/${requireId(id)}.json`
+    let bytes
+    try {
+      if (!(await lstat(join(root, bucket))).isDirectory()) throw recordFault(bucket, id, 'UNSAFE_PATH')
+      const info = await lstat(target)
+      if (!info.isFile() || info.size > recordSizeLimit) throw recordFault(bucket, id, info.isFile() ? 'RECORD_TOO_LARGE' : 'UNSAFE_PATH')
+      bytes = await readFile(target)
+    } catch (error) {
+      if (error.code === 'ENOENT') { integrity.clear(relative); return null }
+      await integrity.isolate(bucket, id, null, relative, error.reason || 'READ_FAILED')
+      throw isRecordFault(error) ? error : recordFault(bucket, id, 'READ_FAILED')
+    }
+    return integrity.parse(bucket, id, bytes, relative)
   }
   async function write(bucket, record) {
+    // A normal edit may not silently replace a damaged record. Recovery writes
+    // only into a separate preserved copy through the offline repair operation.
+    await read(bucket, record.id)
+    const bytes = encodeRecord(record, true)
     const target = path(bucket, record.id)
     const temp = `${target}.${randomUUID()}.tmp`
-    await writeFile(temp, JSON.stringify(record, null, 2), { mode: 0o600 })
+    await writeFile(temp, bytes, { mode: 0o600 })
     await rename(temp, target)
     return record
   }
   async function list(bucket) {
+    if (!recordBuckets.includes(bucket)) throw new HttpError(400, '无效的记录类型。')
+    if (!(await lstat(join(root, bucket))).isDirectory()) {
+      await integrity.isolate(bucket, null, null, bucket, 'UNSAFE_PATH')
+      return []
+    }
+    integrity.clear(bucket)
     const names = (await readdir(join(root, bucket))).filter(name => name.endsWith('.json'))
-    const values = await Promise.all(names.map(name => read(bucket, name.slice(0, -5))))
+    const values = []
+    for (const name of names) {
+      let id
+      try { id = requireId(name.slice(0, -5)) }
+      catch { await integrity.isolate(bucket, null, null, `${bucket}/${name}`, 'INVALID_FILENAME'); continue }
+      try { values.push(await read(bucket, id)) }
+      catch (error) { if (!isRecordFault(error)) throw error }
+    }
     return values.filter(Boolean).sort((a, b) => b.createdAt.localeCompare(a.createdAt))
   }
   const updates = new Map()
@@ -48,6 +81,7 @@ export async function createStore(root) {
   }
   const store = {
     read, write, list, update,
+    async health() { for (const bucket of recordBuckets) await list(bucket); return integrity.health() },
     async document(id) {
       const value = await read('documents', id)
       if (!value) throw new HttpError(404, '未找到文档。')
@@ -70,6 +104,13 @@ export async function createStore(root) {
       catch (error) { if (error.code === 'ENOENT') { operation.state = 'done'; operation.completedAt = new Date().toISOString() } else { operation.state = 'failed'; operation.error = error.code || error.message; throw error } }
       finally { await writeFileOperation(operationDirectory, operation) }
     },
+  }
+  // Scan before interrupted-task updates so a bad job cannot block startup and
+  // its original bytes are retained before any normal business write resumes.
+  for (const bucket of recordBuckets) {
+    await list(bucket)
+    if (!(await lstat(join(root, bucket))).isDirectory()) continue
+    for (const name of await readdir(join(root, bucket))) if (name.endsWith('.tmp')) await integrity.isolate(bucket, null, null, `${bucket}/${name}`, 'INTERRUPTED_WRITE')
   }
   async function hash(path) { const digest = createHash('sha256'); const bytes = await readFile(path); digest.update(bytes); return digest.digest('hex') }
   for (const name of await readdir(operationDirectory)) {

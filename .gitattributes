@@ -1,0 +1,3 @@
+*.pdf binary
+# Preserve raw diagnostic output and its recorded hashes.
+docs/measurements/**/*.log whitespace=-trailing-space

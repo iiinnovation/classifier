@@ -1,0 +1,149 @@
+import { clickControl, revealControl, moreAction } from '../helpers/ui-actions.mjs'
+import { test, expect } from '../helpers/browser-fixture.mjs'
+import { researchFixture } from '../helpers/research-fixture.mjs'
+import { json, upload } from '../helpers/test-app.mjs'
+import { readFile } from 'node:fs/promises'
+
+async function openTopic(page, app) {
+  await page.goto(app.base)
+  await page.locator('#research-home').click()
+  await page.locator('.topic-card').filter({ hasText: app.topic.title }).click()
+}
+
+test('results stay distinct from drafts and a saved summary leads the narrow layout', async ({ page }, info) => {
+  const app = await researchFixture(), errors = []
+  page.on('pageerror', error => errors.push(error.message))
+  try {
+    await openTopic(page, app)
+    await page.locator('#research-task-start').click()
+    await expect(page.locator('#comparison-draft-preview')).toContainText('AI 比较草稿')
+    await expect(page.locator('#comparison-saved')).not.toBeVisible()
+    await expect(page.locator('#comparison-to-report')).not.toBeVisible()
+    await page.locator('#comparison-saved-toggle').click()
+    await expect(page.locator('#comparison-grid')).toBeVisible()
+    await page.locator('#comparison-saved-toggle').click()
+    await page.getByRole('button', { name: '采用比较草稿', exact: true }).click()
+    await expect(page.locator('#comparison-grid')).toBeVisible()
+    await expect(page.locator('#comparison-task-goal')).not.toBeVisible()
+    await page.locator('#comparison-grid').getByRole('button', { name: '查看出处 (1)', exact: true }).first().click()
+    await expect(page.locator('.comparison-quote')).toBeVisible()
+    await page.getByRole('button', { name: '标记已核对', exact: true }).click()
+    await expect(page.locator('#comparison-inspector')).not.toBeVisible()
+    await expect(page.locator('#comparison-grid')).toContainText('已人工核对')
+    await page.locator('#comparison-to-report').click()
+    await expect(page.locator('#report-body')).toContainText('研究总结草稿')
+    await expect(page.locator('#report-export')).toBeDisabled()
+    await expect(page.locator('#report-edit')).toBeDisabled()
+    await expect(page.getByRole('button', { name: '审阅研究草稿', exact: true })).toHaveCount(0)
+    const report = (await app.value(`/api/topics/${app.topic.id}/reports`)).reports[0]
+    expect((await app.request(`/api/reports/${report.id}/export?revision=1`)).status).toBe(409)
+    await page.getByRole('button', { name: '采用研究总结', exact: true }).click()
+    await expect(page.locator('#report-export')).toBeEnabled()
+    await page.setViewportSize({ width: 390, height: 844 })
+    const prose = await page.locator('#report-body .report-prose').first().boundingBox()
+    expect(prose.y + Math.min(prose.height, 30)).toBeLessThan(844)
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+    await page.screenshot({ path: info.outputPath('summary-content-first.png'), fullPage: true })
+    const download = page.waitForEvent('download'); await page.locator('#report-export').click()
+    const file = await download
+    expect(await readFile(await file.path(), 'utf8')).toContain('所选研究的方法与条件不同')
+    await page.locator('#report-model-options > summary').click()
+    await clickControl(page, '#report-generate')
+    await expect(page.locator('#report-pending')).toContainText('审阅研究草稿')
+    await expect(page.locator('#report-message')).toContainText('导出使用已保存正文')
+    expect(errors).toEqual([])
+  } finally { await app.close() }
+})
+
+test('a library excerpt can be recorded into an explicitly chosen topic without leaving the reader', async ({ page }) => {
+  const app = await researchFixture({ configured: false })
+  try {
+    await page.goto(app.base)
+    await page.locator('#all-documents-open').click()
+    await page.locator(`#all-documents-list [data-document-id="${app.outside.id}"] .document-link`).click()
+    await page.locator('#references .save-reference-note').first().click()
+    await expect(page.locator('#note-topic-dialog')).toBeVisible()
+    await expect(page.locator('#note-topic-choice')).toHaveValue('')
+    await page.locator('#note-topic-choice').selectOption(app.topic.id)
+    await page.locator('#note-topic-submit').click()
+    await expect(page.locator('#note-dialog')).toBeVisible()
+    await expect(page.locator('#note-content')).toHaveValue('不属于本次任务的私人材料，不可发送。')
+    await page.locator('#save-note').click()
+    await expect(page.locator('#note-dialog')).not.toBeVisible()
+    const notes = await app.value(`/api/topics/${app.topic.id}/documents/${app.outside.id}/notes`)
+    expect(notes.notes).toHaveLength(1)
+    expect(notes.notes[0].evidence[0].documentId).toBe(app.outside.id)
+    expect(notes.notes[0].kind).toBe('source')
+    expect(app.inputs).toHaveLength(0)
+    await page.reload()
+    await expect(page.locator('#notes-list')).toContainText('不可发送')
+    await expect(page.locator('#reader-back')).toHaveText(`← ${app.topic.title}`)
+    await page.locator('#research-home').click()
+    await page.locator('#all-documents-open').click()
+    await page.locator(`#all-documents-list [data-document-id="${app.legacy.id}"] .document-link`).click()
+    await page.locator('#notes-tab').click(); await page.locator('#new-note').click()
+    await page.locator('#note-topic-choice').selectOption('new')
+    await page.locator('#note-topic-new-title').fill('另一个笔记主题')
+    await page.locator('#note-topic-submit').click()
+    await expect(page.locator('#note-dialog')).toBeVisible()
+    await page.locator('#note-content').fill('按新主题保存的独立理解。')
+    await page.locator('#save-note').click()
+    await expect(page.locator('#notes-list')).toContainText('独立理解')
+    const topics = (await app.value('/api/topics')).topics
+    expect(topics.find(topic => topic.title === '另一个笔记主题').documentCount).toBe(1)
+  } finally { await app.close() }
+})
+
+test('theme navigation reaches saved work and over-limit selections explain the next step', async ({ page }, info) => {
+  const app = await researchFixture()
+  try {
+    const report = await app.value(`/api/topics/${app.topic.id}/reports`, json('POST', { title: '继续上次总结', blocks: [{ section: '总结', text: '已保存的研究结论。', kind: 'user', citationIds: [] }] }), 201)
+    for (let i = 3; i <= 13; i++) await app.value('/api/documents', upload('研究方法与测量条件。', `study-${i}.txt`, app.topic.id), 201)
+    await openTopic(page, app)
+    await expect(page.locator('#research-task-hint')).toContainText('已选 13 篇，最多 12 篇')
+    await expect(page.locator('#research-task-start')).toBeDisabled()
+    await page.locator('#research-task-next').click()
+    await page.locator('#research-task-documents input').last().uncheck()
+    await expect(page.locator('#research-task-start')).toBeEnabled()
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.evaluate(() => scrollTo(0, 0))
+    await expect(page.locator('#topic-recent')).toContainText('继续上次总结')
+    const recent = page.locator('#topic-recent button').first(), box = await recent.boundingBox()
+    expect(box.y + box.height).toBeLessThan(844)
+    await page.screenshot({ path: info.outputPath('theme-content-first.png'), fullPage: true })
+    const card = page.locator('#topic-documents .document-card').first()
+    expect(await card.locator('button:visible').count()).toBeLessThanOrEqual(3)
+    await card.locator('.more-actions > summary').click()
+    await moreAction(card, '书目信息')
+    await expect(page.locator('#metadata-dialog')).toBeVisible()
+    await page.locator('#close-metadata').click()
+    await recent.click()
+    await expect(page.locator('#report-title')).toHaveText(report.title)
+    await app.value(`/api/reports/${report.id}`, json('PATCH', { revision: 1, archived: true }))
+    await page.locator('#report-back').click()
+    await expect(page.locator('#topic-nav-reports')).toHaveText('总结 0')
+    await expect(page.locator('#topic-recent')).not.toBeVisible()
+    await expect(page.locator('#report-list').getByRole('button', { name: '打开成果' })).not.toBeVisible()
+    await page.locator('#report-list summary').click()
+    await page.locator('#report-list').getByRole('button', { name: '打开成果' }).click()
+    await expect(page.locator('#report-message')).toContainText('已归档')
+  } finally { await app.close() }
+})
+
+test('first manual writing is saved in the creation request and survives reload', async ({ page }) => {
+  const app = await researchFixture({ configured: false })
+  try {
+    await openTopic(page, app); await page.locator('#new-report').click()
+    await expect(page.locator('.report-block-text')).toBeVisible()
+    await page.locator('#report-title-input').fill('首次直接写作')
+    await page.locator('.report-block-text').fill('在创建总结时直接写下并保存。')
+    await page.locator('#report-save').click()
+    await expect(page.locator('#report-editor')).not.toBeVisible()
+    await expect(page.locator('#report-body')).toContainText('直接写下并保存')
+    const report = (await app.value(`/api/topics/${app.topic.id}/reports`)).reports[0]
+    expect(report.revision).toBe(1); expect(report.blockCount).toBe(1)
+    await page.reload()
+    await expect(page.locator('#report-body')).toContainText('直接写下并保存')
+    await expect(page.locator('#report-export')).toBeEnabled()
+  } finally { await app.close() }
+})

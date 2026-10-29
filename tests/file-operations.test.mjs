@@ -62,7 +62,7 @@ test('pending JSON file operations recover idempotently on store startup and ins
 
 test('SQLite file operation journal survives migration and startup recovery', async t => {
   const directory = await root(t), json = await createStore(join(directory, 'json')), id = randomUUID()
-  await json.saveOriginal(id, Buffer.from('migrated original')); await json.write('documents', { id, title: 'document', createdAt: new Date().toISOString(), source: {} })
+  await json.saveOriginal(id, Buffer.from('migrated original')); await json.write('documents', { id, title: 'document', createdAt: new Date().toISOString(), source: {}, sections: [], references: [] })
   const target = join(directory, 'sqlite'); await migrateLibrary(join(directory, 'json'), target, join(directory, 'backup'))
   const sqlite = await createStore(target); await sqlite.saveOriginal(id, Buffer.from('updated original')); sqlite.close()
   const reopened = await createStore(target), result = await inspectLibrary(target)
@@ -151,7 +151,7 @@ for (const storage of ['json', 'sqlite']) {
 }
 
 test('damaged JSON logs and symlink logs stay intact and visible without preventing startup or valid recovery', async t => {
-  const directory = await root(t), store = await createStore(directory), id = randomUUID(), topic = { id: randomUUID(), title: 'accessible research', createdAt: new Date().toISOString() }
+  const directory = await root(t), store = await createStore(directory), id = randomUUID(), topic = { id: randomUUID(), title: 'accessible research', createdAt: new Date().toISOString(), documents: [] }
   await store.write('topics', topic); await store.saveOriginal(id, Buffer.from('pending removal'))
   const logs = join(directory, '.file-operations'), damaged = ['', '{"state":', 'null', '[]']
   const files = []

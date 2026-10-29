@@ -26,9 +26,9 @@ export function createApi({ fetchImpl = fetch, timeoutMs = 30000 } = {}) {
       const json = /(?:application\/json|\+json)(?:;|$)/i.test(response.headers.get('content-type') || '')
       if (json && body.trim()) { try { value = JSON.parse(body) } catch { /* Invalid responses are classified below. */ } }
       if (!response.ok) {
-        const code = response.status === 409 ? 'CONFLICT' : response.status === 429 ? 'BUSY' : response.status >= 500 ? 'UNAVAILABLE' : response.status === 401 || response.status === 403 ? 'ACCESS_DENIED' : 'VALIDATION'
+        const code = ['RECORD_CORRUPT', 'RECORD_UNAVAILABLE'].includes(value?.code) ? value.code : response.status === 409 ? 'CONFLICT' : response.status === 429 ? 'BUSY' : response.status >= 500 ? 'UNAVAILABLE' : response.status === 401 || response.status === 403 ? 'ACCESS_DENIED' : 'VALIDATION'
         const message = typeof value?.error === 'string' ? value.error : `工作台请求失败（HTTP ${response.status}），请稍后重试。`
-        throw error(code, message, response.status, requestId, writing && response.status >= 500)
+        throw error(code, message, response.status, requestId, writing && response.status >= 500 && !['RECORD_CORRUPT', 'RECORD_UNAVAILABLE'].includes(code))
       }
       if (!json || value === undefined) throw error('INVALID_RESPONSE', '服务返回了无法识别的响应，请重新打开当前页面。', response.status, requestId, writing)
       return value

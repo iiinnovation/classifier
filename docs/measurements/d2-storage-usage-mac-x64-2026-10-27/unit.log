@@ -1,0 +1,18 @@
+(node:5980) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ json usage reconciles file categories, history and managed backups without modifying data (182.361704ms)
+✔ sqlite usage reconciles file categories, history and managed backups without modifying data (672.825637ms)
+✔ json corrupt records remain counted as files while content estimates are explicitly incomplete (126.877644ms)
+✔ sqlite corrupt records remain counted as files while content estimates are explicitly incomplete (675.722941ms)
+✔ usage excludes symlink targets, counts hardlinks by path, and preserves explicit unmeasured scopes (141.460212ms)
+✔ usage scan limits return partial amounts without presenting incomplete record counts as complete (133.934362ms)
+✔ storage usage API is read-only, uncached and never accepts caller-supplied filesystem scopes (60.033205ms)
+✔ switching documents blocks questions and discards the previous document response (50.033545ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2199.589826

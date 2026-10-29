@@ -17,11 +17,11 @@ async function fixture(t) {
   t.after(() => rm(root, { recursive: true, force: true }))
   const source = join(root, 'legacy'), target = join(root, 'sqlite'), backup = join(root, 'backup')
   const store = await createStore(source), id = randomUUID(), text = Buffer.from('Preserve original bytes and evidence history'), createdAt = new Date().toISOString()
-  const document = { id, title: 'Migration recovery', createdAt, schemaVersion: 2, source: { sha256: createHash('sha256').update(text).digest('hex') }, references: [{ id: 'ref_00001', text: text.toString() }] }
+  const document = { id, title: 'Migration recovery', createdAt, schemaVersion: 2, sections: [], source: { sha256: createHash('sha256').update(text).digest('hex') }, references: [{ id: 'ref_00001', text: text.toString() }] }
   await store.saveOriginal(id, text); await store.write('documents', document)
   const notes = []
   for (let i = 0; i < 205; i++) {
-    const note = { id: randomUUID(), documentId: id, createdAt, revision: 2, content: 'Note ' + i, history: [{ revision: 1, content: 'Earlier ' + i }], evidence: [{ documentId: id, referenceId: 'ref_00001', text: text.toString() }] }
+    const note = { id: randomUUID(), documentId: id, createdAt, revision: 2, content: 'Note ' + i, history: [{ revision: 1, content: 'Earlier ' + i, evidence: [] }], evidence: [{ documentId: id, reference: { id: 'ref_00001', text: text.toString() } }] }
     await store.write('notes', note); notes.push(note)
   }
   const prepared = await prepareMigration(source, target, backup)

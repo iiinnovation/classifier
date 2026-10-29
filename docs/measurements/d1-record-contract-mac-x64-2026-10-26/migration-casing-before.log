@@ -1,0 +1,24 @@
+(node:67799) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ migration resolves current comparison document IDs with the existing UUID casing rule (365.446901ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 530.455089
+
+✖ failing tests:
+
+test at tests/migration-validation.test.mjs:51:1
+✖ migration resolves current comparison document IDs with the existing UUID casing rule (365.446901ms)
+  Error: 比较表引用缺失文献：f1f4cbc7-d162-49d8-8d37-c13058483ba1 → 05B4BBDC-741E-424C-94D3-2B4F44416986；升级前备份保留于 /private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-migration-validation-VdHwpX/before
+      at migrationRecords (file:///Users/apple/Desktop/classifier/apps/api/src/storage-maintenance.mjs:207:109)
+      at async prepareSnapshot (file:///Users/apple/Desktop/classifier/apps/api/src/storage-maintenance.mjs:287:19)
+      at async prepareMigration (file:///Users/apple/Desktop/classifier/apps/api/src/storage-maintenance.mjs:315:14)
+      at async migrateLibrary (file:///Users/apple/Desktop/classifier/apps/api/src/storage-maintenance.mjs:419:20)
+      at async TestContext.<anonymous> (file:///Users/apple/Desktop/classifier/tests/migration-validation.test.mjs:56:3)
+      at async Test.run (node:internal/test_runner/test:1113:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)

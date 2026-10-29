@@ -1,0 +1,120 @@
+{
+  "createdAt": "2026-10-27T14:08:02.609Z",
+  "status": "completed",
+  "scope": "User-requested cleanup of obsolete generated desktop test builds; retain current D2, registered D1 rollback baseline and small historical measurement directory.",
+  "retainedDirectories": [
+    "dist/desktop",
+    "dist/desktop-d1-disk-failures-2026-10-26",
+    "dist/desktop-d2-2026-10-27"
+  ],
+  "removed": [
+    {
+      "path": "dist/desktop-d0-2026-10-19",
+      "bytes": 172468,
+      "allocatedBytes": 180224,
+      "files": 3,
+      "completePackage": false
+    },
+    {
+      "path": "dist/desktop-d1-2026-10-19",
+      "bytes": 173073,
+      "allocatedBytes": 180224,
+      "files": 3,
+      "completePackage": false
+    },
+    {
+      "path": "dist/desktop-d1-atomic-import-2026-10-25",
+      "bytes": 172845,
+      "allocatedBytes": 180224,
+      "files": 3,
+      "completePackage": false
+    },
+    {
+      "path": "dist/desktop-d1-compatibility-2026-10-25",
+      "bytes": 172808,
+      "allocatedBytes": 180224,
+      "files": 3,
+      "completePackage": false
+    },
+    {
+      "path": "dist/desktop-d1-record-contract-2026-10-26",
+      "bytes": 559386408,
+      "allocatedBytes": 562069504,
+      "files": 334,
+      "completePackage": true,
+      "zipSha256": "271d2841e9f3b9a0df5dde47918592dc71a89893192535219cb3ee7221e629aa",
+      "asarSha256": "29c0c859ce36033bf18070e6612b7cfbc7226ebcf0a8e80e17321a5d9c033143",
+      "archivedEvidence": "docs/measurements/d1-record-contract-mac-x64-2026-10-26/validation.json"
+    },
+    {
+      "path": "dist/desktop-d1-record-shape-2026-10-26",
+      "bytes": 559380157,
+      "allocatedBytes": 564318208,
+      "files": 334,
+      "completePackage": true,
+      "zipSha256": "8b8b3c9f79763607eb173482a4c615b5c63629ed9eecec679df2cd2fa4639771",
+      "asarSha256": "369704bce1219b09ee0ac5706b1ded6ed6aab061d216dd2d936324088bf11e96",
+      "archivedEvidence": "docs/measurements/d1-record-shape-mac-x64-2026-10-26/validation.json"
+    },
+    {
+      "path": "dist/desktop-d1-recovery-2026-10-19",
+      "bytes": 172121,
+      "allocatedBytes": 180224,
+      "files": 3,
+      "completePackage": false
+    },
+    {
+      "path": "dist/desktop-d1-selective-recovery-2026-10-23",
+      "bytes": 172841,
+      "allocatedBytes": 180224,
+      "files": 3,
+      "completePackage": false
+    },
+    {
+      "path": "dist/desktop-d1-storage-2026-10-19",
+      "bytes": 172609,
+      "allocatedBytes": 180224,
+      "files": 3,
+      "completePackage": false
+    },
+    {
+      "path": "dist/desktop-d1-zip-2026-10-23",
+      "bytes": 172620,
+      "allocatedBytes": 180224,
+      "files": 3,
+      "completePackage": false
+    },
+    {
+      "path": "dist/desktop-ux02-2026-10-19",
+      "bytes": 172556,
+      "allocatedBytes": 180224,
+      "files": 3,
+      "completePackage": false
+    }
+  ],
+  "protectedArtifacts": [
+    {
+      "path": "dist/desktop-d1-disk-failures-2026-10-26/Classifier-0.1.0-mac.zip",
+      "sha256": "d7a392b67465f729daae5fe79a9bbb010dbf51082d704d97068e30b5b17368c3"
+    },
+    {
+      "path": "dist/desktop-d1-disk-failures-2026-10-26/mac/Classifier.app/Contents/Resources/app.asar",
+      "sha256": "1bfbd9fe709592544bd660f2a4809677b8bd7e34e414432bb8d8d58a137f51c8"
+    },
+    {
+      "path": "dist/desktop-d2-2026-10-27/Classifier-0.1.0-mac.zip",
+      "sha256": "acec8d5794e13bf2b0a31c8387afba71d623aa32a61f418d2f69a61b204cf717"
+    },
+    {
+      "path": "dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Resources/app.asar",
+      "sha256": "9265e72c7133dc1529ea3d89105b915456416bf125e81e9e3fd575c4967fc2d4"
+    }
+  ],
+  "totalBytes": 1120320506,
+  "totalAllocatedBytes": 1128009728,
+  "completedAt": "2026-10-27T14:09:39.185Z",
+  "removedDirectoriesVerified": 11,
+  "retainedArtifactHashesVerified": true,
+  "historicalEvidencePreserved": true,
+  "spaceMetric": "Sum of lstat allocated blocks before removal; APFS physical free-space change can differ."
+}

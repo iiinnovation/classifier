@@ -1,0 +1,608 @@
+{
+  "recordedForDate": "2026-10-26",
+  "capturedAt": "2026-10-26T15:11:26.316Z",
+  "baseCommit": "5e550f5ec13b86baaa48c0fb475f22565441efd3",
+  "sourceChanges": "D1 historical required-field boundaries, comparison locators and migration record/live-reference validation on the uncommitted D1 recovery stack.",
+  "build": {
+    "command": "npm run desktop:dist -- --mac zip --x64 --config.directories.output=dist/desktop-d1-record-contract-2026-10-26",
+    "artifact": "dist/desktop-d1-record-contract-2026-10-26/Classifier-0.1.0-mac.zip",
+    "executable": "dist/desktop-d1-record-contract-2026-10-26/mac/Classifier.app/Contents/MacOS/Classifier",
+    "exitCode": 0,
+    "zipSha256": "271d2841e9f3b9a0df5dde47918592dc71a89893192535219cb3ee7221e629aa",
+    "appAsarSha256": "29c0c859ce36033bf18070e6612b7cfbc7226ebcf0a8e80e17321a5d9c033143",
+    "downloadBytes": 163845601,
+    "signed": false,
+    "notarized": false
+  },
+  "tests": {
+    "node": {
+      "command": "node --test --test-concurrency=2 tests/*.test.mjs",
+      "passed": 363,
+      "failed": 0,
+      "skipped": 0,
+      "exitCode": 0,
+      "durationMs": 260109.501919,
+      "sandbox": "outside"
+    },
+    "sqliteBrowser": {
+      "command": "CLASSIFIER_TEST_STORAGE=sqlite CLASSIFIER_BROWSER_CHANNEL=chrome npm run test:e2e -- --reporter=line",
+      "passed": 48,
+      "failed": 0,
+      "exitCode": 0,
+      "packaged": false,
+      "controlledModelResponses": true
+    },
+    "packagedStorage": {
+      "command": "CLASSIFIER_PACKAGED_EXECUTABLE=<this build> npm run test:storage -- --reporter=line",
+      "passed": 17,
+      "failed": 0,
+      "exitCode": 0,
+      "recordShapeScenarios": 40,
+      "migrationContractScenarios": 4,
+      "diskFaultScenarios": 37
+    },
+    "packagedDesktop": {
+      "command": "CLASSIFIER_PACKAGED_EXECUTABLE=<this build> npm run test:desktop:shell -- --reporter=line",
+      "passed": 18,
+      "failed": 0,
+      "exitCode": 0
+    },
+    "boundedHeap": {
+      "command": "node --max-old-space-size=64 tests/helpers/record-shape-memory.mjs",
+      "passed": true,
+      "arrayItems": 750000,
+      "recordBytes": 5250127,
+      "v8HeapLimitMiB": 64,
+      "limitIsNotProcessRSS": true
+    },
+    "recordShapes": {
+      "tests": 59,
+      "invalidShapes": 55,
+      "httpStorageModes": [
+        "json",
+        "sqlite"
+      ]
+    },
+    "migrationContract": {
+      "tests": 4,
+      "missingCurrentReferenceRejected": true,
+      "uuidCasingPreserved": true,
+      "savedMaterialsAndHistoricalInputsPreserved": true,
+      "savedReportExportVerified": true
+    }
+  },
+  "runtime": {
+    "packaged": true,
+    "versions": {
+      "node": "24.21.0",
+      "acorn": "8.18.0",
+      "ada": "4.0.0",
+      "amaro": "1.1.11",
+      "ares": "1.34.8",
+      "brotli": "1.2.0",
+      "cldr": "48.0",
+      "icu": "78.2",
+      "llhttp": "9.4.3",
+      "merve": "1.2.2",
+      "modules": "149",
+      "napi": "10",
+      "nbytes": "0.1.4",
+      "ncrypto": "0.0.1",
+      "nghttp2": "1.70.0",
+      "nghttp3": "",
+      "ngtcp2": "",
+      "openssl": "0.0.0",
+      "simdjson": "4.6.7",
+      "simdutf": "7.7.0",
+      "sqlite": "3.53.4",
+      "tz": "2026d",
+      "undici": "7.29.1",
+      "unicode": "17.0",
+      "uv": "1.52.1",
+      "uvwasi": "0.0.23",
+      "v8": "15.2.124.28-electron.0",
+      "zlib": "1.3.2.1-motley",
+      "zstd": "1.6.0",
+      "electron": "44.7.0",
+      "chrome": "152.0.7977.130"
+    }
+  },
+  "packagedSourceVerification": {
+    "matchesWorkspace": true,
+    "applicationFiles": 64,
+    "productionPackageFieldsMatch": true
+  },
+  "recordShapeScenarios": [
+    {
+      "storage": "json",
+      "scenarios": [
+        {
+          "bucket": "documents",
+          "name": "references",
+          "passed": true
+        },
+        {
+          "bucket": "topics",
+          "name": "links",
+          "passed": true
+        },
+        {
+          "bucket": "notes",
+          "name": "evidence",
+          "passed": true
+        },
+        {
+          "bucket": "notes",
+          "name": "history",
+          "passed": true
+        },
+        {
+          "bucket": "comparisons",
+          "name": "cells",
+          "passed": true
+        },
+        {
+          "bucket": "comparisons",
+          "name": "analyses",
+          "passed": true
+        },
+        {
+          "bucket": "reports",
+          "name": "citations",
+          "passed": true
+        },
+        {
+          "bucket": "reports",
+          "name": "materials",
+          "passed": true
+        },
+        {
+          "bucket": "runs",
+          "name": "draft",
+          "passed": true
+        },
+        {
+          "bucket": "imports",
+          "name": "progress",
+          "passed": true
+        },
+        {
+          "bucket": "documents",
+          "name": "missing-references",
+          "passed": true
+        },
+        {
+          "bucket": "topics",
+          "name": "missing-links",
+          "passed": true
+        },
+        {
+          "bucket": "notes",
+          "name": "missing-evidence",
+          "passed": true
+        },
+        {
+          "bucket": "notes",
+          "name": "missing-history",
+          "passed": true
+        },
+        {
+          "bucket": "notes",
+          "name": "missing-historical-evidence",
+          "passed": true
+        },
+        {
+          "bucket": "comparisons",
+          "name": "missing-document-ids",
+          "passed": true
+        },
+        {
+          "bucket": "comparisons",
+          "name": "invalid-analysis-column",
+          "passed": true
+        },
+        {
+          "bucket": "reports",
+          "name": "missing-materials",
+          "passed": true
+        },
+        {
+          "bucket": "reports",
+          "name": "missing-history",
+          "passed": true
+        },
+        {
+          "bucket": "runs",
+          "name": "missing-draft-versions",
+          "passed": true
+        }
+      ],
+      "restartVerified": true,
+      "healthyListsAndSnapshotsReadable": true,
+      "damagedTaskBytesUnchanged": true,
+      "originalAndQuarantineBytesPreserved": true
+    },
+    {
+      "storage": "sqlite",
+      "scenarios": [
+        {
+          "bucket": "documents",
+          "name": "references",
+          "passed": true
+        },
+        {
+          "bucket": "topics",
+          "name": "links",
+          "passed": true
+        },
+        {
+          "bucket": "notes",
+          "name": "evidence",
+          "passed": true
+        },
+        {
+          "bucket": "notes",
+          "name": "history",
+          "passed": true
+        },
+        {
+          "bucket": "comparisons",
+          "name": "cells",
+          "passed": true
+        },
+        {
+          "bucket": "comparisons",
+          "name": "analyses",
+          "passed": true
+        },
+        {
+          "bucket": "reports",
+          "name": "citations",
+          "passed": true
+        },
+        {
+          "bucket": "reports",
+          "name": "materials",
+          "passed": true
+        },
+        {
+          "bucket": "runs",
+          "name": "draft",
+          "passed": true
+        },
+        {
+          "bucket": "imports",
+          "name": "progress",
+          "passed": true
+        },
+        {
+          "bucket": "documents",
+          "name": "missing-references",
+          "passed": true
+        },
+        {
+          "bucket": "topics",
+          "name": "missing-links",
+          "passed": true
+        },
+        {
+          "bucket": "notes",
+          "name": "missing-evidence",
+          "passed": true
+        },
+        {
+          "bucket": "notes",
+          "name": "missing-history",
+          "passed": true
+        },
+        {
+          "bucket": "notes",
+          "name": "missing-historical-evidence",
+          "passed": true
+        },
+        {
+          "bucket": "comparisons",
+          "name": "missing-document-ids",
+          "passed": true
+        },
+        {
+          "bucket": "comparisons",
+          "name": "invalid-analysis-column",
+          "passed": true
+        },
+        {
+          "bucket": "reports",
+          "name": "missing-materials",
+          "passed": true
+        },
+        {
+          "bucket": "reports",
+          "name": "missing-history",
+          "passed": true
+        },
+        {
+          "bucket": "runs",
+          "name": "missing-draft-versions",
+          "passed": true
+        }
+      ],
+      "restartVerified": true,
+      "healthyListsAndSnapshotsReadable": true,
+      "damagedTaskBytesUnchanged": true,
+      "originalAndQuarantineBytesPreserved": true
+    }
+  ],
+  "migrationScenarios": [
+    {
+      "scenario": "damaged-record",
+      "passed": true,
+      "sourceAndBackupBytesPreserved": true
+    },
+    {
+      "scenario": "missing-current-document",
+      "passed": true,
+      "sourceAndBackupBytesPreserved": true
+    },
+    {
+      "scenario": "retained-snapshots",
+      "passed": true,
+      "sourceAndBackupBytesPreserved": true
+    },
+    {
+      "scenario": "uuid-casing",
+      "passed": true,
+      "sourceAndBackupBytesPreserved": true
+    }
+  ],
+  "evidenceSha256": {
+    "node.log": "8cff76875a1ac156561edc233558565fb18fc68f1ea496e039f74983cb937f4c",
+    "build.log": "987e3af8b53e7acf4087552cf6a3ee325465663bc24e3414927f6fb2b17b4895",
+    "browser.log": "15df48a9ee2ac7af54473c02c4f3b6cfa9a9ca39a7c1fd2affe8ef1164440829",
+    "storage.log": "f3dd5321859951ca72b50aa5b14d18977ed255a6eb088cdf65ecbab030fa8809",
+    "shell.log": "a6c9ec0ea707fcca05600f412620ee75525b8a9035ccf0ebb289331a996b489f",
+    "memory.log": "a028b898df4e57eae2604914824609bc297d4ffeac12c0131a5c58cb13d6ce79",
+    "node-fixture-failures.log": "f78d991dbc8156a371ef10eff4a300f8fee00a80e0e0dfe2b64a6e13596f770d",
+    "migration-structure-before.log": "ad98e7dfdb17b4a7c66e2c401d65601f90a03b1ce3438897d936a0cfb377b901",
+    "migration-references-before.log": "1448bb3e31cf190396ff27af483c348b03265a99f2212dee2463d25bf0c1584f",
+    "comparison-locators-before.log": "f9ef5ddbbc58843264078de20beb0f2124e16e442beb66b86a9e7952b0627d32",
+    "migration-casing-before.log": "74ced7393cbba076814aed18571bbfad2f658844910aa217127133ced8fe9b3c",
+    "migration-final.log": "638057a7e165ea4dcafd085b472c0a805fe47cc954cba426cf281aafa4c4a030",
+    "storage-.last-run.json": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903",
+    "storage-disk-failures-D1-production-utility-disk-faults-backup-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "storage-disk-failures-D1-production-utility-disk-faults-backup-disk-failures.json": "647723058b2d307149987fde95e62e8cb1da60c94380974f98079857d75512e2",
+    "storage-disk-failures-D1-production-utility-disk-faults-imports-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "storage-disk-failures-D1-production-utility-disk-faults-imports-disk-failures.json": "5186f6c6a35dfcfeb1e988d8412f58b66fb16cfcaa78e8bee1c060452da64daa",
+    "storage-disk-failures-D1-production-utility-disk-faults-migration-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "storage-disk-failures-D1-production-utility-disk-faults-migration-disk-failures.json": "a43f9958acce2ea81fb9714a6fdb462b4b4ba8343e87566093ddd261df43076e",
+    "storage-disk-failures-D1-production-utility-disk-faults-preservation-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "storage-disk-failures-D1-production-utility-disk-faults-preservation-disk-failures.json": "00c71947826f6d7bce37ca3af8162ac3731f14064610710d00b2a9544bf52d3a",
+    "storage-disk-failures-D1-production-utility-disk-faults-restore-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "storage-disk-failures-D1-production-utility-disk-faults-restore-disk-failures.json": "46c41754caf0214846c6e409317d607f7474b9949c897160e1f4fa5d0625eb80",
+    "storage-disk-failures-D1-production-utility-disk-faults-sqlite-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "storage-disk-failures-D1-production-utility-disk-faults-sqlite-disk-failures.json": "dc26d7def008d5e7c62ae7fa6a4f145195dac7a7d8a2bdd32285ec3dceab4fa9",
+    "storage-disk-failures-D1-production-utility-disk-faults-zip-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "storage-disk-failures-D1-production-utility-disk-faults-zip-disk-failures.json": "6bbb2290fa6f88c1a1810a4caa8d948c8d026936cf97825ce99c1cf9e7e66fd4",
+    "storage-imports-D1-packaged-atomic-259d5-ity-SIGKILL-at-after-commit-atomic-import-recovery.json": "b0fe9c39ab8eaffc3a36339bc67b008078dbb0e7cb3823c8c9b856713258e0de",
+    "storage-imports-D1-packaged-atomic-259d5-ity-SIGKILL-at-after-commit-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "storage-imports-D1-packaged-atomic-3501e-ity-SIGKILL-at-stage-synced-atomic-import-recovery.json": "902069dfd8db2fe0920df9ed5c4ca6bbb2cda472700fee10495010e46e722e2d",
+    "storage-imports-D1-packaged-atomic-3501e-ity-SIGKILL-at-stage-synced-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "storage-imports-D1-packaged-atomic-e2dae-ty-SIGKILL-at-before-commit-atomic-import-recovery.json": "db328c4baf2f470c46508f2b6604b091f1086bda00ce8f2b3b0acb4452143357",
+    "storage-imports-D1-packaged-atomic-e2dae-ty-SIGKILL-at-before-commit-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "storage-maintenance-D1-packaged-st-743bd-ry-with-directory-ownership-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "storage-maintenance-D1-packaged-st-743bd-ry-with-directory-ownership-maintenance-validation.json": "2c6d860aead698aff03671bd4af5f70715099d10f0e3ab457fc10fb6554ebd28",
+    "storage-migration-D1-packaged-migr-02f1c-tility-SIGKILL-at-published-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "storage-migration-D1-packaged-migr-02f1c-tility-SIGKILL-at-published-migration-recovery.json": "fb3a39eddf37fede4d7b74f45c089ddd488620416976e131b3fbe7a779648d86",
+    "storage-migration-D1-packaged-migr-6b43d-preserving-copied-snapshots-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "storage-migration-D1-packaged-migr-6b43d-preserving-copied-snapshots-migration-validation.json": "ed346acdcc50bcdd7acc2a8db94854112ba0c95a808cbbbd48aafbe18c26893d",
+    "storage-migration-D1-packaged-migr-dca62-y-SIGKILL-at-file-published-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "storage-migration-D1-packaged-migr-dca62-y-SIGKILL-at-file-published-migration-recovery.json": "38056a669f93f32506fbdcb441cec268e977415345bc62a6ea4a7d3fd13693b4",
+    "storage-migration-D1-packaged-migr-f4ac8--utility-SIGKILL-at-records-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "storage-migration-D1-packaged-migr-f4ac8--utility-SIGKILL-at-records-migration-recovery.json": "d6a52d5f5a390e5f9e435aa1cb3c0e9bb5f5699ab57e74abc4c8d717c7e10aaf",
+    "storage-record-shape-D1-packaged-r-36c76-nd-saved-research-rendering-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "storage-record-shape-D1-packaged-r-36c76-nd-saved-research-rendering-record-shape-validation.json": "55c3dfdd1d256d46ebac9306ca200eebe9e5d6a17ee022815e1d5b4f280d392a",
+    "storage-sqlite-S0-packaged-utility-afc38-nsactions-and-file-recovery-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "storage-sqlite-S0-packaged-utility-afc38-nsactions-and-file-recovery-storage-validation.json": "e0d8533f16e14d08eb7338076ecde4647a749e5f961b5266496ce7d5acbc2987",
+    "shell-.last-run.json": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903",
+    "shell-library-maintenance-D1-des-bab10-es-into-an-isolated-library-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "shell-library-maintenance-D1-des-bbd3d-es-into-an-isolated-library-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "shell-library-maintenance-D1-mig-1e2d6-ogress-without-rewriting-it-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "shell-library-maintenance-D1-reb-51d1b-eserves-newer-current-edits-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "shell-library-maintenance-D1-sel-2acd8-e-preserving-newer-research-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "shell-library-maintenance-D1-sel-5b514-e-preserving-newer-research-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "shell-library-maintenance-D1-sta-191f4-ough-real-utility-processes-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "shell-library-maintenance-D1-sta-191f4-ough-real-utility-processes-startup-compatibility.json": "8176b3796a2461469a85ed36fc1e2894107222a9de8567df4c1ccc69770fc771",
+    "shell-lifecycle-D0-failed-backen-0a508-e-failed-child-before-retry-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "shell-lifecycle-D0-forced-main-p-b2a30--no-application-descendants-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "shell-lifecycle-D0-packaged-wind-8e3c0-pups-and-device-permissions-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "shell-lifecycle-D0-real-utility--f0a6b-s-authentication-on-restart-backend-authentication.json": "e5a065ca313e9eedab39bf405553299ee60a3aa8919ce9954cd568856398fa75",
+    "shell-lifecycle-D0-real-utility--f0a6b-s-authentication-on-restart-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "shell-lifecycle-D0-second-launch-3967f-its-without-another-backend-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "shell-lifecycle-D0-shutdown-canc-b42d2-ts-a-synchronous-PDF-import-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "shell-lifecycle-D0-unexpected-ba-d0a43--a-classified-disconnection-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "shell-lifecycle-D0-window-close--594d8-cation-or-Tesseract-process-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "shell-lifecycle-D1-packaged-back-f1904-ver-ownership-after-a-crash-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "shell-research-workflow-real-des-edc91-ask-through-utility-backend-desktop-runtime.json": "b70cdf8339008f5c0155728a1fcf6e24ba5d8e99c244024bfd66dce66c0fdd54",
+    "browser-sqlite-.last-run.json": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903",
+    "historical-producers.json": "c7e79b046a05495545000d32ec40847e6fdd0dc43451827b44f2af327b3394c5"
+  },
+  "sourceSha256": {
+    "apps/api/src/comparison-model.mjs": "d0874a5ee8b6ce9730d1061a5287f7fab17b621beaa08e57cb5233a7e5162350",
+    "apps/api/src/comparison-retrieval.mjs": "4b83567132b603d87821064c167aeb4d7ba75ec85323724458642fe4617671f8",
+    "apps/api/src/comparisons.mjs": "db9baf574a928af085a504d8bb3c67f4a3834d1a79a3247d995c422f421d6342",
+    "apps/api/src/data-lock.mjs": "bb7453d58985bc039b00132a1fc05ddd879f09502ad44c7ee9da68a9f795ef24",
+    "apps/api/src/desktop-security.mjs": "88fe5004df5bc2e5ba268fb87f012f0e31f99c23cd6247d8572325a9491204f3",
+    "apps/api/src/docx.mjs": "1ff4041513bcf27bd6f27f3b6f231900bc9b8279cbc41ef96c95dd85acd067e6",
+    "apps/api/src/evidence.mjs": "3130914ac0f9deef4b2ba428417ff3509d9c662d1305a9351cf61b939cf5472e",
+    "apps/api/src/file-operations.mjs": "e2b0e0c2566f272882e48dbba1d2c7ee8e2ad239df07a73400c87c1949b121b9",
+    "apps/api/src/html-parser.mjs": "0c3778d18fa26727ac451dc36f317d7a5dc8a7a0fac50f051445152bbe094e79",
+    "apps/api/src/http.mjs": "97ed42782a2a31a5e8b6fc06d3b8e5d1d34bc892c39c53f880b68caf6c23a199",
+    "apps/api/src/imports.mjs": "64ffa123c5c502d9da77a5734dadd5d03b457e57d6d4b6c82a25eb599a6c6f43",
+    "apps/api/src/library-inspection.mjs": "7c711a0f4c9fd1bae208af5325c649740a665e98acf44775f8d02df05aa271f2",
+    "apps/api/src/library-recovery.mjs": "9af07085230520932bf0554c20b88b9a81df85e11ead85006a39c236718f95b4",
+    "apps/api/src/model-session.mjs": "d83ff525131b9d79c16c1496484d01d2651b5e41eb74f07655245c9b9ed6be43",
+    "apps/api/src/notes.mjs": "9c8e057099da730a61d9dd848bdbb370f100f747a76a576b8085e1d823a8162d",
+    "apps/api/src/ocr.mjs": "a16c7e18ace58d26ee7f6c9272e15589d6c29e3a62257cbe5ed9cce44073dda0",
+    "apps/api/src/page-worker.mjs": "3182dc96a6a5f489a9f33eb1d8ee8cead369d7564cc0540048e9c0bfb3e736bf",
+    "apps/api/src/parse-process.mjs": "6f4441b6b645e1a60194bc9336af676ccb3053970130f6dc58db9a10bdd54f77",
+    "apps/api/src/parse-worker.mjs": "d418b57ceb004c149de1a3da02ba6ece297ce268459f69181fda8bfc25316bbf",
+    "apps/api/src/parser.mjs": "51de369bbe3666882774513273a7e86b5982869af267f688b0f346b896a495f2",
+    "apps/api/src/pdf.mjs": "745b61ba521602078b0755acd2ba2c11a6e853dd6b7d5519093bdf438851ca0f",
+    "apps/api/src/qa.mjs": "8d824b5bfabf5219954789e4ab7b0dd1def705d308116396cfd5a7d3a9465999",
+    "apps/api/src/record-integrity.mjs": "53c8ba20e8795d4d1412d112be4df92b5262106e479e19ad89166261ef37400d",
+    "apps/api/src/record-shape.mjs": "356abcebd0d38f343d16651643d01f2caabf5336f1b49754d97919d877ef873d",
+    "apps/api/src/render.mjs": "f6f6805913905cdaee95f190ecf40c6cf2c5e7319d5dbcb3845117de08b26e9e",
+    "apps/api/src/report-export.mjs": "d5e3709a18786d34296f26e5397353c0c3d8317cbfea0af0c5c2ecbff28bdad7",
+    "apps/api/src/report-model.mjs": "bcd701ea721213c7104cf7d305ca37ee2b8af987b98293656f9768d52ce64a33",
+    "apps/api/src/reports.mjs": "d574c2ec35a8452658cb51c2363947b8d51111ee795d2201558d476139be54de",
+    "apps/api/src/retrieval.mjs": "ebcf5938beaa12fe2fd018cef412f3c5e713094e4153e78c068053a738490431",
+    "apps/api/src/runs.mjs": "af75c881ba55e5fdddf8449cb985ef43aca5ab685c81748e896e20723af80690",
+    "apps/api/src/server.mjs": "c67c636303902f2a44c2649085ee04a045ad09c87e67414da6273d41c97771ce",
+    "apps/api/src/settings.mjs": "2390e6bb44500dff4fb2c2eda6edad537fc10cd184f5643004479ef6d64e91b2",
+    "apps/api/src/sqlite-imports.mjs": "a7e75c8eec16b192900dbdab6d5a666babf1a164ddb1e52299cd05e047a8c39c",
+    "apps/api/src/sqlite-store.mjs": "ebc008581d5c5e11851d75d318a411ff86ebbc9080fd80ac216805add152c8ac",
+    "apps/api/src/storage-layout.mjs": "50956748faf08e0d7d7d7f9964d0b98a0189926559466b632f59d852c4f36a24",
+    "apps/api/src/storage-maintenance.mjs": "83069035557c8875302203bdef75a763934557345f01f23ef2f37f90e7ddb7e2",
+    "apps/api/src/storage-zip.mjs": "be2b0e74c1bb6bf92028862ceea31cdaf5ad3450a37f9aa5e60b0560e18e5ee0",
+    "apps/api/src/store.mjs": "136e2e1ad209bf5253bfbb5c693d86de4ecba2ab211febf8e058bc044e088f26",
+    "apps/api/src/structures.mjs": "4c6a02323c49b0eb090b122ced6d4e4fa92cf275fd4d84bd81b91ffcc2f6adec",
+    "apps/api/src/tables.mjs": "a9b1393c466b258c431b91de86d230bda099453e5efb30c56e47288ea8194e5c",
+    "apps/api/src/topics.mjs": "0dd5d4f92a3841f5de8a289611d691f49938e842e91a2930114d8e5f83bca227",
+    "apps/api/src/vision.mjs": "8d829a66b5df3dfac6668c866eda635a05e96035311986ad554dac77a23732b9",
+    "apps/desktop/backend-controller.mjs": "07c4809155fd4a7981dacae1012f7cccda3697560c17d4c3ee20062d236c98cc",
+    "apps/desktop/backend.mjs": "b8b22f566bc518b0ee6d95f6d2f211cac613f525e19821867e919d6759027bbd",
+    "apps/desktop/bridge.mjs": "c26fe3a9a5eaa4a46599117580fd329978e3105871839c26801ab946af90ecaf",
+    "apps/desktop/library-manager.mjs": "9f8e5346bc274c8c7e3fb7ca241a13ace2160aa51e3be365426da1aeca206e43",
+    "apps/desktop/library-menu.mjs": "b9047ed49eefa9f65672c62c3c9c95e696bd3d3199a2aaef9f1446dfada8f1b7",
+    "apps/desktop/main.mjs": "bf5f8640c4c899398658199ccaa534dbb85805f8fe6cbcf0d01e1f07fadd7c80",
+    "apps/desktop/maintenance-channel.mjs": "aa7b27f28dea00d16b2486f8890212e3a1741a2f1750d135696474aec7bf2e7c",
+    "apps/desktop/maintenance-operations.mjs": "4e55202d1b245725b9ad57f14bf1608548ab322efc5460161f090f5522395c23",
+    "apps/desktop/maintenance-process.mjs": "d787c9754df3bcf51e475b0bca26ae1dfbd0892b98794f8270f606b92b20c736",
+    "apps/desktop/maintenance-worker.mjs": "b286d0c449eed5de06860102b9e300e8a47797efa56721fc746cb40c28b8d6f6",
+    "apps/desktop/preload.cjs": "e78ac22a41d73aa38e84338893478038c96d358b877c7f8af6afd6a5fd2efdc8",
+    "apps/desktop/startup-recovery.mjs": "1651f912ed20ad86abea0c16b5520d666aa70b2c234e7a9077fdf6b63959618a",
+    "apps/desktop/window.mjs": "54555e44df480ab000ca1f2392eece090b6b8883ea30e9ef21f3be4b9ccd6ef5",
+    "apps/web/api.js": "3baeafa428f16ea98f5290a55e4debbd6b12c1b6e3ebbdb518a135d57e367508",
+    "apps/web/app.js": "7b5e141f087a1fdb6896ebe3e6b2201f04564019af792698482209bc001d622b",
+    "apps/web/comparisons.js": "f65f7f52494e681af29c4305a86af3053afadc33c8baeeb97c2f69e35b16a4b4",
+    "apps/web/index.html": "ade08efa2e721efacac798315233133dd4101b35aeb218598d1e5788d9a88a46",
+    "apps/web/notes.js": "291da4703a290fa6081d56f01b626c03b2128d71b5e9c30e980bdfcc6bacc671",
+    "apps/web/reports.js": "87565aafac350d864c01dfd08edde5ba6cdc2d8c64477440e8526b6424a295c7",
+    "apps/web/research.js": "95627c58800fc18b29b7adbee47f34cc6e5871377b74b3e39bc5ebbb464ddc3d",
+    "apps/web/storage.js": "cfb2343a52ed02178eb6b3edfb90893cc309044bfe94fa41deb5796720aaf608",
+    "apps/web/style.css": "f0c2ce79e21cd4803676c928b84e043c780ec32fd4ed031dc660f90f947ff533",
+    "electron-builder.cjs": "67a4d0717b77f67a8aa3c8a5d3bfb3434a8d8c343d3e19573afe0728cdf4b013",
+    "package-lock.json": "b1a41fd899a59de7353c2b22cc5cf45d9c645ff101fb372e70fb68d1691b6f30",
+    "package.json": "23637c53454747a2a815201babf7f384fdb461a770b756921de434f7f1bf4d02",
+    "playwright.config.mjs": "057b8ed49d7f31150749076527a975f322a9dee7efcc527a35ade5744a8f085e",
+    "playwright.desktop.config.mjs": "a2ea33b53b8c954fb7bca7edc78614ed6bf65fc281becf61ef066801a6db95f4",
+    "playwright.rollback.config.mjs": "44b3fd749df1018da770ad39e12a738fccff3333c8e50f0a2ae9332fd3382a54",
+    "playwright.storage.config.mjs": "42ce019e2f7dc636cc213b6188f10703c10256a9c80b0c1e12298b8274353fcf",
+    "playwright.volume.config.mjs": "49bf52109f532788fd81815e7cade5048bfc7db5fc5977132f8322c9a3f3eec7",
+    "tests/api-client.test.mjs": "38735b5c6bc4eb370c422328b2663f9774638803c5c0db980d2f92d61aa7d976",
+    "tests/api.test.mjs": "b44dac7402e899de98cf27a86ccf748d3f3ce1e19b20d2423e88085da8f8d67c",
+    "tests/client-storage.test.mjs": "9a7d690c9144414f54fe781db1664157f10c8f79961d9da01458cce3e056664c",
+    "tests/comparison-retrieval.test.mjs": "f699bfb59141c232d20edf0cce05b8a6d08d2380618b1e2f9f2362888458f0a1",
+    "tests/comparisons.test.mjs": "9a4921c0e851f8cd1e64b8e4aaedc732c36aebd06af5952f4c50a77cd022cd00",
+    "tests/complex-documents.test.mjs": "ced1797a2c3d8138c13d1522d20d4ef728c7ec69ac8a1b9af8fe2ad5d29c33e5",
+    "tests/data-lock.test.mjs": "ffe8c5735d0322418e6b2351f2bed33acd4e84a25c1fd4e5d4ef85aae2dfcf1e",
+    "tests/desktop-bridge.test.mjs": "e5119aabae06e58144377b98cb46d59af5d18489470f6caabc72bb1e5aeae099",
+    "tests/desktop-security.test.mjs": "981a81b832297bf234b7be8dfa3d9e06a715d664e6f24228ba52f7f335f558c3",
+    "tests/desktop/library-maintenance.spec.mjs": "6f6928222d4dbe11039be70c271484a86880212af0a77bf0a133c3ddbf5157d1",
+    "tests/desktop/lifecycle.spec.mjs": "f7af38a5577abe0ed1fea0dc769f47b8b52e0f15798eb33206a1ff184427be38",
+    "tests/desktop/research-workflow.spec.mjs": "b4b15affe28719e38f8e8cd3348f93515127a0403c63f47443e9ffea59bd43df",
+    "tests/desktop/smoke.spec.mjs": "0cb308a8279a6e78d69329704ffad8ccebb12164173c2e0c6b2580533b170482",
+    "tests/disk-failures.test.mjs": "bc4d66cf5beb807ff91909077a71a02b95fbe789e7fd4be13c4aecc11405e632",
+    "tests/e2e/comparisons-recovery.spec.mjs": "753bfa3828873d138adce543e28e10151cef69c1effb185fdffdbc5b2796a93a",
+    "tests/e2e/comparisons.spec.mjs": "ad65ff2a0621844016e5e059a658557593d037d55c37f7c5b5292e726337fe03",
+    "tests/e2e/notes-recovery.spec.mjs": "9b7a2c79f5790cb4de4643d903edab0b23f4cbb14893c81848da250604598a43",
+    "tests/e2e/notes.spec.mjs": "8f5f20962736f902417c7f361cf005a255214c9c12d1dd83c6be529d401fd604",
+    "tests/e2e/reports-recovery.spec.mjs": "21e04421473e60b2898c8406a297810691109934ca4643ff71600558c41d9159",
+    "tests/e2e/reports.spec.mjs": "cbf5f78b838e13495eb5730b24b8df7ebdf9c45e68ee42155cb949bbe7cc3d2f",
+    "tests/e2e/research-workflow.spec.mjs": "191d54eb5b4f894b049256f6a923f31898a18f7e2bd0f85e327890da141c5803",
+    "tests/e2e/review.spec.mjs": "924c0a9c5eb82d5587ffa4d5c2ab57585453455e331895b72ba38b5c862a58b5",
+    "tests/e2e/topics.spec.mjs": "a008f63c7ae043af6870df581dc2df6bda211e5554ec6f3311d4674c98b2b82e",
+    "tests/file-operations.test.mjs": "af3f6585727c0a43769b0f0f8ec64edfc3dd272973a7265f250d6feaca94a44c",
+    "tests/helpers/atomic-import-child.mjs": "6fb528dcad4cb06a2a9a35cc73cc0c4feb7dbd41771c83e16112d8eda321f829",
+    "tests/helpers/browser-fixture.mjs": "f83778ea48df6ce0eaac2d389beee12ae3da574fccb319434a7b2be155be643c",
+    "tests/helpers/data-lock-child.mjs": "ab58c764bb917a28df2511be19512ded1d25a80517f64be2a591dbabb9e6e632",
+    "tests/helpers/desktop-application.mjs": "397b83abaec60d53d58d4598c38d1d39490a626ff86a4728b369816bfe776672",
+    "tests/helpers/desktop-routing.mjs": "98cbe611a204a5e4aec64b020efedb1bd7fe79009486e46e8a35644f062604c5",
+    "tests/helpers/disk-fault-cases.mjs": "ba2d0eace8bae314b19d1264c33929cd228b978e2b769a74f3d4bc92d7096f39",
+    "tests/helpers/disk-fault-child.mjs": "0d6e54bf4ab7f04109bf904e585dcafa0373f8a29942aa1ffb3df20bec36bee0",
+    "tests/helpers/electron-main.mjs": "1a21c73270b833b232bdee45a35e67b8eb2e5d40cab302682ece2847b2131101",
+    "tests/helpers/file-operation-fault.mjs": "f16697f5006dc978d31857c9485161137b4f099e25982825dbd08a72596c0bd5",
+    "tests/helpers/full-volume-child.mjs": "b3042b2c508f8837ecc44b9c3cbd6b34c26ba25571071fe3a4ce6b33839f682f",
+    "tests/helpers/full-volume.mjs": "a456b80934b3be58c2a9f72afc256f082f6901ed17dda77ab165fdf24944aa71",
+    "tests/helpers/maintenance-child.mjs": "9fa19706a11bbfc1ae086c2770be068dafac85cfa921663ad42a6fd663ca9192",
+    "tests/helpers/migration-child.mjs": "ca3365c44254da539da47a1dbe049af1c4212b206aeb4f36a1df644cb6ae54c1",
+    "tests/helpers/pdf-fixture.mjs": "e7a5f74c68ec2dc07373220f27184bbacaaea12044f9591a6061128e7512d92b",
+    "tests/helpers/preparation-child.mjs": "3cc45b9edb7c4ae199ff76eb7e168f097d3206c036a754db433ddfc398531007",
+    "tests/helpers/record-shape-child.mjs": "75029390009a85966f5c5c46aa42e0e94dc7518fa5d4ac85b27f849bd354db33",
+    "tests/helpers/record-shape-memory.mjs": "fbb5fdf9f447a6a4a4959e70b7bf50f6aa997e0a390374394d1abd337ca86f75",
+    "tests/helpers/recovery-crash.mjs": "89729274505a3aa4e332e4aaa4f4b39354abf91d2569dbf4aba4d1e530910ed9",
+    "tests/helpers/report-fixture.mjs": "2fe485a23ced4502104798f2f6ed0bd5f0b6f2508588405f55b5c92d7c533495",
+    "tests/helpers/research-fixture.mjs": "47633596707bfba51690c36faea31e35442c0a227e581e07f968b429ec99bbc2",
+    "tests/helpers/rollback-baseline-child.mjs": "33bcb9166cdffe2a4eaae67b3352bad0305feb80e4dfcaaf1296e231f09e3e93",
+    "tests/helpers/storage-probe.mjs": "290d1e3ce65757d6ca9b33c5550bffa1d0d442c0ca1520dfe9ef68084565907a",
+    "tests/helpers/storage-scenarios.mjs": "b86bcf3946294cf9338b1d6cba39e35c375a52a859f8a4fb6bd85bceb8ec99cd",
+    "tests/helpers/test-app.mjs": "8c6b863187843188e719c3ae01b24b3d6d0e8065392b1d60f86be666b5e1c208",
+    "tests/library-inspection.test.mjs": "5c08313b39d7ef1bb7bccd988075c2bab2c5109b2c8b1f5163b83df66a2be044",
+    "tests/library-manager.test.mjs": "d25110a9984ffc2fbd820d0c18469e90b7441cb142b14279030fc67bbff7d955",
+    "tests/library-menu.test.mjs": "e467e1e1891bd4d149b18f4fd56330e993dc1b0aebb67bd245853d6852928502",
+    "tests/library-recovery.test.mjs": "6bb50a83f1ce0fb92f5c3f7fbc0a1bef389c653cc5e6d92c8b66718ca5ef5bc3",
+    "tests/maintenance-channel.test.mjs": "8e0b6d351fc89cbcbac5261bd6696c66afcbc6a36a58aa39498911425625281f",
+    "tests/migration-preparation.test.mjs": "21bdb13172e16d2973c5668e90972ac45d6dc6e2ea27bf363d29923da65306fe",
+    "tests/migration-recovery.test.mjs": "158c9f3143fbd78242d34096da238ee80fa1e77c106e5763dcbdbd39a90a7bb9",
+    "tests/migration-validation.test.mjs": "721bcb3473ba734abaac7506a44c4ca1a930f1f26dc43ac4a49234fa92c73e24",
+    "tests/model-session.test.mjs": "bb7b5d0ebeddc72685c93dd0b0ca5dd4223a5dca34f825983aa49a30e2f82f5e",
+    "tests/notes.test.mjs": "39921c3b2ecbf98947243423b646cd081ff4ecca621108fc07f72e98891a06dd",
+    "tests/parse-process.test.mjs": "9b7fb10ebc7b57fa993bb5409b5227bb2ba5abe8223ac3fd7f9d76fed9ac9824",
+    "tests/parser.test.mjs": "a0b401efa10ed49195ae05842ebcfed870657da3fb532eb023f594e367277531",
+    "tests/qa.test.mjs": "010cd7f0200092120c065eeec80f11a22cad82595731083b7b02ba88206473a7",
+    "tests/record-integrity.test.mjs": "d2e2895e7f8c8193d4d85887413ac11a6b142a185a60179afb87b46d35620270",
+    "tests/record-shape.test.mjs": "3b87715fc3fe5e697e3f756f0531e39897c388a49a04fcaf7bab82652887971b",
+    "tests/render.test.mjs": "f9029dd7d1eae473fd67f8857a402631a058e46eeff55bc318c00656762572d8",
+    "tests/report-editor.test.mjs": "32cdc32e296d4e7eae2d99cbb15015ffb6c09cfd9901b7f7cac1f7e253947aa8",
+    "tests/reports.test.mjs": "6c805fc06b6825db0396065cb0853cc7d02fcbd7e94248840add3e18d22e9b08",
+    "tests/research-workflow.test.mjs": "19893d198a798bab4f959927586b05b24950de71ce9b390a4fad3667d2998f50",
+    "tests/retrieval.test.mjs": "e9479ed1c89f851498a4bc363b5714b54c6734a637cecc9e97aeca8ed5a19a13",
+    "tests/rollback/baseline.spec.mjs": "f5ca86eedac8edf5308cf5e19c8fc34a38c3b3ff53fe552f5d43f45f23a4bf9d",
+    "tests/settings.test.mjs": "9e8ab64d7fe8bdf92ffa8017141198009177ce269a4eca7939ca3e61e514f117",
+    "tests/sqlite-imports.test.mjs": "dff028052ff6c2f742830055e1321ae4e8ecc6ce949e34553146af60a03dcff7",
+    "tests/startup-recovery.test.mjs": "472cb469bfb95958b262dec41282aeb237a5bb32b3b05bfcf39a3e52b74fb27d",
+    "tests/storage-maintenance.test.mjs": "e5c3bd73f0b926aa83c6a45ba193df70cd7c298e3966808b16dfc1ec6b7a03cc",
+    "tests/storage-probe.test.mjs": "a76db29bb9a5f71b77aac521c7d54daed5a3e0c47a3bdabcd2d694d1a89ce327",
+    "tests/storage-zip.test.mjs": "217864a93f2a29d5e95c8d04f08b45caa5866000d8e9de5444978c3f05080b81",
+    "tests/storage/disk-failures.spec.mjs": "b4434b90ada9279add2cfbd1c5bf849705ead1efd4721e129885633ae25c8716",
+    "tests/storage/imports.spec.mjs": "eef294338a71b5fb5675eb01f9801040c1e8ac6335b697ec5f390f6ddb244921",
+    "tests/storage/maintenance.spec.mjs": "ab77e78bd8ae8a9a5a5c79c433868be8412e2ef0db17fc3c8a0ed3760f00c197",
+    "tests/storage/migration.spec.mjs": "3d5c154544f4a6c491f015d92cf69acc600e48faa5fb68b06bd0f2caa6e2254b",
+    "tests/storage/record-shape.spec.mjs": "9b8ae75077e0492bbd2d70d32eb27ea5f786ce121717e27381100046b6402835",
+    "tests/storage/sqlite.spec.mjs": "2abe03ea41a3c27428a173bd8eba7df3140379acf4e1940597461285479546f4",
+    "tests/task-lifecycle.test.mjs": "436b0053d31000bf198ede460e1092ef86839e2faa1b4e5b948dee3fee424f3d",
+    "tests/topics.test.mjs": "8d2a109faa12fdf70badfa867466c098be1e6eabc04abcc9d3af5a2eb5e33f38",
+    "tests/volume/full-volume.spec.mjs": "eee9f9804f7836d45019194b06d5d267cd44ea9320e9e2b0b69d12817b1d401f",
+    "tests/web.test.mjs": "277e72b23f4f56bd706247a0702df4c55630232d5fce0f56ab7116e628fe467e",
+    "tools/measure-desktop.mjs": "2d2b62950e916793f12f10dcd92e3e5cbc4acc9de72f12bc658a805349ec7313",
+    "tools/prepare-ocr.mjs": "2150f400335d266b8a213844e6725b7efba445aa5d86ba0ccd373af2db66bfe6",
+    "tools/prepare-windows-ocr.mjs": "033017cdb7626f0ef04a4cc54e7875bca4befa447ab54d21a099891ae24ec897",
+    "tools/process-metrics.mjs": "2dd92fd2028575da798501dfbb671a4694d2be37dbf463461419505621837580",
+    "tools/run-desktop-tests.mjs": "77ae9f696a301d1a9e181cca9a112455fb2940baf0b208c6997cfc920766542b",
+    "tools/storage-maintenance.mjs": "5e008a2909c4b25645b26a37575e7aa7cca2fcbfa4e810e84cb994f0dec3b2c3",
+    "tools/verify-ocr.mjs": "b56d0d7959a1c95eb831ee4d0ccc00202ca37d556867ff36d9ac2f06e6420373",
+    "tools/verify-rollback-baseline.mjs": "1f7df1831daf7d8ceb1956c28e80385af98800b0b7b5d4cb473820ae9877a91f"
+  },
+  "retainedRollbackBaseline": {
+    "registry": "docs/rollback-baseline.json",
+    "changedInThisPhase": false,
+    "note": "The previously pinned disk-failure build remains the retained preview recovery baseline. Its full-volume and future-format evidence is historical, not a rerun on this new package."
+  },
+  "limitations": [
+    "Required fields are based on historical producers. This is not a complete business schema, uniqueness or all cross-record semantics proof.",
+    "Current comparison document references and in-record cell/analysis locators are checked; saved materials, evidence, history and stale analysis inputs are not required to match current source records or versions.",
+    "No storage format, evidence fingerprint or saved record is automatically rewritten. No user library was migrated or deleted.",
+    "The memory check limits V8 heap, not whole-process RSS or complete application resources.",
+    "Full-volume APFS and six future-version fixture tests remain bound to the prior retained package and were not repeated on this build.",
+    "No actual release binary upgrade/downgrade pair, hardware power loss, minimum/clean-machine, signing/notarization, real provider or cross-discipline quality acceptance."
+  ]
+}

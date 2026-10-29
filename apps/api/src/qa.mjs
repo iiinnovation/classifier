@@ -65,6 +65,7 @@ export async function answerQuestion(document, question, { signal, onEvent = asy
     await onEvent({ type: 'model', message: toolsAllowed ? '正在阅读证据并组织回答' : '正在根据现有证据完成回答' })
     let message
     try {
+      signal?.throwIfAborted()
       const response = await fetchImpl(config.url, {
         method: 'POST', signal,
         headers: { authorization: `Bearer ${config.key}`, 'content-type': 'application/json' },

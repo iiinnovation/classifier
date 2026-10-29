@@ -1,0 +1,285 @@
+{
+  "date": "2026-10-29",
+  "completedAt": "2026-10-29T01:17:44.712Z",
+  "scope": "Product mainline UI audit of current working tree, with isolated synthetic library and controlled model responses; not release, OCR, real-provider or full-regression verification",
+  "runtime": {
+    "node": "v24.12.0",
+    "browser": "Local Google Chrome via Playwright",
+    "viewports": [
+      [
+        1440,
+        1000
+      ],
+      [
+        390,
+        844
+      ]
+    ]
+  },
+  "latestRun": {
+    "command": "node /private/tmp/classifier-pm-audit.mjs",
+    "snapshots": 32,
+    "pageErrors": [],
+    "horizontalOverflow": [],
+    "archiveScript": "Import and output paths normalized in archived audit.mjs; browser interactions match executed script"
+  },
+  "source": [
+    {
+      "path": "apps/web/index.html",
+      "bytes": 31635,
+      "sha256": "47946346465b125295e705397c446dd09336f052236c72b3eb084b1219134c22"
+    },
+    {
+      "path": "apps/web/style.css",
+      "bytes": 34623,
+      "sha256": "b2aa2e7d000eb661df9459be35ebd7ca2e867fe697deeef2ce22092f032b7fa8"
+    },
+    {
+      "path": "apps/web/app.js",
+      "bytes": 29716,
+      "sha256": "2968409506ebd8b09b25a98bf1550c92134daf7f1decc7150eeea4911c200e29"
+    },
+    {
+      "path": "apps/web/research.js",
+      "bytes": 20642,
+      "sha256": "0f2f0d05d1fcb422f306fceff53aebd986cea3570d61a5cd20d6724c555d3887"
+    },
+    {
+      "path": "apps/web/notes.js",
+      "bytes": 30447,
+      "sha256": "370c1ad7cfa0824242dabdd1991492fa1d43a1407bedb7c3c5f03d11d5a1c8cf"
+    },
+    {
+      "path": "apps/web/comparisons.js",
+      "bytes": 48846,
+      "sha256": "26f58fce7e19f88c137fe08b9737b54ade8147f1d417e0332b61b2f735ce17b8"
+    },
+    {
+      "path": "apps/web/reports.js",
+      "bytes": 36974,
+      "sha256": "2dc37e1683cfefe44697b75031a00f68070732ead6607bd0e0d31547eccd1e5f"
+    },
+    {
+      "path": "apps/web/deletion-preview.js",
+      "bytes": 7083,
+      "sha256": "be9057c2e52e5adadcd2a3191a2422ba1f6adee2ea626ca04d16ca984054a4e9"
+    },
+    {
+      "path": "apps/web/storage-usage.js",
+      "bytes": 3884,
+      "sha256": "a08c9bff092a5c3748c2d892f0e362c784c44c742ceeb91cb90f615df275e479"
+    },
+    {
+      "path": "apps/api/src/report-export.mjs",
+      "bytes": 3690,
+      "sha256": "ade2a85a09233da19436c13a738928fe8e6c6281b2016f79dbc2bd926f41e3bb"
+    },
+    {
+      "path": "apps/desktop/library-menu.mjs",
+      "bytes": 13904,
+      "sha256": "b9047ed49eefa9f65672c62c3c9c95e696bd3d3199a2aaef9f1446dfada8f1b7"
+    },
+    {
+      "path": "tests/helpers/test-app.mjs",
+      "bytes": 4246,
+      "sha256": "8c6b863187843188e719c3ae01b24b3d6d0e8065392b1d60f86be666b5e1c208"
+    },
+    {
+      "path": "tests/helpers/research-fixture.mjs",
+      "bytes": 3533,
+      "sha256": "47633596707bfba51690c36faea31e35442c0a227e581e07f968b429ec99bbc2"
+    },
+    {
+      "path": "package.json",
+      "bytes": 1415,
+      "sha256": "23637c53454747a2a815201babf7f384fdb461a770b756921de434f7f1bf4d02"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 151806,
+      "sha256": "b1a41fd899a59de7353c2b22cc5cf45d9c645ff101fb372e70fb68d1691b6f30"
+    }
+  ],
+  "review": {
+    "path": "docs/product-mainline-review-2026-10-29.md",
+    "bytes": 23312,
+    "sha256": "8f8846587148d24be3dc4d6f1121de0b118a55db71fadc442548e7a1898d645d"
+  },
+  "artifacts": [
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/01-home.png",
+      "bytes": 65814,
+      "sha256": "2e4255185b435b829c934ed1545561b66d5dd48862542bd8cf2fc0a223ba957b"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/02-topic-two.png",
+      "bytes": 190136,
+      "sha256": "1d812199807b04e1d1ec88cc01c6cb1ae7a1681cfc9fdf8eb8721b8af2b33d1d"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/03-import.png",
+      "bytes": 216776,
+      "sha256": "993b291dd9bfe12d08525bba4e3e86c86fe9f715cf573849ecd57e3418fd1d21"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/04-model.png",
+      "bytes": 274678,
+      "sha256": "1bbdf7b594caf8084ef49b7a3cc98f26e03dcf8d5a20c292e8e5e7e07e5fdc68"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/05-reader.png",
+      "bytes": 75943,
+      "sha256": "6d4c35b03939c097ab097f7e46742da5cc3ecca88271b16bfc97a9a31077aa89"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/06-notes-empty.png",
+      "bytes": 70374,
+      "sha256": "24a874ba46e79ba25cb4701fc3dcedf65c2e6dfae67809e43ec91737406c0f44"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/07-note-editor.png",
+      "bytes": 108853,
+      "sha256": "9d7ee6a8b7a91fca89aefe6b88b34a3b054c2d322035d566e2a874e526b41766"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/08-notes-saved.png",
+      "bytes": 80020,
+      "sha256": "4cac4b7c091d2e9a8f2c9c24f2aa02054f1380c1c646de257b48a7194c1cdc23"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/09-comparison-draft.png",
+      "bytes": 266469,
+      "sha256": "7005c4f0599537ca6ae8c56d254cc9b6fea52a3d77bb7839da5f5e0ee7ec0e08"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/10-comparison-saved.png",
+      "bytes": 228674,
+      "sha256": "6725e44e9eef9d9700b48c434b7663020f4ae33fca86c1d0a4f612940a21efde"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/11-evidence-list.png",
+      "bytes": 241816,
+      "sha256": "d83bef5219370270eec5ac0aabad03ced05c925f859db848abaad41fdd07aa20"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/12-evidence-excerpt.png",
+      "bytes": 257757,
+      "sha256": "486c6775170a25dab555836296caf5a8a84c213079d6d63ec9e84d4a22f89573"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/13-export-before-adoption.md",
+      "bytes": 433,
+      "sha256": "2e1b6de505275c5aee1fa4eb01b8d3d19cb5b64286e7022a9616b433d9c54e2f"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/13-report-draft.png",
+      "bytes": 127320,
+      "sha256": "1e0bacd4f6362832e11911ea424d7c34c7adad5c03ec2130f156fd212ec108f7"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/14-report-saved.png",
+      "bytes": 124642,
+      "sha256": "dcaab4f32a8076f6b56f8dfd209c42386a2c912603fe7a95325d23779c5f2404"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/15-report-editor.png",
+      "bytes": 161252,
+      "sha256": "495c37bece05449abce772aeb87c45c2460923792151c271640b55522ecb5a12"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/16-report-materials.png",
+      "bytes": 153877,
+      "sha256": "aed5a82b72de6da83cbb9482e1626a922694e0ff013a9e00a706ec02ce1cf8ef"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/17-library-reader-notes.png",
+      "bytes": 60069,
+      "sha256": "f1817ef2fed8cfedd66219316a9fb47451ebac8f49bda1d515278d9d0b6242d7"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/18-all-documents.png",
+      "bytes": 64790,
+      "sha256": "97c8103ea53cbe2f31dc4eabe361bd6d52c2009e0bd55bddd4b6f70a1768559c"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/19-delete-preview.png",
+      "bytes": 290401,
+      "sha256": "aefebc1710c3c8e22297aac2c3b79a8c25719485e02daebc54688436c7475e38"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/20-storage.png",
+      "bytes": 313216,
+      "sha256": "6b7de7c4007aba47e3673df3c191dbb877940bceee8ce9e56feb54eeec0f6c60"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/21-topic-thirteen.png",
+      "bytes": 380643,
+      "sha256": "899855753c6d496c990c298cbfc604f74cc5442d2edaaa48be3fa62cb4e2f511"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/21a-topic-eight.png",
+      "bytes": 298894,
+      "sha256": "f418cc16a1b8055509e986c983ccc49406120468df77d5a072df69a1a762dd3b"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/22-topic-thirteen-narrow.png",
+      "bytes": 337540,
+      "sha256": "7f9fd97b0dca1027befbc5f8404dd6257581817a59d7304785d86132ca66edbc"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/23-comparison-narrow.png",
+      "bytes": 190446,
+      "sha256": "8f9897e4660cbaef4ed18afadf62365a0144bc7d7f77ee44387aff3557691990"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/24-report-narrow.png",
+      "bytes": 106698,
+      "sha256": "2b98b9a364740f025541e9e9d75a71c10ad0e963f298e47918f64e4744deef47"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/25-topic-empty.png",
+      "bytes": 135075,
+      "sha256": "40b69b0d90b73d594e746c62deba2c7cce88eca83cb01aac71dcea8d9663b255"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/26-topic-one.png",
+      "bytes": 159792,
+      "sha256": "e1e3fdcfee62a3368a17fd760ad9ec8107914b50dbeceb83d24bd55303094260"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/27-topic-no-model.png",
+      "bytes": 164973,
+      "sha256": "2d5e09518ec07c6ad2cf550c5a6dc7fcc1ff3e526da0c318a04173579afe9327"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/28-manual-comparison-config.png",
+      "bytes": 211564,
+      "sha256": "0b27458faa29b3ee9da37bf66eecca5cbba5526daf15436b472e2dc0a11315ca"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/29-manual-report-create.png",
+      "bytes": 182289,
+      "sha256": "4b12d8e5aefecdae88cd4f5478f89f19d25c45b0e0504c80552633a239302700"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/30-manual-report-empty.png",
+      "bytes": 73972,
+      "sha256": "d26d07ae0e720a9d1e161c6ebe31456d6fe8ce9bab0c1f6bd9407fa84ac2bbed"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/31-manual-report-edit-empty.png",
+      "bytes": 85747,
+      "sha256": "fcf4e742693426708472ac6f3d935e58882b4ba565c1ed2b3a6d66f682d13a8e"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/audit.mjs",
+      "bytes": 9410,
+      "sha256": "8fd7b5c1b6e452b4f0342e78cf5fc50bd462c44c929c4e2de429da4194df4f14"
+    },
+    {
+      "path": "docs/measurements/product-mainline-2026-10-29/observations.json",
+      "bytes": 177342,
+      "sha256": "9b3bfaf43a859cd6c6a6a97dc077aa0571e8a927919197c09fa7a5705a1af0cb"
+    }
+  ]
+}

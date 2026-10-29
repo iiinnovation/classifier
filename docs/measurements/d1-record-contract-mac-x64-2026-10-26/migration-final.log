@@ -1,0 +1,14 @@
+(node:67916) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ migration rejects a structurally damaged record after retaining a verified pre-upgrade backup (327.816545ms)
+✔ migration refuses a current comparison row whose document is missing (548.774525ms)
+✔ migration resolves current comparison document IDs with the existing UUID casing rule (602.623445ms)
+✔ migration retains copied materials and stale analysis/history after their live sources disappear (1921.807443ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3566.400635

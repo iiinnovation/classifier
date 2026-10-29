@@ -1,3 +1,4 @@
+import { clickControl, revealControl, moreAction } from '../helpers/ui-actions.mjs'
 import { test, expect } from '../helpers/browser-fixture.mjs'
 import { testApp, json } from '../helpers/test-app.mjs'
 
@@ -7,7 +8,7 @@ async function setup(page, options) {
   await app.request(`/api/topics/${topic.id}/documents/${app.legacy.id}`, { method: 'PUT' })
   await page.goto(app.base)
   await page.locator('.topic-card').filter({ hasText: '文献研读' }).click()
-  await page.getByRole('button', { name: '打开研读', exact: true }).click()
+  await page.locator('.document-link:visible').click()
   await expect(page.locator('#new-note')).toBeEnabled()
   return { ...app, topic, notesPath: `/api/topics/${topic.id}/documents/${app.legacy.id}/notes` }
 }
@@ -34,7 +35,7 @@ test('UX notes start with content and only populated categories are shown', asyn
     expect(first).toMatchObject({ field: '主要发现', content: '先记下一个想法，稍后整理。', kind: 'user', status: 'recorded', evidence: [] })
     await expect(page.locator('#notes-list .note-group')).toHaveCount(1)
     await expect(page.locator('#notes-list .note-group > h3')).toHaveText('主要发现')
-    await page.locator('#notes-list .note-card').getByRole('button', { name: '归档', exact: true }).click()
+    await moreAction(page.locator('#notes-list .note-card'), '归档')
     await expect(page.locator('#notes-list .note-group')).toHaveCount(0)
     await expect(page.locator('#notes-list')).toContainText('笔记已归档')
     await page.locator('#notes-show-archived').check()
@@ -139,17 +140,17 @@ test('M2 source notes, editable fields, missing information, history, archive an
     await app.restart(); await page.reload()
     card = page.locator('#notes-list .note-card').filter({ hasText: '尚未提交的阅读修订草稿' })
     await expect(card).toBeVisible()
-    await card.getByRole('button', { name: '版本记录', exact: true }).click()
+    await moreAction(card, '版本记录')
     await expect(page.locator('#note-history-list')).toContainText('两组研究材料，具体条件需要核对原文。')
     await page.locator('#note-history-list .note-history-item').filter({ hasText: '版本 1 ·' }).getByRole('button', { name: '恢复为新版本', exact: true }).click()
     await expect(page.locator('#note-history-dialog')).not.toBeVisible()
     card = page.locator('#notes-list .note-card').filter({ hasText: '两组研究材料' })
     await expect(card).toBeVisible()
-    await card.getByRole('button', { name: '归档', exact: true }).click()
+    await moreAction(card, '归档')
     await expect(card).not.toBeVisible()
     await page.locator('#notes-show-archived').check()
     await expect(card).toContainText('已归档')
-    await card.getByRole('button', { name: '取消归档', exact: true }).click()
+    await moreAction(card, '取消归档')
     await expect(card).not.toContainText('已归档')
     await page.screenshot({ path: testInfo.outputPath('notes-desktop.png'), fullPage: true })
     await page.setViewportSize({ width: 390, height: 844 })
@@ -161,12 +162,15 @@ test('M2 source notes, editable fields, missing information, history, archive an
 
     await page.locator('#reader-back').click()
     await expect(page.locator('#topic-note-list')).toContainText('两组研究材料')
-    await page.getByRole('button', { name: '移出主题', exact: true }).click()
+    await moreAction(page.locator('#topic-documents'), '移出主题')
     await expect(page.locator('#topic-note-list')).toContainText('文献已移出主题')
     await page.locator('#topic-note-list .document-card').filter({ hasText: '两组研究材料' }).getByRole('button', { name: '打开笔记', exact: true }).click()
     await expect(page.locator('#notes-panel')).toBeVisible()
     await expect(page.locator('#notes-list')).toContainText('两组研究材料')
-    await expect(page.locator('#new-note')).toBeDisabled()
+    await expect(page.locator('#new-note')).toBeEnabled()
+    await page.locator('#new-note').click()
+    await expect(page.locator('#note-topic-dialog')).toBeVisible()
+    await page.locator('#note-topic-close').click()
     await page.reload()
     await expect(page.locator('#notes-list')).toContainText('两组研究材料')
     expect(errors).toEqual([])

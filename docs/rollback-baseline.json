@@ -1,0 +1,35 @@
+{
+  "registryVersion": 1,
+  "status": "preview-recovery-baseline",
+  "baselineId": "mac-x64-d1-2026-10-26-d7a392b67465",
+  "recordedForDate": "2026-10-26",
+  "platform": "darwin-x64",
+  "applicationVersion": "0.1.0",
+  "build": {
+    "artifact": "dist/desktop-d1-disk-failures-2026-10-26/Classifier-0.1.0-mac.zip",
+    "zipSha256": "d7a392b67465f729daae5fe79a9bbb010dbf51082d704d97068e30b5b17368c3",
+    "asar": "dist/desktop-d1-disk-failures-2026-10-26/mac/Classifier.app/Contents/Resources/app.asar",
+    "asarSha256": "1bfbd9fe709592544bd660f2a4809677b8bd7e34e414432bb8d8d58a137f51c8",
+    "signed": false,
+    "notarized": false
+  },
+  "evidence": "docs/measurements/d1-full-volume-mac-x64-2026-10-26/validation.json",
+  "compatibilityResults": "docs/measurements/d1-full-volume-mac-x64-2026-10-26/rollback-baseline.json",
+  "releaseApproved": false,
+  "actualCrossVersionPairsVerified": false,
+  "compatibility": {
+    "formatVersion": 1,
+    "recordVersion": 1,
+    "sqliteUserVersion": 1,
+    "storage": ["json", "sqlite"],
+    "backupFormats": ["directory", "zip"],
+    "futureVersionsAreFixtures": true,
+    "recovery": "Refuse unsupported formats before writes; preserve the newer library and restore a compatible pre-upgrade backup into a new directory."
+  },
+  "exclusions": [
+    "Early D0 binaries do not contain the current format and startup recovery safeguards.",
+    "An older recorded hash without a retained, independently tested artifact is not a supported rollback build.",
+    "Preview packages sharing version 0.1.0 must be distinguished by build date and artifact hashes.",
+    "This preview is a retained baseline for future upgrade testing, not proof of compatibility with an actual later release."
+  ]
+}

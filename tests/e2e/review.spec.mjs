@@ -1,3 +1,4 @@
+import { clickControl, revealControl, moreAction } from '../helpers/ui-actions.mjs'
 import { test, expect } from '../helpers/browser-fixture.mjs'
 import { testApp, json } from '../helpers/test-app.mjs'
 
@@ -25,6 +26,7 @@ test('committed topic creation closes the editor even when list refresh fails', 
     })
     await page.locator('#new-topic').click()
     await page.locator('#topic-name-input').fill('已保存的主题')
+    await page.locator('#topic-details > summary').click()
     await page.locator('#topic-question-input').fill('保存后的刷新失败是否会造成重复？')
     await page.getByRole('button', { name: '保存主题', exact: true }).click()
     await expect(page.locator('#topic-dialog')).not.toBeVisible()
@@ -48,7 +50,7 @@ test('saving freezes form fields until the captured edits have been persisted', 
       if (route.request().method() === 'PATCH') { saving = true; await release.promise }
       await route.continue().catch(() => {})
     })
-    await page.locator('#edit-topic').click()
+    await clickControl(page, '#edit-topic')
     await page.locator('#topic-name-input').fill('保存这一版')
     await page.getByRole('button', { name: '保存主题', exact: true }).click()
     await expect.poll(() => saving).toBe(true)
@@ -57,7 +59,7 @@ test('saving freezes form fields until the captured edits have been persisted', 
     release.resolve()
     await expect(page.locator('#topic-dialog')).not.toBeVisible()
     await expect(page.locator('#topic-title')).toHaveText('保存这一版')
-    await page.locator('#edit-topic').click()
+    await clickControl(page, '#edit-topic')
     await expect(page.locator('#topic-name-input')).toBeEnabled()
   } finally { release.resolve(); await page.unrouteAll({ behavior: 'wait' }); await app.close() }
 })
@@ -127,7 +129,7 @@ test('an old library response cannot replace newly saved bibliography in the edi
       }
       await route.continue()
     })
-    await page.getByRole('button', { name: '打开研读', exact: true }).click()
+    await page.locator('.document-link:visible').click()
     await expect.poll(() => delayed).toBe(true)
     await page.locator('#edit-document').click()
     await page.locator('#metadata-name').fill('修订后的标题')
@@ -186,7 +188,7 @@ test('finishing an import does not cancel a document the user is opening', async
     await page.locator('#file').setInputFiles({ name: 'another.txt', mimeType: 'text/plain', buffer: Buffer.from('另一份文献') })
     await expect.poll(() => polling).toBe(true)
     await page.locator('#close-import').click()
-    await page.getByRole('button', { name: '打开研读', exact: true }).click()
+    await page.locator('.document-link:visible').click()
     await expect.poll(() => opening).toBe(true)
     releaseImport.resolve()
     await expect(page.locator('#app-message')).toContainText('已导入 1 份文档')

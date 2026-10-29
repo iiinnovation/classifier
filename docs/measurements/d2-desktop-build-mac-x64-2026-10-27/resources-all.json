@@ -1,0 +1,3441 @@
+{
+  "timestamp": "2026-10-27T13:06:25.821Z",
+  "platform": "darwin",
+  "arch": "x64",
+  "os": "25.6.0",
+  "memoryBytes": 34359738368,
+  "cpu": "Intel(R) Core(TM) i7-1068NG7 CPU @ 2.30GHz",
+  "logicalCpus": 8,
+  "mode": "all",
+  "instrumentation": "Normal packaged executable with renderer CDP only; connectOverCDP(noDefaults:true), no Node inspector or Playwright launch switches. RSS includes shared-page double counting.",
+  "minimumHardwareVerified": false,
+  "results": {
+    "startup": {
+      "count": 20,
+      "p95Ms": 2025.6161649999995,
+      "durationsMs": [
+        2088.345386,
+        1302.255346,
+        1289.518266000001,
+        1335.9403930000008,
+        1464.9926510000005,
+        2025.6161649999995,
+        1932.6984400000001,
+        1634.0929939999987,
+        1362.9192199999998,
+        1336.9884869999987,
+        1378.6787650000006,
+        1494.2776559999984,
+        1335.0634529999988,
+        1311.0227529999975,
+        1322.349890999998,
+        1379.1338759999999,
+        1477.9588640000002,
+        1396.7024880000026,
+        1335.1873070000001,
+        1325.5359249999965
+      ],
+      "cache": "Full process restart; OS file cache is not flushed."
+    },
+    "idle": {
+      "p95Rss": 409116672,
+      "samples": [
+        {
+          "at": 1793106495270,
+          "rss": 408748032,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106495857,
+          "rss": 408776704,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106496450,
+          "rss": 408776704,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106497036,
+          "rss": 408776704,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106497624,
+          "rss": 408776704,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106498211,
+          "rss": 408776704,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106498809,
+          "rss": 408776704,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106499410,
+          "rss": 408809472,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106500007,
+          "rss": 408809472,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106500597,
+          "rss": 408809472,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106501194,
+          "rss": 408780800,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106501787,
+          "rss": 408780800,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106502376,
+          "rss": 408780800,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106502967,
+          "rss": 408780800,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106503567,
+          "rss": 408780800,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106504157,
+          "rss": 408731648,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106504740,
+          "rss": 408731648,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106505334,
+          "rss": 408731648,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106505930,
+          "rss": 408731648,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106506523,
+          "rss": 408731648,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106507119,
+          "rss": 408731648,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106507708,
+          "rss": 408731648,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106508305,
+          "rss": 408731648,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106508901,
+          "rss": 408731648,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106509498,
+          "rss": 408731648,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106510088,
+          "rss": 408731648,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106510685,
+          "rss": 408731648,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106511275,
+          "rss": 408731648,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106511857,
+          "rss": 408731648,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106512457,
+          "rss": 408735744,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106513049,
+          "rss": 408735744,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106513647,
+          "rss": 408735744,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106514251,
+          "rss": 408875008,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106514885,
+          "rss": 408944640,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106515484,
+          "rss": 408940544,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106516092,
+          "rss": 408948736,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106516728,
+          "rss": 409116672,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106517363,
+          "rss": 409116672,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106518040,
+          "rss": 409116672,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106518665,
+          "rss": 409116672,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106519298,
+          "rss": 409116672,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106519904,
+          "rss": 409116672,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106520529,
+          "rss": 409116672,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106521201,
+          "rss": 409116672,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106521822,
+          "rss": 409059328,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106522442,
+          "rss": 409026560,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106523074,
+          "rss": 409026560,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106523724,
+          "rss": 409026560,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106524329,
+          "rss": 409026560,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106524923,
+          "rss": 409034752,
+          "processes": 5,
+          "ocrPids": []
+        }
+      ],
+      "privateMemory": {
+        "method": "vmmap physical footprint (distinct from RSS)",
+        "processes": [
+          {
+            "pid": 81264,
+            "bytes": 44564480
+          },
+          {
+            "pid": 81266,
+            "bytes": 33973862.4
+          },
+          {
+            "pid": 81267,
+            "bytes": 12268339.2
+          },
+          {
+            "pid": 81269,
+            "bytes": 24851251.2
+          },
+          {
+            "pid": 81270,
+            "bytes": 42677043.2
+          }
+        ]
+      }
+    },
+    "pdf": {
+      "durationMs": 7751.861047000013,
+      "peakRss": 1300619264,
+      "fixtureBytes": 201994,
+      "fixtureSha256": "cbcbb43a76b065a99246fe64fafbafe54abcc4ec25a42d72dd4759147d1cb0eb",
+      "samples": [
+        {
+          "at": 1793106542163,
+          "rss": 410079232,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106542519,
+          "rss": 492560384,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106542868,
+          "rss": 511361024,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106543214,
+          "rss": 556400640,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106543553,
+          "rss": 638582784,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106543896,
+          "rss": 696197120,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106544247,
+          "rss": 749060096,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106544589,
+          "rss": 808960000,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106544930,
+          "rss": 860598272,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106545282,
+          "rss": 915853312,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106545625,
+          "rss": 970883072,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106545964,
+          "rss": 1026203648,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106546306,
+          "rss": 1077223424,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106546653,
+          "rss": 1123004416,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106546996,
+          "rss": 1195622400,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106547332,
+          "rss": 1245765632,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106547704,
+          "rss": 1300619264,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106548060,
+          "rss": 464113664,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106548412,
+          "rss": 464093184,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106548787,
+          "rss": 513015808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106549131,
+          "rss": 570839040,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106549479,
+          "rss": 616517632,
+          "processes": 5,
+          "ocrPids": []
+        }
+      ]
+    },
+    "ocr": {
+      "durationMs": 47503.21617,
+      "peakRss": 981860352,
+      "fixtureBytes": 114494,
+      "fixtureSha256": "eea0c00717e577908c8445b53afc1a3a45e0124cd7495c3961e9bafed06228bd",
+      "samples": [
+        {
+          "at": 1793106552212,
+          "rss": 412741632,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106552555,
+          "rss": 503017472,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106552914,
+          "rss": 539979776,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106553266,
+          "rss": 640659456,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106553610,
+          "rss": 648368128,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106553955,
+          "rss": 653418496,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106554297,
+          "rss": 656965632,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106554641,
+          "rss": 660299776,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106554984,
+          "rss": 663453696,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106555322,
+          "rss": 666005504,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106555670,
+          "rss": 668246016,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106556009,
+          "rss": 670584832,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106556346,
+          "rss": 747810816,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106556699,
+          "rss": 830337024,
+          "processes": 7,
+          "ocrPids": [
+            82047
+          ]
+        },
+        {
+          "at": 1793106557052,
+          "rss": 905580544,
+          "processes": 7,
+          "ocrPids": [
+            82047
+          ]
+        },
+        {
+          "at": 1793106557390,
+          "rss": 808136704,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106557731,
+          "rss": 808243200,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106558083,
+          "rss": 808370176,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106558432,
+          "rss": 764436480,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106558772,
+          "rss": 764571648,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106559114,
+          "rss": 764555264,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106559453,
+          "rss": 764706816,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106559796,
+          "rss": 764686336,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106560138,
+          "rss": 764829696,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106560487,
+          "rss": 813441024,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106560840,
+          "rss": 792809472,
+          "processes": 7,
+          "ocrPids": [
+            82076
+          ]
+        },
+        {
+          "at": 1793106561185,
+          "rss": 882774016,
+          "processes": 7,
+          "ocrPids": [
+            82076
+          ]
+        },
+        {
+          "at": 1793106561520,
+          "rss": 748961792,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106561855,
+          "rss": 748937216,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106562191,
+          "rss": 749039616,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106562526,
+          "rss": 749010944,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106562861,
+          "rss": 749105152,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106563205,
+          "rss": 749096960,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106563553,
+          "rss": 749236224,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106563887,
+          "rss": 749223936,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106564228,
+          "rss": 749305856,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106564563,
+          "rss": 776798208,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106564910,
+          "rss": 845017088,
+          "processes": 7,
+          "ocrPids": [
+            82112
+          ]
+        },
+        {
+          "at": 1793106565254,
+          "rss": 909938688,
+          "processes": 7,
+          "ocrPids": [
+            82112
+          ]
+        },
+        {
+          "at": 1793106565599,
+          "rss": 781373440,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106565943,
+          "rss": 781492224,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106566281,
+          "rss": 781475840,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106566619,
+          "rss": 781570048,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106566951,
+          "rss": 781557760,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106567288,
+          "rss": 781647872,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106567624,
+          "rss": 781635584,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106567960,
+          "rss": 781725696,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106568307,
+          "rss": 781717504,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106568650,
+          "rss": 795586560,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106568995,
+          "rss": 878977024,
+          "processes": 7,
+          "ocrPids": [
+            82147
+          ]
+        },
+        {
+          "at": 1793106569334,
+          "rss": 952324096,
+          "processes": 7,
+          "ocrPids": [
+            82147
+          ]
+        },
+        {
+          "at": 1793106569670,
+          "rss": 813969408,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106570006,
+          "rss": 814133248,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106570346,
+          "rss": 814100480,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106570697,
+          "rss": 812306432,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106571047,
+          "rss": 812277760,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106571384,
+          "rss": 812986368,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106571721,
+          "rss": 812953600,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106572063,
+          "rss": 814333952,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106572402,
+          "rss": 814247936,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106572746,
+          "rss": 828071936,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106573094,
+          "rss": 874508288,
+          "processes": 7,
+          "ocrPids": [
+            82187
+          ]
+        },
+        {
+          "at": 1793106573449,
+          "rss": 906223616,
+          "processes": 7,
+          "ocrPids": [
+            82187
+          ]
+        },
+        {
+          "at": 1793106573787,
+          "rss": 779390976,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106574127,
+          "rss": 779485184,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106574460,
+          "rss": 779476992,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106574800,
+          "rss": 779460608,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106575139,
+          "rss": 779599872,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106575550,
+          "rss": 779583488,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106575972,
+          "rss": 779689984,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106576377,
+          "rss": 779845632,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106576732,
+          "rss": 779841536,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106577070,
+          "rss": 789676032,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106577415,
+          "rss": 870797312,
+          "processes": 7,
+          "ocrPids": [
+            82232
+          ]
+        },
+        {
+          "at": 1793106577765,
+          "rss": 943628288,
+          "processes": 7,
+          "ocrPids": [
+            82232
+          ]
+        },
+        {
+          "at": 1793106578107,
+          "rss": 808529920,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106578445,
+          "rss": 808677376,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106578789,
+          "rss": 808660992,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106579133,
+          "rss": 808800256,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106579465,
+          "rss": 808787968,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106579855,
+          "rss": 808873984,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106580201,
+          "rss": 808845312,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106580542,
+          "rss": 808960000,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106580880,
+          "rss": 804622336,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106581262,
+          "rss": 866988032,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106581681,
+          "rss": 859545600,
+          "processes": 7,
+          "ocrPids": [
+            82297
+          ]
+        },
+        {
+          "at": 1793106582023,
+          "rss": 954048512,
+          "processes": 7,
+          "ocrPids": [
+            82297
+          ]
+        },
+        {
+          "at": 1793106582372,
+          "rss": 797995008,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106582707,
+          "rss": 811053056,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106583045,
+          "rss": 811020288,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106583377,
+          "rss": 811180032,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106583713,
+          "rss": 811163648,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106584060,
+          "rss": 811307008,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106584399,
+          "rss": 811278336,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106584734,
+          "rss": 811429888,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106585072,
+          "rss": 811311104,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106585418,
+          "rss": 871350272,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106585763,
+          "rss": 837898240,
+          "processes": 7,
+          "ocrPids": [
+            82330
+          ]
+        },
+        {
+          "at": 1793106586120,
+          "rss": 945164288,
+          "processes": 7,
+          "ocrPids": [
+            82330
+          ]
+        },
+        {
+          "at": 1793106586471,
+          "rss": 807686144,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106586816,
+          "rss": 828915712,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106587156,
+          "rss": 828899328,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106587508,
+          "rss": 828862464,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106587842,
+          "rss": 828981248,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106588182,
+          "rss": 828964864,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106588520,
+          "rss": 829071360,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106588856,
+          "rss": 828792832,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106589205,
+          "rss": 828903424,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106589549,
+          "rss": 891154432,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106589896,
+          "rss": 857919488,
+          "processes": 7,
+          "ocrPids": [
+            82365
+          ]
+        },
+        {
+          "at": 1793106590239,
+          "rss": 981860352,
+          "processes": 7,
+          "ocrPids": [
+            82365
+          ]
+        },
+        {
+          "at": 1793106590584,
+          "rss": 843018240,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106590923,
+          "rss": 843005952,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106591263,
+          "rss": 843100160,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106591614,
+          "rss": 843083776,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106591961,
+          "rss": 843177984,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106592300,
+          "rss": 843161600,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106592638,
+          "rss": 843259904,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106592971,
+          "rss": 843243520,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106593304,
+          "rss": 843354112,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106593644,
+          "rss": 887758848,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106593992,
+          "rss": 870088704,
+          "processes": 7,
+          "ocrPids": [
+            82395
+          ]
+        },
+        {
+          "at": 1793106594343,
+          "rss": 979689472,
+          "processes": 7,
+          "ocrPids": [
+            82395
+          ]
+        },
+        {
+          "at": 1793106594687,
+          "rss": 650379264,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106595026,
+          "rss": 442634240,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106595364,
+          "rss": 474566656,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106595706,
+          "rss": 494211072,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106596046,
+          "rss": 597151744,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106596382,
+          "rss": 603844608,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106596724,
+          "rss": 608239616,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106597070,
+          "rss": 611651584,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106597405,
+          "rss": 614752256,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106597741,
+          "rss": 617529344,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106598088,
+          "rss": 620101632,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106598461,
+          "rss": 622424064,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106598848,
+          "rss": 624869376,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106599260,
+          "rss": 616263680,
+          "processes": 5,
+          "ocrPids": []
+        }
+      ]
+    },
+    "ocr-bilingual": {
+      "durationMs": 48880.79798999999,
+      "peakRss": 993636352,
+      "fixtureBytes": 172389,
+      "fixtureSha256": "c5c7d4716e5b1975b0bdd177cbe90489e948afcbe109480e0f5af70549974e26",
+      "samples": [
+        {
+          "at": 1793106601939,
+          "rss": 411254784,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106602288,
+          "rss": 505040896,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106602639,
+          "rss": 524431360,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106602985,
+          "rss": 644472832,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106603326,
+          "rss": 652824576,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106603671,
+          "rss": 657985536,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106604016,
+          "rss": 661843968,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106604356,
+          "rss": 665190400,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106604704,
+          "rss": 668270592,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106605074,
+          "rss": 670818304,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106605414,
+          "rss": 673370112,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106605756,
+          "rss": 675561472,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106606103,
+          "rss": 752926720,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106606451,
+          "rss": 836509696,
+          "processes": 7,
+          "ocrPids": [
+            82494
+          ]
+        },
+        {
+          "at": 1793106606808,
+          "rss": 907345920,
+          "processes": 7,
+          "ocrPids": [
+            82494
+          ]
+        },
+        {
+          "at": 1793106607159,
+          "rss": 753762304,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106607503,
+          "rss": 813879296,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106607837,
+          "rss": 813998080,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106608175,
+          "rss": 813993984,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106608511,
+          "rss": 770170880,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106608843,
+          "rss": 770158592,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106609182,
+          "rss": 770297856,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106609520,
+          "rss": 770277376,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106609865,
+          "rss": 770998272,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106610209,
+          "rss": 771383296,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106610554,
+          "rss": 751398912,
+          "processes": 7,
+          "ocrPids": [
+            82532
+          ]
+        },
+        {
+          "at": 1793106610896,
+          "rss": 880840704,
+          "processes": 7,
+          "ocrPids": [
+            82532
+          ]
+        },
+        {
+          "at": 1793106611239,
+          "rss": 895725568,
+          "processes": 7,
+          "ocrPids": [
+            82532
+          ]
+        },
+        {
+          "at": 1793106611575,
+          "rss": 754540544,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106611908,
+          "rss": 754667520,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106612250,
+          "rss": 754651136,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106612600,
+          "rss": 754728960,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106612944,
+          "rss": 754720768,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106613282,
+          "rss": 754855936,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106613617,
+          "rss": 754864128,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106613959,
+          "rss": 754847744,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106614293,
+          "rss": 754925568,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106614633,
+          "rss": 768618496,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106615001,
+          "rss": 862584832,
+          "processes": 7,
+          "ocrPids": [
+            82561
+          ]
+        },
+        {
+          "at": 1793106615340,
+          "rss": 920633344,
+          "processes": 7,
+          "ocrPids": [
+            82561
+          ]
+        },
+        {
+          "at": 1793106615680,
+          "rss": 787075072,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106616021,
+          "rss": 787058688,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106616354,
+          "rss": 787095552,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106616688,
+          "rss": 787079168,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106617030,
+          "rss": 787144704,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106617381,
+          "rss": 787128320,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106617725,
+          "rss": 787296256,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106618064,
+          "rss": 787279872,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106618400,
+          "rss": 787349504,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106618738,
+          "rss": 849534976,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106619087,
+          "rss": 882581504,
+          "processes": 7,
+          "ocrPids": [
+            82596
+          ]
+        },
+        {
+          "at": 1793106619430,
+          "rss": 947351552,
+          "processes": 7,
+          "ocrPids": [
+            82596
+          ]
+        },
+        {
+          "at": 1793106619774,
+          "rss": 948715520,
+          "processes": 7,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106620131,
+          "rss": 817893376,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106620467,
+          "rss": 818053120,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106620817,
+          "rss": 818024448,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106621158,
+          "rss": 818188288,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106621492,
+          "rss": 818159616,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106621829,
+          "rss": 820006912,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106622164,
+          "rss": 820002816,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106622511,
+          "rss": 820121600,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106622855,
+          "rss": 876199936,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106623204,
+          "rss": 794472448,
+          "processes": 7,
+          "ocrPids": [
+            82638
+          ]
+        },
+        {
+          "at": 1793106623546,
+          "rss": 905113600,
+          "processes": 7,
+          "ocrPids": [
+            82638
+          ]
+        },
+        {
+          "at": 1793106623889,
+          "rss": 915677184,
+          "processes": 7,
+          "ocrPids": [
+            82638
+          ]
+        },
+        {
+          "at": 1793106624224,
+          "rss": 785219584,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106624559,
+          "rss": 785342464,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106624894,
+          "rss": 785342464,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106625240,
+          "rss": 785235968,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106625577,
+          "rss": 785342464,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106625919,
+          "rss": 785330176,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106626253,
+          "rss": 785485824,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106626601,
+          "rss": 785481728,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106626939,
+          "rss": 785620992,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106627276,
+          "rss": 795414528,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106627631,
+          "rss": 929755136,
+          "processes": 7,
+          "ocrPids": [
+            82667
+          ]
+        },
+        {
+          "at": 1793106627982,
+          "rss": 951431168,
+          "processes": 7,
+          "ocrPids": [
+            82667
+          ]
+        },
+        {
+          "at": 1793106628318,
+          "rss": 814391296,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106628653,
+          "rss": 814379008,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106628994,
+          "rss": 814493696,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106629332,
+          "rss": 814485504,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106629671,
+          "rss": 814579712,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106630015,
+          "rss": 814563328,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106630361,
+          "rss": 814772224,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106630694,
+          "rss": 814755840,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106631035,
+          "rss": 814252032,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106631370,
+          "rss": 821870592,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106631714,
+          "rss": 880824320,
+          "processes": 7,
+          "ocrPids": [
+            82716
+          ]
+        },
+        {
+          "at": 1793106632055,
+          "rss": 954802176,
+          "processes": 7,
+          "ocrPids": [
+            82716
+          ]
+        },
+        {
+          "at": 1793106632396,
+          "rss": 800559104,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106632739,
+          "rss": 814268416,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106633086,
+          "rss": 814415872,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106633425,
+          "rss": 814383104,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106633762,
+          "rss": 814538752,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106634101,
+          "rss": 814522368,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106634438,
+          "rss": 814632960,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106634775,
+          "rss": 814559232,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106635122,
+          "rss": 814542848,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106635471,
+          "rss": 859148288,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106635816,
+          "rss": 843673600,
+          "processes": 7,
+          "ocrPids": [
+            82752
+          ]
+        },
+        {
+          "at": 1793106636161,
+          "rss": 961937408,
+          "processes": 7,
+          "ocrPids": [
+            82752
+          ]
+        },
+        {
+          "at": 1793106636513,
+          "rss": 970207232,
+          "processes": 7,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106636872,
+          "rss": 832077824,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106637219,
+          "rss": 832061440,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106637596,
+          "rss": 832196608,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106637978,
+          "rss": 832180224,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106638344,
+          "rss": 832270336,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106638688,
+          "rss": 832397312,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106639027,
+          "rss": 832380928,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106639365,
+          "rss": 832339968,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106639703,
+          "rss": 832335872,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106640083,
+          "rss": 880906240,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106640449,
+          "rss": 845352960,
+          "processes": 7,
+          "ocrPids": [
+            82818
+          ]
+        },
+        {
+          "at": 1793106640808,
+          "rss": 950845440,
+          "processes": 7,
+          "ocrPids": [
+            82818
+          ]
+        },
+        {
+          "at": 1793106641154,
+          "rss": 978178048,
+          "processes": 7,
+          "ocrPids": [
+            82818
+          ]
+        },
+        {
+          "at": 1793106641493,
+          "rss": 846487552,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106641827,
+          "rss": 846475264,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106642170,
+          "rss": 846458880,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106642507,
+          "rss": 846553088,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106642846,
+          "rss": 846536704,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106643190,
+          "rss": 846651392,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106643530,
+          "rss": 846753792,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106643870,
+          "rss": 846856192,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106644213,
+          "rss": 846839808,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106644546,
+          "rss": 842776576,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106644889,
+          "rss": 922820608,
+          "processes": 7,
+          "ocrPids": [
+            82855
+          ]
+        },
+        {
+          "at": 1793106645235,
+          "rss": 993636352,
+          "processes": 7,
+          "ocrPids": [
+            82855
+          ]
+        },
+        {
+          "at": 1793106645588,
+          "rss": 847171584,
+          "processes": 6,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106645935,
+          "rss": 445943808,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106646274,
+          "rss": 445927424,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106646614,
+          "rss": 481054720,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106646958,
+          "rss": 513163264,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106647296,
+          "rss": 604368896,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106647634,
+          "rss": 610312192,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106647970,
+          "rss": 614711296,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106648325,
+          "rss": 618094592,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106648662,
+          "rss": 620638208,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106649002,
+          "rss": 623407104,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106649334,
+          "rss": 625823744,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106649674,
+          "rss": 628129792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106650016,
+          "rss": 630247424,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106650350,
+          "rss": 619917312,
+          "processes": 5,
+          "ocrPids": []
+        }
+      ],
+      "contentCheck": {
+        "pages": 10,
+        "ocrPages": 10,
+        "english": true,
+        "chinese": true,
+        "pageChecks": [
+          {
+            "page": 1,
+            "english": true,
+            "chinese": true
+          },
+          {
+            "page": 2,
+            "english": true,
+            "chinese": true
+          },
+          {
+            "page": 3,
+            "english": true,
+            "chinese": true
+          },
+          {
+            "page": 4,
+            "english": true,
+            "chinese": true
+          },
+          {
+            "page": 5,
+            "english": true,
+            "chinese": true
+          },
+          {
+            "page": 6,
+            "english": true,
+            "chinese": true
+          },
+          {
+            "page": 7,
+            "english": true,
+            "chinese": true
+          },
+          {
+            "page": 8,
+            "english": true,
+            "chinese": true
+          },
+          {
+            "page": 9,
+            "english": true,
+            "chinese": true
+          },
+          {
+            "page": 10,
+            "english": true,
+            "chinese": true
+          }
+        ]
+      }
+    },
+    "cancel": {
+      "cycles": 10,
+      "cancelledJobs": [
+        {
+          "id": "426e4ef8-c8d5-4177-8f6d-a3a9ec674750",
+          "status": "cancelled",
+          "ocrPids": [
+            83502
+          ]
+        },
+        {
+          "id": "9c886e09-5240-4599-90db-296b124b6b86",
+          "status": "cancelled",
+          "ocrPids": [
+            83565
+          ]
+        },
+        {
+          "id": "a3e34b51-06a7-4f54-ac0f-df267b8731ec",
+          "status": "cancelled",
+          "ocrPids": [
+            83622
+          ]
+        },
+        {
+          "id": "537d916c-95e9-41df-b171-7428039ba5e6",
+          "status": "cancelled",
+          "ocrPids": [
+            83714
+          ]
+        },
+        {
+          "id": "2f073acf-e077-4f48-99bf-480f10f880ac",
+          "status": "cancelled",
+          "ocrPids": [
+            83765
+          ]
+        },
+        {
+          "id": "8e8061b8-7021-4dce-b5d3-5e729fd4257b",
+          "status": "cancelled",
+          "ocrPids": [
+            83818
+          ]
+        },
+        {
+          "id": "d6889eb0-409a-434d-a9d5-cf3c78bf20b7",
+          "status": "cancelled",
+          "ocrPids": [
+            83868
+          ]
+        },
+        {
+          "id": "6b1dd968-00a8-48c4-bd3c-ee81a68c2f6e",
+          "status": "cancelled",
+          "ocrPids": [
+            83923
+          ]
+        },
+        {
+          "id": "e7ec28ce-f238-49de-b0b2-0a64f1a2c795",
+          "status": "cancelled",
+          "ocrPids": [
+            83977
+          ]
+        },
+        {
+          "id": "151e671d-48dd-400b-8320-3370e8bc7eb5",
+          "status": "cancelled",
+          "ocrPids": [
+            84027
+          ]
+        }
+      ],
+      "growthRss": 47624192,
+      "fixtureBytes": 114494,
+      "fixtureSha256": "eea0c00717e577908c8445b53afc1a3a45e0124cd7495c3961e9bafed06228bd",
+      "before": [
+        {
+          "at": 1793106712999,
+          "rss": 408485888,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106713602,
+          "rss": 408498176,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106714189,
+          "rss": 408498176,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106714787,
+          "rss": 408498176,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106715382,
+          "rss": 408498176,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106715978,
+          "rss": 408498176,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106716573,
+          "rss": 408498176,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106717162,
+          "rss": 408498176,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106717753,
+          "rss": 408498176,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106718338,
+          "rss": 408498176,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106718937,
+          "rss": 408469504,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106719536,
+          "rss": 408469504,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106720127,
+          "rss": 408469504,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106720720,
+          "rss": 408469504,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106721310,
+          "rss": 408469504,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106721947,
+          "rss": 408469504,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106722576,
+          "rss": 408469504,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106723172,
+          "rss": 408469504,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106723768,
+          "rss": 408469504,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106724358,
+          "rss": 408489984,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106724949,
+          "rss": 408489984,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106725545,
+          "rss": 408489984,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106726139,
+          "rss": 408489984,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106726740,
+          "rss": 408489984,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106727334,
+          "rss": 408489984,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106727944,
+          "rss": 408489984,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106728542,
+          "rss": 408489984,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106729137,
+          "rss": 408457216,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106729730,
+          "rss": 408461312,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106730321,
+          "rss": 408461312,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106730927,
+          "rss": 408461312,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106731528,
+          "rss": 408477696,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106732133,
+          "rss": 408477696,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106732722,
+          "rss": 408477696,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106733313,
+          "rss": 408477696,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106733914,
+          "rss": 408477696,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106734517,
+          "rss": 408477696,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106735113,
+          "rss": 408477696,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106735706,
+          "rss": 408477696,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106736299,
+          "rss": 408457216,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106736897,
+          "rss": 408457216,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106737508,
+          "rss": 408457216,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106738119,
+          "rss": 408457216,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106738706,
+          "rss": 408522752,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106739303,
+          "rss": 408522752,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106739898,
+          "rss": 408522752,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106740496,
+          "rss": 408522752,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106741091,
+          "rss": 408522752,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106741697,
+          "rss": 408522752,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106742287,
+          "rss": 408530944,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106742883,
+          "rss": 408539136,
+          "processes": 5,
+          "ocrPids": []
+        }
+      ],
+      "after": [
+        {
+          "at": 1793106856349,
+          "rss": 456089600,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106856965,
+          "rss": 456089600,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106857587,
+          "rss": 456089600,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106858182,
+          "rss": 456089600,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106858776,
+          "rss": 456089600,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106859362,
+          "rss": 456089600,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106859967,
+          "rss": 456089600,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106860558,
+          "rss": 456089600,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106861154,
+          "rss": 456089600,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106861746,
+          "rss": 456089600,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106862340,
+          "rss": 456093696,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106862930,
+          "rss": 456093696,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106863565,
+          "rss": 456093696,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106864153,
+          "rss": 456093696,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106864756,
+          "rss": 456093696,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106865338,
+          "rss": 456093696,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106865926,
+          "rss": 456093696,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106866522,
+          "rss": 456093696,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106867135,
+          "rss": 456093696,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106867742,
+          "rss": 456146944,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106868334,
+          "rss": 456146944,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106868931,
+          "rss": 456146944,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106869537,
+          "rss": 456146944,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106870136,
+          "rss": 456146944,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106870726,
+          "rss": 456146944,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106871314,
+          "rss": 456146944,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106871915,
+          "rss": 456146944,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106872508,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106873101,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106873688,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106874288,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106874880,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106875471,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106876063,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106876671,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106877259,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106877855,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106878467,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106879071,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106879676,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106880268,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106880862,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106881454,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106882048,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106882645,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106883258,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106883863,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106884462,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106885053,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106885663,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        },
+        {
+          "at": 1793106886269,
+          "rss": 456097792,
+          "processes": 5,
+          "ocrPids": []
+        }
+      ],
+      "baselineTree": [
+        {
+          "pid": 82907,
+          "parent": 80795,
+          "rss": 148975616,
+          "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/MacOS/Classifier"
+        },
+        {
+          "pid": 82908,
+          "parent": 82907,
+          "rss": 61034496,
+          "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+        },
+        {
+          "pid": 82909,
+          "parent": 82907,
+          "rss": 30470144,
+          "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+        },
+        {
+          "pid": 82912,
+          "parent": 82907,
+          "rss": 62951424,
+          "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+        },
+        {
+          "pid": 82915,
+          "parent": 82907,
+          "rss": 105058304,
+          "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+        }
+      ],
+      "cycleTrees": [
+        [
+          {
+            "pid": 82907,
+            "parent": 80795,
+            "rss": 151670784,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/MacOS/Classifier"
+          },
+          {
+            "pid": 82908,
+            "parent": 82907,
+            "rss": 66797568,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82909,
+            "parent": 82907,
+            "rss": 30470144,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82912,
+            "parent": 82907,
+            "rss": 65585152,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82915,
+            "parent": 82907,
+            "rss": 121511936,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+          }
+        ],
+        [
+          {
+            "pid": 82907,
+            "parent": 80795,
+            "rss": 153305088,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/MacOS/Classifier"
+          },
+          {
+            "pid": 82908,
+            "parent": 82907,
+            "rss": 66904064,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82909,
+            "parent": 82907,
+            "rss": 30470144,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82912,
+            "parent": 82907,
+            "rss": 67354624,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82915,
+            "parent": 82907,
+            "rss": 124243968,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+          }
+        ],
+        [
+          {
+            "pid": 82907,
+            "parent": 80795,
+            "rss": 155004928,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/MacOS/Classifier"
+          },
+          {
+            "pid": 82908,
+            "parent": 82907,
+            "rss": 66977792,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82909,
+            "parent": 82907,
+            "rss": 30470144,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82912,
+            "parent": 82907,
+            "rss": 68251648,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82915,
+            "parent": 82907,
+            "rss": 126992384,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+          }
+        ],
+        [
+          {
+            "pid": 82907,
+            "parent": 80795,
+            "rss": 155586560,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/MacOS/Classifier"
+          },
+          {
+            "pid": 82908,
+            "parent": 82907,
+            "rss": 67022848,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82909,
+            "parent": 82907,
+            "rss": 30470144,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82912,
+            "parent": 82907,
+            "rss": 72945664,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82915,
+            "parent": 82907,
+            "rss": 124198912,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+          }
+        ],
+        [
+          {
+            "pid": 82907,
+            "parent": 80795,
+            "rss": 156192768,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/MacOS/Classifier"
+          },
+          {
+            "pid": 82908,
+            "parent": 82907,
+            "rss": 67031040,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82909,
+            "parent": 82907,
+            "rss": 30470144,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82912,
+            "parent": 82907,
+            "rss": 72482816,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82915,
+            "parent": 82907,
+            "rss": 124702720,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+          }
+        ],
+        [
+          {
+            "pid": 82907,
+            "parent": 80795,
+            "rss": 156762112,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/MacOS/Classifier"
+          },
+          {
+            "pid": 82908,
+            "parent": 82907,
+            "rss": 67203072,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82909,
+            "parent": 82907,
+            "rss": 30470144,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82912,
+            "parent": 82907,
+            "rss": 72519680,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82915,
+            "parent": 82907,
+            "rss": 127180800,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+          }
+        ],
+        [
+          {
+            "pid": 82907,
+            "parent": 80795,
+            "rss": 157720576,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/MacOS/Classifier"
+          },
+          {
+            "pid": 82908,
+            "parent": 82907,
+            "rss": 67403776,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82909,
+            "parent": 82907,
+            "rss": 30474240,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82912,
+            "parent": 82907,
+            "rss": 73064448,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82915,
+            "parent": 82907,
+            "rss": 128933888,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+          }
+        ],
+        [
+          {
+            "pid": 82907,
+            "parent": 80795,
+            "rss": 158846976,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/MacOS/Classifier"
+          },
+          {
+            "pid": 82908,
+            "parent": 82907,
+            "rss": 67547136,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82909,
+            "parent": 82907,
+            "rss": 30474240,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82912,
+            "parent": 82907,
+            "rss": 73117696,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82915,
+            "parent": 82907,
+            "rss": 125374464,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+          }
+        ],
+        [
+          {
+            "pid": 82907,
+            "parent": 80795,
+            "rss": 159444992,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/MacOS/Classifier"
+          },
+          {
+            "pid": 82908,
+            "parent": 82907,
+            "rss": 67579904,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82909,
+            "parent": 82907,
+            "rss": 30474240,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82912,
+            "parent": 82907,
+            "rss": 73703424,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82915,
+            "parent": 82907,
+            "rss": 126623744,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+          }
+        ],
+        [
+          {
+            "pid": 82907,
+            "parent": 80795,
+            "rss": 159748096,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/MacOS/Classifier"
+          },
+          {
+            "pid": 82908,
+            "parent": 82907,
+            "rss": 67624960,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82909,
+            "parent": 82907,
+            "rss": 30474240,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82912,
+            "parent": 82907,
+            "rss": 73383936,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+          },
+          {
+            "pid": 82915,
+            "parent": 82907,
+            "rss": 128200704,
+            "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+          }
+        ]
+      ],
+      "afterTree": [
+        {
+          "pid": 82907,
+          "parent": 80795,
+          "rss": 158978048,
+          "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/MacOS/Classifier"
+        },
+        {
+          "pid": 82908,
+          "parent": 82907,
+          "rss": 67452928,
+          "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+        },
+        {
+          "pid": 82909,
+          "parent": 82907,
+          "rss": 30461952,
+          "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+        },
+        {
+          "pid": 82912,
+          "parent": 82907,
+          "rss": 73416704,
+          "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper"
+        },
+        {
+          "pid": 82915,
+          "parent": 82907,
+          "rss": 125788160,
+          "name": "/Users/apple/Desktop/classifier/dist/desktop-d2-2026-10-27/mac/Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)"
+        }
+      ]
+    }
+  },
+  "gates": {
+    "installSize": true,
+    "downloadSize": true,
+    "startup": true,
+    "idle": true,
+    "pdf": false,
+    "ocr": true,
+    "ocr-bilingual": true,
+    "cancel": true,
+    "cancelProcesses": true
+  },
+  "installedBytes": 395410566,
+  "downloadBytes": 163857948,
+  "downloadSha256": "acec8d5794e13bf2b0a31c8387afba71d623aa32a61f418d2f69a61b204cf717",
+  "appAsarSha256": "9265e72c7133dc1529ea3d89105b915456416bf125e81e9e3fd575c4967fc2d4",
+  "completed": true
+}

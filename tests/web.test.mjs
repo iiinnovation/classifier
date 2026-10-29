@@ -9,6 +9,7 @@ test('switching documents blocks questions and discards the previous document re
     replaceChildren(...nodes) { this.children = []; this.append(...nodes) }
     querySelector(selector) { return selector === '[value="vision"]' ? new Element('option') : this.children.find(node => node.className === selector.slice(1)) || null }
     setAttribute(name, value) { this.attributes.set(name, value) }
+    addEventListener() {}
     focus() {}
     showModal() { this.open = true }
     close() { this.open = false }
@@ -22,13 +23,14 @@ test('switching documents blocks questions and discards the previous document re
     createElement(tag) { return new Element(tag) },
     createTextNode(text) { return { textContent: text } },
     querySelectorAll() { return [] },
+    addEventListener() {},
   }
   const values = new Map([['classifier-document', 'A']])
   const localStorage = { getItem: key => values.get(key), setItem: (key, value) => values.set(key, value) }
   const docs = ['A', 'B'].map(id => ({ id, title: id, referenceCount: 0 }))
   const full = id => id === 'B'
     ? { id, title: id, fileName: 'B.pdf', references: [{ id: 'ref_00001', title: '第 2 页 · 表格 1', text: '报价金额 85', page: 2, bbox: [0.2, 0.3, 0.4, 0.1], needsReview: true }], warnings: ['第 2 页表格需核对'], sections: [{ blocks: [] }, { blocks: [] }], questions: [], mediaType: 'application/pdf' }
-    : { id, title: id, fileName: `${id}.txt`, references: [], warnings: [], sections: [], questions: [], mediaType: 'text/plain' }
+    : { id, title: id, fileName: `${id}.txt`, references: [], sections: [], questions: [], mediaType: 'text/plain' }
   let resolveB, resolveOldQuestion
   const delayedB = new Promise(resolve => { resolveB = resolve })
   const delayedOldQuestion = new Promise(resolve => { resolveOldQuestion = resolve })
@@ -58,6 +60,8 @@ test('switching documents blocks questions and discards the previous document re
   const source = apiSource + '\n' + storageSource + '\n' + researchSource + '\n' + noteSource + '\n' + comparisonSource + '\n' + reportSource + '\n' + (await readFile(new URL('../apps/web/app.js', import.meta.url), 'utf8'))
     .replace(/^import katex from '\/katex\.mjs'\n/, 'const katex = { render() {} }\n')
     .replace("import { createResearchWorkspace } from '/research.js'\n", '')
+    .replace("import { createDeletionPreview } from '/deletion-preview.js'\n", 'const createDeletionPreview = () => {}\n')
+    .replace("import { createStorageUsage } from '/storage-usage.js'\n", 'const createStorageUsage = () => {}\n')
     .replace("import { createNotebook } from '/notes.js'\n", '')
     .replace("import { createComparisonWorkspace } from '/comparisons.js'\n", '')
     .replace("import { createReportWorkspace } from '/reports.js'\n", '')
@@ -66,6 +70,8 @@ test('switching documents blocks questions and discards the previous document re
   const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor
   const { openDocument } = await new AsyncFunction('document', 'fetch', 'localStorage', 'setTimeout', 'clearTimeout', `${source}\nreturn { openDocument }`)(document, fetch, localStorage, setTimeout, clearTimeout)
   assert.equal(nodes.get('title').textContent, 'A')
+  assert.equal(nodes.get('warnings-toggle').hidden, true)
+  assert.equal(nodes.get('warning-text').textContent, '')
   assert.equal(nodes.get('ask').textContent, '搜索 ↗')
   assert.match(nodes.get('question').placeholder, /关键词|报价/)
   nodes.get('library-toggle').onclick()

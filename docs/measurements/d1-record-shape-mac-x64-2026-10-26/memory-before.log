@@ -1,0 +1,20 @@
+
+<--- Last few GCs --->
+ m[15562:0x7f84b8008000]      332 ms: Mark-Compact (reduce) 63.1 (64.9) -> 62.9 (64.9) MB, pooled: 0 MB, 14.14 / 0.00 ms  (+ 0.0 ms in 1 steps since start of marking, biggest step 0.0 ms, walltime since start of marking 15 ms) (average mu = 0.304, current m[15562:0x7f84b8008000]      352 ms: Mark-Compact (reduce) 63.0 (64.9) -> 63.0 (64.9) MB, pooled: 0 MB, 15.04 / 0.00 ms  (+ 0.0 ms in 0 steps since start of marking, biggest step 0.0 ms, walltime since start of marking 15 ms) (average mu = 0.277, current m
+FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory
+----- Native stack trace -----
+
+ 1: 0x109f33de3 node::OOMErrorHandler(char const*, v8::OOMDetails const&) [/usr/local/bin/node]
+ 2: 0x10a16414d v8::internal::V8::FatalProcessOutOfMemory(v8::internal::Isolate*, char const*, v8::OOMDetails const&) [/usr/local/bin/node]
+ 3: 0x10a3e09d7 v8::internal::Heap::FatalProcessOutOfMemory(char const*) [/usr/local/bin/node]
+ 4: 0x10a3e411a v8::internal::Heap::RecomputeLimits(v8::internal::GarbageCollector, v8::base::TimeTicks) [/usr/local/bin/node]
+ 5: 0x10a3f80e6 v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags)::$_1::operator()() const [/usr/local/bin/node]
+ 6: 0x10a3f797f void heap::base::Stack::SetMarkerAndCallbackImpl<v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags)::$_1>(heap::base::Stack*, void*, void const*) [/usr/local/bin/node]
+ 7: 0x10ae7b9f8 PushAllRegistersAndIterateStack [/usr/local/bin/node]
+ 8: 0x10a3de479 v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags) [/usr/local/bin/node]
+ 9: 0x10a3d1d05 v8::internal::HeapAllocator::AllocateRawWithRetryOrFailSlowPath(int, v8::internal::AllocationType, v8::internal::AllocationOrigin, v8::internal::AllocationAlignment) [/usr/local/bin/node]
+10: 0x10a3b1345 v8::internal::Factory::NewFillerObject(int, v8::internal::AllocationAlignment, v8::internal::AllocationType, v8::internal::AllocationOrigin) [/usr/local/bin/node]
+11: 0x10a8d3b45 v8::internal::Runtime_AllocateInOldGeneration(int, unsigned long*, v8::internal::Isolate*) [/usr/local/bin/node]
+12: 0x10af7a7f6 Builtins_CEntry_Return1_ArgvOnStack_NoBuiltinExit [/usr/local/bin/node]
+13: 0x129588946 
+14: 0x10aed1354 Builtins_InterpreterEntryTrampoline [/usr/local/bin/node]

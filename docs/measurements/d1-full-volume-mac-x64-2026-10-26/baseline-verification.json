@@ -1,0 +1,38 @@
+{
+  "capturedAt": "2026-10-26T10:35:23.374Z",
+  "cases": [
+    {
+      "name": "registered-package-and-evidence",
+      "passed": true,
+      "output": {
+        "baselineId": "mac-x64-d1-2026-10-26-d7a392b67465",
+        "matchesRecordedArtifacts": true,
+        "compatibilityFixturesPassed": 6,
+        "releaseApproved": false,
+        "actualCrossVersionPairsVerified": false,
+        "note": "Future formats are fixtures. Revalidate actual upgrade/downgrade binary pairs before release; this preview is not signed or notarized."
+      }
+    },
+    {
+      "name": "wrong-zip-hash",
+      "passed": true,
+      "rejected": true,
+      "exitCode": 1,
+      "expectedError": "rollback ZIP does not match"
+    },
+    {
+      "name": "outside-project-path",
+      "passed": true,
+      "rejected": true,
+      "exitCode": 1,
+      "expectedError": "baseline paths must remain inside the project"
+    },
+    {
+      "name": "fixture-cannot-certify-real-version-pairs",
+      "passed": true,
+      "rejected": true,
+      "exitCode": 1,
+      "expectedError": "fixture results cannot certify actual binary version pairs"
+    }
+  ]
+}

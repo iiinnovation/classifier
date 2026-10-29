@@ -1,0 +1,983 @@
+
+> classifier@0.1.0 test:desktop:shell
+> node tools/run-desktop-tests.mjs shell --reporter=line --output=test-results/d3-auth-desktop
+
+(node:79955) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 27 tests using 1 worker
+
+(node:79956) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:79956) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+
+[1/27] tests/desktop/data-lifecycle.spec.mjs:8:87 › D2 json real desktop preserves research after missing sources and exposes only read-only deletion previews
+  1) tests/desktop/data-lifecycle.spec.mjs:8:87 › D2 json real desktop preserves research after missing sources and exposes only read-only deletion previews 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/data-lifecycle-D2-json-rea-5ec5f-read-only-deletion-previews/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/data-lifecycle-D2-json-rea-5ec5f-read-only-deletion-previews/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/data-lifecycle-D2-json-rea-5ec5f-read-only-deletion-previews/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:79969) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:79969) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+
+[2/27] tests/desktop/data-lifecycle.spec.mjs:8:87 › D2 json real desktop preserves research after corrupt sources and exposes only read-only deletion previews
+  2) tests/desktop/data-lifecycle.spec.mjs:8:87 › D2 json real desktop preserves research after corrupt sources and exposes only read-only deletion previews 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/data-lifecycle-D2-json-rea-8d7b6-read-only-deletion-previews/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/data-lifecycle-D2-json-rea-8d7b6-read-only-deletion-previews/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/data-lifecycle-D2-json-rea-8d7b6-read-only-deletion-previews/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:79973) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:79973) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+
+[3/27] tests/desktop/data-lifecycle.spec.mjs:8:87 › D2 sqlite real desktop preserves research after missing sources and exposes only read-only deletion previews
+  3) tests/desktop/data-lifecycle.spec.mjs:8:87 › D2 sqlite real desktop preserves research after missing sources and exposes only read-only deletion previews 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/data-lifecycle-D2-sqlite-r-72b16-read-only-deletion-previews/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/data-lifecycle-D2-sqlite-r-72b16-read-only-deletion-previews/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/data-lifecycle-D2-sqlite-r-72b16-read-only-deletion-previews/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:79980) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:79980) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+
+[4/27] tests/desktop/data-lifecycle.spec.mjs:8:87 › D2 sqlite real desktop preserves research after corrupt sources and exposes only read-only deletion previews
+  4) tests/desktop/data-lifecycle.spec.mjs:8:87 › D2 sqlite real desktop preserves research after corrupt sources and exposes only read-only deletion previews 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/data-lifecycle-D2-sqlite-r-78412-read-only-deletion-previews/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/data-lifecycle-D2-sqlite-r-78412-read-only-deletion-previews/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/data-lifecycle-D2-sqlite-r-78412-read-only-deletion-previews/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:79991) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:79991) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+
+[5/27] tests/desktop/deletions.spec.mjs:24:1 › D2 real desktop deletes a shared original after explicit confirmation and keeps report evidence and history
+  5) tests/desktop/deletions.spec.mjs:24:1 › D2 real desktop deletes a shared original after explicit confirmation and keeps report evidence and history 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/deletions-D2-real-desktop--d29c6-report-evidence-and-history/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/deletions-D2-real-desktop--d29c6-report-evidence-and-history/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/deletions-D2-real-desktop--d29c6-report-evidence-and-history/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80002) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:80002) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+
+[6/27] tests/desktop/deletions.spec.mjs:68:1 › D2 real desktop topic deletion cancels active OCR and awaits its exit before committing
+  6) tests/desktop/deletions.spec.mjs:68:1 › D2 real desktop topic deletion cancels active OCR and awaits its exit before committing 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/deletions-D2-real-desktop--90fde--its-exit-before-committing/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/deletions-D2-real-desktop--90fde--its-exit-before-committing/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/deletions-D2-real-desktop--90fde--its-exit-before-committing/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80019) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[7/27] tests/desktop/library-maintenance.spec.mjs:5:44 › D1 desktop menu checks directory backs up and restores into an isolated library
+  7) tests/desktop/library-maintenance.spec.mjs:5:44 › D1 desktop menu checks directory backs up and restores into an isolated library 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/library-maintenance-D1-des-bbd3d-es-into-an-isolated-library/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/library-maintenance-D1-des-bbd3d-es-into-an-isolated-library/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/library-maintenance-D1-des-bbd3d-es-into-an-isolated-library/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80023) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[8/27] tests/desktop/library-maintenance.spec.mjs:5:44 › D1 desktop menu checks zip backs up and restores into an isolated library
+  8) tests/desktop/library-maintenance.spec.mjs:5:44 › D1 desktop menu checks zip backs up and restores into an isolated library 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/library-maintenance-D1-des-bab10-es-into-an-isolated-library/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/library-maintenance-D1-des-bab10-es-into-an-isolated-library/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/library-maintenance-D1-des-bab10-es-into-an-isolated-library/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80036) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[9/27] tests/desktop/library-maintenance.spec.mjs:48:1 › D1 migration menu upgrades JSON and shows completed progress without rewriting it
+  9) tests/desktop/library-maintenance.spec.mjs:48:1 › D1 migration menu upgrades JSON and shows completed progress without rewriting it 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/library-maintenance-D1-mig-1e2d6-ogress-without-rewriting-it/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/library-maintenance-D1-mig-1e2d6-ogress-without-rewriting-it/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/library-maintenance-D1-mig-1e2d6-ogress-without-rewriting-it/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80040) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[10/27] tests/desktop/library-maintenance.spec.mjs:75:44 › D1 selectively recovers damaged records from directory while preserving newer research
+  10) tests/desktop/library-maintenance.spec.mjs:75:44 › D1 selectively recovers damaged records from directory while preserving newer research 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/library-maintenance-D1-sel-2acd8-e-preserving-newer-research/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/library-maintenance-D1-sel-2acd8-e-preserving-newer-research/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/library-maintenance-D1-sel-2acd8-e-preserving-newer-research/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80053) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[11/27] tests/desktop/library-maintenance.spec.mjs:75:44 › D1 selectively recovers damaged records from zip while preserving newer research
+  11) tests/desktop/library-maintenance.spec.mjs:75:44 › D1 selectively recovers damaged records from zip while preserving newer research 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/library-maintenance-D1-sel-5b514-e-preserving-newer-research/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/library-maintenance-D1-sel-5b514-e-preserving-newer-research/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/library-maintenance-D1-sel-5b514-e-preserving-newer-research/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80066) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[12/27] tests/desktop/library-maintenance.spec.mjs:123:1 › D1 startup compatibility flow refuses a future library then restores a snapshot through real utility processes
+  12) tests/desktop/library-maintenance.spec.mjs:123:1 › D1 startup compatibility flow refuses a future library then restores a snapshot through real utility processes 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/library-maintenance-D1-sta-191f4-ough-real-utility-processes/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/library-maintenance-D1-sta-191f4-ough-real-utility-processes/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/library-maintenance-D1-sta-191f4-ough-real-utility-processes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80075) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[13/27] tests/desktop/library-maintenance.spec.mjs:167:1 › D1 rebuild menu migrates the chosen pre-upgrade snapshot and preserves newer current edits
+  13) tests/desktop/library-maintenance.spec.mjs:167:1 › D1 rebuild menu migrates the chosen pre-upgrade snapshot and preserves newer current edits 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/library-maintenance-D1-reb-51d1b-eserves-newer-current-edits/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/library-maintenance-D1-reb-51d1b-eserves-newer-current-edits/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/library-maintenance-D1-reb-51d1b-eserves-newer-current-edits/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80088) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[14/27] tests/desktop/lifecycle.spec.mjs:7:1 › D0 second launch restores the existing window and exits without another backend
+  14) tests/desktop/lifecycle.spec.mjs:7:1 › D0 second launch restores the existing window and exits without another backend 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/lifecycle-D0-second-launch-3967f-its-without-another-backend/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/lifecycle-D0-second-launch-3967f-its-without-another-backend/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/lifecycle-D0-second-launch-3967f-its-without-another-backend/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80100) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[15/27] tests/desktop/lifecycle.spec.mjs:29:1 › D0 real utility backend rejects direct access and rotates authentication on restart
+  15) tests/desktop/lifecycle.spec.mjs:29:1 › D0 real utility backend rejects direct access and rotates authentication on restart 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/lifecycle-D0-real-utility--f0a6b-s-authentication-on-restart/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/lifecycle-D0-real-utility--f0a6b-s-authentication-on-restart/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/lifecycle-D0-real-utility--f0a6b-s-authentication-on-restart/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80113) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[16/27] tests/desktop/lifecycle.spec.mjs:57:1 › D0 unexpected backend exit is visible and the bridge returns a classified disconnection
+  16) tests/desktop/lifecycle.spec.mjs:57:1 › D0 unexpected backend exit is visible and the bridge returns a classified disconnection 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/lifecycle-D0-unexpected-ba-d0a43--a-classified-disconnection/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/lifecycle-D0-unexpected-ba-d0a43--a-classified-disconnection/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/lifecycle-D0-unexpected-ba-d0a43--a-classified-disconnection/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80126) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[17/27] tests/desktop/lifecycle.spec.mjs:73:1 › D0 window close cancels active OCR and leaves no application or Tesseract process
+  17) tests/desktop/lifecycle.spec.mjs:73:1 › D0 window close cancels active OCR and leaves no application or Tesseract process 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/lifecycle-D0-window-close--594d8-cation-or-Tesseract-process/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/lifecycle-D0-window-close--594d8-cation-or-Tesseract-process/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/lifecycle-D0-window-close--594d8-cation-or-Tesseract-process/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80134) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[18/27] tests/desktop/lifecycle.spec.mjs:86:1 › D0 forced main process exit leaves no application descendants
+  18) tests/desktop/lifecycle.spec.mjs:86:1 › D0 forced main process exit leaves no application descendants 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/lifecycle-D0-forced-main-p-b2a30--no-application-descendants/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/lifecycle-D0-forced-main-p-b2a30--no-application-descendants/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/lifecycle-D0-forced-main-p-b2a30--no-application-descendants/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80147) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[19/27] tests/desktop/lifecycle.spec.mjs:94:1 › D0 shutdown cancels and awaits a synchronous PDF import
+  19) tests/desktop/lifecycle.spec.mjs:94:1 › D0 shutdown cancels and awaits a synchronous PDF import 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/lifecycle-D0-shutdown-canc-b42d2-ts-a-synchronous-PDF-import/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/lifecycle-D0-shutdown-canc-b42d2-ts-a-synchronous-PDF-import/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/lifecycle-D0-shutdown-canc-b42d2-ts-a-synchronous-PDF-import/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80165) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[20/27] tests/desktop/lifecycle.spec.mjs:107:1 › D0 failed backend startup reports an error and clears the failed child before retry
+  20) tests/desktop/lifecycle.spec.mjs:107:1 › D0 failed backend startup reports an error and clears the failed child before retry 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/lifecycle-D0-failed-backen-0a508-e-failed-child-before-retry/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/lifecycle-D0-failed-backen-0a508-e-failed-child-before-retry/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/lifecycle-D0-failed-backen-0a508-e-failed-child-before-retry/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80176) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[21/27] tests/desktop/lifecycle.spec.mjs:128:1 › D0 packaged window denies navigation, webviews, popups and device permissions
+  21) tests/desktop/lifecycle.spec.mjs:128:1 › D0 packaged window denies navigation, webviews, popups and device permissions 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/lifecycle-D0-packaged-wind-8e3c0-pups-and-device-permissions/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/lifecycle-D0-packaged-wind-8e3c0-pups-and-device-permissions/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/lifecycle-D0-packaged-wind-8e3c0-pups-and-device-permissions/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80191) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[22/27] tests/desktop/lifecycle.spec.mjs:161:1 › D1 packaged backends cannot share a data directory and recover ownership after a crash
+  22) tests/desktop/lifecycle.spec.mjs:161:1 › D1 packaged backends cannot share a data directory and recover ownership after a crash 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/lifecycle-D1-packaged-back-f1904-ver-ownership-after-a-crash/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/lifecycle-D1-packaged-back-f1904-ver-ownership-after-a-crash/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/lifecycle-D1-packaged-back-f1904-ver-ownership-after-a-crash/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80208) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[23/27] tests/desktop/model-revocation.spec.mjs:4:1 › D3 real utility backend revokes model authorization and stops in-flight sends through the settings dialog
+  23) tests/desktop/model-revocation.spec.mjs:4:1 › D3 real utility backend revokes model authorization and stops in-flight sends through the settings dialog 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/model-revocation-D3-real-u-9a3b4-through-the-settings-dialog/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/model-revocation-D3-real-u-9a3b4-through-the-settings-dialog/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/model-revocation-D3-real-u-9a3b4-through-the-settings-dialog/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80216) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:80216) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+
+[24/27] tests/desktop/research-workflow.spec.mjs:8:1 › real desktop connects a runtime model and completes a cited research task through utility backend
+  24) tests/desktop/research-workflow.spec.mjs:8:1 › real desktop connects a runtime model and completes a cited research task through utility backend 
+
+    Error: Process failed to launch!
+
+    Error: spawn EPERM
+
+       at ../../tools/process-metrics.mjs:11
+
+       9 |     return JSON.parse(stdout)
+      10 |   }
+    > 11 |   const { stdout } = await execute('/bin/ps', ['-axo', 'pid=,ppid=,rss=,comm='], { maxBuffer: 4 * 1024 * 1024 })
+         |                            ^
+      12 |   const processes = stdout.trim().split('\n').map(line => {
+      13 |     const match = line.trim().match(/^(\d+)\s+(\d+)\s+(\d+)\s+(.+)$/)
+      14 |     return match ? { pid: Number(match[1]), parent: Number(match[2]), rss: Number(match[3]) * 1024, name: match[4] } : null
+        at processSnapshot (/Users/apple/Desktop/classifier/tools/process-metrics.mjs:11:28)
+        at remaining (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:22:42)
+        at Object.desktop (/Users/apple/Desktop/classifier/tests/helpers/desktop-application.mjs:38:34)
+
+    Error Context: test-results/d3-auth-desktop/research-workflow-real-des-edc91-ask-through-utility-backend/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/research-workflow-real-des-edc91-ask-through-utility-backend/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/research-workflow-real-des-edc91-ask-through-utility-backend/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80232) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[25/27] tests/desktop/smoke.spec.mjs:7:1 › D0 isolated Electron application boots through the authenticated protocol bridge
+tests/desktop/smoke.spec.mjs:7:1 › D0 isolated Electron application boots through the authenticated protocol bridge
+
+
+  25) tests/desktop/smoke.spec.mjs:7:1 › D0 isolated Electron application boots through the authenticated protocol bridge 
+
+    Error: Process failed to launch!
+
+    Error: electron.launch: Process failed to launch!
+    Call log:
+      - <launching> /Users/apple/Desktop/classifier/node_modules/electron/dist/Electron.app/Contents/MacOS/Electron -r /Users/apple/Desktop/classifier/node_modules/playwright-core/lib/server/electron/loader.js --inspect=0 --remote-debugging-port=0 /Users/apple/Desktop/classifier --user-data-dir=/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-desktop-ZYaKlo
+      - <launched> pid=80248
+      - [pid=80248] <kill>
+      - [pid=80248] <will force kill>
+      - [pid=80248] exception while trying to kill process: Error: kill EPERM
+      - [pid=80248] <process did exit: exitCode=null, signal=SIGABRT>
+      - [pid=80248] starting temporary directories cleanup
+      - [pid=80248] finished temporary directories cleanup
+
+
+      12 |   const launch = () => electron.launch({ ...(process.env.CLASSIFIER_PACKAGED_EXECUTABLE ? { executablePath: process.env.CLASSIFIER_PACKAGED_EXECUTABLE } : {}), args: [...(process.env.CLASSIFIER_PACKAGED_EXECUTABLE ? [] : [resolve('.')]), `--user-data-dir=${profile}`], acceptDownloads: true, timeout: 45000, env })
+      13 |   try {
+    > 14 |     application = await launch()
+         |                   ^
+      15 |     application.process().stderr.on('data', data => diagnostics.push(data.toString()))
+      16 |     let page = await application.firstWindow()
+      17 |     const errors = []; page.on('pageerror', error => errors.push(error.message))
+        at /Users/apple/Desktop/classifier/tests/desktop/smoke.spec.mjs:14:19
+
+    Error Context: test-results/d3-auth-desktop/smoke-D0-isolated-Electron-04108-thenticated-protocol-bridge/error-context.md
+
+    attachment #2: desktop-diagnostics (text/plain) ────────────────────────────────────────────────
+    
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/smoke-D0-isolated-Electron-04108-thenticated-protocol-bridge/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/smoke-D0-isolated-Electron-04108-thenticated-protocol-bridge/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80253) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:80253) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+
+[26/27] tests/desktop/storage-usage.spec.mjs:9:43 › D2 json real desktop backend measures profile backups separately from the selected library
+  26) tests/desktop/storage-usage.spec.mjs:9:43 › D2 json real desktop backend measures profile backups separately from the selected library 
+
+    Error: Process failed to launch!
+
+    Error Context: test-results/d3-auth-desktop/storage-usage-D2-json-real-e22f6-y-from-the-selected-library/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/storage-usage-D2-json-real-e22f6-y-from-the-selected-library/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/storage-usage-D2-json-real-e22f6-y-from-the-selected-library/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:80256) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:80256) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+
+[27/27] tests/desktop/storage-usage.spec.mjs:9:43 › D2 sqlite real desktop backend measures profile backups separately from the selected library
+  27) tests/desktop/storage-usage.spec.mjs:9:43 › D2 sqlite real desktop backend measures profile backups separately from the selected library 
+
+    Error: Process failed to launch!
+
+    Error Context: test-results/d3-auth-desktop/storage-usage-D2-sqlite-re-e4bf6-y-from-the-selected-library/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/d3-auth-desktop/storage-usage-D2-sqlite-re-e4bf6-y-from-the-selected-library/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/d3-auth-desktop/storage-usage-D2-sqlite-re-e4bf6-y-from-the-selected-library/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  27 failed
+    tests/desktop/data-lifecycle.spec.mjs:8:87 › D2 json real desktop preserves research after missing sources and exposes only read-only deletion previews 
+    tests/desktop/data-lifecycle.spec.mjs:8:87 › D2 json real desktop preserves research after corrupt sources and exposes only read-only deletion previews 
+    tests/desktop/data-lifecycle.spec.mjs:8:87 › D2 sqlite real desktop preserves research after missing sources and exposes only read-only deletion previews 
+    tests/desktop/data-lifecycle.spec.mjs:8:87 › D2 sqlite real desktop preserves research after corrupt sources and exposes only read-only deletion previews 
+    tests/desktop/deletions.spec.mjs:24:1 › D2 real desktop deletes a shared original after explicit confirmation and keeps report evidence and history 
+    tests/desktop/deletions.spec.mjs:68:1 › D2 real desktop topic deletion cancels active OCR and awaits its exit before committing 
+    tests/desktop/library-maintenance.spec.mjs:5:44 › D1 desktop menu checks directory backs up and restores into an isolated library 
+    tests/desktop/library-maintenance.spec.mjs:5:44 › D1 desktop menu checks zip backs up and restores into an isolated library 
+    tests/desktop/library-maintenance.spec.mjs:48:1 › D1 migration menu upgrades JSON and shows completed progress without rewriting it 
+    tests/desktop/library-maintenance.spec.mjs:75:44 › D1 selectively recovers damaged records from directory while preserving newer research 
+    tests/desktop/library-maintenance.spec.mjs:75:44 › D1 selectively recovers damaged records from zip while preserving newer research 
+    tests/desktop/library-maintenance.spec.mjs:123:1 › D1 startup compatibility flow refuses a future library then restores a snapshot through real utility processes 
+    tests/desktop/library-maintenance.spec.mjs:167:1 › D1 rebuild menu migrates the chosen pre-upgrade snapshot and preserves newer current edits 
+    tests/desktop/lifecycle.spec.mjs:7:1 › D0 second launch restores the existing window and exits without another backend 
+    tests/desktop/lifecycle.spec.mjs:29:1 › D0 real utility backend rejects direct access and rotates authentication on restart 
+    tests/desktop/lifecycle.spec.mjs:57:1 › D0 unexpected backend exit is visible and the bridge returns a classified disconnection 
+    tests/desktop/lifecycle.spec.mjs:73:1 › D0 window close cancels active OCR and leaves no application or Tesseract process 
+    tests/desktop/lifecycle.spec.mjs:86:1 › D0 forced main process exit leaves no application descendants 
+    tests/desktop/lifecycle.spec.mjs:94:1 › D0 shutdown cancels and awaits a synchronous PDF import 
+    tests/desktop/lifecycle.spec.mjs:107:1 › D0 failed backend startup reports an error and clears the failed child before retry 
+    tests/desktop/lifecycle.spec.mjs:128:1 › D0 packaged window denies navigation, webviews, popups and device permissions 
+    tests/desktop/lifecycle.spec.mjs:161:1 › D1 packaged backends cannot share a data directory and recover ownership after a crash 
+    tests/desktop/model-revocation.spec.mjs:4:1 › D3 real utility backend revokes model authorization and stops in-flight sends through the settings dialog 
+    tests/desktop/research-workflow.spec.mjs:8:1 › real desktop connects a runtime model and completes a cited research task through utility backend 
+    tests/desktop/smoke.spec.mjs:7:1 › D0 isolated Electron application boots through the authenticated protocol bridge 
+    tests/desktop/storage-usage.spec.mjs:9:43 › D2 json real desktop backend measures profile backups separately from the selected library 
+    tests/desktop/storage-usage.spec.mjs:9:43 › D2 sqlite real desktop backend measures profile backups separately from the selected library 

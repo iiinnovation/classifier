@@ -1,0 +1,31 @@
+
+> classifier@0.1.0 test:storage
+> playwright test --config=playwright.storage.config.mjs --reporter=line
+
+
+Running 19 tests using 1 worker
+
+(node:30283) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/19] tests/storage/deletions.spec.mjs:6:1 › D2 production utility deletion survives commit/unlink crashes and real SQLite FULL with recoverable file failures
+[2/19] tests/storage/deletions.spec.mjs:56:1 › retained D1 binary refuses a database upgraded by actual D2 deletion before changing records or queued tasks
+[3/19] tests/storage/disk-failures.spec.mjs:6:67 › D1 production utility disk faults: sqlite
+[4/19] tests/storage/disk-failures.spec.mjs:6:67 › D1 production utility disk faults: migration
+[5/19] tests/storage/disk-failures.spec.mjs:6:67 › D1 production utility disk faults: imports
+[6/19] tests/storage/disk-failures.spec.mjs:6:67 › D1 production utility disk faults: backup
+[7/19] tests/storage/disk-failures.spec.mjs:6:67 › D1 production utility disk faults: restore
+[8/19] tests/storage/disk-failures.spec.mjs:6:67 › D1 production utility disk faults: preservation
+[9/19] tests/storage/disk-failures.spec.mjs:6:67 › D1 production utility disk faults: zip
+[10/19] tests/storage/imports.spec.mjs:5:72 › D1 packaged atomic imports survive utility SIGKILL at stage-synced
+[11/19] tests/storage/imports.spec.mjs:5:72 › D1 packaged atomic imports survive utility SIGKILL at before-commit
+[12/19] tests/storage/imports.spec.mjs:5:72 › D1 packaged atomic imports survive utility SIGKILL at after-commit
+[13/19] tests/storage/maintenance.spec.mjs:4:1 › D1 packaged storage migrates restores and serves a SQLite library with directory ownership
+[14/19] tests/storage/migration.spec.mjs:6:3 › D1 packaged migration resumes after utility SIGKILL at records
+[15/19] tests/storage/migration.spec.mjs:6:3 › D1 packaged migration resumes after utility SIGKILL at file-published
+[16/19] tests/storage/migration.spec.mjs:6:3 › D1 packaged migration resumes after utility SIGKILL at published
+[17/19] tests/storage/migration.spec.mjs:64:1 › D1 packaged migration validates records and live references while preserving copied snapshots
+[18/19] tests/storage/record-shape.spec.mjs:5:1 › D1 packaged records isolate nested damage before lists, task recovery and saved research rendering
+[19/19] tests/storage/sqlite.spec.mjs:6:1 › S0 packaged utility runtime validates SQLite transactions and file recovery
+  19 passed (1.9m)

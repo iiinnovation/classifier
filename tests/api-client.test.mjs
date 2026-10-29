@@ -31,3 +31,10 @@ test('API client distinguishes cancellation and timeout and never retries uncert
   const controller = new AbortController(); controller.abort()
   await assert.rejects(pending('/api/test', { signal: controller.signal }), error => error.code === 'CANCELLED')
 })
+
+test('corrupt-record responses remain explicit and never suggest retrying or an uncertain save', async () => {
+  for (const method of ['GET', 'PATCH']) {
+    const api = createApi({ fetchImpl: async () => new Response(JSON.stringify({ code: 'RECORD_CORRUPT', error: '记录损坏，原件保留。' }), { status: 503, headers: { 'content-type': 'application/json' } }) })
+    await assert.rejects(api('/api/notes/id', { method }), error => error.code === 'RECORD_CORRUPT' && !error.retryable && !error.uncertain)
+  }
+})

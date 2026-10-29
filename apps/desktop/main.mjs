@@ -8,12 +8,13 @@ import { createMainWindow, applicationUrl } from './window.mjs'
 import { selectedLibrary, libraryScope, createLibraryManager } from './library-manager.mjs'
 import { runMaintenance } from './maintenance-process.mjs'
 import { libraryMenu } from './library-menu.mjs'
+import { recoverStartup } from './startup-recovery.mjs'
 
 protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { standard: true, secure: true, supportFetchAPI: true, corsEnabled: true, stream: true } }])
 app.setName('Classifier')
 const profile = process.argv.find(argument => argument.startsWith('--user-data-dir='))?.slice('--user-data-dir='.length)
 if (profile) { mkdirSync(resolve(profile), { recursive: true }); app.setPath('userData', resolve(profile)) }
-let window, controller, manager, maintenanceMenu, quitting = false, maintaining = false, shownDirectory
+let window, controller, manager, maintenanceMenu, startupRecovery, quitting = false, maintaining = false, shownDirectory
 const locked = app.requestSingleInstanceLock()
 if (!locked) app.quit()
 else {
@@ -22,13 +23,13 @@ else {
   app.on('before-quit', event => {
     if (quitting) return
     event.preventDefault(); quitting = true
-    void (async () => { await maintenanceMenu?.idle(); await manager?.idle(); await controller?.stop() })().finally(() => app.quit())
+    void (async () => { await startupRecovery; await maintenanceMenu?.idle(); await manager?.idle(); await controller?.stop() })().finally(() => app.quit())
   })
   void app.whenReady().then(async () => {
     if (quitting) return
     const profileRoot = app.getPath('userData')
     const ocrRoot = app.isPackaged ? join(process.resourcesPath, 'ocr') : join(app.getAppPath(), 'resources', 'ocr', `${process.platform}-${process.arch}`)
-    controller = new BackendController({ dataDir: await selectedLibrary(profileRoot), ocrRoot })
+    controller = new BackendController({ dataDir: await selectedLibrary(profileRoot), ocrRoot, managedBackupDir: join(profileRoot, 'library-backups') })
     controller.on('stopped', () => {
       if (!quitting && !maintaining && window && !window.isDestroyed()) void dialog.showMessageBox(window, { type: 'error', title: '工作台服务已断开', message: '本地服务意外退出。已保存资料仍保留，请关闭应用后重新打开。' }).catch(() => {})
     })
@@ -39,7 +40,7 @@ else {
       if (window && !window.isDestroyed()) { window.setEnabled(!value); window.setTitle(value ? 'Classifier · 正在维护资料库，请等待…' : 'Classifier'); window.setProgressBar(value ? 2 : -1) }
     }, onProgress: progress => {
       if (!maintaining || !window || window.isDestroyed()) return
-      const phases = { preparing: '正在检查并备份', prepared: '迁移已准备', 'safety-backup': '正在备份当前资料库', validated: '已校验迁移批次', records: '正在迁移记录', 'file-published': '正在迁移原文件', files: '正在迁移原文件', publishing: '正在发布资料库', published: '正在完成迁移', complete: '迁移完成' }
+      const phases = { preparing: '正在检查并备份', prepared: '迁移已准备', 'safety-backup': '正在备份当前资料库', validated: '已校验迁移批次', records: '正在迁移记录', 'file-published': '正在迁移原文件', files: '正在迁移原文件', publishing: '正在发布资料库', published: '正在完成迁移', complete: '迁移完成', 'zip-snapshot': '正在创建备份快照', 'zip-pack': '正在生成 ZIP 备份', 'zip-check': '正在校验 ZIP 备份' }
       const total = (progress.totalRecords || 0) + (progress.totalFiles || 0)
       const done = (progress.completedRecords || 0) + (progress.completedFiles || 0)
       window.setTitle(`Classifier · ${phases[progress.phase] || '正在迁移'}${total ? ` · ${done}/${total}` : ''}`)
@@ -64,23 +65,18 @@ else {
       },
     })
     Menu.setApplicationMenu(Menu.buildFromTemplate([...(process.platform === 'darwin' ? [{ role: 'appMenu' }] : []), maintenanceMenu.template, { role: 'editMenu' }, { role: 'windowMenu' }]))
-    await controller.start()
+    try { await controller.start() }
+    catch (error) {
+      await controller.stop()
+      startupRecovery = recoverStartup({ error, controller, manager, run: runMaintenance, dialog, closing: () => quitting })
+      if (!await startupRecovery) { app.quit(); return }
+    }
     if (quitting) return
     await showLibrary()
   }).catch(async error => {
     if (quitting) return
     await controller?.stop()
-    if (controller) {
-      const choice = await dialog.showMessageBox({ type: 'error', title: 'Classifier 启动失败', message: error.message,
-        detail: '可检查当前资料库并保存问题清单。检查不会删除或修复研究资料。', buttons: ['退出', '检查并保存清单…'], defaultId: 0, cancelId: 0 })
-      if (choice.response === 1) {
-        try {
-          const result = await runMaintenance('inspect', { source: controller.dataDir })
-          const destination = await dialog.showSaveDialog({ title: '保存资料库检查清单', defaultPath: 'Classifier-library-check.json', filters: [{ name: 'JSON', extensions: ['json'] }] })
-          if (!destination.canceled && destination.filePath) await writeFile(destination.filePath, JSON.stringify(result, null, 2), { mode: 0o600 })
-        } catch (inspectionError) { dialog.showErrorBox('资料库检查未完成', inspectionError.message) }
-      }
-    } else dialog.showErrorBox('Classifier 启动失败', error.message)
+    dialog.showErrorBox('Classifier 启动失败', error.message)
     app.quit()
   })
 }

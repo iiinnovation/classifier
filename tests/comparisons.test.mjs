@@ -74,6 +74,20 @@ test('M3 manual matrix retains note and passage evidence, differences, versions 
   assert.equal(current.cells[1].evidence[0].documentId, second.id)
 })
 
+test('reviewing evidence preserves current synthesis while content edits still invalidate it', async t => {
+  const { value, first, second, col, path, restart } = await setup(t)
+  let table = await value(`${path}/cells/${first.id}/${col}`, json('PATCH', { revision: 1, value: '研究条件不同。', status: 'recorded', kind: 'source', source: { type: 'passages', referenceIds: [first.references[0].id], documentVersion: first.evidenceVersion } }))
+  table = await value(`${path}/analyses/${col}`, json('PATCH', { revision: table.revision, documentIds: [first.id, second.id], relation: 'difference', value: '条件应分别解释。' }))
+  table = await value(`${path}/cells/${first.id}/${col}`, json('PATCH', { revision: table.revision, reviewState: 'checked' }))
+  assert.equal(table.cells.find(cell => cell.documentId === first.id).reviewState, 'checked')
+  assert.equal(table.analyses[0].outdated, false)
+  await restart(); assert.equal((await value(path)).analyses[0].outdated, false)
+  table = await value(`${path}/cells/${first.id}/${col}`, json('PATCH', { revision: table.revision, value: '修订后的不同条件。' }))
+  assert.equal(table.analyses[0].outdated, true)
+  table = await value(`${path}/cells/${first.id}/${col}`, json('PATCH', { revision: table.revision, reviewState: 'checked' }))
+  assert.equal(table.analyses[0].outdated, true)
+})
+
 test('M3 rejects scope violations, fabricated sources and invalid comparability', async t => {
   const { value, topic, first, second, outside, input, path, col } = await setup(t)
   await value(`/api/topics/${topic.id}/comparisons`, json('POST', { ...input, id: randomUUID(), documentIds: [first.id, outside.id] }), 409)

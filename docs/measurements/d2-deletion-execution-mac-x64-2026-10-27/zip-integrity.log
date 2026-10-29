@@ -1,0 +1,598 @@
+Archive:  dist/desktop-d2-deletion-2026-10-27/Classifier-0.1.0-mac.zip
+    testing: Classifier.app/          OK
+    testing: Classifier.app/Contents/   OK
+    testing: Classifier.app/Contents/MacOS/   OK
+    testing: Classifier.app/Contents/MacOS/Classifier   OK
+    testing: Classifier.app/Contents/Resources/   OK
+    testing: Classifier.app/Contents/Resources/electron.icns   OK
+    testing: Classifier.app/Contents/Resources/app.asar   OK
+    testing: Classifier.app/Contents/Resources/ocr/   OK
+    testing: Classifier.app/Contents/Resources/ocr/tessdata/   OK
+    testing: Classifier.app/Contents/Resources/ocr/tessdata/chi_sim.traineddata   OK
+    testing: Classifier.app/Contents/Resources/ocr/tessdata/eng.traineddata   OK
+    testing: Classifier.app/Contents/Resources/ocr/bin/   OK
+    testing: Classifier.app/Contents/Resources/ocr/bin/tesseract   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/xz-5.8.3-5-COPYING   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/tesseract-lang-4.1.0-0-tessdata-fast-4.1.0.txt   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/jpeg-turbo-3.2.0-1-LICENSE.md   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/webp-1.6.0-0-COPYING   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/libtiff-4.7.2-1-LICENSE.md   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/libpng-1.6.58-0-LICENSE   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/zstd-1.5.7_1-1-LICENSE   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/xz-5.8.3-4-COPYING.LGPLv2.1   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/xz-5.8.3-2-COPYING.GPLv2   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/leptonica-1.87.0-0-leptonica-1.87.0.txt   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/tesseract-5.5.3-0-LICENSE   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/libb2-0.98.1-0-COPYING   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/xz-5.8.3-7-COPYING.GPLv2   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/libarchive-3.8.9-0-COPYING   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/openjpeg-2.5.4-0-LICENSE   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/libtiff-4.7.2-0-LICENSE.md   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/lz4-1.10.0-0-LICENSE   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/jpeg-turbo-3.2.0-0-LICENSE.md   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/zstd-1.5.7_1-0-COPYING   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/xz-5.8.3-3-COPYING.GPLv3   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/giflib-6.1.3-0-COPYING   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/xz-5.8.3-0-COPYING   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/xz-5.8.3-1-COPYING.0BSD   OK
+    testing: Classifier.app/Contents/Resources/ocr/licenses/xz-5.8.3-6-COPYING.0BSD   OK
+    testing: Classifier.app/Contents/Resources/ocr/manifest.json   OK
+    testing: Classifier.app/Contents/Resources/ocr/lib/   OK
+    testing: Classifier.app/Contents/Resources/ocr/lib/libwebp.7.2.0.dylib   OK
+    testing: Classifier.app/Contents/Resources/ocr/lib/liblz4.1.10.0.dylib   OK
+    testing: Classifier.app/Contents/Resources/ocr/lib/libpng16.16.dylib   OK
+    testing: Classifier.app/Contents/Resources/ocr/lib/libgif.7.2.0.dylib   OK
+    testing: Classifier.app/Contents/Resources/ocr/lib/libopenjp2.2.5.4.dylib   OK
+    testing: Classifier.app/Contents/Resources/ocr/lib/libtesseract.5.dylib   OK
+    testing: Classifier.app/Contents/Resources/ocr/lib/libarchive.13.dylib   OK
+    testing: Classifier.app/Contents/Resources/ocr/lib/liblzma.5.dylib   OK
+    testing: Classifier.app/Contents/Resources/ocr/lib/libjpeg.8.3.2.dylib   OK
+    testing: Classifier.app/Contents/Resources/ocr/lib/libleptonica.6.dylib   OK
+    testing: Classifier.app/Contents/Resources/ocr/lib/libwebpmux.3.1.2.dylib   OK
+    testing: Classifier.app/Contents/Resources/ocr/lib/libb2.1.dylib   OK
+    testing: Classifier.app/Contents/Resources/ocr/lib/libtiff.6.dylib   OK
+    testing: Classifier.app/Contents/Resources/ocr/lib/libzstd.1.5.7.dylib   OK
+    testing: Classifier.app/Contents/Resources/ocr/lib/libsharpyuv.0.1.2.dylib   OK
+    testing: Classifier.app/Contents/Resources/app-update.yml   OK
+    testing: Classifier.app/Contents/Resources/app.asar.unpacked/   OK
+    testing: Classifier.app/Contents/Resources/app.asar.unpacked/node_modules/   OK
+    testing: Classifier.app/Contents/Resources/app.asar.unpacked/node_modules/pdfjs-dist/   OK
+    testing: Classifier.app/Contents/Resources/app.asar.unpacked/node_modules/pdfjs-dist/wasm/   OK
+    testing: Classifier.app/Contents/Resources/app.asar.unpacked/node_modules/pdfjs-dist/wasm/LICENSE_JBIG2   OK
+    testing: Classifier.app/Contents/Resources/app.asar.unpacked/node_modules/pdfjs-dist/wasm/openjpeg.wasm   OK
+    testing: Classifier.app/Contents/Resources/app.asar.unpacked/node_modules/pdfjs-dist/wasm/jbig2.wasm   OK
+    testing: Classifier.app/Contents/Resources/app.asar.unpacked/node_modules/pdfjs-dist/wasm/jbig2_nowasm_fallback.js   OK
+    testing: Classifier.app/Contents/Resources/app.asar.unpacked/node_modules/pdfjs-dist/wasm/openjpeg_nowasm_fallback.js   OK
+    testing: Classifier.app/Contents/Resources/app.asar.unpacked/node_modules/pdfjs-dist/wasm/quickjs-eval.wasm   OK
+    testing: Classifier.app/Contents/Resources/app.asar.unpacked/node_modules/pdfjs-dist/wasm/LICENSE_QCMS   OK
+    testing: Classifier.app/Contents/Resources/app.asar.unpacked/node_modules/pdfjs-dist/wasm/LICENSE_PDFJS_JBIG2   OK
+    testing: Classifier.app/Contents/Resources/app.asar.unpacked/node_modules/pdfjs-dist/wasm/quickjs-eval.js   OK
+    testing: Classifier.app/Contents/Resources/app.asar.unpacked/node_modules/pdfjs-dist/wasm/LICENSE_OPENJPEG   OK
+    testing: Classifier.app/Contents/Resources/app.asar.unpacked/node_modules/pdfjs-dist/wasm/LICENSE_PDFJS_OPENJPEG   OK
+    testing: Classifier.app/Contents/Resources/app.asar.unpacked/node_modules/pdfjs-dist/wasm/qcms_bg.wasm   OK
+    testing: Classifier.app/Contents/Resources/app.asar.unpacked/node_modules/pdfjs-dist/wasm/LICENSE_PDFJS_QCMS   OK
+    testing: Classifier.app/Contents/Resources/app.asar.unpacked/node_modules/@napi-rs/   OK
+    testing: Classifier.app/Contents/Resources/app.asar.unpacked/node_modules/@napi-rs/canvas-darwin-x64/   OK
+    testing: Classifier.app/Contents/Resources/app.asar.unpacked/node_modules/@napi-rs/canvas-darwin-x64/skia.darwin-x64.node   OK
+    testing: Classifier.app/Contents/Resources/app.asar.unpacked/node_modules/@napi-rs/canvas-darwin-x64/package.json   OK
+    testing: Classifier.app/Contents/Resources/default_app.asar   OK
+    testing: Classifier.app/Contents/Frameworks/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Electron Framework   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Resources   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Electron Framework   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/id_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/id_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/de.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/de.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sw_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sw_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sw_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sw_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ur.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ur.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/he.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/he.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/he_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/he_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ru_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ru_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sk_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sk_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ar.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ar.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/es_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/es_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/el.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/el.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ja.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ja.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/th_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/th_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/es_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/es_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/uk_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/uk_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fa.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fa.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hi_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hi_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/mr.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/mr.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/am_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/am_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/te_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/te_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/gu_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/gu_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ja_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ja_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/en_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/en_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ja_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ja_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/mr_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/mr_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/en.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/en.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/nb_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/nb_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/et_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/et_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sl_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sl_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/he_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/he_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/chrome_200_percent.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/uk.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/uk.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/tr_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/tr_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/es_419.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/es_419.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/en_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/en_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/gu.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/gu.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ko_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ko_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/zh_CN.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/zh_CN.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fi_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fi_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/kn.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/kn.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sv_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sv_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/bn_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/bn_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/nb.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/nb.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fil_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fil_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ml_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ml_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/lv_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/lv_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ms_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ms_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/chrome_100_percent.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/th_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/th_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/nl_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/nl_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/id_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/id_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/am.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/am.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/es.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/es.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ro_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ro_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ur_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ur_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/cs_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/cs_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sw.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sw.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/et_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/et_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sl.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sl.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pt_BR.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pt_BR.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pt_PT_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pt_PT_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/da.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/da.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/zh_CN_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/zh_CN_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/af_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/af_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/kn_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/kn_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fil_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fil_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/zh_TW_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/zh_TW_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/et.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/et.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ms_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ms_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/it.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/it.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/bg.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/bg.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sk.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sk.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/lv_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/lv_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/it_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/it_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ta_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ta_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pt_PT.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pt_PT.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ta_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ta_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sk_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sk_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ko_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ko_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/icudtl.dat   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/cs_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/cs_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ur_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ur_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/uk_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/uk_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/af_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/af_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ar_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ar_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ml_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ml_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hi_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hi_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/te_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/te_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/lt_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/lt_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sr.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sr.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ms.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ms.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ca_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ca_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ta.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ta.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/he_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/he_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/es_419_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/es_419_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/zh_TW_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/zh_TW_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ml.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ml.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sv.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sv.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/da_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/da_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/kn_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/kn_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sv_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sv_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/nl_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/nl_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/te.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/te.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/mr_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/mr_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/cs.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/cs.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/en_GB_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/en_GB_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pt_PT_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pt_PT_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fi_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fi_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ko.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ko.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sl_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sl_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/lv_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/lv_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fil.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fil.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/da_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/da_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pt_BR_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pt_BR_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/th_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/th_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fa_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fa_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/nb_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/nb_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/MainMenu.nib   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/af_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/af_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ru_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ru_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/bg_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/bg_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/vi_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/vi_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ca_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ca_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hu.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hu.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ko_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ko_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hr_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hr_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hu_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hu_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/zh_TW_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/zh_TW_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pt_PT_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pt_PT_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ro_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ro_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sr_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sr_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ta_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ta_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/tr.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/tr.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pt_BR_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pt_BR_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pl.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pl.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/bg_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/bg_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/zh_TW.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/zh_TW.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ml_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ml_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ca_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ca_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fr_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fr_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pl_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pl_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ar_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ar_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/en_GB.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/en_GB.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/es_419_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/es_419_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/resources.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/en_GB_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/en_GB_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/mr_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/mr_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/de_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/de_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/vi.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/vi.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/tr_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/tr_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/cs_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/cs_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fil_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fil_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hi_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hi_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/es_419_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/es_419_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/it_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/it_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/lt_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/lt_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/lv.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/lv.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/kn_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/kn_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/lt.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/lt.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ru.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ru.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/v8_context_snapshot.x86_64.bin   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/am_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/am_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/da_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/da_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pl_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pl_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fa_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fa_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/el_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/el_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/zh_CN_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/zh_CN_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/lt_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/lt_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fr_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fr_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/af.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/af.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pt_BR_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pt_BR_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/id_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/id_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ar_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ar_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/bg_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/bg_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/en_GB_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/en_GB_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/bn_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/bn_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ur_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ur_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ja_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ja_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fr.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fr.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/it_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/it_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fi.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fi.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/id.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/id.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/gu_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/gu_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/nl.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/nl.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/th.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/th.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fi_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fi_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sv_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sv_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ms_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ms_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/en_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/en_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/nb_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/nb_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/am_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/am_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/bn.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/bn.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/te_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/te_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sl_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sl_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/vi_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/vi_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sk_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sk_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/tr_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/tr_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hr_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hr_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hr_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hr_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hu_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hu_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sr_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sr_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ru_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ru_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/es_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/es_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ro.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ro.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/et_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/et_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/de_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/de_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/uk_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/uk_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fa_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fa_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/el_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/el_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/de_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/de_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pl_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/pl_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/gu_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/gu_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/Info.plist   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/bn_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/bn_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hu_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hu_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/vi_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/vi_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/el_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/el_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sr_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sr_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sw_FEMININE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/sw_FEMININE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hr.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hr.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hi.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/hi.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ro_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ro_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ca.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/ca.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fr_NEUTER.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/fr_NEUTER.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/nl_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/nl_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/zh_CN_MASCULINE.lproj/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/zh_CN_MASCULINE.lproj/locale.pak   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Libraries/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Libraries/vk_swiftshader_icd.json   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Libraries/libvk_swiftshader.dylib   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Libraries/libffmpeg.dylib   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Helpers/   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Helpers/chrome_crashpad_handler   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Versions/Current   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Libraries   OK
+    testing: Classifier.app/Contents/Frameworks/Electron Framework.framework/Helpers   OK
+    testing: Classifier.app/Contents/Frameworks/ReactiveObjC.framework/   OK
+    testing: Classifier.app/Contents/Frameworks/ReactiveObjC.framework/Resources   OK
+    testing: Classifier.app/Contents/Frameworks/ReactiveObjC.framework/ReactiveObjC   OK
+    testing: Classifier.app/Contents/Frameworks/ReactiveObjC.framework/Versions/   OK
+    testing: Classifier.app/Contents/Frameworks/ReactiveObjC.framework/Versions/A/   OK
+    testing: Classifier.app/Contents/Frameworks/ReactiveObjC.framework/Versions/A/Resources/   OK
+    testing: Classifier.app/Contents/Frameworks/ReactiveObjC.framework/Versions/A/Resources/Info.plist   OK
+    testing: Classifier.app/Contents/Frameworks/ReactiveObjC.framework/Versions/A/ReactiveObjC   OK
+    testing: Classifier.app/Contents/Frameworks/ReactiveObjC.framework/Versions/Current   OK
+    testing: Classifier.app/Contents/Frameworks/Squirrel.framework/   OK
+    testing: Classifier.app/Contents/Frameworks/Squirrel.framework/Resources   OK
+    testing: Classifier.app/Contents/Frameworks/Squirrel.framework/Versions/   OK
+    testing: Classifier.app/Contents/Frameworks/Squirrel.framework/Versions/A/   OK
+    testing: Classifier.app/Contents/Frameworks/Squirrel.framework/Versions/A/Resources/   OK
+    testing: Classifier.app/Contents/Frameworks/Squirrel.framework/Versions/A/Resources/ShipIt   OK
+    testing: Classifier.app/Contents/Frameworks/Squirrel.framework/Versions/A/Resources/Info.plist   OK
+    testing: Classifier.app/Contents/Frameworks/Squirrel.framework/Versions/A/Squirrel   OK
+    testing: Classifier.app/Contents/Frameworks/Squirrel.framework/Versions/Current   OK
+    testing: Classifier.app/Contents/Frameworks/Squirrel.framework/Squirrel   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper.app/   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/MacOS/Classifier Helper   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/Info.plist   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper.app/Contents/PkgInfo   OK
+    testing: Classifier.app/Contents/Frameworks/Mantle.framework/   OK
+    testing: Classifier.app/Contents/Frameworks/Mantle.framework/Mantle   OK
+    testing: Classifier.app/Contents/Frameworks/Mantle.framework/Resources   OK
+    testing: Classifier.app/Contents/Frameworks/Mantle.framework/Versions/   OK
+    testing: Classifier.app/Contents/Frameworks/Mantle.framework/Versions/A/   OK
+    testing: Classifier.app/Contents/Frameworks/Mantle.framework/Versions/A/Mantle   OK
+    testing: Classifier.app/Contents/Frameworks/Mantle.framework/Versions/A/Resources/   OK
+    testing: Classifier.app/Contents/Frameworks/Mantle.framework/Versions/A/Resources/Info.plist   OK
+    testing: Classifier.app/Contents/Frameworks/Mantle.framework/Versions/Current   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/MacOS/Classifier Helper (Renderer)   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/Info.plist   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper (Renderer).app/Contents/PkgInfo   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper (GPU).app/   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper (GPU).app/Contents/   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper (GPU).app/Contents/MacOS/   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper (GPU).app/Contents/MacOS/Classifier Helper (GPU)   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper (GPU).app/Contents/Info.plist   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper (GPU).app/Contents/PkgInfo   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper (Plugin).app/   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper (Plugin).app/Contents/   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper (Plugin).app/Contents/MacOS/   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper (Plugin).app/Contents/MacOS/Classifier Helper (Plugin)   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper (Plugin).app/Contents/Info.plist   OK
+    testing: Classifier.app/Contents/Frameworks/Classifier Helper (Plugin).app/Contents/PkgInfo   OK
+    testing: Classifier.app/Contents/Info.plist   OK
+    testing: Classifier.app/Contents/PkgInfo   OK
+No errors detected in compressed data of dist/desktop-d2-deletion-2026-10-27/Classifier-0.1.0-mac.zip.

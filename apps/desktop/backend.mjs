@@ -15,7 +15,7 @@ process.parentPort.on('message', async ({ data }) => {
       process.env.CLASSIFIER_TESSERACT = executable
       process.env.TESSDATA_PREFIX = join(data.ocrRoot, 'tessdata')
       process.env.CLASSIFIER_OCR_LANGS = 'chi_sim+eng'
-      server = await createApp({ dataDir: data.dataDir, desktopToken: data.token, settingsProvider: createSettingsProvider() })
+      server = await createApp({ dataDir: data.dataDir, managedBackupDir: data.managedBackupDir, desktopToken: data.token, settingsProvider: createSettingsProvider() })
       server.listen(0, '127.0.0.1')
       await once(server, 'listening')
       process.parentPort.postMessage({ type: 'ready', port: server.address().port, pid: process.pid, versions: { node: process.versions.node, electron: process.versions.electron } })

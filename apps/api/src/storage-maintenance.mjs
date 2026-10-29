@@ -1,5 +1,5 @@
 // Explicit offline operations only. The application never migrates on startup.
-import { mkdir, readdir, lstat, readFile, writeFile, copyFile, realpath, rename, access, open } from 'node:fs/promises'
+import { mkdir, readdir, lstat, readFile, writeFile, copyFile, realpath, rename, open } from 'node:fs/promises'
 import { createReadStream } from 'node:fs'
 import { join, resolve, dirname, basename, relative, isAbsolute } from 'node:path'
 import { createHash, randomUUID } from 'node:crypto'
@@ -8,14 +8,28 @@ import { acquireDataLock } from './data-lock.mjs'
 import { storageLayout, storageManifestName, recordBuckets } from './storage-layout.mjs'
 import { initializeDatabase } from './sqlite-store.mjs'
 import { requireId } from './store.mjs'
+import { decodeRecord } from './record-integrity.mjs'
+import { checkDatabaseVersion } from './sqlite-deletions.mjs'
 
-const limits = { files: 200000, bytes: 20 * 1024 ** 3 }
+export const backupLimits = { files: 200000, bytes: 20 * 1024 ** 3, manifestBytes: 32 * 1024 ** 2 }
+const limits = backupLimits
 const directories = [...recordBuckets, 'originals', 'quarantine', '.file-operations']
-const allowed = path => !isAbsolute(path) && !path.includes('\\') && !path.split('/').some(part => !part || part === '.' || part === '..') && (['library.sqlite', storageManifestName].includes(path) || directories.includes(path.split('/')[0]))
+export const allowedBackupPath = path => typeof path === 'string' && !isAbsolute(path) && !path.includes('\\') && !path.includes('\0') && !path.split('/').some(part => !part || part === '.' || part === '..') && (['library.sqlite', storageManifestName].includes(path) || path.includes('/') && directories.includes(path.split('/')[0]))
+const allowed = allowedBackupPath
 async function hash(path) { const digest = createHash('sha256'); for await (const chunk of createReadStream(path)) digest.update(chunk); return digest.digest('hex') }
-async function exists(path) { try { await access(path); return true } catch (error) { if (error.code === 'ENOENT') return false; throw error } }
-async function durable(path) { const file = await open(path, 'r'); try { await file.sync() } finally { await file.close() } }
-async function publish(stage, target) {
+async function exists(path) { try { await lstat(path); return true } catch (error) { if (error.code === 'ENOENT') return false; throw error } }
+export async function durable(path) { const file = await open(path, 'r'); try { await file.sync() } finally { await file.close() } }
+export async function syncPublishedDestination(target) {
+  try { await durable(dirname(target)) }
+  catch (error) {
+    // rename/link has already succeeded. Do not direct users to a moved-away
+    // stage or acknowledge durability when syncing the parent failed.
+    error.publishedDestination = target
+    error.message += '；副本已发布到 ' + target + '，但父目录同步失败，持久化尚未确认。请保留并核验该副本，重试时使用新目标。'
+    throw error
+  }
+}
+export async function publish(stage, target) {
   // Children and their directory entries are durable before the final sibling
   // rename. Failed staging directories remain inspectable and are never opened.
   const pending = [stage]
@@ -24,9 +38,9 @@ async function publish(stage, target) {
   }
   for (const directory of pending.reverse()) await durable(directory)
   if (await exists(target)) throw new Error('目标目录已存在，未覆盖现有资料。')
-  await rename(stage, target); await durable(dirname(target))
+  await rename(stage, target); await syncPublishedDestination(target)
 }
-async function stageFor(destination, source) {
+export async function stageFor(destination, source) {
   const parent = await realpath(dirname(resolve(destination)))
   const target = join(parent, basename(destination)), from = await realpath(source)
   const rel = relative(from, target)
@@ -104,7 +118,7 @@ async function backupLocked(root, destination) {
     await verifyBackup(stage)
     await publish(stage, target)
     return { destination: target, manifest }
-  } catch (error) { error.message += '；未发布的完整/部分副本保留于 ' + stage; throw error }
+  } catch (error) { if (!error.publishedDestination) error.message += '；未发布的完整/部分副本保留于 ' + stage; throw error }
 }
 export async function backupLibrary(root, destination) {
   if (!(await lstat(root)).isDirectory()) throw new Error('来源必须是现有资料目录。')
@@ -113,15 +127,11 @@ export async function backupLibrary(root, destination) {
 }
 export async function verifyBackup(root) {
   const manifestPath = join(root, 'backup-manifest.json')
-  if ((await lstat(manifestPath)).isSymbolicLink() || (await lstat(manifestPath)).size > 32 * 1024 ** 2) throw new Error('备份清单无效或超限。')
-  const manifest = JSON.parse(await readFile(manifestPath, 'utf8'))
-  if (manifest.backupVersion !== 1 || !Array.isArray(manifest.files) || manifest.files.length > limits.files || !['json', 'sqlite'].includes(manifest.storage) || manifest.formatVersion !== (manifest.storage === 'json' ? 0 : 1)) throw new Error('不支持的备份格式。')
-  let bytes = 0
-  const names = new Set()
+  const entry = await lstat(manifestPath)
+  if (!entry.isFile() || entry.size > limits.manifestBytes) throw new Error('备份清单无效或超限。')
+  const manifest = validateBackupManifest(JSON.parse(await readFile(manifestPath, 'utf8')))
+  const names = new Set(manifest.files.map(file => file.path))
   for (const file of manifest.files) {
-    if (!allowed(file.path) || names.has(file.path) || !Number.isSafeInteger(file.size) || file.size < 0 || !/^[a-f0-9]{64}$/.test(file.sha256)) throw new Error('无效的备份文件清单。')
-    names.add(file.path); bytes += file.size
-    if (bytes > limits.bytes) throw new Error('备份展开大小超过 20 GiB 限制。')
     let current = root
     for (const component of file.path.split('/')) { current = join(current, component); if ((await lstat(current)).isSymbolicLink()) throw new Error('备份中不允许符号链接。') }
     const info = await lstat(current)
@@ -132,13 +142,25 @@ export async function verifyBackup(root) {
     await storageLayout(root)
     const db = new DatabaseSync(join(root, 'library.sqlite'), { readOnly: true })
     try {
-      if (db.prepare('PRAGMA integrity_check').get().integrity_check !== 'ok' || db.prepare('PRAGMA user_version').get().user_version !== 1) throw new Error('备份数据库完整性或版本校验失败。')
+      checkDatabaseVersion(db)
+      if (db.prepare('PRAGMA integrity_check').get().integrity_check !== 'ok') throw new Error('备份数据库完整性或版本校验失败。')
       const files = new Map(manifest.files.map(file => [file.path, file]))
       for (const row of db.prepare("SELECT id,body FROM records WHERE bucket='documents'").all()) {
         const document = JSON.parse(row.body), original = files.get('originals/' + requireId(row.id))
         if (!original || (document.source?.sha256 && original.sha256 !== document.source.sha256)) throw new Error('备份原文件与数据库不一致：' + row.id)
       }
     } finally { db.close() }
+  }
+  return manifest
+}
+export function validateBackupManifest(manifest) {
+  if (!manifest || manifest.backupVersion !== 1 || !Array.isArray(manifest.files) || manifest.files.length > limits.files || !['json', 'sqlite'].includes(manifest.storage) || manifest.formatVersion !== (manifest.storage === 'json' ? 0 : 1)) throw new Error('不支持的备份格式。')
+  let bytes = 0
+  const names = new Set()
+  for (const file of manifest.files) {
+    if (!file || !allowed(file.path) || names.has(file.path) || !Number.isSafeInteger(file.size) || file.size < 0 || !/^[a-f0-9]{64}$/.test(file.sha256)) throw new Error('无效的备份文件清单。')
+    names.add(file.path); bytes += file.size
+    if (bytes > limits.bytes) throw new Error('备份展开大小超过 20 GiB 限制。')
   }
   return manifest
 }
@@ -150,7 +172,7 @@ export async function restoreLibrary(backup, destination) {
     if (layout.storage !== manifest.storage) throw new Error('恢复格式与备份声明不一致。')
     await publish(stage, target)
     return { destination: target, storage: layout.storage, files: manifest.files.length }
-  } catch (error) { error.message += '；恢复暂存目录保留于 ' + stage; throw error }
+  } catch (error) { if (!error.publishedDestination) error.message += '；恢复暂存目录保留于 ' + stage; throw error }
 }
 const migrationStateName = 'migration-state.json'
 const migrationBatchSize = 100
@@ -169,8 +191,11 @@ async function migrationRecords(backup, manifest) {
     }
     const bytes = await readFile(join(backup, file.path))
     if (createHash('sha256').update(bytes).digest('hex') !== file.sha256) throw new Error('迁移备份在读取时发生变化：' + file.path)
-    const value = JSON.parse(bytes), id = requireId(basename(file.path, '.json')), bucket = file.path.split('/')[0], key = bucket + '/' + id
-    if (requireId(value.id) !== id || typeof value.createdAt !== 'string' || identities.has(key)) throw new Error('记录身份、时间或唯一性无效：' + file.path)
+    const id = requireId(basename(file.path, '.json')), bucket = file.path.split('/')[0], key = bucket + '/' + id
+    let value
+    try { value = decodeRecord(bucket, id, bytes) }
+    catch (error) { error.message += '；迁移记录不兼容或损坏：' + file.path; throw error }
+    if (identities.has(key)) throw new Error('记录身份重复：' + file.path)
     identities.add(key); records.push({ bucket, id, value, body: JSON.stringify(value) })
   }
   const documents = new Map(records.filter(row => row.bucket === 'documents').map(row => [row.id, row.value]))
@@ -179,6 +204,9 @@ async function migrationRecords(backup, manifest) {
     if (row.value.documentId && !documents.has(requireId(row.value.documentId))) throw new Error('记录引用缺失文献：' + row.id)
     if (row.value.topicId && !topics.has(requireId(row.value.topicId))) throw new Error('记录引用缺失主题：' + row.id)
     if (row.bucket === 'topics') for (const link of row.value.documents || []) if (!documents.has(requireId(link.documentId))) throw new Error('主题引用缺失文献：' + row.id)
+    // Only the current comparison scope is a live dependency. History, copied
+    // report materials, evidence and analysis inputs may outlive their sources.
+    if (row.bucket === 'comparisons') for (const id of row.value.documentIds) if (!documents.has(requireId(id))) throw new Error('比较表引用缺失文献：' + row.id + ' → ' + id)
   }
   const originals = new Map(manifest.files.map(file => [file.path, file]))
   for (const [id, document] of documents) {
@@ -195,7 +223,7 @@ function initializeMigrationProgress(db, state) {
     db.exec('CREATE TABLE migration_progress(singleton INTEGER PRIMARY KEY CHECK(singleton=1), identity TEXT NOT NULL, next_record INTEGER NOT NULL, next_file INTEGER NOT NULL)')
     db.prepare('INSERT INTO migration_progress VALUES(1,?,0,0)').run(migrationIdentity(state))
     db.exec('COMMIT')
-  } catch (error) { db.exec('ROLLBACK'); throw error }
+  } catch (error) { try { db.exec('ROLLBACK') } catch { /* SQLITE_FULL may roll back automatically. */ }; throw error }
 }
 async function migrationDirectory(input) {
   let path = resolve(input)
@@ -254,27 +282,48 @@ async function readMigrationLayout(root, state) {
   return layout
 }
 
-export async function prepareMigration(root, destination, backupDestination) {
+async function prepareSnapshot(source, backup, destination, onProgress) {
+  const manifest = await verifyBackup(backup)
+  if (manifest.storage !== 'json') throw new Error('迁移准备需要升级前的 JSON 备份。')
+  if ((await storageLayout(backup)).storage !== 'json') throw new Error('备份的实际资料库格式与 JSON 声明不一致。')
+  const records = await migrationRecords(backup, manifest), files = migrationFiles(manifest)
+  const { stage, target } = await stageFor(destination, source)
+  const state = { migrationVersion: 1, id: stage.slice(-36), source, backup, backupSha256: await hash(join(backup, 'backup-manifest.json')), stage, target, createdAt: new Date().toISOString(), snapshotCreatedAt: manifest.createdAt, records: records.length, files: files.length }
+  let db
+  const progress = phase => onProgress({ phase, stage, destination: target, backup, migrationId: state.id })
+  try {
+    await writeDurableJson(stage, storageManifestName, { formatVersion: 1, storage: 'sqlite', state: 'migrating', recordVersion: 1, migrationId: state.id })
+    await progress('preparation-layout')
+    await writeDurableJson(stage, migrationStateName, state)
+    await progress('preparation-state')
+    db = initializeDatabase(join(stage, 'library.sqlite'))
+    await progress('preparation-database')
+    initializeMigrationProgress(db, state)
+    db.exec('PRAGMA wal_checkpoint(TRUNCATE)'); db.close(); db = null
+    await durable(join(stage, 'library.sqlite')); await durable(stage)
+    await progress('preparation-ready')
+    return { stage, destination: target, backup, migrationId: state.id, records: records.length, files: files.length, phase: 'prepared' }
+  } catch (error) { db?.close(); error.message += '；迁移准备未完成，暂存目录为 ' + stage + '；可从已保留备份重新准备新批次：' + backup; throw error }
+}
+
+export async function prepareMigration(root, destination, backupDestination, { onProgress = async () => {} } = {}) {
   if (!(await lstat(root)).isDirectory()) throw new Error('来源必须是现有资料目录。')
   const owner = await acquireDataLock(root)
   try {
     if ((await storageLayout(owner.root)).storage !== 'json') throw new Error('来源不是旧 JSON 资料库。')
     const backup = await backupLocked(owner.root, backupDestination)
-    const manifest = await verifyBackup(backup.destination)
-    const records = await migrationRecords(backup.destination, manifest), files = migrationFiles(manifest)
-    const { stage, target } = await stageFor(destination, owner.root)
-    const state = { migrationVersion: 1, id: stage.slice(-36), source: owner.root, backup: backup.destination, backupSha256: await hash(join(backup.destination, 'backup-manifest.json')), stage, target, createdAt: new Date().toISOString(), snapshotCreatedAt: manifest.createdAt, records: records.length, files: files.length }
-    let db
     try {
-      await writeDurableJson(stage, storageManifestName, { formatVersion: 1, storage: 'sqlite', state: 'migrating', recordVersion: 1, migrationId: state.id })
-      await writeDurableJson(stage, migrationStateName, state)
-      db = initializeDatabase(join(stage, 'library.sqlite'))
-      initializeMigrationProgress(db, state)
-      db.exec('PRAGMA wal_checkpoint(TRUNCATE)'); db.close(); db = null
-      await durable(join(stage, 'library.sqlite')); await durable(stage)
-      return { stage, destination: target, backup: backup.destination, migrationId: state.id, records: records.length, files: files.length, phase: 'prepared' }
-    } catch (error) { db?.close(); error.message += '；迁移准备未完成，来源与备份保留，暂存目录为 ' + stage; throw error }
+      await onProgress({ phase: 'preparation-backup', backup: backup.destination, destination })
+      return await prepareSnapshot(owner.root, backup.destination, destination, onProgress)
+    } catch (error) { error.message += '；升级前备份保留于 ' + backup.destination; throw error }
   } finally { owner.release() }
+}
+
+export async function prepareMigrationFromBackup(backup, destination, { onProgress = async () => {} } = {}) {
+  if (!(await lstat(backup)).isDirectory()) throw new Error('请选择实际升级前备份目录。')
+  const owner = await acquireDataLock(backup)
+  try { return await prepareSnapshot(owner.root, owner.root, destination, onProgress) }
+  finally { owner.release() }
 }
 
 export async function migrationStatus(directory) {
@@ -301,6 +350,10 @@ export async function resumeMigration(directory, { onProgress = async () => {} }
         const progress = migrationProgress(check, state)
         if (progress.next_record !== state.records || progress.next_file !== state.files) throw new Error('迁移完成标记与提交进度不一致。')
       } finally { check.close() }
+      // A prior rename may be visible even when its directory sync failed.
+      // Re-establish durability on retry without replaying or overwriting edits.
+      await durable(join(root, storageManifestName)); await durable(root)
+      await syncPublishedDestination(root)
       return migrationResult(state, true)
     }
     if (root !== state.target && await exists(state.target)) throw new Error('迁移目标目录已存在，未覆盖现有资料。')
@@ -329,7 +382,7 @@ export async function resumeMigration(directory, { onProgress = async () => {} }
         for (const row of records.slice(progress.next_record, end)) insert.run(row.bucket, row.id, row.body)
         db.prepare('UPDATE migration_progress SET next_record=? WHERE singleton=1').run(end)
         db.exec('COMMIT')
-      } catch (error) { db.exec('ROLLBACK'); throw error }
+      } catch (error) { try { db.exec('ROLLBACK') } catch { /* SQLITE_FULL may roll back automatically. */ }; throw error }
       progress.next_record = end; await emit('records')
     }
     for (let i = progress.next_file; i < files.length; i++) {
@@ -354,17 +407,18 @@ export async function resumeMigration(directory, { onProgress = async () => {} }
     await durable(join(root, 'library.sqlite'))
     await emit('publishing')
     if (root !== state.target) { await publish(root, state.target); currentRoot = state.target }
+    else await syncPublishedDestination(state.target)
     await emit('published')
     // The target remains explicitly unreadable until this final durable marker.
     await writeDurableJson(currentRoot, storageManifestName, { formatVersion: 1, storage: 'sqlite', state: 'ready', recordVersion: 1, migratedAt: state.createdAt, migrationId: state.id, sourceBackup: state.backup, records: records.length })
     await emit('complete')
     return migrationResult(state)
-  } catch (error) { error.message += '；来源和备份保留，可检查迁移目录 ' + currentRoot; throw error }
+  } catch (error) { error.message += '；来源和备份保留，可检查迁移目录 ' + (error.publishedDestination || currentRoot); throw error }
   finally { try { db?.close() } finally { owner.release() } }
 }
 
 export async function migrateLibrary(root, destination, backupDestination, options = {}) {
-  const prepared = await prepareMigration(root, destination, backupDestination)
+  const prepared = await prepareMigration(root, destination, backupDestination, options)
   await options.onProgress?.(prepared)
   return resumeMigration(prepared.stage, options)
 }

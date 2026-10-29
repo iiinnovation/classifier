@@ -20,6 +20,8 @@
 
 新增 Playwright 文稿用例覆盖桌面／窄窗口、控件可见性和引用保存，保留原有成果与恢复用例。本机 Chrome 启动即退出；独立 Headless Chromium 下载后仍在 `bootstrap_check_in`／MachPortRendezvous 注册时报错，沙箱外重试相同。浏览器尚未执行页面断言，不记为通过，未生成本轮可验收截图或重新打包桌面应用。
 
+2026-10-23 补验：上述记录对应 10-21 环境。当前 Chrome 在沙箱内仍启动退出，沙箱外使用 `CLASSIFIER_BROWSER_CHANNEL=chrome npm run test:e2e -- tests/e2e/reports.spec.mjs tests/e2e/reports-recovery.spec.mjs --reporter=line` 重跑 **10/10 通过**。已生成并检查桌面与窄窗口文稿截图，覆盖引用、排序、撤销、草稿恢复、版本冲突及保存；截图和新 Mac x64 包证据见 [D1 ZIP 验证记录](measurements/d1-zip-mac-x64-2026-10-23/validation.json)。真实研究任务和供应商质量验证仍待完成。
+
 ```sh
 node --test tests/report-editor.test.mjs tests/reports.test.mjs tests/library-inspection.test.mjs tests/storage-maintenance.test.mjs tests/data-lock.test.mjs tests/web.test.mjs
 PLAYWRIGHT_BROWSERS_PATH=/private/tmp/classifier-playwright npm run test:e2e -- tests/e2e/reports.spec.mjs tests/e2e/reports-recovery.spec.mjs

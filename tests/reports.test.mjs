@@ -9,6 +9,26 @@ import { reportFixture, reportReply, waitReportRun } from './helpers/report-fixt
 const editable = report => report.blocks.map(({ id, section, text, kind, citationIds }) => ({ id, section, text, kind, citationIds }))
 async function create(app, sources = app.selectors) { return app.value(`/api/topics/${app.topic.id}/reports`, json('POST', { title: '研究总结', sources }), 201) }
 
+test('manual report creation saves initial writing atomically, retries by identity and rejects fabricated evidence', async t => {
+  const app = await reportFixture(); t.after(() => app.close())
+  const body = { id: randomUUID(), title: '直接开始写作', blocks: [{ id: randomUUID(), section: '研究总结', text: '首次保存的人工论述。', kind: 'user', citationIds: [] }] }
+  const path = `/api/topics/${app.topic.id}/reports`
+  const first = await app.value(path, json('POST', body), 201)
+  assert.equal(first.revision, 1); assert.equal(first.blocks[0].text, body.blocks[0].text)
+  assert.equal(first.blocks[0].origin.type, 'manual')
+  const again = await app.value(path, json('POST', body), 201)
+  assert.equal(again.id, first.id); assert.deepEqual(again.blocks, first.blocks)
+  await app.value(path, json('POST', { ...body, blocks: [{ ...body.blocks[0], text: '同一 ID 的另一请求' }] }), 409)
+  for (const block of [{ ...body.blocks[0], kind: 'source', citationIds: ['forged'] }, { ...body.blocks[0], kind: 'inference' }, { ...body.blocks[0], text: 'x'.repeat(4001) }]) {
+    await app.value(path, json('POST', { ...body, id: randomUUID(), blocks: [block] }), 422)
+  }
+  assert.equal((await app.value(path)).reports.length, 1)
+  const empty = await app.value(path, json('POST', { title: '尚未采用的成果' }), 201)
+  await app.value(`/api/reports/${empty.id}/export?revision=1`, undefined, 409)
+  await app.restart()
+  assert.equal((await app.value(`/api/reports/${first.id}`)).blocks[0].text, body.blocks[0].text)
+})
+
 test('M4 materials, manual paragraphs, checked citations, history, export and restart persist together', async t => {
   const app = await reportFixture(); t.after(() => app.close())
   const { value, topic, first, second } = app

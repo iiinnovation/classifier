@@ -43,6 +43,7 @@ export function validatePage(value) {
 }
 
 export async function recognizeStructures(png, { signal, config = visionConfig(), fetchImpl = fetch } = {}) {
+  signal?.throwIfAborted()
   if (!visionConfigured(config)) throw new Error('尚未配置视觉模型')
   const timeout = AbortSignal.timeout(60_000)
   const response = await fetchImpl(config.url, {

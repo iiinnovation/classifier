@@ -1,0 +1,34 @@
+
+> classifier@0.1.0 test:desktop:shell
+> node tools/run-desktop-tests.mjs shell --reporter=line
+
+(node:74031) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 18 tests using 1 worker
+
+(node:74032) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/18] tests/desktop/library-maintenance.spec.mjs:5:44 › D1 desktop menu checks directory backs up and restores into an isolated library
+[2/18] tests/desktop/library-maintenance.spec.mjs:5:44 › D1 desktop menu checks zip backs up and restores into an isolated library
+[3/18] tests/desktop/library-maintenance.spec.mjs:48:1 › D1 migration menu upgrades JSON and shows completed progress without rewriting it
+[4/18] tests/desktop/library-maintenance.spec.mjs:75:44 › D1 selectively recovers damaged records from directory while preserving newer research
+[5/18] tests/desktop/library-maintenance.spec.mjs:75:44 › D1 selectively recovers damaged records from zip while preserving newer research
+[6/18] tests/desktop/library-maintenance.spec.mjs:123:1 › D1 startup compatibility flow refuses a future library then restores a snapshot through real utility processes
+[7/18] tests/desktop/library-maintenance.spec.mjs:167:1 › D1 rebuild menu migrates the chosen pre-upgrade snapshot and preserves newer current edits
+[8/18] tests/desktop/lifecycle.spec.mjs:7:1 › D0 second launch restores the existing window and exits without another backend
+[9/18] tests/desktop/lifecycle.spec.mjs:29:1 › D0 real utility backend rejects direct access and rotates authentication on restart
+[10/18] tests/desktop/lifecycle.spec.mjs:57:1 › D0 unexpected backend exit is visible and the bridge returns a classified disconnection
+[11/18] tests/desktop/lifecycle.spec.mjs:73:1 › D0 window close cancels active OCR and leaves no application or Tesseract process
+[12/18] tests/desktop/lifecycle.spec.mjs:86:1 › D0 forced main process exit leaves no application descendants
+[13/18] tests/desktop/lifecycle.spec.mjs:94:1 › D0 shutdown cancels and awaits a synchronous PDF import
+[14/18] tests/desktop/lifecycle.spec.mjs:107:1 › D0 failed backend startup reports an error and clears the failed child before retry
+[15/18] tests/desktop/lifecycle.spec.mjs:128:1 › D0 packaged window denies navigation, webviews, popups and device permissions
+[16/18] tests/desktop/lifecycle.spec.mjs:161:1 › D1 packaged backends cannot share a data directory and recover ownership after a crash
+(node:74032) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+
+[17/18] tests/desktop/research-workflow.spec.mjs:8:1 › real desktop connects a runtime model and completes a cited research task through utility backend
+[18/18] tests/desktop/smoke.spec.mjs:7:1 › D0 isolated Electron application boots through the authenticated protocol bridge
+  18 passed (1.8m)

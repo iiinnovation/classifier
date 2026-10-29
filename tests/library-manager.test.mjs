@@ -7,9 +7,10 @@ import { randomUUID } from 'node:crypto'
 import { createStore } from '../apps/api/src/store.mjs'
 import { createApp } from '../apps/api/src/server.mjs'
 import { inspectLibrary } from '../apps/api/src/library-inspection.mjs'
-import { backupLibrary, restoreLibrary, verifyBackup, migrateLibrary } from '../apps/api/src/storage-maintenance.mjs'
+import { backupLibrary, restoreLibrary, verifyBackup, migrateLibrary, prepareMigration } from '../apps/api/src/storage-maintenance.mjs'
 import { createLibraryManager, selectedLibrary, libraryScope, saveLibrarySelection } from '../apps/desktop/library-manager.mjs'
 import { executeMaintenance } from '../apps/desktop/maintenance-operations.mjs'
+import { verifyZipBackup } from '../apps/api/src/storage-zip.mjs'
 
 async function fixture(t, extras = {}) {
   const profile = await mkdtemp(join(tmpdir(), 'classifier-library-manager-')), source = join(profile, 'data')
@@ -117,14 +118,16 @@ test('invalid saved selection and empty target fail without creating a replaceme
   assert.equal(f.running(), true)
 })
 
-test('inspection remains available when damaged records prevent backend restart', async t => {
+test('inspection remains available when database damage prevents backend restart', async t => {
   const f = await fixture(t)
-  await writeFile(join(f.source, 'runs', randomUUID() + '.json'), '{broken')
+  const migrated = await f.manager.migrate()
+  await f.controller.stop()
+  await writeFile(join(migrated.destination, 'library.sqlite'), 'broken database')
   const result = await f.manager.inspect()
-  assert.equal(result.issues[0].code, 'invalid-record')
+  assert.equal(result.issues[0].code, 'invalid-database')
   assert.ok(result.restartError)
   assert.equal(f.running(), false)
-  assert.equal(f.controller.dataDir, f.source)
+  assert.equal(f.controller.dataDir, migrated.destination)
 })
 
 test('restore aborts if the current safety backup cannot be made', async t => {
@@ -223,4 +226,111 @@ test('resume rejects a changed snapshot without switching away from the current 
   assert.equal(f.controller.dataDir, f.source); assert.equal(f.running(), true)
   assert.equal(await selectedLibrary(f.profile), f.source)
   assert.equal((await f.manager.migrationStatus(prepared.stage)).completedRecords, 0)
+})
+
+test('desktop ZIP export and restore use the verified snapshot and preserve later current-library edits', async t => {
+  const events = [], f = await fixture(t, { onProgress: event => events.push(event.phase) })
+  const archive = join(f.profile, 'backup.zip')
+  await f.manager.backupZip(archive)
+  assert.equal(f.running(), true); assert.equal((await verifyZipBackup(archive)).storage, 'json')
+  await f.store.update('topics', f.id, value => ({ ...value, title: 'newer edits after ZIP backup' }))
+  const result = await f.manager.restore(archive, { format: 'zip' })
+  assert.equal(f.running(), true); assert.equal(await selectedLibrary(f.profile), await realpath(result.destination))
+  assert.equal((await (await createStore(result.destination)).read('topics', f.id)).title, 'current research')
+  assert.equal((await f.store.read('topics', f.id)).title, 'newer edits after ZIP backup')
+  const safety = JSON.parse(await readFile(join(result.previousBackup, 'topics', f.id + '.json'), 'utf8'))
+  assert.equal(safety.title, 'newer edits after ZIP backup')
+  assert.ok(events.includes('zip-pack')); assert.ok(events.includes('zip-check'))
+  assert.deepEqual(f.calls, ['backup-zip', 'verify-zip', 'backup', 'restore-zip', 'inspect'])
+})
+
+for (const failure of ['startup', 'selection', 'restore', 'safety-backup']) test(`ZIP restore returns to the current library after ${failure} failure`, async t => {
+  const f = await fixture(t, failure === 'selection' ? { persistSelection: async () => { throw new Error('injected selection failure') } } : {})
+  const archive = join(f.profile, 'backup.zip'); await f.manager.backupZip(archive)
+  if (failure === 'startup') f.failTarget()
+  const manager = ['restore', 'safety-backup'].includes(failure) ? createLibraryManager({ profile: f.profile, controller: f.controller, run: async (command, args, options) => {
+    if (command === (failure === 'restore' ? 'restore-zip' : 'backup')) throw new Error('injected ' + failure + ' failure')
+    return f.run(command, args, options)
+  } }) : f.manager
+  await assert.rejects(manager.restore(archive, { format: 'zip' }), /injected/)
+  assert.equal(f.running(), true); assert.equal(f.controller.dataDir, f.source); assert.equal(await selectedLibrary(f.profile), f.source)
+  assert.equal((await f.store.read('topics', f.id)).title, 'current research')
+})
+
+test('invalid ZIP verification keeps the backend running and a ZIP changed after verification cannot be activated', async t => {
+  const f = await fixture(t), archive = join(f.profile, 'backup.zip')
+  await writeFile(archive, 'not a ZIP')
+  await assert.rejects(f.manager.restore(archive, { format: 'zip' }))
+  assert.equal(f.running(), true); assert.deepEqual(f.calls, ['verify-zip'])
+  await rm(archive); await f.manager.backupZip(archive)
+  const manager = createLibraryManager({ profile: f.profile, controller: f.controller, run: async (command, args, options) => {
+    if (command === 'restore-zip') await writeFile(archive, 'changed after verification')
+    return f.run(command, args, options)
+  } })
+  await assert.rejects(manager.restore(archive, { format: 'zip' }))
+  assert.equal(f.running(), true); assert.equal(f.controller.dataDir, f.source); assert.equal(await selectedLibrary(f.profile), f.source)
+})
+
+test('selective desktop recovery preserves the current damaged library and later unrelated edits', async t => {
+  const f = await fixture(t), damaged = '{damaged topic', goodId = randomUUID()
+  await writeFile(join(f.source, 'topics', f.id + '.json'), damaged)
+  const plan = await f.manager.recoveryPreview(f.backup)
+  assert.equal(f.running(), true)
+  await f.store.write('topics', { id: goodId, title: 'newer independent research', createdAt: new Date().toISOString(), documents: [] })
+  const result = await f.manager.recover(f.backup, { revision: plan.revision, selections: [plan.items[0].choices[0].key] })
+  assert.equal(f.running(), true); assert.equal(await selectedLibrary(f.profile), await realpath(result.destination))
+  const copy = await createStore(result.destination)
+  assert.equal((await copy.read('topics', f.id)).title, 'current research')
+  assert.equal((await copy.read('topics', goodId)).title, 'newer independent research')
+  assert.equal(await readFile(join(f.source, 'topics', f.id + '.json'), 'utf8'), damaged)
+  assert.equal(await readFile(join(result.preservation, 'topics', f.id + '.json'), 'utf8'), damaged)
+  assert.deepEqual(f.calls, ['recovery-preview', 'recover', 'inspect'])
+})
+
+for (const failure of ['startup', 'selection', 'recover']) test(`selective recovery rolls back after ${failure} failure`, async t => {
+  const f = await fixture(t, failure === 'selection' ? { persistSelection: async () => { throw new Error('injected selection failure') } } : {})
+  const damaged = '{damaged topic'; await writeFile(join(f.source, 'topics', f.id + '.json'), damaged)
+  const plan = await f.manager.recoveryPreview(f.backup)
+  if (failure === 'startup') f.failTarget()
+  const manager = failure === 'recover' ? createLibraryManager({ profile: f.profile, controller: f.controller, run: async (command, args, options) => {
+    if (command === 'recover') throw new Error('injected recovery write failure')
+    return f.run(command, args, options)
+  } }) : f.manager
+  await assert.rejects(manager.recover(f.backup, { revision: plan.revision, selections: [plan.items[0].choices[0].key] }), /injected/)
+  assert.equal(f.running(), true); assert.equal(f.controller.dataDir, f.source); assert.equal(await selectedLibrary(f.profile), f.source)
+  assert.equal(await readFile(join(f.source, 'topics', f.id + '.json'), 'utf8'), damaged)
+})
+
+test('raw desktop preservation still returns its copy when a corrupt database cannot restart', async t => {
+  const f = await fixture(t), migrated = await f.manager.migrate()
+  await f.controller.stop()
+  await writeFile(join(migrated.destination, 'library.sqlite'), 'corrupt database bytes')
+  const result = await f.manager.preserve(join(f.profile, 'raw-preservation'))
+  assert.ok(result.restartError); assert.equal(result.databaseIntegrityNotGuaranteed, true)
+  assert.equal(await readFile(join(result.destination, 'library.sqlite'), 'utf8'), 'corrupt database bytes')
+  assert.equal(f.running(), false); assert.equal(f.controller.dataDir, migrated.destination)
+})
+
+test('desktop rebuilds an incomplete preparation from its old snapshot while backing up later source edits', async t => {
+  const f = await fixture(t), original = join(f.profile, 'old-snapshot')
+  await f.controller.stop()
+  await assert.rejects(prepareMigration(f.source, join(f.profile, 'incomplete'), original, { onProgress: progress => { if (progress.phase === 'preparation-state') throw new Error('injected initialization failure') } }), /initialization failure/)
+  await f.store.update('topics', f.id, value => ({ ...value, title: 'newer source research' }))
+  await f.controller.start()
+  const result = await f.manager.migrateFromBackup(original)
+  assert.equal(f.running(), true); assert.equal(await selectedLibrary(f.profile), await realpath(result.destination))
+  const copy = await createStore(result.destination)
+  try { assert.equal((await copy.read('topics', f.id)).title, 'current research') } finally { copy.close() }
+  const saved = JSON.parse(await readFile(join(result.previousBackup, 'topics', f.id + '.json'), 'utf8'))
+  assert.equal(saved.title, 'newer source research')
+  assert.equal((await f.store.read('topics', f.id)).title, 'newer source research')
+  assert.ok(f.calls.includes('prepare-from-backup'))
+})
+
+test('desktop preparation rebuild refuses invalid snapshots and restarts the existing library', async t => {
+  const f = await fixture(t)
+  await writeFile(join(f.backup, 'topics', f.id + '.json'), 'bad snapshot')
+  await assert.rejects(f.manager.migrateFromBackup(f.backup), /校验失败/)
+  assert.equal(f.running(), true); assert.equal(f.controller.dataDir, f.source)
+  assert.equal((await f.store.read('topics', f.id)).title, 'current research')
 })

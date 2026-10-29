@@ -1,5 +1,7 @@
 import katex from '/katex.mjs'
 import { createResearchWorkspace } from '/research.js'
+import { createDeletionPreview } from '/deletion-preview.js'
+import { createStorageUsage } from '/storage-usage.js'
 import { createNotebook } from '/notes.js'
 import { createComparisonWorkspace } from '/comparisons.js'
 import { createReportWorkspace } from '/reports.js'
@@ -23,7 +25,20 @@ let notebook
 let comparisonWorkspace
 let reportWorkspace
 
-const api = createApi()
+const requestApi = createApi()
+async function api(path, options) {
+  try { return await requestApi(path, options) }
+  catch (error) { if (['RECORD_CORRUPT', 'RECORD_UNAVAILABLE'].includes(error.code)) void refreshLibraryHealth(); throw error }
+}
+async function refreshLibraryHealth() {
+  try {
+    const health = await requestApi('/api/library-health')
+    $('library-health').hidden = !health.issueCount
+    $('library-health-summary').textContent = `有 ${health.issueCount} 项资料需要检查，其他资料可继续使用。`
+    $('library-health-items').replaceChildren(...health.issues.map(item => element('li', `${item.path} · ${item.message || (item.reason === 'INTERRUPTED_WRITE' ? '中断写入副本保留，等待核对' : item.preserved ? '保全副本已保存' : '原件保留，请核对')}${item.preservationError ? ' · ' + item.preservationError : ''}`)))
+  } catch { /* A health check must not block access to otherwise usable records. */ }
+}
+$('library-health-refresh').onclick = refreshLibraryHealth
 const clientStorage = createClientStorage({ persistent: localStorage, session: typeof sessionStorage === 'undefined' ? undefined : sessionStorage, desktop: globalThis.classifierDesktop })
 function element(tag, text, className) {
   const node = document.createElement(tag)
@@ -31,6 +46,15 @@ function element(tag, text, className) {
   if (className) node.className = className
   return node
 }
+createDeletionPreview({ api, element, async onDeleted(result) {
+  const topic = research.currentTopic()
+  if (result.target.bucket === 'topics' && result.target.id === topic?.id) await research.showHome()
+  else if (topic) await research.showTopic(topic.id)
+  else await research.refresh()
+  await loadLibrary()
+  research.notice(result.filePending ? '研究记录已删除；原文件清理尚未完成，重启后会重试。请从资料库菜单检查待办。' : '已完成普通删除，其他研究中的引用摘录、备份和导出副本仍保留。')
+} })
+createStorageUsage({ api, element, button: $('storage-usage-open') })
 function jump(id) {
   const ref = selected?.references.find(ref => ref.id === id)
   if (!ref) return
@@ -227,7 +251,7 @@ function configureQuestionMode() {
   $('conversation-title').textContent = modelConfigured ? '围绕文档提问' : '搜索原文'
   $('conversation-mode').textContent = modelConfigured ? '回答附原文引用' : '当前为原文检索模式'
   $('question-label').textContent = modelConfigured ? '问题' : '关键词或问题'
-  $('question').placeholder = modelConfigured ? '例如：这份文档的主要发现是什么？请附原文依据。' : '例如：报价金额、付款条款、样本数量'
+  $('question').placeholder = modelConfigured ? '例如：这篇文献的主要发现是什么？请附原文依据。' : '输入关键词，例如：研究方法、样本数量、测量指标'
   $('question-hint').textContent = modelConfigured ? '仅根据当前文档回答' : '显示匹配的原文片段'
   $('ask').textContent = modelConfigured ? '提问 ↗' : '搜索 ↗'
 }
@@ -315,7 +339,7 @@ async function openDocument(id, options = {}) {
   try {
     const documentData = await api(`/api/documents/${id}`)
     if (token !== epoch) return
-    selected = documentData
+    selected = { ...documentData, warnings: documentData.warnings ?? [] }
     blockIndex = new Map(selected.sections.flatMap(section => section.blocks || []).map(block => [block.id, block]))
     clientStorage.persistent.setItem('classifier-document', id)
     closeLibrary()
@@ -449,15 +473,23 @@ $('cancel').onclick = async () => {
   try { await api(`/api/runs/${activeRun}/cancel`, { method: 'POST' }) }
   catch (error) { $('error').textContent = error.message }
 }
-notebook = createNotebook({ api, element, jump, storage: clientStorage, notice: (message, error) => research.notice(message, error), async openNote(note) {
+notebook = createNotebook({ api, element, jump, storage: clientStorage, useReaderTopic: (topicId, documentId) => research.useReaderTopic(topicId, documentId), updateTopicContent: (...args) => research.updateTopicContent(...args), notice: (message, error) => research.notice(message, error), async openNote(note) {
   if (await research.showTopic(note.topicId)) await openDocument(note.documentId, { retainTopic: true, noteId: note.id })
 } })
-comparisonWorkspace = createComparisonWorkspace({ api, element, storage: clientStorage, currentTopic: () => research.currentTopic(), enter: id => research.enterComparison(id), navigationKey: () => research.navigationKey(), showTopic: id => research.showTopic(id), openReport: table => reportWorkspace.fromComparison(table), modelConfigured: () => modelConfigured, notice: (message, error) => research.notice(message, error), openSource: (evidence, comparisonId) => openDocument(evidence.documentId, { retainTopic: true, evidence, comparisonId }) })
-reportWorkspace = createReportWorkspace({ api, element, storage: clientStorage, currentTopic: () => research.currentTopic(), enter: id => research.enterReport(id), navigationKey: () => research.navigationKey(), showTopic: id => research.showTopic(id), modelConfigured: () => modelConfigured, notice: (message, error) => research.notice(message, error), openSource: (evidence, reportId) => openDocument(evidence.documentId, { retainTopic: true, evidence, reportId }) })
+comparisonWorkspace = createComparisonWorkspace({ api, element, storage: clientStorage, updateTopicContent: (...args) => research.updateTopicContent(...args), openDocument, currentTopic: () => research.currentTopic(), enter: id => research.enterComparison(id), navigationKey: () => research.navigationKey(), showTopic: id => research.showTopic(id), openReport: table => reportWorkspace.fromComparison(table), modelConfigured: () => modelConfigured, notice: (message, error) => research.notice(message, error), openSource: (evidence, comparisonId) => openDocument(evidence.documentId, { retainTopic: true, evidence, comparisonId }) })
+reportWorkspace = createReportWorkspace({ api, element, storage: clientStorage, updateTopicContent: (...args) => research.updateTopicContent(...args), currentTopic: () => research.currentTopic(), enter: id => research.enterReport(id), navigationKey: () => research.navigationKey(), showTopic: id => research.showTopic(id), modelConfigured: () => modelConfigured, notice: (message, error) => research.notice(message, error), openSource: (evidence, reportId) => openDocument(evidence.documentId, { retainTopic: true, evidence, reportId }) })
 research = createResearchWorkspace({ api, element, storage: clientStorage, openDocument, resetReader, openImport, libraryChanged: renderLibrary, onNavigate: () => { comparisonWorkspace.reset(); reportWorkspace.reset() }, openComparison: id => comparisonWorkspace.open(id), openReport: id => reportWorkspace.open(id), topicChanged: topic => { void notebook.showTopic(topic); void comparisonWorkspace.showTopic(topic); void reportWorkspace.showTopic(topic) }, metadataChanged(updated) {
   if (selected?.id === updated.id) { selected.title = updated.title; selected.bibliography = updated.bibliography; $('title').textContent = updated.title }
 } })
 const initialNavigation = research.navigationKey()
+for (const button of document.querySelectorAll('[data-dialog-close]')) {
+  button.onclick = () => $(button.dataset.dialogClose).click()
+}
+document.addEventListener('click', event => {
+  const button = event.target.closest?.('button')
+  const more = button?.closest('.more-actions')
+  if (more) more.open = false
+})
 let settingsSaving = false
 function closeModelSettings() {
   if (settingsSaving) return
@@ -472,26 +504,36 @@ $('model-settings-open').onclick = async () => {
     $('model-settings-key').placeholder = value.hasKey ? '不换地址时可留空，保留本次密钥' : '只用于请求所填模型服务'
     $('model-settings-error').textContent = value.editable ? '' : '当前配置由外部管理。'
     $('model-settings-save').disabled = !value.editable; $('model-settings-clear').disabled = !value.editable
+    $('model-settings-revoke').disabled = !value.canRevoke
+    $('model-connection-management').hidden = !value.hasKey && !value.canRevoke
+    $('model-connection-management').open = false
     $('model-settings-dialog').showModal()
   } catch (error) { research.notice(error.message, true) }
 }
-async function saveModelSettings(body) {
+async function saveModelSettings(body, { revoke = false } = {}) {
   if (settingsSaving) return
   settingsSaving = true; $('model-settings-save').disabled = true; $('model-settings-clear').disabled = true
+  $('model-settings-revoke').disabled = true
   $('model-settings-error').textContent = ''
   try {
-    await api('/api/settings/text-model', { method: 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })
+    await api(revoke ? '/api/settings/model-authorization/revoke' : '/api/settings/text-model', { method: revoke ? 'POST' : 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })
     $('model-settings-key').value = ''
     const health = await api('/health'); modelConfigured = health.modelConfigured
+    if (revoke) {
+      const capabilities = await api('/api/parser-capabilities')
+      $('parse-mode').querySelector('[value="vision"]').disabled = !capabilities.vision
+      if (!capabilities.vision && $('parse-mode').value === 'vision') $('parse-mode').value = 'auto'
+    }
     configureQuestionMode(); comparisonWorkspace.updateModel(); reportWorkspace.updateModel()
     if (selected) await notebook.load(selected, research.currentTopic(), { modelConfigured })
     $('model-settings-dialog').close()
-    research.notice(modelConfigured ? '本次运行已连接模型。发起任务后将调用该服务，尚未验证连接。' : '已清除本次模型连接。')
+    research.notice(revoke ? '已撤销模型授权，相关任务正在停止；已保存内容保留。' : modelConfigured ? '模型配置已保存，连接尚未验证。' : '已清除本次模型连接；在途任务继续使用原配置。')
   } catch (error) { $('model-settings-error').textContent = error.message }
-  finally { settingsSaving = false; $('model-settings-save').disabled = false; $('model-settings-clear').disabled = false }
+  finally { settingsSaving = false; $('model-settings-save').disabled = false; $('model-settings-clear').disabled = false; $('model-settings-revoke').disabled = false }
 }
 $('model-settings-form').onsubmit = event => { event.preventDefault(); void saveModelSettings({ url: $('model-settings-url').value, model: $('model-settings-model').value, key: $('model-settings-key').value }) }
 $('model-settings-clear').onclick = () => saveModelSettings({ clear: true })
+$('model-settings-revoke').onclick = () => saveModelSettings({ scope: 'all' }, { revoke: true })
 try {
   const capabilities = await api('/api/parser-capabilities')
   $('parser-status').textContent = capabilities.ocr.available ? `本地 OCR：${capabilities.ocr.languages.join(' + ')}。扫描数字与公式请核对页图。` : '本地 OCR 尚不可用，请安装 Tesseract 和中英文语言包。'
@@ -502,6 +544,7 @@ try {
   modelConfigured = health.modelConfigured
   configureQuestionMode()
   await loadLibrary()
+  await refreshLibraryHealth()
   await research.restore(initialNavigation)
   const previous = clientStorage.persistent.getItem('classifier-import')
   if (previous) {

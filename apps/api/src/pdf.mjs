@@ -53,7 +53,7 @@ export function textWords(content, viewport) {
   })
 }
 
-export async function parsePdf(bytes, { mode = 'auto', signal, onProgress = async () => {}, visionConfig } = {}) {
+export async function parsePdf(bytes, { mode = 'auto', signal, onProgress = async () => {}, visionConfig, recognizeVision = recognizeStructures } = {}) {
   const task = openPdf(bytes), sections = [], warnings = []
   const capabilities = await ocrCapabilities()
   let total = 0, ocrPages = 0
@@ -75,7 +75,7 @@ export async function parsePdf(bytes, { mode = 'auto', signal, onProgress = asyn
       pageCanvas = canvas
       let blocks
       if (mode === 'vision') {
-        try { blocks = await recognizeStructures(canvas.toBuffer('image/png'), { signal, config: visionConfig }) }
+        try { blocks = await recognizeVision(canvas.toBuffer('image/png'), { signal, config: visionConfig }) }
         catch (error) { signal?.throwIfAborted(); warnings.push(`第 ${number} 页视觉识别未完成（${error.message}），改用本地解析。`) }
       }
       // Also catches scanned pages with a small native page number or watermark.

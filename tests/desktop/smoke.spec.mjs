@@ -1,3 +1,4 @@
+import { clickControl, revealControl, moreAction } from '../helpers/ui-actions.mjs'
 import { test, expect, _electron as electron } from '@playwright/test'
 import { mkdtemp, rm } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
@@ -20,7 +21,7 @@ test('D0 isolated Electron application boots through the authenticated protocol 
     expect(page.url()).toBe('app://classifier/')
     expect(await page.evaluate(() => typeof window.require)).toBe('undefined')
     expect(await page.evaluate(() => typeof window.process)).toBe('undefined')
-    expect(await page.evaluate(() => Object.keys(window.classifierDesktop))).toEqual(['sessionId', 'version'])
+    expect(await page.evaluate(() => window.classifierDesktop)).toEqual({ sessionId: 'primary', libraryId: null, version: 1 })
     expect(await page.evaluate(() => window.open('https://untrusted.invalid'))).toBeNull()
     expect(await application.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows().length)).toBe(1)
     const health = await page.evaluate(async () => (await fetch('/health')).json())
@@ -31,13 +32,14 @@ test('D0 isolated Electron application boots through the authenticated protocol 
     expect(parser.ocr.languages).toEqual(['chi_sim', 'eng'])
     await page.locator('#new-topic').click()
     await page.locator('#topic-name-input').fill('桌面验证')
+    await page.locator('#topic-details > summary').click()
     await page.locator('#topic-question-input').fill('能否在独立桌面环境中保存研究资料？')
     await page.locator('#topic-form button[type=submit]').click()
     await expect(page.locator('#topic-title')).toHaveText('桌面验证')
     await page.locator('#topic-import').click()
     await page.locator('#file').setInputFiles({ name: 'desktop-scan.pdf', mimeType: 'application/pdf', buffer: scannedPdf() })
     await expect(page.locator('#topic-documents')).toContainText('desktop-scan', { timeout: 30000 })
-    await page.locator('#topic-documents').getByRole('button', { name: '打开研读', exact: true }).click()
+    await page.locator('#topic-documents').locator('.document-link').click()
     await expect(page.locator('#title')).toHaveText('desktop-scan')
     try { await expect(page.locator('#page-image')).toBeVisible() }
     catch (error) {
@@ -88,7 +90,7 @@ test('D0 isolated Electron application boots through the authenticated protocol 
     const restored = await application.firstWindow()
     await expect(restored.locator('#topic-title')).toHaveText('桌面验证')
     expect(restored.url()).toBe('app://classifier/')
-    await restored.locator('#topic-documents').getByRole('button', { name: '打开研读', exact: true }).click()
+    await restored.locator('#topic-documents').locator('.document-link').click()
     await restored.locator('#notes-tab').click()
     await restored.locator('#resume-note-draft').click()
     await expect(restored.locator('#note-content')).toHaveValue('整个桌面应用退出后仍应保留的未保存内容')

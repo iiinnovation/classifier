@@ -1,0 +1,5968 @@
+{
+  "date": "2026-10-29",
+  "environment": "Current workspace source; isolated synthetic library; controlled in-process model responses; Chrome 1440x1000 and 390x844",
+  "errors": [],
+  "snapshots": [
+    {
+      "name": "01-home",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 1000,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 创建研究主题",
+          "disabled": false,
+          "y": 167
+        },
+        {
+          "text": "任务式研究比较这些论文的方法和结论，看看分歧在哪里2 篇文献 · 0 篇已纳入 · 0 篇已读",
+          "disabled": false,
+          "y": 278
+        },
+        {
+          "text": "浏览全部文献 →",
+          "disabled": false,
+          "y": 538
+        }
+      ],
+      "sections": [
+        {
+          "text": "把文献放在一起，开始研究。",
+          "y": 156
+        },
+        {
+          "text": "任务式研究",
+          "y": 303
+        },
+        {
+          "text": "全部文献",
+          "y": 528
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n文献研究工作台\n把文献放在一起，开始研究。\n\n创建一个主题，导入资料，再逐步形成问题与结论。\n\n＋ 创建研究主题\n任务式研究\n\n比较这些论文的方法和结论，看看分歧在哪里\n\n2 篇文献 · 0 篇已纳入 · 0 篇已读\n全部文献\n\n已保存 3 篇文献，可直接研读或关联到多个主题。\n\n浏览全部文献 →"
+    },
+    {
+      "name": "02-topic-two",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 1992,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 107
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 107
+        },
+        {
+          "text": "编辑主题",
+          "disabled": false,
+          "y": 190
+        },
+        {
+          "text": "生成比较草稿",
+          "disabled": false,
+          "y": 686
+        },
+        {
+          "text": "关联已有文献",
+          "disabled": false,
+          "y": 792
+        },
+        {
+          "text": "＋ 导入文献",
+          "disabled": false,
+          "y": 786
+        },
+        {
+          "text": "既有研究资料",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 987
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 987
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1025
+        },
+        {
+          "text": "第二项研究",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 1152
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 1152
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1190
+        },
+        {
+          "text": "＋ 新建比较表",
+          "disabled": false,
+          "y": 1279
+        },
+        {
+          "text": "＋ 新建研究成果",
+          "disabled": false,
+          "y": 1543
+        }
+      ],
+      "sections": [
+        {
+          "text": "任务式研究",
+          "y": 187
+        },
+        {
+          "text": "研究问题",
+          "y": 307
+        },
+        {
+          "text": "让 AI 整理这些文献",
+          "y": 431
+        },
+        {
+          "text": "主题文献",
+          "y": 781
+        },
+        {
+          "text": "多文献比较",
+          "y": 1274
+        },
+        {
+          "text": "研究成果",
+          "y": 1538
+        },
+        {
+          "text": "阅读笔记",
+          "y": 1747
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n← 研究主题 删除影响\n研究主题\n任务式研究\n编辑主题\n研究问题\n\n比较这些论文的方法和结论，看看分歧在哪里\n\n让 AI 整理这些文献\n\n说出研究目标，得到带出处的比较草稿，再继续形成研究总结。\n\n这次想研究什么？\n已选 2 篇文献 · 调整范围\n\n选择 2–12 篇文献。开始后会将相关节选和笔记发送至已配置的模型；AI 建议比较维度并逐项取证。\n\n生成比较草稿\n主题文献\n\n2 篇文献 · 0 篇已纳入 · 0 篇已读\n\n关联已有文献\n＋ 导入文献\n筛选状态\n全部筛选状态\n待筛选\n已纳入\n已排除\n阅读状态\n全部阅读状态\n未读\n阅读中\n已读\n既有研究资料\n\nlegacy.txt\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n第二项研究\n\nsecond.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n多文献比较\n\n选择材料与维度，保留每项判断的条件和出处。\n\n＋ 新建比较表\n\n选定两篇或更多文献，开始整理证据与差异。\n\n研究成果\n\n把笔记和证据组织成研究总结，修订后导出。\n\n＋ 新建研究成果\n\n把笔记和证据组织成可以继续修订的研究总结。\n\n阅读笔记\n\n按研究问题积累的笔记，移出文献后仍会保留。\n\n进入文献研读后，可从原文或问答中保存笔记。"
+    },
+    {
+      "name": "03-import",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 1992,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 107
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 107
+        },
+        {
+          "text": "编辑主题",
+          "disabled": false,
+          "y": 190
+        },
+        {
+          "text": "生成比较草稿",
+          "disabled": false,
+          "y": 686
+        },
+        {
+          "text": "关联已有文献",
+          "disabled": false,
+          "y": 792
+        },
+        {
+          "text": "＋ 导入文献",
+          "disabled": false,
+          "y": 786
+        },
+        {
+          "text": "既有研究资料",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 987
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 987
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1025
+        },
+        {
+          "text": "第二项研究",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 1152
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 1152
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1190
+        },
+        {
+          "text": "＋ 新建比较表",
+          "disabled": false,
+          "y": 1279
+        },
+        {
+          "text": "＋ 新建研究成果",
+          "disabled": false,
+          "y": 1543
+        },
+        {
+          "text": "×",
+          "disabled": false,
+          "y": 347
+        },
+        {
+          "text": "选择文件",
+          "disabled": false,
+          "y": 539
+        }
+      ],
+      "sections": [
+        {
+          "text": "任务式研究",
+          "y": 187
+        },
+        {
+          "text": "研究问题",
+          "y": 307
+        },
+        {
+          "text": "让 AI 整理这些文献",
+          "y": 431
+        },
+        {
+          "text": "主题文献",
+          "y": 781
+        },
+        {
+          "text": "多文献比较",
+          "y": 1274
+        },
+        {
+          "text": "研究成果",
+          "y": 1538
+        },
+        {
+          "text": "阅读笔记",
+          "y": 1747
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n← 研究主题 删除影响\n研究主题\n任务式研究\n编辑主题\n研究问题\n\n比较这些论文的方法和结论，看看分歧在哪里\n\n让 AI 整理这些文献\n\n说出研究目标，得到带出处的比较草稿，再继续形成研究总结。\n\n这次想研究什么？\n已选 2 篇文献 · 调整范围\n\n选择 2–12 篇文献。开始后会将相关节选和笔记发送至已配置的模型；AI 建议比较维度并逐项取证。\n\n生成比较草稿\n主题文献\n\n2 篇文献 · 0 篇已纳入 · 0 篇已读\n\n关联已有文献\n＋ 导入文献\n筛选状态\n全部筛选状态\n待筛选\n已纳入\n已排除\n阅读状态\n全部阅读状态\n未读\n阅读中\n已读\n既有研究资料\n\nlegacy.txt\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n第二项研究\n\nsecond.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n多文献比较\n\n选择材料与维度，保留每项判断的条件和出处。\n\n＋ 新建比较表\n\n选定两篇或更多文献，开始整理证据与差异。\n\n研究成果\n\n把笔记和证据组织成研究总结，修订后导出。\n\n＋ 新建研究成果\n\n把笔记和证据组织成可以继续修订的研究总结。\n\n阅读笔记\n\n按研究问题积累的笔记，移出文献后仍会保留。\n\n进入文献研读后，可从原文或问答中保存笔记。\n\n添加资料\n导入文档\n×\n\n支持 PDF、Word、Markdown、TXT 和 HTML。导入后可直接查找原文。\n\n关联到研究主题\n仅保存到全部文献\n任务式研究\n选择文件\n识别设置"
+    },
+    {
+      "name": "04-model",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 1992,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 107
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 107
+        },
+        {
+          "text": "编辑主题",
+          "disabled": false,
+          "y": 190
+        },
+        {
+          "text": "生成比较草稿",
+          "disabled": false,
+          "y": 686
+        },
+        {
+          "text": "关联已有文献",
+          "disabled": false,
+          "y": 792
+        },
+        {
+          "text": "＋ 导入文献",
+          "disabled": false,
+          "y": 786
+        },
+        {
+          "text": "既有研究资料",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 987
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 987
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1025
+        },
+        {
+          "text": "第二项研究",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 1152
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 1152
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1190
+        },
+        {
+          "text": "＋ 新建比较表",
+          "disabled": false,
+          "y": 1279
+        },
+        {
+          "text": "＋ 新建研究成果",
+          "disabled": false,
+          "y": 1543
+        },
+        {
+          "text": "×",
+          "disabled": false,
+          "y": 167
+        },
+        {
+          "text": "清除连接",
+          "disabled": false,
+          "y": 703
+        },
+        {
+          "text": "撤销模型授权",
+          "disabled": false,
+          "y": 703
+        },
+        {
+          "text": "取消",
+          "disabled": false,
+          "y": 808
+        },
+        {
+          "text": "启用本次连接",
+          "disabled": false,
+          "y": 808
+        }
+      ],
+      "sections": [
+        {
+          "text": "任务式研究",
+          "y": 187
+        },
+        {
+          "text": "研究问题",
+          "y": 307
+        },
+        {
+          "text": "让 AI 整理这些文献",
+          "y": 431
+        },
+        {
+          "text": "主题文献",
+          "y": 781
+        },
+        {
+          "text": "多文献比较",
+          "y": 1274
+        },
+        {
+          "text": "研究成果",
+          "y": 1538
+        },
+        {
+          "text": "阅读笔记",
+          "y": 1747
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n← 研究主题 删除影响\n研究主题\n任务式研究\n编辑主题\n研究问题\n\n比较这些论文的方法和结论，看看分歧在哪里\n\n让 AI 整理这些文献\n\n说出研究目标，得到带出处的比较草稿，再继续形成研究总结。\n\n这次想研究什么？\n已选 2 篇文献 · 调整范围\n\n选择 2–12 篇文献。开始后会将相关节选和笔记发送至已配置的模型；AI 建议比较维度并逐项取证。\n\n生成比较草稿\n主题文献\n\n2 篇文献 · 0 篇已纳入 · 0 篇已读\n\n关联已有文献\n＋ 导入文献\n筛选状态\n全部筛选状态\n待筛选\n已纳入\n已排除\n阅读状态\n全部阅读状态\n未读\n阅读中\n已读\n既有研究资料\n\nlegacy.txt\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n第二项研究\n\nsecond.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n多文献比较\n\n选择材料与维度，保留每项判断的条件和出处。\n\n＋ 新建比较表\n\n选定两篇或更多文献，开始整理证据与差异。\n\n研究成果\n\n把笔记和证据组织成研究总结，修订后导出。\n\n＋ 新建研究成果\n\n把笔记和证据组织成可以继续修订的研究总结。\n\n阅读笔记\n\n按研究问题积累的笔记，移出文献后仍会保留。\n\n进入文献研读后，可从原文或问答中保存笔记。\n\nAI 研究助手\n连接研究模型\n×\n\n使用你选择的模型服务，辅助问答、比较和总结。\n\n接口地址\n填写服务商提供的完整 Chat Completions 地址。\n模型名称\nAPI Key\n资料何时发送？\n\n只有发起 AI 任务，才将问题、相关文献节选和所选研究材料发送到此服务。\n\n连接仅在本次运行有效，退出后需重新连接；API Key 不写入资料库或浏览器存储。\n\n管理当前连接\n\n更换或清除连接只影响新任务；正在进行的任务继续使用原配置。\n\n清除连接\n撤销模型授权\n\n撤销会清除文字与页图连接，立即禁止后续发送并停止相关任务；已保存的研究内容保留。\n\n取消\n启用本次连接"
+    },
+    {
+      "name": "05-reader",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 1037,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 任务式研究",
+          "disabled": false,
+          "y": 90
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 90
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 90
+        },
+        {
+          "text": "文档问答",
+          "disabled": false,
+          "y": 238
+        },
+        {
+          "text": "阅读笔记",
+          "disabled": false,
+          "y": 238
+        },
+        {
+          "text": "提问 ↗",
+          "disabled": false,
+          "y": 936
+        },
+        {
+          "text": "查找原文",
+          "disabled": false,
+          "y": 241
+        },
+        {
+          "text": "记入笔记",
+          "disabled": false,
+          "y": 375
+        }
+      ],
+      "sections": [
+        {
+          "text": "既有研究资料",
+          "y": 141
+        },
+        {
+          "text": "围绕文档提问",
+          "y": 301
+        },
+        {
+          "text": "原文",
+          "y": 246
+        },
+        {
+          "text": "原文第 1 段",
+          "y": 317
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n下载原文件 ↗\n← 任务式研究\n筛选与阅读记录\n书目信息\n既有研究资料\n\nlegacy.txt · 1 段原文\n\n文档问答\n阅读笔记\n围绕文档提问\n回答附原文引用\n\n可以询问这份文档的要点、数据或局限，回答会附原文引用。\n\n问题\n仅根据当前文档回答\n提问 ↗\n\n原文\n查找原文\n原文第 1 段\n\n既有文献：研究者比较了两组材料，具体条件需结合原文核对。\n\n记入笔记"
+    },
+    {
+      "name": "06-notes-empty",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 1037,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 任务式研究",
+          "disabled": false,
+          "y": 90
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 90
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 90
+        },
+        {
+          "text": "文档问答",
+          "disabled": false,
+          "y": 238
+        },
+        {
+          "text": "阅读笔记",
+          "disabled": false,
+          "y": 238
+        },
+        {
+          "text": "＋ 写笔记",
+          "disabled": false,
+          "y": 301
+        },
+        {
+          "text": "查找原文",
+          "disabled": false,
+          "y": 241
+        },
+        {
+          "text": "记入笔记",
+          "disabled": false,
+          "y": 375
+        }
+      ],
+      "sections": [
+        {
+          "text": "既有研究资料",
+          "y": 141
+        },
+        {
+          "text": "阅读笔记",
+          "y": 301
+        },
+        {
+          "text": "原文",
+          "y": 246
+        },
+        {
+          "text": "原文第 1 段",
+          "y": 317
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n下载原文件 ↗\n← 任务式研究\n筛选与阅读记录\n书目信息\n既有研究资料\n\nlegacy.txt · 1 段原文\n\n文档问答\n阅读笔记\n阅读笔记\n\n笔记归属：任务式研究\n\n＋ 写笔记\n\n 显示归档笔记\n\n还没有笔记。可以直接写下想法，或从原文保存片段。\n\n辅助整理笔记\n原文\n查找原文\n原文第 1 段\n\n既有文献：研究者比较了两组材料，具体条件需结合原文核对。\n\n记入笔记"
+    },
+    {
+      "name": "07-note-editor",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 1037,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 任务式研究",
+          "disabled": false,
+          "y": 90
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 90
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 90
+        },
+        {
+          "text": "文档问答",
+          "disabled": false,
+          "y": 238
+        },
+        {
+          "text": "阅读笔记",
+          "disabled": false,
+          "y": 238
+        },
+        {
+          "text": "＋ 写笔记",
+          "disabled": false,
+          "y": 301
+        },
+        {
+          "text": "继续草稿",
+          "disabled": false,
+          "y": 457
+        },
+        {
+          "text": "清除所选草稿",
+          "disabled": false,
+          "y": 457
+        },
+        {
+          "text": "查找原文",
+          "disabled": false,
+          "y": 241
+        },
+        {
+          "text": "记入笔记",
+          "disabled": false,
+          "y": 375
+        },
+        {
+          "text": "×",
+          "disabled": false,
+          "y": 237
+        },
+        {
+          "text": "＋ 关联原文",
+          "disabled": false,
+          "y": 617
+        },
+        {
+          "text": "取消",
+          "disabled": false,
+          "y": 729
+        },
+        {
+          "text": "保存笔记",
+          "disabled": false,
+          "y": 729
+        }
+      ],
+      "sections": [
+        {
+          "text": "既有研究资料",
+          "y": 141
+        },
+        {
+          "text": "阅读笔记",
+          "y": 301
+        },
+        {
+          "text": "原文",
+          "y": 246
+        },
+        {
+          "text": "原文第 1 段",
+          "y": 317
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n下载原文件 ↗\n← 任务式研究\n筛选与阅读记录\n书目信息\n既有研究资料\n\nlegacy.txt · 1 段原文\n\n文档问答\n阅读笔记\n阅读笔记\n\n笔记归属：任务式研究\n\n＋ 写笔记\n\n未保存的笔记草稿\n1. 主要发现 · 两项研究的测量条件不同，比较时应分别解释。\n继续草稿\n清除所选草稿\n 显示归档笔记\n\n还没有笔记。可以直接写下想法，或从原文保存片段。\n\n辅助整理笔记\n原文\n查找原文\n原文第 1 段\n\n既有文献：研究者比较了两组材料，具体条件需结合原文核对。\n\n记入笔记\n新建阅读笔记\n×\n\n任务式研究 · 手动记录\n\n笔记内容\n分类与状态 · 主要发现 · 用户判断\n关联原文\n＋ 关联原文\n\n可按需关联原文。\n\n取消\n保存笔记"
+    },
+    {
+      "name": "08-notes-saved",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 1091,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 任务式研究",
+          "disabled": false,
+          "y": 144
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 144
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 144
+        },
+        {
+          "text": "文档问答",
+          "disabled": false,
+          "y": 292
+        },
+        {
+          "text": "阅读笔记",
+          "disabled": false,
+          "y": 292
+        },
+        {
+          "text": "＋ 写笔记",
+          "disabled": false,
+          "y": 355
+        },
+        {
+          "text": "编辑",
+          "disabled": false,
+          "y": 590
+        },
+        {
+          "text": "版本记录",
+          "disabled": false,
+          "y": 590
+        },
+        {
+          "text": "归档",
+          "disabled": false,
+          "y": 590
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 590
+        },
+        {
+          "text": "查找原文",
+          "disabled": false,
+          "y": 295
+        },
+        {
+          "text": "记入笔记",
+          "disabled": false,
+          "y": 429
+        }
+      ],
+      "sections": [
+        {
+          "text": "既有研究资料",
+          "y": 195
+        },
+        {
+          "text": "阅读笔记",
+          "y": 355
+        },
+        {
+          "text": "主要发现",
+          "y": 471
+        },
+        {
+          "text": "原文",
+          "y": 300
+        },
+        {
+          "text": "原文第 1 段",
+          "y": 371
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n下载原文件 ↗\n\n阅读笔记已保存。\n\n← 任务式研究\n筛选与阅读记录\n书目信息\n既有研究资料\n\nlegacy.txt · 1 段原文\n\n文档问答\n阅读笔记\n阅读笔记\n\n笔记归属：任务式研究\n\n＋ 写笔记\n\n 显示归档笔记\n主要发现\n\n用户判断 · 已记录\n\n两项研究的测量条件不同，比较时应分别解释。\n\n编辑\n版本记录\n归档\n删除影响\n辅助整理笔记\n原文\n查找原文\n原文第 1 段\n\n既有文献：研究者比较了两组材料，具体条件需结合原文核对。\n\n记入笔记"
+    },
+    {
+      "name": "09-comparison-draft",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 2949,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 100
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 100
+        },
+        {
+          "text": "调整范围与维度",
+          "disabled": false,
+          "y": 196
+        },
+        {
+          "text": "版本记录",
+          "disabled": false,
+          "y": 196
+        },
+        {
+          "text": "归档",
+          "disabled": false,
+          "y": 196
+        },
+        {
+          "text": "生成整份比较草稿",
+          "disabled": false,
+          "y": 534
+        },
+        {
+          "text": "生成研究总结",
+          "disabled": true,
+          "y": 534
+        },
+        {
+          "text": "出处：原文第 1 段",
+          "disabled": false,
+          "y": 905
+        },
+        {
+          "text": "出处：原文第 1 段",
+          "disabled": false,
+          "y": 905
+        },
+        {
+          "text": "出处：文档正文 · 段 3",
+          "disabled": false,
+          "y": 1072
+        },
+        {
+          "text": "出处：文档正文 · 段 3",
+          "disabled": false,
+          "y": 1072
+        },
+        {
+          "text": "出处：原文第 1 段",
+          "disabled": false,
+          "y": 1262
+        },
+        {
+          "text": "出处：文档正文 · 段 3",
+          "disabled": false,
+          "y": 1262
+        },
+        {
+          "text": "出处：原文第 1 段",
+          "disabled": false,
+          "y": 1433
+        },
+        {
+          "text": "出处：文档正文 · 段 3",
+          "disabled": false,
+          "y": 1433
+        },
+        {
+          "text": "采用比较草稿",
+          "disabled": false,
+          "y": 1482
+        },
+        {
+          "text": "放弃草稿",
+          "disabled": false,
+          "y": 1482
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 1734
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 1734
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 1734
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 1734
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 1848
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 1848
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 1848
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 1848
+        },
+        {
+          "text": "编辑综合判断",
+          "disabled": false,
+          "y": 2112
+        },
+        {
+          "text": "编辑综合判断",
+          "disabled": false,
+          "y": 2304
+        },
+        {
+          "text": "编辑综合判断",
+          "disabled": false,
+          "y": 2496
+        },
+        {
+          "text": "编辑综合判断",
+          "disabled": false,
+          "y": 2688
+        },
+        {
+          "text": "生成本列建议",
+          "disabled": false,
+          "y": 2849
+        }
+      ],
+      "sections": [
+        {
+          "text": "任务式研究 · AI 比较",
+          "y": 180
+        },
+        {
+          "text": "继续研究",
+          "y": 325
+        },
+        {
+          "text": "AI 比较草稿 · 待核对",
+          "y": 644
+        },
+        {
+          "text": "方法 · 差异",
+          "y": 1142
+        },
+        {
+          "text": "主要发现 · 差异",
+          "y": 1312
+        },
+        {
+          "text": "跨文献判断",
+          "y": 1926
+        },
+        {
+          "text": "方法",
+          "y": 2039
+        },
+        {
+          "text": "研究对象",
+          "y": 2232
+        },
+        {
+          "text": "主要发现",
+          "y": 2424
+        },
+        {
+          "text": "局限",
+          "y": 2616
+        },
+        {
+          "text": "辅助比较",
+          "y": 2782
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n← 研究主题 删除影响\n证据比较\n任务式研究 · AI 比较\n\n比较这些论文的方法和结论，看看分歧在哪里\n\n调整范围与维度\n版本记录\n归档\n\n继续研究\n补充要求（可选）\n\n将所选文献的相关节选和笔记发送至已配置的模型。生成结果先供审阅，采用后才更新比较表。\n\n生成整份比较草稿\n生成研究总结\nAI 比较草稿 · 待核对\n\n以下内容基于所选文献的部分证据；未找到不代表论文未报告。采用会更新全部维度与内容，原版本保留。\n\n文献\t方法\t主要发现\n既有研究资料\t\n\n方法：既有研究资料\n\n原文报告 · 有条件可比\n\n仅针对提供的节选；条件需要分别核对\n\n出处：原文第 1 段\t\n\n主要发现：既有研究资料\n\n原文报告 · 有条件可比\n\n仅针对提供的节选；条件需要分别核对\n\n出处：原文第 1 段\n第二项研究\t\n\n方法：第二项研究\n\n原文报告 · 有条件可比\n\n仅针对提供的节选；条件需要分别核对\n\n出处：文档正文 · 段 3\t\n\n主要发现：第二项研究\n\n原文报告 · 有条件可比\n\n仅针对提供的节选；条件需要分别核对\n\n出处：文档正文 · 段 3\n方法 · 差异\n\n所选研究的条件需要分别解释。\n\n证据仅来自所选材料的部分节选。\n\n出处：原文第 1 段出处：文档正文 · 段 3\n主要发现 · 差异\n\n所选研究的条件需要分别解释。\n\n证据仅来自所选材料的部分节选。\n\n出处：原文第 1 段出处：文档正文 · 段 3\n采用比较草稿\n放弃草稿\n\n可左右滚动查看全部维度。\n\n文献 / 比较维度\t方法\t研究对象\t主要发现\t局限\n既有研究资料\n\t未填写 · 用户判断\n\n待判断\n\n编辑比较项\n\t未填写 · 用户判断\n\n待判断\n\n编辑比较项\n\t未填写 · 用户判断\n\n待判断\n\n编辑比较项\n\t未填写 · 用户判断\n\n待判断\n\n编辑比较项\n\n第二项研究\n\t未填写 · 用户判断\n\n待判断\n\n编辑比较项\n\t未填写 · 用户判断\n\n待判断\n\n编辑比较项\n\t未填写 · 用户判断\n\n待判断\n\n编辑比较项\n\t未填写 · 用户判断\n\n待判断\n\n编辑比较项\n跨文献判断\n\n判断只针对所选材料；比较项或研究问题变化后需重新复核。\n\n方法\n\n尚未记录跨文献判断。\n\n编辑综合判断\n研究对象\n\n尚未记录跨文献判断。\n\n编辑综合判断\n主要发现\n\n尚未记录跨文献判断。\n\n编辑综合判断\n局限\n\n尚未记录跨文献判断。\n\n编辑综合判断\n辅助比较\n\n每次针对一列读取所选文献的证据。建议经明确采用才更新表格，原版本会保留。\n\n比较维度\n方法\n研究对象\n主要发现\n局限\n生成本列建议"
+    },
+    {
+      "name": "10-comparison-saved",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 2088,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 154
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 154
+        },
+        {
+          "text": "调整范围与维度",
+          "disabled": false,
+          "y": 250
+        },
+        {
+          "text": "版本记录",
+          "disabled": false,
+          "y": 250
+        },
+        {
+          "text": "归档",
+          "disabled": false,
+          "y": 250
+        },
+        {
+          "text": "生成整份比较草稿",
+          "disabled": false,
+          "y": 588
+        },
+        {
+          "text": "生成研究总结",
+          "disabled": false,
+          "y": 588
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 981
+        },
+        {
+          "text": "查看出处 (1)",
+          "disabled": false,
+          "y": 981
+        },
+        {
+          "text": "标记已核对",
+          "disabled": false,
+          "y": 981
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 981
+        },
+        {
+          "text": "查看出处 (1)",
+          "disabled": false,
+          "y": 981
+        },
+        {
+          "text": "标记已核对",
+          "disabled": false,
+          "y": 981
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 1185
+        },
+        {
+          "text": "查看出处 (1)",
+          "disabled": false,
+          "y": 1185
+        },
+        {
+          "text": "标记已核对",
+          "disabled": false,
+          "y": 1185
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 1185
+        },
+        {
+          "text": "查看出处 (1)",
+          "disabled": false,
+          "y": 1185
+        },
+        {
+          "text": "标记已核对",
+          "disabled": false,
+          "y": 1185
+        },
+        {
+          "text": "出处：原文第 1 段",
+          "disabled": false,
+          "y": 1541
+        },
+        {
+          "text": "出处：文档正文 · 段 3",
+          "disabled": false,
+          "y": 1541
+        },
+        {
+          "text": "编辑综合判断",
+          "disabled": false,
+          "y": 1541
+        },
+        {
+          "text": "出处：原文第 1 段",
+          "disabled": false,
+          "y": 1826
+        },
+        {
+          "text": "出处：文档正文 · 段 3",
+          "disabled": false,
+          "y": 1826
+        },
+        {
+          "text": "编辑综合判断",
+          "disabled": false,
+          "y": 1826
+        },
+        {
+          "text": "生成本列建议",
+          "disabled": false,
+          "y": 1988
+        }
+      ],
+      "sections": [
+        {
+          "text": "任务式研究 · AI 比较",
+          "y": 234
+        },
+        {
+          "text": "继续研究",
+          "y": 379
+        },
+        {
+          "text": "跨文献判断",
+          "y": 1263
+        },
+        {
+          "text": "方法",
+          "y": 1376
+        },
+        {
+          "text": "主要发现",
+          "y": 1661
+        },
+        {
+          "text": "辅助比较",
+          "y": 1920
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n\n比较草稿已保存，可核对并生成研究总结。\n\n← 研究主题 删除影响\n证据比较\n任务式研究 · AI 比较\n\n比较这些论文的方法和结论，看看分歧在哪里\n\n调整范围与维度\n版本记录\n归档\n\n继续研究\n补充要求（可选）\n\n将所选文献的相关节选和笔记发送至已配置的模型。生成结果先供审阅，采用后才更新比较表。\n\n生成整份比较草稿\n生成研究总结\n\n比较草稿已采用，可直接修订、核对出处，再生成研究总结。\n\n可左右滚动查看全部维度。\n\n文献 / 比较维度\t方法\nmethods 研究方法\n\t主要发现\nsample results 材料 研究结果\n\n既有研究资料\n\t已记录 · 原文报告\n\n方法：既有研究资料\n\n条件：仅针对提供的节选\n\n有条件可比：条件需要分别核对\n\n待人工核对\n\n编辑比较项\n查看出处 (1)\n标记已核对\n\t已记录 · 原文报告\n\n主要发现：既有研究资料\n\n条件：仅针对提供的节选\n\n有条件可比：条件需要分别核对\n\n待人工核对\n\n编辑比较项\n查看出处 (1)\n标记已核对\n\n第二项研究\n\t已记录 · 原文报告\n\n方法：第二项研究\n\n条件：仅针对提供的节选\n\n有条件可比：条件需要分别核对\n\n待人工核对\n\n编辑比较项\n查看出处 (1)\n标记已核对\n\t已记录 · 原文报告\n\n主要发现：第二项研究\n\n条件：仅针对提供的节选\n\n有条件可比：条件需要分别核对\n\n待人工核对\n\n编辑比较项\n查看出处 (1)\n标记已核对\n跨文献判断\n\n判断只针对所选材料；比较项或研究问题变化后需重新复核。\n\n方法\n\n差异 · 模型归纳 · 待核对\n\n所选研究的条件需要分别解释。\n\n证据仅来自所选材料的部分节选。\n\n依据 2 篇文献的已保存比较项\n\n出处：原文第 1 段出处：文档正文 · 段 3编辑综合判断\n主要发现\n\n差异 · 模型归纳 · 待核对\n\n所选研究的条件需要分别解释。\n\n证据仅来自所选材料的部分节选。\n\n依据 2 篇文献的已保存比较项\n\n出处：原文第 1 段出处：文档正文 · 段 3编辑综合判断\n辅助比较\n\n每次针对一列读取所选文献的证据。建议经明确采用才更新表格，原版本会保留。\n\n比较维度\n方法\n主要发现\n生成本列建议"
+    },
+    {
+      "name": "11-evidence-list",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 2088,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 154
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 154
+        },
+        {
+          "text": "调整范围与维度",
+          "disabled": false,
+          "y": 250
+        },
+        {
+          "text": "版本记录",
+          "disabled": false,
+          "y": 250
+        },
+        {
+          "text": "归档",
+          "disabled": false,
+          "y": 250
+        },
+        {
+          "text": "生成整份比较草稿",
+          "disabled": false,
+          "y": 588
+        },
+        {
+          "text": "生成研究总结",
+          "disabled": false,
+          "y": 588
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 981
+        },
+        {
+          "text": "查看出处 (1)",
+          "disabled": false,
+          "y": 981
+        },
+        {
+          "text": "标记已核对",
+          "disabled": false,
+          "y": 981
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 981
+        },
+        {
+          "text": "查看出处 (1)",
+          "disabled": false,
+          "y": 981
+        },
+        {
+          "text": "标记已核对",
+          "disabled": false,
+          "y": 981
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 1185
+        },
+        {
+          "text": "查看出处 (1)",
+          "disabled": false,
+          "y": 1185
+        },
+        {
+          "text": "标记已核对",
+          "disabled": false,
+          "y": 1185
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 1185
+        },
+        {
+          "text": "查看出处 (1)",
+          "disabled": false,
+          "y": 1185
+        },
+        {
+          "text": "标记已核对",
+          "disabled": false,
+          "y": 1185
+        },
+        {
+          "text": "出处：原文第 1 段",
+          "disabled": false,
+          "y": 1541
+        },
+        {
+          "text": "出处：文档正文 · 段 3",
+          "disabled": false,
+          "y": 1541
+        },
+        {
+          "text": "编辑综合判断",
+          "disabled": false,
+          "y": 1541
+        },
+        {
+          "text": "出处：原文第 1 段",
+          "disabled": false,
+          "y": 1826
+        },
+        {
+          "text": "出处：文档正文 · 段 3",
+          "disabled": false,
+          "y": 1826
+        },
+        {
+          "text": "编辑综合判断",
+          "disabled": false,
+          "y": 1826
+        },
+        {
+          "text": "生成本列建议",
+          "disabled": false,
+          "y": 1988
+        },
+        {
+          "text": "×",
+          "disabled": false,
+          "y": 440
+        },
+        {
+          "text": "出处：原文第 1 段",
+          "disabled": false,
+          "y": 513
+        }
+      ],
+      "sections": [
+        {
+          "text": "任务式研究 · AI 比较",
+          "y": 234
+        },
+        {
+          "text": "继续研究",
+          "y": 379
+        },
+        {
+          "text": "跨文献判断",
+          "y": 1263
+        },
+        {
+          "text": "方法",
+          "y": 1376
+        },
+        {
+          "text": "主要发现",
+          "y": 1661
+        },
+        {
+          "text": "辅助比较",
+          "y": 1920
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n\n比较草稿已保存，可核对并生成研究总结。\n\n← 研究主题 删除影响\n证据比较\n任务式研究 · AI 比较\n\n比较这些论文的方法和结论，看看分歧在哪里\n\n调整范围与维度\n版本记录\n归档\n\n继续研究\n补充要求（可选）\n\n将所选文献的相关节选和笔记发送至已配置的模型。生成结果先供审阅，采用后才更新比较表。\n\n生成整份比较草稿\n生成研究总结\n\n比较草稿已采用，可直接修订、核对出处，再生成研究总结。\n\n可左右滚动查看全部维度。\n\n文献 / 比较维度\t方法\nmethods 研究方法\n\t主要发现\nsample results 材料 研究结果\n\n既有研究资料\n\t已记录 · 原文报告\n\n方法：既有研究资料\n\n条件：仅针对提供的节选\n\n有条件可比：条件需要分别核对\n\n待人工核对\n\n编辑比较项\n查看出处 (1)\n标记已核对\n\t已记录 · 原文报告\n\n主要发现：既有研究资料\n\n条件：仅针对提供的节选\n\n有条件可比：条件需要分别核对\n\n待人工核对\n\n编辑比较项\n查看出处 (1)\n标记已核对\n\n第二项研究\n\t已记录 · 原文报告\n\n方法：第二项研究\n\n条件：仅针对提供的节选\n\n有条件可比：条件需要分别核对\n\n待人工核对\n\n编辑比较项\n查看出处 (1)\n标记已核对\n\t已记录 · 原文报告\n\n主要发现：第二项研究\n\n条件：仅针对提供的节选\n\n有条件可比：条件需要分别核对\n\n待人工核对\n\n编辑比较项\n查看出处 (1)\n标记已核对\n跨文献判断\n\n判断只针对所选材料；比较项或研究问题变化后需重新复核。\n\n方法\n\n差异 · 模型归纳 · 待核对\n\n所选研究的条件需要分别解释。\n\n证据仅来自所选材料的部分节选。\n\n依据 2 篇文献的已保存比较项\n\n出处：原文第 1 段出处：文档正文 · 段 3编辑综合判断\n主要发现\n\n差异 · 模型归纳 · 待核对\n\n所选研究的条件需要分别解释。\n\n证据仅来自所选材料的部分节选。\n\n依据 2 篇文献的已保存比较项\n\n出处：原文第 1 段出处：文档正文 · 段 3编辑综合判断\n辅助比较\n\n每次针对一列读取所选文献的证据。建议经明确采用才更新表格，原版本会保留。\n\n比较维度\n方法\n主要发现\n生成本列建议\n既有研究资料 · 方法\n×\n出处：原文第 1 段"
+    },
+    {
+      "name": "12-evidence-excerpt",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 2088,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 154
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 154
+        },
+        {
+          "text": "调整范围与维度",
+          "disabled": false,
+          "y": 250
+        },
+        {
+          "text": "版本记录",
+          "disabled": false,
+          "y": 250
+        },
+        {
+          "text": "归档",
+          "disabled": false,
+          "y": 250
+        },
+        {
+          "text": "生成整份比较草稿",
+          "disabled": false,
+          "y": 588
+        },
+        {
+          "text": "生成研究总结",
+          "disabled": false,
+          "y": 588
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 981
+        },
+        {
+          "text": "查看出处 (1)",
+          "disabled": false,
+          "y": 981
+        },
+        {
+          "text": "标记已核对",
+          "disabled": false,
+          "y": 981
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 981
+        },
+        {
+          "text": "查看出处 (1)",
+          "disabled": false,
+          "y": 981
+        },
+        {
+          "text": "标记已核对",
+          "disabled": false,
+          "y": 981
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 1185
+        },
+        {
+          "text": "查看出处 (1)",
+          "disabled": false,
+          "y": 1185
+        },
+        {
+          "text": "标记已核对",
+          "disabled": false,
+          "y": 1185
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 1185
+        },
+        {
+          "text": "查看出处 (1)",
+          "disabled": false,
+          "y": 1185
+        },
+        {
+          "text": "标记已核对",
+          "disabled": false,
+          "y": 1185
+        },
+        {
+          "text": "出处：原文第 1 段",
+          "disabled": false,
+          "y": 1541
+        },
+        {
+          "text": "出处：文档正文 · 段 3",
+          "disabled": false,
+          "y": 1541
+        },
+        {
+          "text": "编辑综合判断",
+          "disabled": false,
+          "y": 1541
+        },
+        {
+          "text": "出处：原文第 1 段",
+          "disabled": false,
+          "y": 1826
+        },
+        {
+          "text": "出处：文档正文 · 段 3",
+          "disabled": false,
+          "y": 1826
+        },
+        {
+          "text": "编辑综合判断",
+          "disabled": false,
+          "y": 1826
+        },
+        {
+          "text": "生成本列建议",
+          "disabled": false,
+          "y": 1988
+        },
+        {
+          "text": "×",
+          "disabled": false,
+          "y": 374
+        },
+        {
+          "text": "打开原文位置",
+          "disabled": false,
+          "y": 578
+        }
+      ],
+      "sections": [
+        {
+          "text": "任务式研究 · AI 比较",
+          "y": 234
+        },
+        {
+          "text": "继续研究",
+          "y": 379
+        },
+        {
+          "text": "跨文献判断",
+          "y": 1263
+        },
+        {
+          "text": "方法",
+          "y": 1376
+        },
+        {
+          "text": "主要发现",
+          "y": 1661
+        },
+        {
+          "text": "辅助比较",
+          "y": 1920
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n\n比较草稿已保存，可核对并生成研究总结。\n\n← 研究主题 删除影响\n证据比较\n任务式研究 · AI 比较\n\n比较这些论文的方法和结论，看看分歧在哪里\n\n调整范围与维度\n版本记录\n归档\n\n继续研究\n补充要求（可选）\n\n将所选文献的相关节选和笔记发送至已配置的模型。生成结果先供审阅，采用后才更新比较表。\n\n生成整份比较草稿\n生成研究总结\n\n比较草稿已采用，可直接修订、核对出处，再生成研究总结。\n\n可左右滚动查看全部维度。\n\n文献 / 比较维度\t方法\nmethods 研究方法\n\t主要发现\nsample results 材料 研究结果\n\n既有研究资料\n\t已记录 · 原文报告\n\n方法：既有研究资料\n\n条件：仅针对提供的节选\n\n有条件可比：条件需要分别核对\n\n待人工核对\n\n编辑比较项\n查看出处 (1)\n标记已核对\n\t已记录 · 原文报告\n\n主要发现：既有研究资料\n\n条件：仅针对提供的节选\n\n有条件可比：条件需要分别核对\n\n待人工核对\n\n编辑比较项\n查看出处 (1)\n标记已核对\n\n第二项研究\n\t已记录 · 原文报告\n\n方法：第二项研究\n\n条件：仅针对提供的节选\n\n有条件可比：条件需要分别核对\n\n待人工核对\n\n编辑比较项\n查看出处 (1)\n标记已核对\n\t已记录 · 原文报告\n\n主要发现：第二项研究\n\n条件：仅针对提供的节选\n\n有条件可比：条件需要分别核对\n\n待人工核对\n\n编辑比较项\n查看出处 (1)\n标记已核对\n跨文献判断\n\n判断只针对所选材料；比较项或研究问题变化后需重新复核。\n\n方法\n\n差异 · 模型归纳 · 待核对\n\n所选研究的条件需要分别解释。\n\n证据仅来自所选材料的部分节选。\n\n依据 2 篇文献的已保存比较项\n\n出处：原文第 1 段出处：文档正文 · 段 3编辑综合判断\n主要发现\n\n差异 · 模型归纳 · 待核对\n\n所选研究的条件需要分别解释。\n\n证据仅来自所选材料的部分节选。\n\n依据 2 篇文献的已保存比较项\n\n出处：原文第 1 段出处：文档正文 · 段 3编辑综合判断\n辅助比较\n\n每次针对一列读取所选文献的证据。建议经明确采用才更新表格，原版本会保留。\n\n比较维度\n方法\n主要发现\n生成本列建议\n比较项出处\n×\n\n既有研究资料 · 原文第 1 段\n\n既有文献：研究者比较了两组材料，具体条件需结合原文核对。\n\n请核对这段原文是否支持比较项。\n\n打开原文位置"
+    },
+    {
+      "name": "13-report-draft",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 1013,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 100
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 100
+        },
+        {
+          "text": "编辑正文",
+          "disabled": false,
+          "y": 191
+        },
+        {
+          "text": "导出 Markdown",
+          "disabled": false,
+          "y": 191
+        },
+        {
+          "text": "版本记录",
+          "disabled": false,
+          "y": 196
+        },
+        {
+          "text": "归档",
+          "disabled": false,
+          "y": 196
+        },
+        {
+          "text": "出处：既有研究资料 · 原文第 1 段",
+          "disabled": false,
+          "y": 570
+        },
+        {
+          "text": "出处：第二项研究 · 文档正文 · 段 3",
+          "disabled": false,
+          "y": 609
+        },
+        {
+          "text": "采用研究总结",
+          "disabled": false,
+          "y": 872
+        },
+        {
+          "text": "选择研究材料",
+          "disabled": false,
+          "y": 414
+        },
+        {
+          "text": "将所选材料加入正文",
+          "disabled": false,
+          "y": 584
+        },
+        {
+          "text": "生成研究草稿",
+          "disabled": false,
+          "y": 703
+        },
+        {
+          "text": "审阅研究草稿",
+          "disabled": false,
+          "y": 757
+        }
+      ],
+      "sections": [
+        {
+          "text": "任务式研究 · AI 比较 · 研究总结",
+          "y": 180
+        },
+        {
+          "text": "研究总结草稿 · 待核对",
+          "y": 374
+        },
+        {
+          "text": "研究总结",
+          "y": 452
+        },
+        {
+          "text": "待验证问题",
+          "y": 714
+        },
+        {
+          "text": "所选材料",
+          "y": 382
+        },
+        {
+          "text": "比较表 · 任务式研究 · AI 比较",
+          "y": 487
+        },
+        {
+          "text": "辅助写作",
+          "y": 615
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n← 研究主题 删除影响\n研究成果\n任务式研究 · AI 比较 · 研究总结\n\n比较这些论文的方法和结论，看看分歧在哪里\n\n编辑正文\n导出 Markdown\n版本记录\n归档\n\n版本 1 · 0 个段落\n\n研究总结草稿 · 待核对\n研究总结\n\n模型归纳 · 待核对\n\n所选研究的方法与条件不同，结论需分别解释。\n\n出处：既有研究资料 · 原文第 1 段\n出处：第二项研究 · 文档正文 · 段 3\n待验证问题\n\n待验证问题 · 待核对\n\n样本与测量设置是否一致，仍需核对。\n\n采用研究总结\n所选材料\n选择研究材料\n比较表 · 任务式研究 · AI 比较\n\n版本 2 · 2 个原文片段\n\n查看所选证据\n将所选材料加入正文\n辅助写作\n\n生成草稿后先审阅，采用时才替换正文；原版本保留。\n\n生成研究草稿\n审阅研究草稿"
+    },
+    {
+      "name": "14-report-saved",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 1000,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 154
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 154
+        },
+        {
+          "text": "编辑正文",
+          "disabled": false,
+          "y": 245
+        },
+        {
+          "text": "导出 Markdown",
+          "disabled": false,
+          "y": 245
+        },
+        {
+          "text": "版本记录",
+          "disabled": false,
+          "y": 250
+        },
+        {
+          "text": "归档",
+          "disabled": false,
+          "y": 250
+        },
+        {
+          "text": "出处：既有研究资料 · 原文第 1 段",
+          "disabled": false,
+          "y": 530
+        },
+        {
+          "text": "出处：第二项研究 · 文档正文 · 段 3",
+          "disabled": false,
+          "y": 569
+        },
+        {
+          "text": "确认本段已核对",
+          "disabled": false,
+          "y": 608
+        },
+        {
+          "text": "确认本段已核对",
+          "disabled": false,
+          "y": 823
+        },
+        {
+          "text": "选择研究材料",
+          "disabled": false,
+          "y": 468
+        },
+        {
+          "text": "将所选材料加入正文",
+          "disabled": false,
+          "y": 638
+        },
+        {
+          "text": "生成研究草稿",
+          "disabled": false,
+          "y": 757
+        },
+        {
+          "text": "审阅研究草稿",
+          "disabled": false,
+          "y": 811
+        }
+      ],
+      "sections": [
+        {
+          "text": "任务式研究 · AI 比较 · 研究总结",
+          "y": 234
+        },
+        {
+          "text": "研究总结",
+          "y": 412
+        },
+        {
+          "text": "待验证问题",
+          "y": 705
+        },
+        {
+          "text": "所选材料",
+          "y": 436
+        },
+        {
+          "text": "比较表 · 任务式研究 · AI 比较",
+          "y": 541
+        },
+        {
+          "text": "辅助写作",
+          "y": 669
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n\n研究成果已保存。\n\n← 研究主题 删除影响\n研究成果\n任务式研究 · AI 比较 · 研究总结\n\n比较这些论文的方法和结论，看看分歧在哪里\n\n编辑正文\n导出 Markdown\n版本记录\n归档\n\n版本 2 · 2 个段落\n\n研究总结\n\n模型归纳 · 待核对\n\n所选研究的方法与条件不同，结论需分别解释。\n\n出处：既有研究资料 · 原文第 1 段\n出处：第二项研究 · 文档正文 · 段 3\n确认本段已核对\n待验证问题\n\n待验证问题 · 待核对\n\n样本与测量设置是否一致，仍需核对。\n\n确认本段已核对\n所选材料\n选择研究材料\n比较表 · 任务式研究 · AI 比较\n\n版本 2 · 2 个原文片段\n\n查看所选证据\n将所选材料加入正文\n辅助写作\n\n生成草稿后先审阅，采用时才替换正文；原版本保留。\n\n生成研究草稿\n审阅研究草稿"
+    },
+    {
+      "name": "15-report-editor",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 1000,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 154
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 154
+        },
+        {
+          "text": "编辑正文",
+          "disabled": false,
+          "y": 245
+        },
+        {
+          "text": "导出 Markdown",
+          "disabled": false,
+          "y": 245
+        },
+        {
+          "text": "版本记录",
+          "disabled": false,
+          "y": 250
+        },
+        {
+          "text": "归档",
+          "disabled": false,
+          "y": 250
+        },
+        {
+          "text": "出处：既有研究资料 · 原文第 1 段",
+          "disabled": false,
+          "y": 530
+        },
+        {
+          "text": "出处：第二项研究 · 文档正文 · 段 3",
+          "disabled": false,
+          "y": 569
+        },
+        {
+          "text": "确认本段已核对",
+          "disabled": false,
+          "y": 608
+        },
+        {
+          "text": "确认本段已核对",
+          "disabled": false,
+          "y": 823
+        },
+        {
+          "text": "选择研究材料",
+          "disabled": false,
+          "y": 468
+        },
+        {
+          "text": "将所选材料加入正文",
+          "disabled": false,
+          "y": 638
+        },
+        {
+          "text": "生成研究草稿",
+          "disabled": false,
+          "y": 757
+        },
+        {
+          "text": "审阅研究草稿",
+          "disabled": false,
+          "y": 811
+        },
+        {
+          "text": "×",
+          "disabled": false,
+          "y": 85
+        },
+        {
+          "text": "出处：既有研究资料 · 原文第 1 段",
+          "disabled": false,
+          "y": 496
+        },
+        {
+          "text": "出处：第二项研究 · 文档正文 · 段 3",
+          "disabled": false,
+          "y": 496
+        },
+        {
+          "text": "＋ 添加段落",
+          "disabled": false,
+          "y": 831
+        },
+        {
+          "text": "核对已保存版本",
+          "disabled": false,
+          "y": 881
+        },
+        {
+          "text": "取消",
+          "disabled": false,
+          "y": 881
+        },
+        {
+          "text": "保存成果",
+          "disabled": false,
+          "y": 881
+        }
+      ],
+      "sections": [
+        {
+          "text": "任务式研究 · AI 比较 · 研究总结",
+          "y": 234
+        },
+        {
+          "text": "研究总结",
+          "y": 412
+        },
+        {
+          "text": "待验证问题",
+          "y": 705
+        },
+        {
+          "text": "所选材料",
+          "y": 436
+        },
+        {
+          "text": "比较表 · 任务式研究 · AI 比较",
+          "y": 541
+        },
+        {
+          "text": "辅助写作",
+          "y": 669
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n\n研究成果已保存。\n\n← 研究主题 删除影响\n研究成果\n任务式研究 · AI 比较 · 研究总结\n\n比较这些论文的方法和结论，看看分歧在哪里\n\n编辑正文\n导出 Markdown\n版本记录\n归档\n\n版本 2 · 2 个段落\n\n研究总结\n\n模型归纳 · 待核对\n\n所选研究的方法与条件不同，结论需分别解释。\n\n出处：既有研究资料 · 原文第 1 段\n出处：第二项研究 · 文档正文 · 段 3\n确认本段已核对\n待验证问题\n\n待验证问题 · 待核对\n\n样本与测量设置是否一致，仍需核对。\n\n确认本段已核对\n所选材料\n选择研究材料\n比较表 · 任务式研究 · AI 比较\n\n版本 2 · 2 个原文片段\n\n查看所选证据\n将所选材料加入正文\n辅助写作\n\n生成草稿后先审阅，采用时才替换正文；原版本保留。\n\n生成研究草稿\n审阅研究草稿\n编辑研究成果\n×\n成果标题\n研究问题\n\n2/40 段 · 38/30000 字符 · 修改后点击“保存成果”\n\n章节标题\n段落正文\n出处：既有研究资料 · 原文第 1 段出处：第二项研究 · 文档正文 · 段 3\n模型归纳 · 2 条引用 · 段落设置\n章节标题\n段落正文\n待验证问题 · 0 条引用 · 段落设置\n＋ 添加段落\n核对已保存版本\n取消\n保存成果"
+    },
+    {
+      "name": "16-report-materials",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 1000,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 154
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 154
+        },
+        {
+          "text": "编辑正文",
+          "disabled": false,
+          "y": 245
+        },
+        {
+          "text": "导出 Markdown",
+          "disabled": false,
+          "y": 245
+        },
+        {
+          "text": "版本记录",
+          "disabled": false,
+          "y": 250
+        },
+        {
+          "text": "归档",
+          "disabled": false,
+          "y": 250
+        },
+        {
+          "text": "出处：既有研究资料 · 原文第 1 段",
+          "disabled": false,
+          "y": 530
+        },
+        {
+          "text": "出处：第二项研究 · 文档正文 · 段 3",
+          "disabled": false,
+          "y": 569
+        },
+        {
+          "text": "确认本段已核对",
+          "disabled": false,
+          "y": 608
+        },
+        {
+          "text": "确认本段已核对",
+          "disabled": false,
+          "y": 823
+        },
+        {
+          "text": "选择研究材料",
+          "disabled": false,
+          "y": 468
+        },
+        {
+          "text": "将所选材料加入正文",
+          "disabled": false,
+          "y": 638
+        },
+        {
+          "text": "生成研究草稿",
+          "disabled": false,
+          "y": 757
+        },
+        {
+          "text": "审阅研究草稿",
+          "disabled": false,
+          "y": 811
+        },
+        {
+          "text": "×",
+          "disabled": false,
+          "y": 161
+        },
+        {
+          "text": "选用当前版本",
+          "disabled": false,
+          "y": 355
+        },
+        {
+          "text": "加入所选片段",
+          "disabled": false,
+          "y": 731
+        },
+        {
+          "text": "核对已保存版本",
+          "disabled": false,
+          "y": 805
+        },
+        {
+          "text": "取消",
+          "disabled": false,
+          "y": 805
+        },
+        {
+          "text": "保存成果",
+          "disabled": false,
+          "y": 805
+        }
+      ],
+      "sections": [
+        {
+          "text": "任务式研究 · AI 比较 · 研究总结",
+          "y": 234
+        },
+        {
+          "text": "研究总结",
+          "y": 412
+        },
+        {
+          "text": "待验证问题",
+          "y": 705
+        },
+        {
+          "text": "所选材料",
+          "y": 436
+        },
+        {
+          "text": "比较表 · 任务式研究 · AI 比较",
+          "y": 541
+        },
+        {
+          "text": "辅助写作",
+          "y": 669
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n\n研究成果已保存。\n\n← 研究主题 删除影响\n研究成果\n任务式研究 · AI 比较 · 研究总结\n\n比较这些论文的方法和结论，看看分歧在哪里\n\n编辑正文\n导出 Markdown\n版本记录\n归档\n\n版本 2 · 2 个段落\n\n研究总结\n\n模型归纳 · 待核对\n\n所选研究的方法与条件不同，结论需分别解释。\n\n出处：既有研究资料 · 原文第 1 段\n出处：第二项研究 · 文档正文 · 段 3\n确认本段已核对\n待验证问题\n\n待验证问题 · 待核对\n\n样本与测量设置是否一致，仍需核对。\n\n确认本段已核对\n所选材料\n选择研究材料\n比较表 · 任务式研究 · AI 比较\n\n版本 2 · 2 个原文片段\n\n查看所选证据\n将所选材料加入正文\n辅助写作\n\n生成草稿后先审阅，采用时才替换正文；原版本保留。\n\n生成研究草稿\n审阅研究草稿\n选择研究材料\n×\n\n选择当前主题的笔记、比较表或原文。更新材料会保留正文已引用的旧摘录。\n\n比较表 · 任务式研究 · AI 比较\n\n保留已选版本\n\n选用当前版本\n\n比较这些论文的方法和结论，看看分歧在哪里\n\n笔记 · 主要发现\n\n两项研究的测量条件不同，比较时应分别解释。\n\n添加原文片段\n选择文献查看原文\n既有研究资料\n第二项研究\n查找原文片段\n\n加入所选片段\n核对已保存版本\n取消\n保存成果"
+    },
+    {
+      "name": "17-library-reader-notes",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 1030,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 全部文献",
+          "disabled": false,
+          "y": 90
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 90
+        },
+        {
+          "text": "文档问答",
+          "disabled": false,
+          "y": 231
+        },
+        {
+          "text": "阅读笔记",
+          "disabled": false,
+          "y": 231
+        },
+        {
+          "text": "＋ 写笔记",
+          "disabled": true,
+          "y": 294
+        },
+        {
+          "text": "查找原文",
+          "disabled": false,
+          "y": 234
+        },
+        {
+          "text": "记入笔记",
+          "disabled": false,
+          "y": 368
+        }
+      ],
+      "sections": [
+        {
+          "text": "outside",
+          "y": 141
+        },
+        {
+          "text": "阅读笔记",
+          "y": 294
+        },
+        {
+          "text": "原文",
+          "y": 239
+        },
+        {
+          "text": "文档正文 · 段 1",
+          "y": 310
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n下载原文件 ↗\n← 全部文献\n书目信息\noutside\n\noutside.txt · 1 段原文\n\n文档问答\n阅读笔记\n阅读笔记\n\n从研究主题打开文献后，可按研究问题保存笔记。\n\n＋ 写笔记\n\n这份文献当前未在研究主题中打开。请返回研究主题关联文献后再记录。\n\n 显示归档笔记\n原文\n查找原文\n文档正文 · 段 1\n\n不属于本次任务的私人材料，不可发送。\n\n记入笔记"
+    },
+    {
+      "name": "18-all-documents",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 1000,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文献",
+          "disabled": false,
+          "y": 167
+        },
+        {
+          "text": "outside",
+          "disabled": false,
+          "y": 392
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 392
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 392
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 392
+        },
+        {
+          "text": "第二项研究",
+          "disabled": false,
+          "y": 511
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 511
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 511
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 511
+        },
+        {
+          "text": "既有研究资料",
+          "disabled": false,
+          "y": 630
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 630
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 630
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 630
+        }
+      ],
+      "sections": [
+        {
+          "text": "全部文献",
+          "y": 156
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n文献库\n全部文献\n\n保存的原文件与书目信息在各研究主题中共享。\n\n＋ 导入文献\n查找文献\noutside\n\noutside.txt\n\n打开研读\n书目信息\n删除影响\n第二项研究\n\nsecond.md\n\n打开研读\n书目信息\n删除影响\n既有研究资料\n\nlegacy.txt\n\n打开研读\n书目信息\n删除影响"
+    },
+    {
+      "name": "19-delete-preview",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 2035,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 107
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 107
+        },
+        {
+          "text": "编辑主题",
+          "disabled": false,
+          "y": 190
+        },
+        {
+          "text": "生成比较草稿",
+          "disabled": false,
+          "y": 686
+        },
+        {
+          "text": "关联已有文献",
+          "disabled": false,
+          "y": 792
+        },
+        {
+          "text": "＋ 导入文献",
+          "disabled": false,
+          "y": 786
+        },
+        {
+          "text": "既有研究资料",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 987
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 987
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1025
+        },
+        {
+          "text": "第二项研究",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 1152
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 1152
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1190
+        },
+        {
+          "text": "＋ 新建比较表",
+          "disabled": false,
+          "y": 1279
+        },
+        {
+          "text": "打开比较",
+          "disabled": false,
+          "y": 1365
+        },
+        {
+          "text": "＋ 新建研究成果",
+          "disabled": false,
+          "y": 1572
+        },
+        {
+          "text": "打开成果",
+          "disabled": false,
+          "y": 1659
+        },
+        {
+          "text": "打开笔记",
+          "disabled": false,
+          "y": 1897
+        },
+        {
+          "text": "查看笔记与历史",
+          "disabled": false,
+          "y": 1897
+        },
+        {
+          "text": "刷新影响范围",
+          "disabled": false,
+          "y": 662
+        },
+        {
+          "text": "关闭",
+          "disabled": false,
+          "y": 662
+        }
+      ],
+      "sections": [
+        {
+          "text": "任务式研究",
+          "y": 187
+        },
+        {
+          "text": "研究问题",
+          "y": 307
+        },
+        {
+          "text": "让 AI 整理这些文献",
+          "y": 431
+        },
+        {
+          "text": "主题文献",
+          "y": 781
+        },
+        {
+          "text": "多文献比较",
+          "y": 1274
+        },
+        {
+          "text": "任务式研究 · AI 比较",
+          "y": 1383
+        },
+        {
+          "text": "研究成果",
+          "y": 1567
+        },
+        {
+          "text": "任务式研究 · AI 比较 · 研究总结",
+          "y": 1677
+        },
+        {
+          "text": "阅读笔记",
+          "y": 1806
+        },
+        {
+          "text": "主要发现 · 既有研究资料",
+          "y": 1897
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n← 研究主题 删除影响\n研究主题\n任务式研究\n编辑主题\n研究问题\n\n比较这些论文的方法和结论，看看分歧在哪里\n\n让 AI 整理这些文献\n\n说出研究目标，得到带出处的比较草稿，再继续形成研究总结。\n\n这次想研究什么？\n已选 2 篇文献 · 调整范围\n\n选择 2–12 篇文献。开始后会将相关节选和笔记发送至已配置的模型；AI 建议比较维度并逐项取证。\n\n生成比较草稿\n主题文献\n\n2 篇文献 · 0 篇已纳入 · 0 篇已读\n\n关联已有文献\n＋ 导入文献\n筛选状态\n全部筛选状态\n待筛选\n已纳入\n已排除\n阅读状态\n全部阅读状态\n未读\n阅读中\n已读\n既有研究资料\n\nlegacy.txt\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n第二项研究\n\nsecond.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n多文献比较\n\n选择材料与维度，保留每项判断的条件和出处。\n\n＋ 新建比较表\n任务式研究 · AI 比较\n\n2 篇文献 · 2 个维度 · 版本 2\n\n打开比较\n研究成果\n\n把笔记和证据组织成研究总结，修订后导出。\n\n＋ 新建研究成果\n任务式研究 · AI 比较 · 研究总结\n\n2 个段落 · 版本 2\n\n打开成果\n阅读笔记\n\n按研究问题积累的笔记，移出文献后仍会保留。\n\n主要发现 · 既有研究资料\n\n两项研究的测量条件不同，比较时应分别解释。\n\n打开笔记\n查看笔记与历史\n删除影响预览 · 既有研究资料\n\n本次已读取当前影响范围。资料变化后请刷新；预览本身不修改资料。\n\n当前仅预览影响，不会删除或修改任何研究记录，也不会停止任务。\n\n当前 JSON 资料库仅支持预览；请通过资料库菜单显式备份并迁移到 SQLite 后使用删除。\n\n按当前方案删除原文件和解析全文，已引用摘录及历史副本仍保留；这不等于彻底清除内容。\n\n备份、隔离副本和已导出的文件可能仍含内容，不会随普通删除被清除。\n\n涉及 1 条记录及其 0 个历史版本、1 处主题关联、1 篇原文；保留 3 条相关研究记录。\n\n按当前方案移除的记录（1）\n解除的主题关联（1）\n保留的文献（0）\n保留的相关研究与复制内容（3）\n需要协调的任务（2）\n刷新影响范围\n关闭"
+    },
+    {
+      "name": "20-storage",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 2035,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 107
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 107
+        },
+        {
+          "text": "编辑主题",
+          "disabled": false,
+          "y": 190
+        },
+        {
+          "text": "生成比较草稿",
+          "disabled": false,
+          "y": 686
+        },
+        {
+          "text": "关联已有文献",
+          "disabled": false,
+          "y": 792
+        },
+        {
+          "text": "＋ 导入文献",
+          "disabled": false,
+          "y": 786
+        },
+        {
+          "text": "既有研究资料",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 987
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 987
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1025
+        },
+        {
+          "text": "第二项研究",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 1152
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 1152
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1190
+        },
+        {
+          "text": "＋ 新建比较表",
+          "disabled": false,
+          "y": 1279
+        },
+        {
+          "text": "打开比较",
+          "disabled": false,
+          "y": 1365
+        },
+        {
+          "text": "＋ 新建研究成果",
+          "disabled": false,
+          "y": 1572
+        },
+        {
+          "text": "打开成果",
+          "disabled": false,
+          "y": 1659
+        },
+        {
+          "text": "打开笔记",
+          "disabled": false,
+          "y": 1897
+        },
+        {
+          "text": "查看笔记与历史",
+          "disabled": false,
+          "y": 1897
+        },
+        {
+          "text": "刷新用量",
+          "disabled": false,
+          "y": 818
+        },
+        {
+          "text": "关闭",
+          "disabled": false,
+          "y": 818
+        }
+      ],
+      "sections": [
+        {
+          "text": "任务式研究",
+          "y": 187
+        },
+        {
+          "text": "研究问题",
+          "y": 307
+        },
+        {
+          "text": "让 AI 整理这些文献",
+          "y": 431
+        },
+        {
+          "text": "主题文献",
+          "y": 781
+        },
+        {
+          "text": "多文献比较",
+          "y": 1274
+        },
+        {
+          "text": "任务式研究 · AI 比较",
+          "y": 1383
+        },
+        {
+          "text": "研究成果",
+          "y": 1567
+        },
+        {
+          "text": "任务式研究 · AI 比较 · 研究总结",
+          "y": 1677
+        },
+        {
+          "text": "阅读笔记",
+          "y": 1806
+        },
+        {
+          "text": "主要发现 · 既有研究资料",
+          "y": 1897
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n← 研究主题 删除影响\n研究主题\n任务式研究\n编辑主题\n研究问题\n\n比较这些论文的方法和结论，看看分歧在哪里\n\n让 AI 整理这些文献\n\n说出研究目标，得到带出处的比较草稿，再继续形成研究总结。\n\n这次想研究什么？\n已选 2 篇文献 · 调整范围\n\n选择 2–12 篇文献。开始后会将相关节选和笔记发送至已配置的模型；AI 建议比较维度并逐项取证。\n\n生成比较草稿\n主题文献\n\n2 篇文献 · 0 篇已纳入 · 0 篇已读\n\n关联已有文献\n＋ 导入文献\n筛选状态\n全部筛选状态\n待筛选\n已纳入\n已排除\n阅读状态\n全部阅读状态\n未读\n阅读中\n已读\n既有研究资料\n\nlegacy.txt\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n第二项研究\n\nsecond.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n多文献比较\n\n选择材料与维度，保留每项判断的条件和出处。\n\n＋ 新建比较表\n任务式研究 · AI 比较\n\n2 篇文献 · 2 个维度 · 版本 2\n\n打开比较\n研究成果\n\n把笔记和证据组织成研究总结，修订后导出。\n\n＋ 新建研究成果\n任务式研究 · AI 比较 · 研究总结\n\n2 个段落 · 版本 2\n\n打开成果\n阅读笔记\n\n按研究问题积累的笔记，移出文献后仍会保留。\n\n主要发现 · 既有研究资料\n\n两项研究的测量条件不同，比较时应分别解释。\n\n打开笔记\n查看笔记与历史\n存储用量与保留\n\n本次扫描完成 · 2026/10/29 09:11:23\n\n当前资料库文件：55.7 KiB（57,006 字节） · 16 个文件\n\n原文件：288 B · 3 个文件\n\nJSON 记录与历史：54.2 KiB（55,502 字节） · 9 个文件\n\n数据库与辅助文件：0 B · 0 个文件\n\n隔离副本：0 B · 0 个文件\n\n文件操作与迁移记录：704 B · 2 个文件\n\n其他文件：512 B · 2 个文件\n\n自动备份与保全副本：未统计；Web 开发环境未提供桌面备份目录，或备份目录不可安全读取。\n\n已读有效记录：9 条，其中 0 条归档；2 个历史版本\n\n记录正文估算：30.0 KiB（30,728 字节）\n\n历史内容估算：7.8 KiB（7,945 字节）\n\n统计口径与数据保留\n\n归档不释放空间；当前页面只查看用量。\n\n未纳入统计\n\n用户另存的目录／ZIP 备份、导出文件和其他资料库\n\n浏览器／桌面草稿与缓存、系统日志和崩溃报告；独立诊断存储尚未实现\n\n刷新用量\n关闭"
+    },
+    {
+      "name": "21a-topic-eight",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 3025,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 107
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 107
+        },
+        {
+          "text": "编辑主题",
+          "disabled": false,
+          "y": 190
+        },
+        {
+          "text": "生成比较草稿",
+          "disabled": false,
+          "y": 686
+        },
+        {
+          "text": "关联已有文献",
+          "disabled": false,
+          "y": 792
+        },
+        {
+          "text": "＋ 导入文献",
+          "disabled": false,
+          "y": 786
+        },
+        {
+          "text": "既有研究资料",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 987
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 987
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1025
+        },
+        {
+          "text": "第二项研究",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 1152
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 1152
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1190
+        },
+        {
+          "text": "研究 3",
+          "disabled": false,
+          "y": 1279
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 1279
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 1279
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 1279
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 1317
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 1317
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1355
+        },
+        {
+          "text": "研究 4",
+          "disabled": false,
+          "y": 1444
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 1444
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 1444
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 1444
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 1482
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 1482
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1520
+        },
+        {
+          "text": "研究 5",
+          "disabled": false,
+          "y": 1609
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 1609
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 1609
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 1609
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 1647
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 1647
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1685
+        },
+        {
+          "text": "研究 6",
+          "disabled": false,
+          "y": 1774
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 1774
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 1774
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 1774
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 1812
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 1812
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1850
+        },
+        {
+          "text": "研究 7",
+          "disabled": false,
+          "y": 1939
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 1939
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 1939
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 1939
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 1977
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 1977
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 2015
+        },
+        {
+          "text": "研究 8",
+          "disabled": false,
+          "y": 2104
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 2104
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 2104
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 2104
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 2142
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 2142
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 2180
+        },
+        {
+          "text": "＋ 新建比较表",
+          "disabled": false,
+          "y": 2269
+        },
+        {
+          "text": "打开比较",
+          "disabled": false,
+          "y": 2355
+        },
+        {
+          "text": "＋ 新建研究成果",
+          "disabled": false,
+          "y": 2562
+        },
+        {
+          "text": "打开成果",
+          "disabled": false,
+          "y": 2649
+        },
+        {
+          "text": "打开笔记",
+          "disabled": false,
+          "y": 2887
+        },
+        {
+          "text": "查看笔记与历史",
+          "disabled": false,
+          "y": 2887
+        }
+      ],
+      "sections": [
+        {
+          "text": "任务式研究",
+          "y": 187
+        },
+        {
+          "text": "研究问题",
+          "y": 307
+        },
+        {
+          "text": "让 AI 整理这些文献",
+          "y": 431
+        },
+        {
+          "text": "主题文献",
+          "y": 781
+        },
+        {
+          "text": "多文献比较",
+          "y": 2264
+        },
+        {
+          "text": "任务式研究 · AI 比较",
+          "y": 2373
+        },
+        {
+          "text": "研究成果",
+          "y": 2557
+        },
+        {
+          "text": "任务式研究 · AI 比较 · 研究总结",
+          "y": 2667
+        },
+        {
+          "text": "阅读笔记",
+          "y": 2796
+        },
+        {
+          "text": "主要发现 · 既有研究资料",
+          "y": 2887
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n← 研究主题 删除影响\n研究主题\n任务式研究\n编辑主题\n研究问题\n\n比较这些论文的方法和结论，看看分歧在哪里\n\n让 AI 整理这些文献\n\n说出研究目标，得到带出处的比较草稿，再继续形成研究总结。\n\n这次想研究什么？\n已选 8 篇文献 · 调整范围\n\n选择 2–12 篇文献。开始后会将相关节选和笔记发送至已配置的模型；AI 建议比较维度并逐项取证。\n\n生成比较草稿\n主题文献\n\n8 篇文献 · 0 篇已纳入 · 0 篇已读\n\n关联已有文献\n＋ 导入文献\n筛选状态\n全部筛选状态\n待筛选\n已纳入\n已排除\n阅读状态\n全部阅读状态\n未读\n阅读中\n已读\n既有研究资料\n\nlegacy.txt\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n第二项研究\n\nsecond.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 3\n\nstudy-3.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 4\n\nstudy-4.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 5\n\nstudy-5.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 6\n\nstudy-6.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 7\n\nstudy-7.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 8\n\nstudy-8.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n多文献比较\n\n选择材料与维度，保留每项判断的条件和出处。\n\n＋ 新建比较表\n任务式研究 · AI 比较\n\n2 篇文献 · 2 个维度 · 版本 2\n\n打开比较\n研究成果\n\n把笔记和证据组织成研究总结，修订后导出。\n\n＋ 新建研究成果\n任务式研究 · AI 比较 · 研究总结\n\n2 个段落 · 版本 2\n\n打开成果\n阅读笔记\n\n按研究问题积累的笔记，移出文献后仍会保留。\n\n主要发现 · 既有研究资料\n\n两项研究的测量条件不同，比较时应分别解释。\n\n打开笔记\n查看笔记与历史"
+    },
+    {
+      "name": "21-topic-thirteen",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 3850,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 107
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 107
+        },
+        {
+          "text": "编辑主题",
+          "disabled": false,
+          "y": 190
+        },
+        {
+          "text": "生成比较草稿",
+          "disabled": true,
+          "y": 686
+        },
+        {
+          "text": "关联已有文献",
+          "disabled": false,
+          "y": 792
+        },
+        {
+          "text": "＋ 导入文献",
+          "disabled": false,
+          "y": 786
+        },
+        {
+          "text": "既有研究资料",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 949
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 987
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 987
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1025
+        },
+        {
+          "text": "第二项研究",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 1114
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 1152
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 1152
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1190
+        },
+        {
+          "text": "研究 3",
+          "disabled": false,
+          "y": 1279
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 1279
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 1279
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 1279
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 1317
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 1317
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1355
+        },
+        {
+          "text": "研究 4",
+          "disabled": false,
+          "y": 1444
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 1444
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 1444
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 1444
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 1482
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 1482
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1520
+        },
+        {
+          "text": "研究 5",
+          "disabled": false,
+          "y": 1609
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 1609
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 1609
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 1609
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 1647
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 1647
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1685
+        },
+        {
+          "text": "研究 6",
+          "disabled": false,
+          "y": 1774
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 1774
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 1774
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 1774
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 1812
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 1812
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1850
+        },
+        {
+          "text": "研究 7",
+          "disabled": false,
+          "y": 1939
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 1939
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 1939
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 1939
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 1977
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 1977
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 2015
+        },
+        {
+          "text": "研究 8",
+          "disabled": false,
+          "y": 2104
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 2104
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 2104
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 2104
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 2142
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 2142
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 2180
+        },
+        {
+          "text": "研究 9",
+          "disabled": false,
+          "y": 2269
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 2269
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 2269
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 2269
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 2307
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 2307
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 2345
+        },
+        {
+          "text": "研究 10",
+          "disabled": false,
+          "y": 2434
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 2434
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 2434
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 2434
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 2472
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 2472
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 2510
+        },
+        {
+          "text": "研究 11",
+          "disabled": false,
+          "y": 2599
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 2599
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 2599
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 2599
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 2637
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 2637
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 2675
+        },
+        {
+          "text": "研究 12",
+          "disabled": false,
+          "y": 2764
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 2764
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 2764
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 2764
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 2802
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 2802
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 2840
+        },
+        {
+          "text": "研究 13",
+          "disabled": false,
+          "y": 2929
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 2929
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 2929
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 2929
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 2967
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 2967
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 3005
+        },
+        {
+          "text": "＋ 新建比较表",
+          "disabled": false,
+          "y": 3094
+        },
+        {
+          "text": "打开比较",
+          "disabled": false,
+          "y": 3180
+        },
+        {
+          "text": "＋ 新建研究成果",
+          "disabled": false,
+          "y": 3387
+        },
+        {
+          "text": "打开成果",
+          "disabled": false,
+          "y": 3474
+        },
+        {
+          "text": "打开笔记",
+          "disabled": false,
+          "y": 3712
+        },
+        {
+          "text": "查看笔记与历史",
+          "disabled": false,
+          "y": 3712
+        }
+      ],
+      "sections": [
+        {
+          "text": "任务式研究",
+          "y": 187
+        },
+        {
+          "text": "研究问题",
+          "y": 307
+        },
+        {
+          "text": "让 AI 整理这些文献",
+          "y": 431
+        },
+        {
+          "text": "主题文献",
+          "y": 781
+        },
+        {
+          "text": "多文献比较",
+          "y": 3089
+        },
+        {
+          "text": "任务式研究 · AI 比较",
+          "y": 3198
+        },
+        {
+          "text": "研究成果",
+          "y": 3382
+        },
+        {
+          "text": "任务式研究 · AI 比较 · 研究总结",
+          "y": 3492
+        },
+        {
+          "text": "阅读笔记",
+          "y": 3621
+        },
+        {
+          "text": "主要发现 · 既有研究资料",
+          "y": 3712
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n← 研究主题 删除影响\n研究主题\n任务式研究\n编辑主题\n研究问题\n\n比较这些论文的方法和结论，看看分歧在哪里\n\n让 AI 整理这些文献\n\n说出研究目标，得到带出处的比较草稿，再继续形成研究总结。\n\n这次想研究什么？\n已选 13 篇文献 · 调整范围\n\n选择 2–12 篇文献。开始后会将相关节选和笔记发送至已配置的模型；AI 建议比较维度并逐项取证。\n\n生成比较草稿\n主题文献\n\n13 篇文献 · 0 篇已纳入 · 0 篇已读\n\n关联已有文献\n＋ 导入文献\n筛选状态\n全部筛选状态\n待筛选\n已纳入\n已排除\n阅读状态\n全部阅读状态\n未读\n阅读中\n已读\n既有研究资料\n\nlegacy.txt\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n第二项研究\n\nsecond.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 3\n\nstudy-3.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 4\n\nstudy-4.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 5\n\nstudy-5.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 6\n\nstudy-6.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 7\n\nstudy-7.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 8\n\nstudy-8.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 9\n\nstudy-9.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 10\n\nstudy-10.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 11\n\nstudy-11.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 12\n\nstudy-12.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 13\n\nstudy-13.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n多文献比较\n\n选择材料与维度，保留每项判断的条件和出处。\n\n＋ 新建比较表\n任务式研究 · AI 比较\n\n2 篇文献 · 2 个维度 · 版本 2\n\n打开比较\n研究成果\n\n把笔记和证据组织成研究总结，修订后导出。\n\n＋ 新建研究成果\n任务式研究 · AI 比较 · 研究总结\n\n2 个段落 · 版本 2\n\n打开成果\n阅读笔记\n\n按研究问题积累的笔记，移出文献后仍会保留。\n\n主要发现 · 既有研究资料\n\n两项研究的测量条件不同，比较时应分别解释。\n\n打开笔记\n查看笔记与历史"
+    },
+    {
+      "name": "22-topic-thirteen-narrow",
+      "width": 390,
+      "height": 844,
+      "documentHeight": 4969,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 10
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 10
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 51
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 51
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 51
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 113
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 113
+        },
+        {
+          "text": "编辑主题",
+          "disabled": false,
+          "y": 258
+        },
+        {
+          "text": "生成比较草稿",
+          "disabled": true,
+          "y": 762
+        },
+        {
+          "text": "关联已有文献",
+          "disabled": false,
+          "y": 929
+        },
+        {
+          "text": "＋ 导入文献",
+          "disabled": false,
+          "y": 924
+        },
+        {
+          "text": "既有研究资料",
+          "disabled": false,
+          "y": 1076
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 1181
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 1181
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 1181
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 1219
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 1219
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1219
+        },
+        {
+          "text": "第二项研究",
+          "disabled": false,
+          "y": 1298
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 1402
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 1402
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 1402
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 1440
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 1440
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1440
+        },
+        {
+          "text": "研究 3",
+          "disabled": false,
+          "y": 1519
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 1624
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 1624
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 1624
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 1662
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 1662
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1662
+        },
+        {
+          "text": "研究 4",
+          "disabled": false,
+          "y": 1741
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 1846
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 1846
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 1846
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 1884
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 1884
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 1884
+        },
+        {
+          "text": "研究 5",
+          "disabled": false,
+          "y": 1963
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 2067
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 2067
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 2067
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 2105
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 2105
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 2105
+        },
+        {
+          "text": "研究 6",
+          "disabled": false,
+          "y": 2184
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 2289
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 2289
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 2289
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 2327
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 2327
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 2327
+        },
+        {
+          "text": "研究 7",
+          "disabled": false,
+          "y": 2406
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 2511
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 2511
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 2511
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 2549
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 2549
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 2549
+        },
+        {
+          "text": "研究 8",
+          "disabled": false,
+          "y": 2628
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 2732
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 2732
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 2732
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 2770
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 2770
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 2770
+        },
+        {
+          "text": "研究 9",
+          "disabled": false,
+          "y": 2849
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 2954
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 2954
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 2954
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 2992
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 2992
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 2992
+        },
+        {
+          "text": "研究 10",
+          "disabled": false,
+          "y": 3071
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 3176
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 3176
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 3176
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 3214
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 3214
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 3214
+        },
+        {
+          "text": "研究 11",
+          "disabled": false,
+          "y": 3293
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 3398
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 3398
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 3398
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 3436
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 3436
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 3436
+        },
+        {
+          "text": "研究 12",
+          "disabled": false,
+          "y": 3515
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 3619
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 3619
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 3619
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 3657
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 3657
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 3657
+        },
+        {
+          "text": "研究 13",
+          "disabled": false,
+          "y": 3736
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 3841
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 3841
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 3841
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 3879
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 3879
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 3879
+        },
+        {
+          "text": "＋ 新建比较表",
+          "disabled": false,
+          "y": 4025
+        },
+        {
+          "text": "打开比较",
+          "disabled": false,
+          "y": 4208
+        },
+        {
+          "text": "＋ 新建研究成果",
+          "disabled": false,
+          "y": 4409
+        },
+        {
+          "text": "打开成果",
+          "disabled": false,
+          "y": 4592
+        },
+        {
+          "text": "打开笔记",
+          "disabled": false,
+          "y": 4818
+        },
+        {
+          "text": "查看笔记与历史",
+          "disabled": false,
+          "y": 4861
+        }
+      ],
+      "sections": [
+        {
+          "text": "任务式研究",
+          "y": 193
+        },
+        {
+          "text": "研究问题",
+          "y": 344
+        },
+        {
+          "text": "让 AI 整理这些文献",
+          "y": 468
+        },
+        {
+          "text": "主题文献",
+          "y": 857
+        },
+        {
+          "text": "多文献比较",
+          "y": 3958
+        },
+        {
+          "text": "任务式研究 · AI 比较",
+          "y": 4120
+        },
+        {
+          "text": "研究成果",
+          "y": 4342
+        },
+        {
+          "text": "任务式研究 · AI 比较 · 研究总结",
+          "y": 4504
+        },
+        {
+          "text": "阅读笔记",
+          "y": 4671
+        },
+        {
+          "text": "主要发现 · 既有研究资料",
+          "y": 4757
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\n存储用量\n模型连接\n＋ 导入文档\n← 研究主题 删除影响\n研究主题\n任务式研究\n编辑主题\n研究问题\n\n比较这些论文的方法和结论，看看分歧在哪里\n\n让 AI 整理这些文献\n\n说出研究目标，得到带出处的比较草稿，再继续形成研究总结。\n\n这次想研究什么？\n已选 13 篇文献 · 调整范围\n\n选择 2–12 篇文献。开始后会将相关节选和笔记发送至已配置的模型；AI 建议比较维度并逐项取证。\n\n生成比较草稿\n主题文献\n\n13 篇文献 · 0 篇已纳入 · 0 篇已读\n\n关联已有文献\n＋ 导入文献\n筛选状态\n全部筛选状态\n待筛选\n已纳入\n已排除\n阅读状态\n全部阅读状态\n未读\n阅读中\n已读\n既有研究资料\n\nlegacy.txt\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n第二项研究\n\nsecond.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 3\n\nstudy-3.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 4\n\nstudy-4.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 5\n\nstudy-5.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 6\n\nstudy-6.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 7\n\nstudy-7.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 8\n\nstudy-8.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 9\n\nstudy-9.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 10\n\nstudy-10.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 11\n\nstudy-11.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 12\n\nstudy-12.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n研究 13\n\nstudy-13.md\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n多文献比较\n\n选择材料与维度，保留每项判断的条件和出处。\n\n＋ 新建比较表\n任务式研究 · AI 比较\n\n2 篇文献 · 2 个维度 · 版本 2\n\n打开比较\n研究成果\n\n把笔记和证据组织成研究总结，修订后导出。\n\n＋ 新建研究成果\n任务式研究 · AI 比较 · 研究总结\n\n2 个段落 · 版本 2\n\n打开成果\n阅读笔记\n\n按研究问题积累的笔记，移出文献后仍会保留。\n\n主要发现 · 既有研究资料\n\n两项研究的测量条件不同，比较时应分别解释。\n\n打开笔记\n查看笔记与历史"
+    },
+    {
+      "name": "23-comparison-narrow",
+      "width": 390,
+      "height": 844,
+      "documentHeight": 2216,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 10
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 10
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 51
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 51
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 51
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 113
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 113
+        },
+        {
+          "text": "调整范围与维度",
+          "disabled": false,
+          "y": 285
+        },
+        {
+          "text": "版本记录",
+          "disabled": false,
+          "y": 285
+        },
+        {
+          "text": "归档",
+          "disabled": false,
+          "y": 285
+        },
+        {
+          "text": "生成整份比较草稿",
+          "disabled": false,
+          "y": 598
+        },
+        {
+          "text": "生成研究总结",
+          "disabled": false,
+          "y": 598
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 976
+        },
+        {
+          "text": "查看出处 (1)",
+          "disabled": false,
+          "y": 976
+        },
+        {
+          "text": "标记已核对",
+          "disabled": false,
+          "y": 1008
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 976
+        },
+        {
+          "text": "查看出处 (1)",
+          "disabled": false,
+          "y": 976
+        },
+        {
+          "text": "标记已核对",
+          "disabled": false,
+          "y": 1008
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 1201
+        },
+        {
+          "text": "查看出处 (1)",
+          "disabled": false,
+          "y": 1201
+        },
+        {
+          "text": "标记已核对",
+          "disabled": false,
+          "y": 1233
+        },
+        {
+          "text": "编辑比较项",
+          "disabled": false,
+          "y": 1201
+        },
+        {
+          "text": "查看出处 (1)",
+          "disabled": false,
+          "y": 1201
+        },
+        {
+          "text": "标记已核对",
+          "disabled": false,
+          "y": 1233
+        },
+        {
+          "text": "出处：原文第 1 段",
+          "disabled": false,
+          "y": 1584
+        },
+        {
+          "text": "出处：文档正文 · 段 3",
+          "disabled": false,
+          "y": 1584
+        },
+        {
+          "text": "编辑综合判断",
+          "disabled": false,
+          "y": 1620
+        },
+        {
+          "text": "出处：原文第 1 段",
+          "disabled": false,
+          "y": 1906
+        },
+        {
+          "text": "出处：文档正文 · 段 3",
+          "disabled": false,
+          "y": 1906
+        },
+        {
+          "text": "编辑综合判断",
+          "disabled": false,
+          "y": 1942
+        },
+        {
+          "text": "生成本列建议",
+          "disabled": false,
+          "y": 2122
+        }
+      ],
+      "sections": [
+        {
+          "text": "任务式研究 · AI 比较",
+          "y": 193
+        },
+        {
+          "text": "继续研究",
+          "y": 369
+        },
+        {
+          "text": "跨文献判断",
+          "y": 1306
+        },
+        {
+          "text": "方法",
+          "y": 1419
+        },
+        {
+          "text": "主要发现",
+          "y": 1740
+        },
+        {
+          "text": "辅助比较",
+          "y": 2036
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\n存储用量\n模型连接\n＋ 导入文档\n← 研究主题 删除影响\n证据比较\n任务式研究 · AI 比较\n\n比较这些论文的方法和结论，看看分歧在哪里\n\n调整范围与维度\n版本记录\n归档\n\n继续研究\n补充要求（可选）\n\n将所选文献的相关节选和笔记发送至已配置的模型。生成结果先供审阅，采用后才更新比较表。\n\n生成整份比较草稿\n生成研究总结\n\n比较草稿已采用，可直接修订、核对出处，再生成研究总结。\n\n可左右滚动查看全部维度。\n\n文献 / 比较维度\t方法\nmethods 研究方法\n\t主要发现\nsample results 材料 研究结果\n\n既有研究资料\n\t已记录 · 原文报告\n\n方法：既有研究资料\n\n条件：仅针对提供的节选\n\n有条件可比：条件需要分别核对\n\n待人工核对\n\n编辑比较项\n查看出处 (1)\n标记已核对\n\t已记录 · 原文报告\n\n主要发现：既有研究资料\n\n条件：仅针对提供的节选\n\n有条件可比：条件需要分别核对\n\n待人工核对\n\n编辑比较项\n查看出处 (1)\n标记已核对\n\n第二项研究\n\t已记录 · 原文报告\n\n方法：第二项研究\n\n条件：仅针对提供的节选\n\n有条件可比：条件需要分别核对\n\n待人工核对\n\n编辑比较项\n查看出处 (1)\n标记已核对\n\t已记录 · 原文报告\n\n主要发现：第二项研究\n\n条件：仅针对提供的节选\n\n有条件可比：条件需要分别核对\n\n待人工核对\n\n编辑比较项\n查看出处 (1)\n标记已核对\n跨文献判断\n\n判断只针对所选材料；比较项或研究问题变化后需重新复核。\n\n方法\n\n差异 · 模型归纳 · 待核对\n\n所选研究的条件需要分别解释。\n\n证据仅来自所选材料的部分节选。\n\n依据 2 篇文献的已保存比较项\n\n出处：原文第 1 段出处：文档正文 · 段 3编辑综合判断\n主要发现\n\n差异 · 模型归纳 · 待核对\n\n所选研究的条件需要分别解释。\n\n证据仅来自所选材料的部分节选。\n\n依据 2 篇文献的已保存比较项\n\n出处：原文第 1 段出处：文档正文 · 段 3编辑综合判断\n辅助比较\n\n每次针对一列读取所选文献的证据。建议经明确采用才更新表格，原版本会保留。\n\n比较维度\n方法\n主要发现\n生成本列建议"
+    },
+    {
+      "name": "24-report-narrow",
+      "width": 390,
+      "height": 844,
+      "documentHeight": 1480,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 10
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 10
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 51
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 51
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 51
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 113
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 113
+        },
+        {
+          "text": "编辑正文",
+          "disabled": false,
+          "y": 285
+        },
+        {
+          "text": "导出 Markdown",
+          "disabled": false,
+          "y": 285
+        },
+        {
+          "text": "版本记录",
+          "disabled": false,
+          "y": 291
+        },
+        {
+          "text": "归档",
+          "disabled": false,
+          "y": 335
+        },
+        {
+          "text": "出处：既有研究资料 · 原文第 1 段",
+          "disabled": false,
+          "y": 1088
+        },
+        {
+          "text": "出处：第二项研究 · 文档正文 · 段 3",
+          "disabled": false,
+          "y": 1127
+        },
+        {
+          "text": "确认本段已核对",
+          "disabled": false,
+          "y": 1166
+        },
+        {
+          "text": "确认本段已核对",
+          "disabled": false,
+          "y": 1364
+        },
+        {
+          "text": "选择研究材料",
+          "disabled": false,
+          "y": 508
+        },
+        {
+          "text": "将所选材料加入正文",
+          "disabled": false,
+          "y": 678
+        },
+        {
+          "text": "生成研究草稿",
+          "disabled": false,
+          "y": 778
+        },
+        {
+          "text": "审阅研究草稿",
+          "disabled": false,
+          "y": 832
+        }
+      ],
+      "sections": [
+        {
+          "text": "任务式研究 · AI 比较 · 研究总结",
+          "y": 193
+        },
+        {
+          "text": "研究总结",
+          "y": 940
+        },
+        {
+          "text": "待验证问题",
+          "y": 1247
+        },
+        {
+          "text": "所选材料",
+          "y": 476
+        },
+        {
+          "text": "比较表 · 任务式研究 · AI 比较",
+          "y": 581
+        },
+        {
+          "text": "辅助写作",
+          "y": 709
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\n存储用量\n模型连接\n＋ 导入文档\n← 研究主题 删除影响\n研究成果\n任务式研究 · AI 比较 · 研究总结\n\n比较这些论文的方法和结论，看看分歧在哪里\n\n编辑正文\n导出 Markdown\n版本记录\n归档\n\n版本 2 · 2 个段落\n\n研究总结\n\n模型归纳 · 待核对\n\n所选研究的方法与条件不同，结论需分别解释。\n\n出处：既有研究资料 · 原文第 1 段\n出处：第二项研究 · 文档正文 · 段 3\n确认本段已核对\n待验证问题\n\n待验证问题 · 待核对\n\n样本与测量设置是否一致，仍需核对。\n\n确认本段已核对\n所选材料\n选择研究材料\n比较表 · 任务式研究 · AI 比较\n\n版本 2 · 2 个原文片段\n\n查看所选证据\n将所选材料加入正文\n辅助写作\n\n生成草稿后先审阅，采用时才替换正文；原版本保留。\n\n生成研究草稿\n审阅研究草稿"
+    },
+    {
+      "name": "25-topic-empty",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 1659,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 107
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 107
+        },
+        {
+          "text": "编辑主题",
+          "disabled": false,
+          "y": 190
+        },
+        {
+          "text": "生成比较草稿",
+          "disabled": true,
+          "y": 560
+        },
+        {
+          "text": "关联已有文献",
+          "disabled": false,
+          "y": 666
+        },
+        {
+          "text": "＋ 导入文献",
+          "disabled": false,
+          "y": 660
+        },
+        {
+          "text": "＋ 新建比较表",
+          "disabled": false,
+          "y": 946
+        },
+        {
+          "text": "＋ 新建研究成果",
+          "disabled": false,
+          "y": 1210
+        },
+        {
+          "text": "×",
+          "disabled": true,
+          "y": 334
+        },
+        {
+          "text": "取消",
+          "disabled": true,
+          "y": 641
+        },
+        {
+          "text": "保存主题",
+          "disabled": true,
+          "y": 641
+        }
+      ],
+      "sections": [
+        {
+          "text": "空主题",
+          "y": 187
+        },
+        {
+          "text": "让 AI 整理这些文献",
+          "y": 305
+        },
+        {
+          "text": "主题文献",
+          "y": 655
+        },
+        {
+          "text": "多文献比较",
+          "y": 941
+        },
+        {
+          "text": "研究成果",
+          "y": 1205
+        },
+        {
+          "text": "阅读笔记",
+          "y": 1415
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n← 研究主题 删除影响\n研究主题\n空主题\n编辑主题\n让 AI 整理这些文献\n\n说出研究目标，得到带出处的比较草稿，再继续形成研究总结。\n\n这次想研究什么？\n已选 0 篇文献 · 调整范围\n\n选择 2–12 篇文献。开始后会将相关节选和笔记发送至已配置的模型；AI 建议比较维度并逐项取证。\n\n生成比较草稿\n主题文献\n\n0 篇文献 · 0 篇已纳入 · 0 篇已读\n\n关联已有文献\n＋ 导入文献\n筛选状态\n全部筛选状态\n待筛选\n已纳入\n已排除\n阅读状态\n全部阅读状态\n未读\n阅读中\n已读\n\n导入新文献，或从全部文献中关联已有资料。\n\n多文献比较\n\n选择材料与维度，保留每项判断的条件和出处。\n\n＋ 新建比较表\n\n选定两篇或更多文献，开始整理证据与差异。\n\n研究成果\n\n把笔记和证据组织成研究总结，修订后导出。\n\n＋ 新建研究成果\n\n把笔记和证据组织成可以继续修订的研究总结。\n\n阅读笔记\n\n按研究问题积累的笔记，移出文献后仍会保留。\n\n进入文献研读后，可从原文或问答中保存笔记。\n\n组织研究资料\n创建研究主题\n×\n\n先取一个名字，就可以开始收集和阅读文献。\n\n主题标题\n补充研究问题与范围可稍后填写\n取消\n保存主题"
+    },
+    {
+      "name": "26-topic-one",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 1701,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 107
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 107
+        },
+        {
+          "text": "编辑主题",
+          "disabled": false,
+          "y": 190
+        },
+        {
+          "text": "生成比较草稿",
+          "disabled": true,
+          "y": 560
+        },
+        {
+          "text": "关联已有文献",
+          "disabled": false,
+          "y": 666
+        },
+        {
+          "text": "＋ 导入文献",
+          "disabled": false,
+          "y": 660
+        },
+        {
+          "text": "既有研究资料",
+          "disabled": false,
+          "y": 823
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 823
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 823
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 823
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 861
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 861
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 899
+        },
+        {
+          "text": "＋ 新建比较表",
+          "disabled": false,
+          "y": 988
+        },
+        {
+          "text": "＋ 新建研究成果",
+          "disabled": false,
+          "y": 1252
+        }
+      ],
+      "sections": [
+        {
+          "text": "空主题",
+          "y": 187
+        },
+        {
+          "text": "让 AI 整理这些文献",
+          "y": 305
+        },
+        {
+          "text": "主题文献",
+          "y": 655
+        },
+        {
+          "text": "多文献比较",
+          "y": 983
+        },
+        {
+          "text": "研究成果",
+          "y": 1247
+        },
+        {
+          "text": "阅读笔记",
+          "y": 1456
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n← 研究主题 删除影响\n研究主题\n空主题\n编辑主题\n让 AI 整理这些文献\n\n说出研究目标，得到带出处的比较草稿，再继续形成研究总结。\n\n这次想研究什么？\n已选 1 篇文献 · 调整范围\n\n选择 2–12 篇文献。开始后会将相关节选和笔记发送至已配置的模型；AI 建议比较维度并逐项取证。\n\n生成比较草稿\n主题文献\n\n1 篇文献 · 0 篇已纳入 · 0 篇已读\n\n关联已有文献\n＋ 导入文献\n筛选状态\n全部筛选状态\n待筛选\n已纳入\n已排除\n阅读状态\n全部阅读状态\n未读\n阅读中\n已读\n既有研究资料\n\nlegacy.txt\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n多文献比较\n\n选择材料与维度，保留每项判断的条件和出处。\n\n＋ 新建比较表\n\n选定两篇或更多文献，开始整理证据与差异。\n\n研究成果\n\n把笔记和证据组织成研究总结，修订后导出。\n\n＋ 新建研究成果\n\n把笔记和证据组织成可以继续修订的研究总结。\n\n阅读笔记\n\n按研究问题积累的笔记，移出文献后仍会保留。\n\n进入文献研读后，可从原文或问答中保存笔记。"
+    },
+    {
+      "name": "27-topic-no-model",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 1755,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 161
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 161
+        },
+        {
+          "text": "编辑主题",
+          "disabled": false,
+          "y": 244
+        },
+        {
+          "text": "生成比较草稿",
+          "disabled": true,
+          "y": 614
+        },
+        {
+          "text": "关联已有文献",
+          "disabled": false,
+          "y": 720
+        },
+        {
+          "text": "＋ 导入文献",
+          "disabled": false,
+          "y": 714
+        },
+        {
+          "text": "既有研究资料",
+          "disabled": false,
+          "y": 877
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 877
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 877
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 877
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 915
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 915
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 953
+        },
+        {
+          "text": "＋ 新建比较表",
+          "disabled": false,
+          "y": 1042
+        },
+        {
+          "text": "＋ 新建研究成果",
+          "disabled": false,
+          "y": 1306
+        }
+      ],
+      "sections": [
+        {
+          "text": "空主题",
+          "y": 241
+        },
+        {
+          "text": "让 AI 整理这些文献",
+          "y": 359
+        },
+        {
+          "text": "主题文献",
+          "y": 709
+        },
+        {
+          "text": "多文献比较",
+          "y": 1037
+        },
+        {
+          "text": "研究成果",
+          "y": 1301
+        },
+        {
+          "text": "阅读笔记",
+          "y": 1510
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n\n已撤销文字与页图模型授权，相关任务正在停止，后续发送已禁止；已保存内容保留。\n\n← 研究主题 删除影响\n研究主题\n空主题\n编辑主题\n让 AI 整理这些文献\n\n说出研究目标，得到带出处的比较草稿，再继续形成研究总结。\n\n这次想研究什么？\n已选 1 篇文献 · 调整范围\n\n尚未配置模型，仍可使用下方的阅读、笔记和手工比较。\n\n生成比较草稿\n主题文献\n\n1 篇文献 · 0 篇已纳入 · 0 篇已读\n\n关联已有文献\n＋ 导入文献\n筛选状态\n全部筛选状态\n待筛选\n已纳入\n已排除\n阅读状态\n全部阅读状态\n未读\n阅读中\n已读\n既有研究资料\n\nlegacy.txt\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n多文献比较\n\n选择材料与维度，保留每项判断的条件和出处。\n\n＋ 新建比较表\n\n选定两篇或更多文献，开始整理证据与差异。\n\n研究成果\n\n把笔记和证据组织成研究总结，修订后导出。\n\n＋ 新建研究成果\n\n把笔记和证据组织成可以继续修订的研究总结。\n\n阅读笔记\n\n按研究问题积累的笔记，移出文献后仍会保留。\n\n进入文献研读后，可从原文或问答中保存笔记。"
+    },
+    {
+      "name": "28-manual-comparison-config",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 1755,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 161
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 161
+        },
+        {
+          "text": "编辑主题",
+          "disabled": false,
+          "y": 244
+        },
+        {
+          "text": "生成比较草稿",
+          "disabled": true,
+          "y": 614
+        },
+        {
+          "text": "关联已有文献",
+          "disabled": false,
+          "y": 720
+        },
+        {
+          "text": "＋ 导入文献",
+          "disabled": false,
+          "y": 714
+        },
+        {
+          "text": "既有研究资料",
+          "disabled": false,
+          "y": 877
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 877
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 877
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 877
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 915
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 915
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 953
+        },
+        {
+          "text": "＋ 新建比较表",
+          "disabled": false,
+          "y": 1042
+        },
+        {
+          "text": "＋ 新建研究成果",
+          "disabled": false,
+          "y": 1306
+        },
+        {
+          "text": "×",
+          "disabled": false,
+          "y": 85
+        },
+        {
+          "text": "上移",
+          "disabled": false,
+          "y": 609
+        },
+        {
+          "text": "移除维度",
+          "disabled": false,
+          "y": 609
+        },
+        {
+          "text": "上移",
+          "disabled": false,
+          "y": 758
+        },
+        {
+          "text": "移除维度",
+          "disabled": false,
+          "y": 758
+        },
+        {
+          "text": "上移",
+          "disabled": false,
+          "y": 906
+        },
+        {
+          "text": "移除维度",
+          "disabled": false,
+          "y": 906
+        },
+        {
+          "text": "上移",
+          "disabled": false,
+          "y": 1054
+        },
+        {
+          "text": "移除维度",
+          "disabled": false,
+          "y": 1054
+        },
+        {
+          "text": "＋ 添加维度",
+          "disabled": false,
+          "y": 1171
+        },
+        {
+          "text": "取消",
+          "disabled": false,
+          "y": 881
+        },
+        {
+          "text": "保存比较",
+          "disabled": false,
+          "y": 881
+        }
+      ],
+      "sections": [
+        {
+          "text": "空主题",
+          "y": 241
+        },
+        {
+          "text": "让 AI 整理这些文献",
+          "y": 359
+        },
+        {
+          "text": "主题文献",
+          "y": 709
+        },
+        {
+          "text": "多文献比较",
+          "y": 1037
+        },
+        {
+          "text": "研究成果",
+          "y": 1301
+        },
+        {
+          "text": "阅读笔记",
+          "y": 1510
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n\n已撤销文字与页图模型授权，相关任务正在停止，后续发送已禁止；已保存内容保留。\n\n← 研究主题 删除影响\n研究主题\n空主题\n编辑主题\n让 AI 整理这些文献\n\n说出研究目标，得到带出处的比较草稿，再继续形成研究总结。\n\n这次想研究什么？\n已选 1 篇文献 · 调整范围\n\n尚未配置模型，仍可使用下方的阅读、笔记和手工比较。\n\n生成比较草稿\n主题文献\n\n1 篇文献 · 0 篇已纳入 · 0 篇已读\n\n关联已有文献\n＋ 导入文献\n筛选状态\n全部筛选状态\n待筛选\n已纳入\n已排除\n阅读状态\n全部阅读状态\n未读\n阅读中\n已读\n既有研究资料\n\nlegacy.txt\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n多文献比较\n\n选择材料与维度，保留每项判断的条件和出处。\n\n＋ 新建比较表\n\n选定两篇或更多文献，开始整理证据与差异。\n\n研究成果\n\n把笔记和证据组织成研究总结，修订后导出。\n\n＋ 新建研究成果\n\n把笔记和证据组织成可以继续修订的研究总结。\n\n阅读笔记\n\n按研究问题积累的笔记，移出文献后仍会保留。\n\n进入文献研读后，可从原文或问答中保存笔记。\n\n新建比较表\n×\n\n空主题\n\n比较表标题\n比较研究问题\n选定文献（2–12 篇）\n\n已带入主题内未排除的文献，可以调整本次比较范围。\n\n既有研究资料\n比较维度（1–12 项）\n维度名称\n上移\n移除维度\n补充维度说明（可选）\n维度名称\n上移\n移除维度\n补充维度说明（可选）\n维度名称\n上移\n移除维度\n补充维度说明（可选）\n维度名称\n上移\n移除维度\n补充维度说明（可选）\n＋ 添加维度\n\n移除行或维度的旧内容仍保留在版本记录中。\n\n取消\n保存比较"
+    },
+    {
+      "name": "29-manual-report-create",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 1755,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 161
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 161
+        },
+        {
+          "text": "编辑主题",
+          "disabled": false,
+          "y": 244
+        },
+        {
+          "text": "生成比较草稿",
+          "disabled": true,
+          "y": 614
+        },
+        {
+          "text": "关联已有文献",
+          "disabled": false,
+          "y": 720
+        },
+        {
+          "text": "＋ 导入文献",
+          "disabled": false,
+          "y": 714
+        },
+        {
+          "text": "既有研究资料",
+          "disabled": false,
+          "y": 877
+        },
+        {
+          "text": "打开研读",
+          "disabled": false,
+          "y": 877
+        },
+        {
+          "text": "书目信息",
+          "disabled": false,
+          "y": 877
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 877
+        },
+        {
+          "text": "筛选与阅读记录",
+          "disabled": false,
+          "y": 915
+        },
+        {
+          "text": "移出主题",
+          "disabled": false,
+          "y": 915
+        },
+        {
+          "text": "移出影响",
+          "disabled": false,
+          "y": 953
+        },
+        {
+          "text": "＋ 新建比较表",
+          "disabled": false,
+          "y": 1042
+        },
+        {
+          "text": "＋ 新建研究成果",
+          "disabled": false,
+          "y": 1306
+        },
+        {
+          "text": "×",
+          "disabled": false,
+          "y": 335
+        },
+        {
+          "text": "取消",
+          "disabled": false,
+          "y": 631
+        },
+        {
+          "text": "保存成果",
+          "disabled": false,
+          "y": 631
+        }
+      ],
+      "sections": [
+        {
+          "text": "空主题",
+          "y": 241
+        },
+        {
+          "text": "让 AI 整理这些文献",
+          "y": 359
+        },
+        {
+          "text": "主题文献",
+          "y": 709
+        },
+        {
+          "text": "多文献比较",
+          "y": 1037
+        },
+        {
+          "text": "研究成果",
+          "y": 1301
+        },
+        {
+          "text": "阅读笔记",
+          "y": 1510
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n\n已撤销文字与页图模型授权，相关任务正在停止，后续发送已禁止；已保存内容保留。\n\n← 研究主题 删除影响\n研究主题\n空主题\n编辑主题\n让 AI 整理这些文献\n\n说出研究目标，得到带出处的比较草稿，再继续形成研究总结。\n\n这次想研究什么？\n已选 1 篇文献 · 调整范围\n\n尚未配置模型，仍可使用下方的阅读、笔记和手工比较。\n\n生成比较草稿\n主题文献\n\n1 篇文献 · 0 篇已纳入 · 0 篇已读\n\n关联已有文献\n＋ 导入文献\n筛选状态\n全部筛选状态\n待筛选\n已纳入\n已排除\n阅读状态\n全部阅读状态\n未读\n阅读中\n已读\n既有研究资料\n\nlegacy.txt\n\n待筛选\n未读\n打开研读\n书目信息\n删除影响\n筛选与阅读记录\n移出主题\n移出影响\n多文献比较\n\n选择材料与维度，保留每项判断的条件和出处。\n\n＋ 新建比较表\n\n选定两篇或更多文献，开始整理证据与差异。\n\n研究成果\n\n把笔记和证据组织成研究总结，修订后导出。\n\n＋ 新建研究成果\n\n把笔记和证据组织成可以继续修订的研究总结。\n\n阅读笔记\n\n按研究问题积累的笔记，移出文献后仍会保留。\n\n进入文献研读后，可从原文或问答中保存笔记。\n\n新建研究成果\n×\n成果标题\n研究问题\n\n创建后选择笔记、比较表或原文片段，再开始整理正文。\n\n取消\n保存成果"
+    },
+    {
+      "name": "30-manual-report-empty",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 1000,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 154
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 154
+        },
+        {
+          "text": "编辑正文",
+          "disabled": false,
+          "y": 245
+        },
+        {
+          "text": "导出 Markdown",
+          "disabled": false,
+          "y": 245
+        },
+        {
+          "text": "版本记录",
+          "disabled": false,
+          "y": 250
+        },
+        {
+          "text": "归档",
+          "disabled": false,
+          "y": 250
+        },
+        {
+          "text": "选择研究材料",
+          "disabled": false,
+          "y": 468
+        },
+        {
+          "text": "将所选材料加入正文",
+          "disabled": true,
+          "y": 547
+        },
+        {
+          "text": "生成研究草稿",
+          "disabled": true,
+          "y": 647
+        }
+      ],
+      "sections": [
+        {
+          "text": "研究总结",
+          "y": 234
+        },
+        {
+          "text": "所选材料",
+          "y": 436
+        },
+        {
+          "text": "辅助写作",
+          "y": 578
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n\n研究成果已保存。\n\n← 研究主题 删除影响\n研究成果\n研究总结\n\n整理这份资料的研究方法\n\n编辑正文\n导出 Markdown\n版本记录\n归档\n\n版本 1 · 0 个段落\n\n先选择研究材料，可将材料加入正文、手工编辑，或生成供审阅的研究草稿。\n\n所选材料\n选择研究材料\n\n尚未选择材料。\n\n将所选材料加入正文\n辅助写作\n\n尚未配置模型，可从材料整理正文并手工修订。\n\n生成研究草稿"
+    },
+    {
+      "name": "31-manual-report-edit-empty",
+      "width": 1440,
+      "height": 1000,
+      "documentHeight": 1000,
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "研究主题",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "☰ 全部文献",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "存储用量",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "模型连接",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "＋ 导入文档",
+          "disabled": false,
+          "y": 18
+        },
+        {
+          "text": "← 研究主题",
+          "disabled": false,
+          "y": 154
+        },
+        {
+          "text": "删除影响",
+          "disabled": false,
+          "y": 154
+        },
+        {
+          "text": "编辑正文",
+          "disabled": false,
+          "y": 245
+        },
+        {
+          "text": "导出 Markdown",
+          "disabled": false,
+          "y": 245
+        },
+        {
+          "text": "版本记录",
+          "disabled": false,
+          "y": 250
+        },
+        {
+          "text": "归档",
+          "disabled": false,
+          "y": 250
+        },
+        {
+          "text": "选择研究材料",
+          "disabled": false,
+          "y": 468
+        },
+        {
+          "text": "将所选材料加入正文",
+          "disabled": true,
+          "y": 547
+        },
+        {
+          "text": "生成研究草稿",
+          "disabled": true,
+          "y": 647
+        },
+        {
+          "text": "×",
+          "disabled": false,
+          "y": 300
+        },
+        {
+          "text": "＋ 添加段落",
+          "disabled": false,
+          "y": 592
+        },
+        {
+          "text": "核对已保存版本",
+          "disabled": false,
+          "y": 666
+        },
+        {
+          "text": "取消",
+          "disabled": false,
+          "y": 666
+        },
+        {
+          "text": "保存成果",
+          "disabled": false,
+          "y": 666
+        }
+      ],
+      "sections": [
+        {
+          "text": "研究总结",
+          "y": 234
+        },
+        {
+          "text": "所选材料",
+          "y": 436
+        },
+        {
+          "text": "辅助写作",
+          "y": 578
+        }
+      ],
+      "text": "研究主题\n☰ 全部文献\nClassifier\n存储用量\n模型连接\n＋ 导入文档\n\n研究成果已保存。\n\n← 研究主题 删除影响\n研究成果\n研究总结\n\n整理这份资料的研究方法\n\n编辑正文\n导出 Markdown\n版本记录\n归档\n\n版本 1 · 0 个段落\n\n先选择研究材料，可将材料加入正文、手工编辑，或生成供审阅的研究草稿。\n\n所选材料\n选择研究材料\n\n尚未选择材料。\n\n将所选材料加入正文\n辅助写作\n\n尚未配置模型，可从材料整理正文并手工修订。\n\n生成研究草稿\n编辑研究成果\n×\n成果标题\n研究问题\n\n0/40 段 · 0/30000 字符 · 修改后点击“保存成果”\n\n＋ 添加段落\n核对已保存版本\n取消\n保存成果"
+    }
+  ]
+}

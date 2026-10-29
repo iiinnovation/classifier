@@ -12,7 +12,7 @@ export function modelSession(provider) {
         url = endpoint.href
       }
     } catch { /* Do not echo malformed externally supplied connection strings. */ }
-    return { url, model: value.text.model, hasKey: Boolean(value.text.key), editable: typeof provider.update === 'function', persistence: 'session' }
+    return { url, model: value.text.model, hasKey: Boolean(value.text.key), editable: typeof provider.update === 'function', canRevoke: typeof provider.revoke === 'function', persistence: 'session' }
   }
   function update(body) {
     if (!body || typeof body !== 'object' || Array.isArray(body) || Object.keys(body).some(key => !['url', 'model', 'key', 'clear'].includes(key))) throw new HttpError(422, '模型设置包含无效字段。')
@@ -34,5 +34,11 @@ export function modelSession(provider) {
     provider.update({ text: { url, model, key } })
     return get()
   }
-  return { get, update }
+  function revoke(body) {
+    if (!body || typeof body !== 'object' || Array.isArray(body) || Object.keys(body).some(key => key !== 'scope') || !['all', 'text', 'vision'].includes(body.scope)) throw new HttpError(422, '请选择文字、页图或全部模型授权。')
+    if (typeof provider.revoke !== 'function') throw new HttpError(409, '当前配置提供器不支持撤销授权。')
+    provider.revoke(body.scope)
+    return { ...get(), revokedScope: body.scope }
+  }
+  return { get, update, revoke }
 }

@@ -1,0 +1,31 @@
+(node:83747) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ revocation reaches old and updated snapshots, separates text/vision, and requires a new connection to grant again (2.959754ms)
+✔ question checks cancellation after awaited progress immediately before sending (1.352261ms)
+✔ comparison-plan checks cancellation after awaited progress immediately before sending (0.346444ms)
+✔ comparison-column checks cancellation after awaited progress immediately before sending (0.355983ms)
+✔ report checks cancellation after awaited progress immediately before sending (0.439368ms)
+✔ a task whose configuration was captured before a slow record read cannot send after revocation (3.757005ms)
+✔ HTTP revocation stops old and new model snapshots, blocks subsequent rounds and overrides, and preserves local search and explicit reconnection (181.23254ms)
+✔ visual sends stay in the parent and cancellation stops the first request and remaining pages (isolated=false) (575.540169ms)
+✔ visual sends stay in the parent and cancellation stops the first request and remaining pages (isolated=true) (965.339504ms)
+✔ visual task revocation records cancellation and leaves text-model work and local imports available (1168.33108ms)
+(node:83748) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ json rejects oversized UTF-8 history before publishing and preserves the readable saved version (564.815859ms)
+✔ sqlite rejects oversized UTF-8 history before publishing and preserves the readable saved version (955.465202ms)
+✔ json bad records remain explicit and isolated while healthy lists, jobs and saved evidence stay readable (1199.024759ms)
+✔ sqlite bad records remain explicit and isolated while healthy lists, jobs and saved evidence stay readable (1550.478706ms)
+✔ JSON concurrent reads preserve one redacted isolation record and normal writes cannot replace damaged bytes (96.581611ms)
+✔ JSON isolation rejects source and quarantine symlinks without following them (13.469819ms)
+✔ JSON startup keeps interrupted edits visible and leaves a healthy saved version unchanged (15.998471ms)
+✔ invalid record containers and oversized records are reported consistently without blocking healthy entries (92.563861ms)
+✔ a symlinked record bucket is reported without listing or reading the outside directory (10.377214ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4720.59489

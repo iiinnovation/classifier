@@ -1,0 +1,74 @@
+(node:65377) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ revocation reaches old and updated snapshots, separates text/vision, and requires a new connection to grant again (2.711303ms)
+✔ question checks cancellation after awaited progress immediately before sending (1.944558ms)
+✔ comparison-plan checks cancellation after awaited progress immediately before sending (0.647019ms)
+✔ comparison-column checks cancellation after awaited progress immediately before sending (0.530512ms)
+✔ report checks cancellation after awaited progress immediately before sending (0.456925ms)
+✔ a task whose configuration was captured before a slow record read cannot send after revocation (3.32835ms)
+✖ HTTP revocation stops old and new model snapshots, blocks subsequent rounds and overrides, and preserves local search and explicit reconnection (1316.570478ms)
+✖ visual sends stay in the parent and cancellation stops the first request and remaining pages (isolated=false) (3.131618ms)
+✖ visual sends stay in the parent and cancellation stops the first request and remaining pages (isolated=true) (0.695808ms)
+✖ visual task revocation records cancellation and leaves text-model work and local imports available (0.675277ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 6
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1966.539139
+
+✖ failing tests:
+
+test at tests/model-authorization.test.mjs:82:1
+✖ HTTP revocation stops old and new model snapshots, blocks subsequent rounds and overrides, and preserves local search and explicit reconnection (1316.570478ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/model-authorization.test.mjs:124:38
+✖ visual sends stay in the parent and cancellation stops the first request and remaining pages (isolated=false) (3.131618ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/model-authorization.test.mjs:124:38
+✖ visual sends stay in the parent and cancellation stops the first request and remaining pages (isolated=true) (0.695808ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/model-authorization.test.mjs:142:1
+✖ visual task revocation records cancellation and leaves text-model work and local imports available (0.675277ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }

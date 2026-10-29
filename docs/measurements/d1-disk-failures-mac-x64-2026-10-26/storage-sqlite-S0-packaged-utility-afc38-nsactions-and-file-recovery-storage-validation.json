@@ -1,0 +1,70 @@
+{
+  "cases": [
+    {
+      "name": "before-commit",
+      "passed": true,
+      "forcedExit": true,
+      "idempotentRecovery": true
+    },
+    {
+      "name": "after-commit",
+      "passed": true,
+      "forcedExit": true,
+      "idempotentRecovery": true
+    },
+    {
+      "name": "before-unlink",
+      "passed": true,
+      "forcedExit": true,
+      "idempotentRecovery": true
+    },
+    {
+      "name": "after-unlink",
+      "passed": true,
+      "forcedExit": true,
+      "idempotentRecovery": true
+    },
+    {
+      "name": "database-full",
+      "passed": true,
+      "injection": "SQLite max_page_count produces a real SQLITE_FULL write error",
+      "error": {
+        "code": "ERR_SQLITE_ERROR",
+        "message": "database or disk is full"
+      }
+    },
+    {
+      "name": "file-permission",
+      "passed": true,
+      "injection": "Explicit EACCES fault at unlink boundary",
+      "retryCompleted": true
+    },
+    {
+      "name": "second-process-contention",
+      "passed": true,
+      "releasedAfterForcedExit": true
+    },
+    {
+      "name": "consistent-backup-restore",
+      "passed": true,
+      "method": "Quiesced writers + VACUUM INTO + SHA-256 originals manifest",
+      "independentRestore": true
+    }
+  ],
+  "runtime": {
+    "node": "24.21.0",
+    "electron": "44.7.0",
+    "sqlite": "3.53.4",
+    "platform": "darwin",
+    "arch": "x64"
+  },
+  "allPassed": true,
+  "limitations": [
+    "Process termination is tested; power-loss durability is not.",
+    "The prototype coordinates fixture records; live import/model cancellation remains D1/D2 integration work.",
+    "Backup assumes exclusive ownership and quiesced file writers; production barrier, archive validation and restore activation remain D1 work."
+  ],
+  "packaged": true,
+  "testHelperExternalToPackage": true,
+  "timestamp": "2026-10-26T09:19:42.467Z"
+}

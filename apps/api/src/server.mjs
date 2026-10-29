@@ -17,6 +17,9 @@ import { createNotes } from './notes.mjs'
 import { evidenceVersion } from './evidence.mjs'
 import { createComparisons } from './comparisons.mjs'
 import { createReports } from './reports.mjs'
+import { deletionPreview } from './deletion-preview.mjs'
+import { executeDeletion } from './deletions.mjs'
+import { storageUsage } from './storage-usage.mjs'
 import { environmentSettings, taskSettings } from './settings.mjs'
 import { desktopRequestGuard } from './desktop-security.mjs'
 import { acquireDataLock } from './data-lock.mjs'
@@ -26,7 +29,7 @@ const root = fileURLToPath(new URL('../../../', import.meta.url))
 // Whole-report edits include up to 40 blocks, 30000 text characters and 960
 // citation IDs, plus headings and source selectors. Allow their serialized form.
 const reportEditBodyLimit = 1024 * 1024
-export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER_DATA_DIR || 'data'), qaOptions = {}, settingsProvider = environmentSettings(), desktopToken, storeFactory = createStore } = {}) {
+export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER_DATA_DIR || 'data'), qaOptions = {}, settingsProvider = environmentSettings(), desktopToken, storeFactory = createStore, managedBackupDir } = {}) {
   const guard = desktopToken === undefined ? null : desktopRequestGuard(desktopToken)
   const ownership = await acquireDataLock(dataDir)
   let store
@@ -42,13 +45,18 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
   let syncImports = 0
   let closing = false
   const requestTasks = new Set(), syncControllers = new Set()
+  const mutationTasks = new Set()
+  let deleting = false
   let rendering = false
+  let usageTask = null
   const assets = new Map([
     ['/', ['index.html', 'text/html; charset=utf-8']],
     ['/app.js', ['app.js', 'text/javascript; charset=utf-8']],
     ['/api.js', ['api.js', 'text/javascript; charset=utf-8']],
     ['/storage.js', ['storage.js', 'text/javascript; charset=utf-8']],
     ['/research.js', ['research.js', 'text/javascript; charset=utf-8']],
+    ['/deletion-preview.js', ['deletion-preview.js', 'text/javascript; charset=utf-8']],
+    ['/storage-usage.js', ['storage-usage.js', 'text/javascript; charset=utf-8']],
     ['/notes.js', ['notes.js', 'text/javascript; charset=utf-8']],
     ['/comparisons.js', ['comparisons.js', 'text/javascript; charset=utf-8']],
     ['/reports.js', ['reports.js', 'text/javascript; charset=utf-8']],
@@ -57,11 +65,17 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
     ['/style.css', ['style.css', 'text/css; charset=utf-8']],
   ])
   const server = createServer((req, res) => {
-    const task = handleRequest(req, res)
+    const target = req.method === 'DELETE' && /^\/api\/(documents|topics|notes|comparisons|reports)\/[^/]+$/.test(req.url.split('?')[0])
+    const blocked = deleting && !['GET', 'HEAD'].includes(req.method)
+    const ownsBarrier = target && !blocked
+    const waitFor = ownsBarrier ? [...mutationTasks] : []
+    if (ownsBarrier) deleting = true
+    const task = handleRequest(req, res, { blocked, waitFor })
     requestTasks.add(task)
-    void task.finally(() => requestTasks.delete(task)).catch(error => console.error('Request failed:', error.message))
+    if (!target && !blocked && !['GET', 'HEAD'].includes(req.method)) mutationTasks.add(task)
+    void task.finally(() => { requestTasks.delete(task); mutationTasks.delete(task); if (ownsBarrier) deleting = false }).catch(error => console.error('Request failed:', error.message))
   })
-  async function handleRequest(req, res) {
+  async function handleRequest(req, res, { blocked, waitFor }) {
     try {
       if (closing) throw new HttpError(503, '服务正在关闭。')
       res.setHeader('x-content-type-options', 'nosniff')
@@ -70,7 +84,18 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
       const origin = req.headers.origin
       if (guard) guard(req, server.address())
       else if (origin && origin !== `http://${req.headers.host}` && origin !== `https://${req.headers.host}`) throw new HttpError(403, '请从当前工作台发起请求。')
+      if (blocked) throw new HttpError(409, '资料库正在执行删除，请稍后重试。')
       const url = new URL(req.url, 'http://localhost')
+      const deleteTarget = url.pathname.match(/^\/api\/(documents|topics|notes|comparisons|reports)\/([^/]+)$/)
+      if (deleteTarget && req.method === 'DELETE') {
+        const body = await readJson(req)
+        await Promise.allSettled(waitFor)
+        if (closing) throw new HttpError(503, '服务正在关闭。')
+        res.setHeader('cache-control', 'no-store')
+        return sendJson(res, 200, await executeDeletion(store, runs, imports, { bucket: deleteTarget[1], id: deleteTarget[2], body, synchronousImports: syncImports }))
+      }
+      const deletion = url.pathname.match(/^\/api\/deletion-preview\/(documents|topics|notes|comparisons|reports)\/([^/]+)$/)
+      if (deletion && req.method === 'GET') return sendJson(res, 200, await deletionPreview(store, { bucket: deletion[1], id: deletion[2], action: url.searchParams.get('action') || 'delete', topicId: url.searchParams.get('topicId'), synchronousImports: syncImports }))
       if (req.method === 'GET' && /^\/fonts\/KaTeX_[a-zA-Z0-9_-]+\.(woff2?|ttf)$/.test(url.pathname)) {
         res.writeHead(200, { 'content-type': url.pathname.endsWith('.woff2') ? 'font/woff2' : url.pathname.endsWith('.woff') ? 'font/woff' : 'font/ttf' })
         return res.end(await readFile(resolve(root, 'node_modules/katex/dist', url.pathname.slice(1))))
@@ -81,10 +106,20 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
         return res.end(await readFile(resolve(root, 'apps/web', name)))
       }
       if (req.method === 'GET' && url.pathname === '/health') return sendJson(res, 200, { status: 'ok', service: 'classifier', modelConfigured: modelConfigured(taskSettings(settingsProvider, qaOptions).text) })
+      if (req.method === 'GET' && url.pathname === '/api/library-health') return sendJson(res, 200, await store.health?.() || { issueCount: 0, issues: [], truncated: false })
+      if (req.method === 'GET' && url.pathname === '/api/storage-usage') {
+        res.setHeader('cache-control', 'no-store')
+        usageTask ||= storageUsage(ownership.root, { managedBackupDir, inspectRecordBodies: store.inspectRecordBodies }).finally(() => { usageTask = null })
+        return sendJson(res, 200, await usageTask)
+      }
       if (url.pathname === '/api/settings/text-model') {
         res.setHeader('cache-control', 'no-store')
         if (req.method === 'GET') return sendJson(res, 200, modelSettings.get())
         if (req.method === 'PATCH') return sendJson(res, 200, modelSettings.update(await readJson(req)))
+      }
+      if (req.method === 'POST' && url.pathname === '/api/settings/model-authorization/revoke') {
+        res.setHeader('cache-control', 'no-store')
+        return sendJson(res, 200, modelSettings.revoke(await readJson(req)))
       }
       if (req.method === 'GET' && url.pathname === '/api/parser-capabilities') return sendJson(res, 200, { ocr: await ocrCapabilities(), vision: visionConfigured(settingsProvider.read().vision) })
       if (url.pathname === '/api/topics') {
@@ -220,6 +255,10 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
             source: { kind: 'upload', sha256: createHash('sha256').update(upload.bytes).digest('hex'), byteLength: upload.bytes.length },
             createdAt: new Date().toISOString(),
           }
+          if (store.commitImport) {
+            await store.commitImport(document, upload.bytes, { topicId: upload.topicId, signal: controller.signal, onCommitting: () => syncControllers.delete(controller) })
+            return sendJson(res, 201, document)
+          }
           await store.saveOriginal(document.id, upload.bytes)
           savedDocumentId = document.id
           if (controller.signal.aborted) throw new HttpError(503, '服务正在关闭。')
@@ -268,7 +307,7 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
       throw new HttpError(404, '未找到此接口。')
     } catch (error) {
       if (res.headersSent || res.destroyed) return res.destroy()
-      sendJson(res, error.status || 500, { error: error.status ? error.message : '服务处理失败，请查看服务日志。' })
+      sendJson(res, error.status || 500, { error: error.status ? error.message : '服务处理失败，请查看服务日志。', ...(['RECORD_CORRUPT', 'RECORD_UNAVAILABLE'].includes(error.code) ? { code: error.code, bucket: error.bucket, id: error.id } : {}) })
       if (!error.status) console.error(error)
     }
   }

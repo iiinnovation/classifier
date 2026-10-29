@@ -1,0 +1,12 @@
+{
+  "packaged": true,
+  "migrationRecords": 1,
+  "storage": "sqlite",
+  "status": 200,
+  "title": "Packaged migration",
+  "busy": "DATA_DIRECTORY_LOCKED",
+  "backendRuntime": {
+    "node": "24.21.0",
+    "electron": "44.7.0"
+  }
+}

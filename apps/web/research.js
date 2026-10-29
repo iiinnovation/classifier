@@ -7,6 +7,7 @@ export function createResearchWorkspace({ api, element, openDocument, resetReade
   let comparisonId = null, readerComparisonId = null
   let reportId = null, readerReportId = null
   let view = 'home', navigation = 0, refreshVersion = 0, documentsVersion = 0
+  const topicContent = new Map()
   let editingTopic = null, editingDocument = null, editingLink = null, attachingTopic = null
   const chosenDocuments = new Set()
   const saving = new Set()
@@ -60,11 +61,23 @@ export function createResearchWorkspace({ api, element, openDocument, resetReade
       const statuses = element('div', null, 'document-statuses')
       statuses.append(element('span', selectionLabels[link.selection], `status-chip ${link.selection}`), element('span', readingLabels[link.readingStatus], 'status-chip'))
       info.append(statuses)
-      if (link.relevance) info.append(element('p', `相关性：${link.relevance}`, 'record-preview'))
-      if (link.reason) info.append(element('p', `筛选理由：${link.reason}`, 'record-preview'))
+      if (link.relevance || link.reason) {
+        const description = element('details', null, 'record-description')
+        description.append(element('summary', (link.reason || link.relevance).slice(0, 80)))
+        if (link.reason) description.append(element('p', `筛选理由：${link.reason}`, 'record-preview'))
+        if (link.relevance) description.append(element('p', `相关性：${link.relevance}`, 'record-preview'))
+        info.append(description)
+      }
     }
-    const actions = element('div', null, 'document-actions')
-    actions.append(button('打开研读', () => openDocument(doc.id)), button('书目信息', () => editMetadata(doc.id)))
+    const actions = element('div', null, 'document-actions'), more = element('details', null, 'more-actions'), extras = element('div', null, 'more-actions-list')
+    more.append(element('summary', '更多'), extras)
+    extras.append(button('书目信息', () => editMetadata(doc.id)))
+    const impact = element('button', '删除影响', 'quiet-button')
+    impact.type = 'button'; impact.dataset.deletionBucket = 'documents'; impact.dataset.deletionId = doc.id; extras.append(impact)
+    if (doc.unavailable) {
+      info.append(element('p', doc.unavailable === 'deleted' ? '原文已删除，已有研究中的引用摘录仍保留。' : doc.unavailable === 'corrupt' ? '记录损坏，原件及已有证据快照保留。请从资料库菜单检查并恢复。' : doc.unavailable === 'unavailable' ? '记录暂时无法读取，请检查文件权限或稍后重试。已保存的证据仍保留。' : '记录缺失，请核对资料库与备份。', 'notice'))
+      title.disabled = true
+    }
     if (link) {
       const topicId = activeTopic.id
       actions.append(button('筛选与阅读记录', () => editRecord(doc.id)))
@@ -75,8 +88,13 @@ export function createResearchWorkspace({ api, element, openDocument, resetReade
           await refreshSaved('已移出主题。文献仍保存在全部文献中。')
         } finally { remove.disabled = false }
       }, 'quiet-button remove-link')
-      actions.append(remove)
+      extras.append(remove)
+      const detachImpact = element('button', '移出影响', 'quiet-button')
+      detachImpact.type = 'button'; detachImpact.dataset.deletionBucket = 'documents'; detachImpact.dataset.deletionId = doc.id; detachImpact.dataset.deletionAction = 'detach'; detachImpact.dataset.deletionTopic = topicId
+      extras.append(detachImpact)
     }
+    actions.append(more)
+    if (doc.unavailable) for (const action of actions.querySelectorAll('button')) action.disabled = true
     card.append(info, actions)
     return card
   }
@@ -97,9 +115,14 @@ export function createResearchWorkspace({ api, element, openDocument, resetReade
   function renderTopic() {
     if (!activeTopic) return
     $('topic-title').textContent = activeTopic.title
+    $('topic-impact').dataset.deletionId = activeTopic.id
     $('topic-question').textContent = activeTopic.question
+    $('topic-question-section').hidden = !activeTopic.question
+    $('topic-description').hidden = !activeTopic.question && !activeTopic.scope
     $('topic-scope').textContent = activeTopic.scope
     $('topic-scope-section').hidden = !activeTopic.scope
+    $('topic-description-summary').textContent = activeTopic.question ? `研究问题：${activeTopic.question.slice(0, 90)}` : '研究范围'
+    $('topic-nav-documents').textContent = `文献 ${activeTopic.documentCount}`
     $('topic-stats').textContent = `${activeTopic.documentCount} 篇文献 · ${activeTopic.includedCount} 篇已纳入 · ${activeTopic.readCount} 篇已读`
     const selection = $('selection-filter').value, reading = $('reading-filter').value
     const links = activeTopic.documents.filter(link => (!selection || link.selection === selection) && (!reading || link.readingStatus === reading))
@@ -153,6 +176,8 @@ export function createResearchWorkspace({ api, element, openDocument, resetReade
       const topic = await api(`/api/topics/${id}`)
       if (token !== navigation) return
       activeTopic = topic
+      topicContent.clear(); $('topic-recent').hidden = true; $('topic-recent').replaceChildren()
+      for (const [kind, label] of [['comparisons', '比较'], ['reports', '总结'], ['notes', '笔记']]) $(`topic-nav-${kind}`).textContent = label
       $('selection-filter').value = ''; $('reading-filter').value = ''
       panels(); renderTopic(); remember(); notice('')
       return true
@@ -170,6 +195,29 @@ export function createResearchWorkspace({ api, element, openDocument, resetReade
     view = 'reader'; panels(); remember()
     $('reader-back').textContent = readerReportId ? '← 返回研究成果' : readerComparisonId ? '← 返回比较表' : activeTopic ? `← ${activeTopic.title}` : '← 全部文献'
     $('reader-record').hidden = !activeTopic?.documents.some(link => link.documentId === id)
+  }
+  function updateTopicContent(topicId, kind, items, openItem) {
+    if (activeTopic?.id !== topicId || view !== 'topic') return
+    const active = items.filter(item => !item.archived)
+    topicContent.set(kind, { items: active, openItem })
+    $(`topic-nav-${kind}`).textContent = `${{ comparisons: '比较', reports: '总结', notes: '笔记' }[kind]} ${active.length}`
+    const recent = ['reports', 'comparisons'].flatMap(type => {
+      const content = topicContent.get(type), item = content?.items.slice().sort((a, b) => (b.updatedAt || b.createdAt || '').localeCompare(a.updatedAt || a.createdAt || ''))[0]
+      return item ? [button(`${type === 'reports' ? '继续总结' : '继续比较'}：${item.title}`, () => content.openItem(item.id))] : []
+    })
+    $('topic-recent').replaceChildren(...recent); $('topic-recent').hidden = !recent.length
+  }
+  async function useReaderTopic(topicId, documentId) {
+    if (view !== 'reader' || readerId !== documentId) throw new Error('阅读位置已变化，请重新选择主题。')
+    const token = navigation
+    const topic = await api(`/api/topics/${topicId}`)
+    if (token !== navigation || view !== 'reader' || readerId !== documentId) throw new Error('阅读位置已变化，请重新选择主题。')
+    activeTopic = topic
+    updateTopic(topic)
+    readerComparisonId = null; readerReportId = null
+    $('reader-back').textContent = `← ${topic.title}`; $('reader-record').hidden = false
+    remember()
+    return topic
   }
   function beginDocumentsRequest() { return ++documentsVersion }
   function setDocuments(values, version = beginDocumentsRequest()) {
@@ -218,6 +266,7 @@ export function createResearchWorkspace({ api, element, openDocument, resetReade
     $('topic-name-input').value = topic?.title || ''
     $('topic-question-input').value = topic?.question || ''
     $('topic-scope-input').value = topic?.scope || ''
+    $('topic-details').open = Boolean(topic?.question || topic?.scope)
     $('topic-form-error').textContent = ''
     $('topic-dialog').showModal()
   }
@@ -227,6 +276,8 @@ export function createResearchWorkspace({ api, element, openDocument, resetReade
     editingDocument = id
     $('metadata-name').value = doc.title
     for (const field of ['authors', 'year', 'venue', 'doi', 'url']) $(`metadata-${field}`).value = doc.bibliography?.[field] || ''
+    $('metadata-details').open = false
+    $('metadata-details-summary').textContent = ['venue', 'doi', 'url'].some(field => doc.bibliography?.[field]) ? '已填写 · 展开核对' : '可选'
     $('metadata-error').textContent = ''
     $('metadata-dialog').showModal()
   }
@@ -237,6 +288,9 @@ export function createResearchWorkspace({ api, element, openDocument, resetReade
     $('record-context').textContent = `${activeTopic.title} · ${link.document.title}。记录仅用于当前主题。`
     $('record-selection').value = link.selection; $('record-reading').value = link.readingStatus
     $('record-relevance').value = link.relevance; $('record-reason').value = link.reason
+    $('record-details').open = Boolean(link.reason || link.relevance)
+    $('record-relevance-details').open = Boolean(link.relevance)
+    $('record-details-summary').textContent = link.reason || link.relevance ? '已填写' : '可选'
     $('record-error').textContent = ''
     $('record-dialog').showModal()
   }
@@ -254,6 +308,9 @@ export function createResearchWorkspace({ api, element, openDocument, resetReade
   function form(id, dialogId, errorId, closeId, submit) {
     const dialog = $(dialogId)
     $(closeId).onclick = () => { if (!saving.has(dialogId)) dialog.close() }
+    $(id).addEventListener('invalid', event => {
+      for (let node = event.target.parentElement; node && node !== dialog; node = node.parentElement) if (node.tagName === 'DETAILS') node.open = true
+    }, true)
     dialog.oncancel = event => { if (saving.has(dialogId)) event.preventDefault() }
     $(id).onsubmit = async event => {
       event.preventDefault()
@@ -329,5 +386,5 @@ export function createResearchWorkspace({ api, element, openDocument, resetReade
   $('attach-query').oninput = renderAttach
   function enterComparison(id) { comparisonId = id; navigate('comparison'); remember(); return navigation }
   function enterReport(id) { reportId = id; navigate('report'); remember(); return navigation }
-  return { enterReport, enterComparison, beginDocumentsRequest, setDocuments, restore, refresh, readerOpening: () => ++navigation, readerOpened, prepareImport, showTopic, notice, report, currentTopic: () => activeTopic, navigationKey: () => navigation }
+  return { updateTopicContent, useReaderTopic, enterReport, enterComparison, beginDocumentsRequest, setDocuments, restore, refresh, readerOpening: () => ++navigation, readerOpened, prepareImport, showTopic, showHome, notice, report, currentTopic: () => activeTopic, navigationKey: () => navigation }
 }

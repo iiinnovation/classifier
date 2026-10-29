@@ -14,3 +14,14 @@ export function captureEvidence(document, references, version = evidenceVersion(
     documentTitle: document.title, reference: structuredClone(reference),
   }))
 }
+
+// Presentation state is computed from live sources, never written into saved
+// evidence. Absence is not proof of deletion; read failures are not corruption.
+export function evidenceStatus(item, current, version = current?.value ? evidenceVersion(current.value) : null) {
+  const document = current?.value
+  return { ...item, sourceState: current?.state || 'missing', matchesCurrent: Boolean(document && item.documentId?.toLowerCase() === document.id?.toLowerCase() && typeof item.documentVersion === 'string' && item.documentVersion === version) }
+}
+
+export function sourceStateText(state, noun = '原文') {
+  return ({ deleted: `${noun}已删除`, missing: `${noun}缺失`, corrupt: `${noun}记录损坏`, unavailable: `${noun}暂时无法读取` })[state] || ''
+}

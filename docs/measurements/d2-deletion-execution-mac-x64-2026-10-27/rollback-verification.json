@@ -1,0 +1,8 @@
+{
+  "baselineId": "mac-x64-d1-2026-10-26-d7a392b67465",
+  "matchesRecordedArtifacts": true,
+  "compatibilityFixturesPassed": 6,
+  "releaseApproved": false,
+  "actualCrossVersionPairsVerified": false,
+  "note": "Future formats are fixtures. Revalidate actual upgrade/downgrade binary pairs before release; this preview is not signed or notarized."
+}

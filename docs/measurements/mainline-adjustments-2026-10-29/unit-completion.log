@@ -1,0 +1,47 @@
+✔ M3 manual matrix retains note and passage evidence, differences, versions and restart state (2861.817553ms)
+✔ reviewing evidence preserves current synthesis while content edits still invalidate it (1863.547373ms)
+✔ M3 rejects scope violations, fabricated sources and invalid comparability (1282.093407ms)
+✔ M3 model uses only selected evidence and adoption cannot overwrite intervening edits (1430.607768ms)
+✔ M3 cancellation, restart interruption and changed source block unsafe adoption (1359.947071ms)
+✔ M3 default dimensions give the model bounded English evidence from selected documents (1190.353166ms)
+✔ M3 historical evidence checks removed documents without expanding current comparison scope (1469.185023ms)
+(node:43915) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ M2 notes: source snapshots, revisions, explicit missing states, idempotency and restart (563.695219ms)
+✔ M2 evidence remains stable across metadata edits, parse changes and reimports (1614.066585ms)
+✔ M2 rejects forged evidence, false model provenance, invalid states and conflicting edits (242.154411ms)
+✔ M2 model suggestions retain provenance and never overwrite accepted human edits (402.702853ms)
+✔ M2 suggestions require a model; ordinary extractive answers can still become source notes (284.198712ms)
+(node:43916) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ manuscript edits preserve citations and order across remove undo draft resume and save (2325.343622ms)
+✔ manuscript paragraph settings save reference changes and preserve drafts on version conflicts (1404.855582ms)
+✔ opening a cited source from the manuscript keeps unsaved writing recoverable (816.613131ms)
+(node:43917) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ manual report creation saves initial writing atomically, retries by identity and rejects fabricated evidence (2290.476654ms)
+✔ M4 materials, manual paragraphs, checked citations, history, export and restart persist together (1992.341194ms)
+✔ M4 rejects foreign materials, fabricated citations, false model provenance and conflicting writes (778.205388ms)
+✔ M4 source updates retain old quoted text, flag reviews and export historical locations safely (1033.247366ms)
+✔ M4 suggestions use selected snapshots and cannot overwrite human edits or changed sources (1045.980469ms)
+✔ M4 cancellation and restart interrupt generation without changing saved text (776.91644ms)
+✔ M4 large assembled reports remain editable while HTTP and content limits still apply (2220.315942ms)
+✔ M4 assembly skips repeated material, retains human edits and adds only changed or removed items (1294.624244ms)
+✔ M4 assembly recognizes pre-key material blocks from history after manual revision (913.686382ms)
+✔ M4 assembly explicitly preserves model provenance from comparison materials (972.818628ms)
+(node:43918) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ M1: topics, shared bibliography, independent screening, removal and restart preserve legacy evidence (593.439486ms)
+✔ M1: background and synchronous imports persist the designated topic without client follow-up (2522.295994ms)
+✔ M1: reject invalid edits and serialize concurrent association and partial updates (855.009501ms)
+✔ a title-only topic can collect documents before its research question is defined (878.043165ms)
+✔ UUID casing identifies the same document, association and serialized update queue (95.843351ms)
+✔ switching documents blocks questions and discards the previous document response (134.769333ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13820.553611

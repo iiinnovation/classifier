@@ -1,0 +1,20 @@
+(node:75518) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ revocation reaches old and updated snapshots, separates text/vision, and requires a new connection to grant again (2.968574ms)
+✔ question checks cancellation after awaited progress immediately before sending (1.884657ms)
+✔ comparison-plan checks cancellation after awaited progress immediately before sending (0.428038ms)
+✔ comparison-column checks cancellation after awaited progress immediately before sending (0.406958ms)
+✔ report checks cancellation after awaited progress immediately before sending (0.700954ms)
+✔ a task whose configuration was captured before a slow record read cannot send after revocation (3.803605ms)
+✔ HTTP revocation stops old and new model snapshots, blocks subsequent rounds and overrides, and preserves local search and explicit reconnection (1539.49327ms)
+✔ visual sends stay in the parent and cancellation stops the first request and remaining pages (isolated=false) (673.234469ms)
+✔ visual sends stay in the parent and cancellation stops the first request and remaining pages (isolated=true) (1122.477857ms)
+✔ visual task revocation records cancellation and leaves text-model work and local imports available (1982.280495ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5849.093295

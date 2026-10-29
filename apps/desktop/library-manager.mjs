@@ -84,7 +84,62 @@ export function createLibraryManager({ profile, controller, run, persistSelectio
     async idle() { await pending?.catch(() => {}) },
     inspect() { return perform(() => offline(() => run('inspect', { source: controller.dataDir }), { keepInspection: true })) },
     backup(destination) { return perform(() => offline(() => run('backup', { source: controller.dataDir, destination }))) },
+    backupZip(destination) { return perform(() => offline(() => run('backup-zip', { source: controller.dataDir, destination }, { onProgress: progress }))) },
+    preserve(destination) { return perform(() => offline(() => run('preserve', { source: controller.dataDir, destination }), { keepInspection: true })) },
+    restoreUnavailable(backup, { format = 'directory', revision } = {}) {
+      return perform(async () => {
+        await controller.stop()
+        const previous = controller.dataDir
+        let result
+        try {
+          const libraries = join(profile, 'libraries'), backups = join(profile, 'library-backups')
+          await mkdir(libraries, { recursive: true, mode: 0o700 }); await mkdir(backups, { recursive: true, mode: 0o700 })
+          result = await run('restore-unavailable', { source: previous, backup, format, revision, destination: join(libraries, randomUUID()), preservation: join(backups, randomUUID()) })
+          controller.dataDir = await realpath(result.destination)
+          await controller.start()
+          await persistSelection(profile, controller.dataDir)
+          return result
+        } catch (error) {
+          await controller.stop(); controller.dataDir = previous
+          throw new Error(`${error.message}；原资料库位置保留${result ? '，恢复副本为 ' + result.destination + '，原件保全为 ' + result.preservation : ''}。`)
+        }
+      })
+    },
+    recoveryPreview(backup, { format = 'directory' } = {}) { return perform(() => offline(() => run('recovery-preview', { source: controller.dataDir, backup, format }))) },
+    recover(backup, { format = 'directory', revision, selections } = {}) {
+      return perform(async () => {
+        await controller.stop()
+        let result
+        try {
+          const libraries = join(profile, 'libraries'), backups = join(profile, 'library-backups')
+          await mkdir(libraries, { recursive: true, mode: 0o700 }); await mkdir(backups, { recursive: true, mode: 0o700 })
+          result = await run('recover', { source: controller.dataDir, backup, format, revision, selections, destination: join(libraries, randomUUID()), preservation: join(backups, randomUUID()) })
+          const check = await run('inspect', { source: result.destination })
+          result.remainingIssues = check.issueCount
+        } catch (error) {
+          try { await controller.start() } catch (restart) { throw new Error(`${error.message}；原库重启失败：${restart.message}`) }
+          throw error
+        }
+        await activate(result.destination)
+        return result
+      })
+    },
     migrationStatus(source) { return perform(() => run('migration-status', { source })) },
+    migrateFromBackup(source) {
+      return perform(async () => {
+        await controller.stop()
+        let prepared, result, backup
+        try {
+          progress({ phase: 'safety-backup' }); backup = await safetyBackup()
+          const libraries = join(profile, 'libraries'); await mkdir(libraries, { recursive: true, mode: 0o700 })
+          prepared = await run('prepare-from-backup', { source, destination: join(libraries, randomUUID()) }, { onProgress: progress })
+          result = await run('resume-migration', { source: prepared.stage }, { onProgress: progress })
+          await checkMigrated(result.destination)
+        } catch (error) { return restartAfterFailure(error, prepared?.stage) }
+        await activate(result.destination)
+        return { ...result, previousBackup: backup.destination }
+      })
+    },
     migrate() {
       return perform(async () => {
         await controller.stop()
@@ -96,7 +151,7 @@ export function createLibraryManager({ profile, controller, run, persistSelectio
           if (check.truncated || check.issues.some(issue => issue.severity === 'error')) throw new Error('当前资料库检查未通过，请先检查并处理损坏内容。')
           const libraries = join(profile, 'libraries'), backups = join(profile, 'library-backups')
           await mkdir(libraries, { recursive: true, mode: 0o700 }); await mkdir(backups, { recursive: true, mode: 0o700 })
-          prepared = await run('prepare-migration', { source: controller.dataDir, destination: join(libraries, randomUUID()), backup: join(backups, randomUUID()) })
+          prepared = await run('prepare-migration', { source: controller.dataDir, destination: join(libraries, randomUUID()), backup: join(backups, randomUUID()) }, { onProgress: progress })
           progress(prepared)
           result = await run('resume-migration', { source: prepared.stage }, { onProgress: progress })
           await checkMigrated(result.destination)
@@ -123,16 +178,17 @@ export function createLibraryManager({ profile, controller, run, persistSelectio
         return { ...result, previousBackup: backup.destination }
       })
     },
-    restore(source) {
+    restore(source, { format = 'directory' } = {}) {
       return perform(async () => {
-        await run('verify', { source })
+        if (!['directory', 'zip'].includes(format)) throw new Error('不支持的备份格式。')
+        await run(format === 'zip' ? 'verify-zip' : 'verify', { source }, { onProgress: progress })
         await controller.stop()
         let target, backup
         try {
           backup = await safetyBackup()
           const parent = join(profile, 'libraries'); await mkdir(parent, { recursive: true, mode: 0o700 })
           target = join(parent, randomUUID())
-          await run('restore', { source, destination: target })
+          await run(format === 'zip' ? 'restore-zip' : 'restore', { source, destination: target }, { onProgress: progress })
           const check = await run('inspect', { source: target })
           if (check.truncated || check.issues.some(issue => issue.severity === 'error')) throw new Error(`恢复副本检查未通过，已保留于 ${target}。`)
         } catch (error) {

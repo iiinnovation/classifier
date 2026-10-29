@@ -1,9 +1,10 @@
 import { randomUUID, createHash } from 'node:crypto'
 import { HttpError } from './http.mjs'
 import { requireId } from './store.mjs'
-import { evidenceVersion, captureEvidence } from './evidence.mjs'
+import { evidenceVersion, captureEvidence, evidenceStatus, sourceStateText } from './evidence.mjs'
 import { environmentSettings, taskSettings } from './settings.mjs'
 import { modelConfigured } from './qa.mjs'
+import { availableRecord } from './record-integrity.mjs'
 
 export const noteFields = ['研究问题', '材料或对象', '方法', '主要发现', '局限', '待验证问题']
 const statuses = ['recorded', 'not_reported', 'not_applicable', 'not_found']
@@ -49,14 +50,15 @@ export function createNotes(store, topics, runs, qaOptions = {}, settingsProvide
     if (requireLinked && !linked) throw new HttpError(409, '请先将文献关联到当前研究主题。')
     return { topic, document, linked }
   }
-  async function present(note, full = false, document = null) {
-    document ||= await store.document(note.documentId)
-    const version = evidenceVersion(document)
-    const decorate = value => ({ ...value, evidence: value.evidence.map(item => ({ ...item, matchesCurrent: item.documentVersion === version && item.documentId === document.id })) })
+  async function present(note, full = false, current = null) {
+    if (current?.id) current = { value: current, state: 'available' }
+    current ||= await availableRecord(store, 'documents', note.documentId)
+    const document = current.value, version = document ? evidenceVersion(document) : null
+    const decorate = value => ({ ...value, sourceState: current.state, evidence: value.evidence.map(item => evidenceStatus(item, current, version)) })
     const value = decorate(snapshot(note))
     if (full) value.history = note.history.map(decorate)
     else value.historyCount = note.history.length
-    value.documentTitle = document.title
+    value.documentTitle = document?.title || note.evidence[0]?.documentTitle || sourceStateText(current.state, '文献')
     return value
   }
   async function get(id) {
@@ -68,7 +70,7 @@ export function createNotes(store, topics, runs, qaOptions = {}, settingsProvide
     const topic = await topics.get(topicId)
     const notes = (await store.list('notes')).filter(note => note.topicId === topic.id && (!documentId || note.documentId === documentId))
     const documents = new Map()
-    for (const id of new Set(notes.map(note => note.documentId))) documents.set(id, await store.document(id))
+    for (const id of new Set(notes.map(note => note.documentId))) documents.set(id, await availableRecord(store, 'documents', id))
     return Promise.all(notes.map(async note => ({ ...await present(note, false, documents.get(note.documentId)), linked: topic.documents.some(link => link.documentId === note.documentId) })))
   }
   async function forDocument(topicId, documentId) {
@@ -135,7 +137,9 @@ export function createNotes(store, topics, runs, qaOptions = {}, settingsProvide
     if (!Number.isInteger(body.revision) || body.revision < 1 || Object.keys(body).length < 2) throw new HttpError(422, '请提供笔记版本和需要修改的字段。')
     const saved = await store.update('notes', id, async current => {
       if (current.revision !== body.revision) throw new HttpError(409, '笔记已在其他页面修改。当前输入已保留，请载入已保存版本后再编辑。')
-      const document = await store.document(current.documentId)
+      // Editing or restoring saved content does not require the lost original.
+      // Capturing replacement evidence and marking it checked still do.
+      const document = body.referenceIds !== undefined || body.reviewState === 'checked' ? await store.document(current.documentId) : null
       const next = { ...current }
       if (body.restoreRevision !== undefined) {
         if (Object.keys(body).length !== 2) throw new HttpError(422, '恢复版本时不能同时修改其他字段。')

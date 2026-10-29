@@ -1,0 +1,102 @@
+[
+  {
+    "commit": "73237b980fd46d4f8e81ac7df24dee185a7e9172",
+    "path": "apps/api/src/topics.mjs",
+    "sha256": "459c53921c165bece83e5f069faccb3e28caa7200ac62df6c1703331547eaf3f",
+    "excerpts": [
+      {
+        "line": 63,
+        "text": "    return store.write('topics', { id: randomUUID(), scope: '', ...fields, documents: [], createdAt: now, updatedAt: now })"
+      }
+    ]
+  },
+  {
+    "commit": "e7454ed1e0e3ffbe114d48506cf5c9f7e25a0316",
+    "path": "apps/api/src/notes.mjs",
+    "sha256": "4a294023b903f388f56f931393a73d6097acff3832b7514085d6b892d5bffe03",
+    "excerpts": [
+      {
+        "line": 34,
+        "text": "function snapshot(note) {"
+      },
+      {
+        "line": 62,
+        "text": "    const note = await store.read('notes', id)"
+      },
+      {
+        "line": 121,
+        "text": "    const note = { id, topicId: topic.id, documentId: document.id, field: body.field ?? '主要发现', content: body.content ?? content, kind: body.kind ?? kind,"
+      },
+      {
+        "line": 123,
+        "text": "      revision: 1, history: [], createdAt: now, updatedAt: now, requestHash }"
+      }
+    ]
+  },
+  {
+    "commit": "e4689926ded751a7b5e08b01d3c15d742b9d8270",
+    "path": "apps/api/src/comparisons.mjs",
+    "sha256": "c58c6c1b32ceff9b5839b091dc0e003066d2a1a744ef64eff661a001cf8bc223",
+    "excerpts": [
+      {
+        "line": 33,
+        "text": "function snapshot(table) { const { history, requestHash, ...value } = table; return structuredClone(value) }"
+      },
+      {
+        "line": 49,
+        "text": "    const table = await store.read('comparisons', id)"
+      },
+      {
+        "line": 119,
+        "text": "    const table = { id, topicId, title: text(body.title, 200, '比较标题', false), question: text(body.question ?? topic.question, 4000, '研究问题', false), documentIds,"
+      },
+      {
+        "line": 120,
+        "text": "      columns: columns(body.columns ?? ['方法', '研究对象', '主要发现', '局限'].map(name => ({ name })), id), cells: [], analyses: [], archived: false, revision: 1, history: [], createdAt: now, updatedAt: now }"
+      },
+      {
+        "line": 170,
+        "text": "    const table = await raw(id); row(table, documentId)"
+      },
+      {
+        "line": 183,
+        "text": "          const note = await store.read('notes', requireId(body.source.noteId))"
+      },
+      {
+        "line": 289,
+        "text": "    const table = await raw(id); revision(table, body.revision)"
+      }
+    ]
+  },
+  {
+    "commit": "af99a59e9c050bb3d38e38038906ef5de5c53ac1",
+    "path": "apps/api/src/reports.mjs",
+    "sha256": "eeffadc2d100033f6eb8c11dd7de7a03f7eeed51b8c6a57925c93c1e2e9711f0",
+    "excerpts": [
+      {
+        "line": 10,
+        "text": "const snapshot = value => { const { history, requestHash, ...rest } = value; return structuredClone(rest) }"
+      },
+      {
+        "line": 125,
+        "text": "        const note = await store.read('notes', requireId(selector.id))"
+      },
+      {
+        "line": 131,
+        "text": "        const table = await comparisons.get(requireId(selector.id))"
+      },
+      {
+        "line": 174,
+        "text": "        const table = await comparisons.get(source.id)"
+      },
+      {
+        "line": 210,
+        "text": "    const value = { id, topicId, title: text(body.title, 200, '成果标题'), question: text(body.question ?? topic.question, 4000, '研究问题'), sources, evidence: unique(sources.flatMap(source => source.evidence)),"
+      },
+      {
+        "line": 211,
+        "text": "      blocks: [], archived: false, revision: 1, history: [], requestHash, createdAt: now, updatedAt: now }"
+      }
+    ]
+  }
+]

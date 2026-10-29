@@ -18,6 +18,7 @@ process.on('message', message => {
     if (cancelled) worker.postMessage({ type: 'cancel' })
   }
   if (message.type === 'cancel') { cancelled = true; worker?.postMessage({ type: 'cancel' }) }
+  if (message.type === 'vision-result') worker?.postMessage(message)
 })
 process.on('disconnect', () => {
   cancelled = true; worker?.postMessage({ type: 'cancel' })

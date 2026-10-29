@@ -1,4 +1,6 @@
-export function createReportWorkspace({ api, element, currentTopic, enter, navigationKey, showTopic, openSource, modelConfigured, notice, storage }) {
+export function createReportWorkspace({ api, element, currentTopic, enter, navigationKey, showTopic, openSource, modelConfigured, notice, storage, updateTopicContent = () => {} }) {
+  const sourceText = (state, noun = '原文') => ({ deleted: `${noun}已删除`, missing: `${noun}缺失`, corrupt: `${noun}记录损坏`, unavailable: `${noun}暂时无法读取` })[state] || ''
+  const issueText = issues => [...new Set((issues || []).map(item => sourceText(item.state, '来源')))].filter(Boolean).join('、')
   const sessionStorage = storage?.drafts || globalThis.sessionStorage
   const $ = id => document.getElementById(id)
   const kinds = { source: '原文报告', inference: '模型归纳', user: '用户判断', question: '待验证问题' }
@@ -58,7 +60,7 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
       accept(value)
     } catch (error) { if (token === epoch) { $('report-message').textContent = error.message; $('report-retry').hidden = false } }
   }
-  function controls(disabled) { for (const id of ['report-edit', 'report-materials', 'report-assemble', 'report-history', 'report-archive', 'report-generate', 'report-export']) $(id).disabled = disabled }
+  function controls(disabled) { for (const id of ['report-edit', 'report-materials', 'report-assemble', 'report-history', 'report-archive', 'report-impact', 'report-generate', 'report-export']) $(id).disabled = disabled }
   function accept(value) { reads++; report = value; render() }
   function schedule() {
     clearTimeout(timer)
@@ -83,12 +85,13 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
         await openSource(item, target.id)
       })
       jump.disabled = !item.matchesCurrent
-      inspect('原文证据', [element('h3', item.documentTitle), element('p', item.reference.title, 'hint'), element('blockquote', item.reference.text, 'report-quote'), element('p', item.matchesCurrent ? '保存的摘录与当前原文版本一致。' : '原文版本已变化或不可用，保留保存时的摘录。', 'hint'), jump])
+      inspect('原文证据', [element('h3', item.documentTitle), element('p', item.reference.title, 'hint'), element('blockquote', item.reference.text, 'report-quote'), element('p', sourceText(item.sourceState) ? `${sourceText(item.sourceState)}，保存时的摘录仍保留。请先检查资料。` : item.matchesCurrent ? '保存的摘录与当前原文版本一致。' : '原文版本已变化或不可用，保留保存时的摘录。', 'hint'), jump])
     }, 'quiet-button report-citation')
   }
   function blockNode(block, value = report, editable = false) {
     const node = element('article', null, 'report-block'); node.dataset.blockId = block.id
     node.append(element('h2', block.section), element('p', `${kinds[block.kind]} · ${block.reviewState === 'checked' && !block.outdated ? '已核对' : '待核对'}${block.outdated ? ' · 依据已变化' : ''}`, 'hint'), element('p', block.text || '尚未填写正文', 'report-prose'))
+    if (sourceText(block.sourceState, '来源材料')) node.append(element('p', `${sourceText(block.sourceState, '来源材料')}，保留已保存段落。`, 'notice'))
     for (const id of block.citationIds) { const item = value.evidence.find(item => item.id === id); if (item) node.append(evidenceButton(item, value)) }
     if (editable && block.text) {
       const check = button('确认本段已核对', () => update({ reviewBlockId: block.id }))
@@ -99,17 +102,31 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
   function proposalUnavailable(run) {
     return report.archived || run.baseRevision !== report.revision || report.sources.some(source => source.changed)
   }
+  function proposalEvidence(items) {
+    return items.map(item => {
+      const current = report.evidence.find(ref => ref.id === item.id)
+      return { ...item, sourceState: current?.sourceState, matchesCurrent: current?.matchesCurrent || false }
+    })
+  }
   function render() {
     controls(false)
     $('report-title').textContent = report.title; $('report-question').textContent = report.question
-    $('report-message').textContent = report.archived ? '成果已归档。' : report.sources.some(source => source.changed) ? '研究材料已有更新，正文与引用仍保留保存时的版本。请复核所选材料。' : `版本 ${report.revision} · ${report.blocks.length} 个段落`
-    $('report-body').replaceChildren(...report.blocks.map(block => blockNode(block, report, true)))
-    if (!report.blocks.length) {
-      const proposal = report.suggestions.find(run => run.status === 'completed' && run.baseRevision === report.revision)
-      const pending = report.suggestions.some(run => ['queued', 'running'].includes(run.status))
+    $('report-impact').dataset.deletionId = report.id
+    const hasText = report.blocks.some(block => block.text.trim())
+    const proposal = report.suggestions.find(run => run.status === 'completed' && run.baseRevision === report.revision)
+    const pending = report.suggestions.some(run => ['queued', 'running'].includes(run.status))
+    $('report-message').textContent = issueText(report.sourceIssues) ? `${issueText(report.sourceIssues)}，旧正文与引用仍保留。请先检查资料。` : report.archived ? '成果已归档。' : report.sources.some(source => source.changed) ? '研究材料已有更新，正文与引用仍保留保存时的版本。请复核所选材料。' : !hasText && proposal ? '当前为待采用草稿，采用后可编辑和导出。' : hasText ? `已保存 · ${report.blocks.length} 段${proposal || pending ? '；导出使用已保存正文' : ''}` : ''
+    $('report-export').disabled = !hasText
+    $('report-export').title = hasText ? `导出已保存版本 ${report.revision}` : '先采用草稿或保存正文，再导出'
+    $('report-edit').disabled = report.archived || (!hasText && Boolean(proposal || pending))
+    $('report-edit').textContent = hasText ? '编辑正文' : proposal || pending ? '采用后编辑' : '开始写作'
+    $('report-pending').replaceChildren()
+    if (hasText && proposal) $('report-pending').append(button('审阅研究草稿', () => suggestion(proposal)))
+    $('report-body').replaceChildren(...(hasText ? report.blocks : []).map(block => blockNode(block, report, true)))
+    if (!hasText) {
       if (proposal) {
         const preview = element('section', null, 'research-draft'), target = report, nav = navigationKey()
-        const value = { ...report, blocks: proposal.result.blocks, evidence: proposal.result.evidence.map(item => ({ ...item, matchesCurrent: report.evidence.find(ref => ref.id === item.id)?.matchesCurrent || false })) }
+        const value = { ...report, blocks: proposal.result.blocks, evidence: proposalEvidence(proposal.result.evidence) }
         const adopt = button('采用研究总结', async () => {
           adopt.disabled = true
           try { await update({ runId: proposal.id }, '/adopt', 'POST') }
@@ -120,28 +137,43 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
         preview.append(element('h2', '研究总结草稿 · 待核对'), ...value.blocks.map(block => blockNode(block, value)), adopt)
         if (adopt.disabled) preview.append(element('p', '成果已归档或研究材料已变化，请恢复成果并更新所选材料，再重新生成。', 'notice'))
         $('report-body').append(preview)
-      } else $('report-body').append(element('p', pending ? '正在根据比较内容与原文证据组织研究总结…' : '先选择研究材料，可将材料加入正文、手工编辑，或生成供审阅的研究草稿。', 'collection-empty'))
+      } else $('report-body').append(element('p', pending ? '正在生成研究总结…' : '直接开始写作，或选择材料整理正文。', 'collection-empty'))
     }
     $('report-sources').replaceChildren(...report.sources.map(source => {
       const node = element('article', null, 'report-material')
       node.append(element('h3', source.title), element('p', `${source.revision ? `版本 ${source.revision} · ` : ''}${source.evidence.length} 个原文片段${source.changed ? ' · 材料已变化' : ''}`, 'hint'))
+      const unavailable = sourceText(source.sourceState, '来源材料') || [...new Set(source.documents.map(doc => sourceText(doc.sourceState)))].filter(Boolean).join('、')
+      if (unavailable) node.append(element('p', `${unavailable}，保留已选材料快照。`, 'notice'))
       const details = element('details'); details.append(element('summary', '查看所选证据'))
       for (const item of source.evidence) details.append(evidenceButton(report.evidence.find(ref => ref.id === item.id) || item))
       node.append(details); return node
     }))
     if (!report.sources.length) $('report-sources').append(element('p', '尚未选择材料。', 'hint'))
     $('report-archive').textContent = report.archived ? '恢复归档' : '归档'
-    for (const name of ['report-edit', 'report-materials', 'report-assemble']) $(name).disabled = report.archived
+    for (const name of ['report-materials', 'report-assemble']) $(name).disabled = report.archived
     $('report-assemble').disabled ||= !report.sources.length
     $('report-generate').disabled = report.archived || report.sources.some(source => source.changed) || !modelConfigured() || !report.sources.length || report.suggestions.some(run => ['queued', 'running'].includes(run.status))
-    $('report-model-hint').textContent = modelConfigured() ? '生成草稿后先审阅，采用时才替换正文；原版本保留。' : '尚未配置模型，可从材料整理正文并手工修订。'
-    $('report-suggestions').replaceChildren(...report.suggestions.map(run => {
+    $('report-material-summary').textContent = `研究材料 ${report.sources.length} 项 · 查看与调整`
+    $('report-model-hint').textContent = modelConfigured() ? '将所选材料发送至已配置服务；采用后替换正文，原版本保留。' : '尚未配置模型，可手工写作。'
+    const adopted = new Set(report.blocks.map(block => block.origin?.runId).filter(Boolean))
+    const older = []
+    const renderRun = run => {
       const node = element('article', null, 'report-material')
       if (run.status === 'completed') node.append(button('审阅研究草稿', () => suggestion(run)))
       else if (['queued', 'running'].includes(run.status)) node.append(element('p', '正在组织所选研究材料…'), button('停止生成', async () => { await api(`/api/runs/${run.id}/cancel`, { method: 'POST' }); await refresh() }))
       else node.append(element('p', run.error || '任务已结束，可重新生成。', 'hint'))
       return node
-    }))
+    }
+    const currentRuns = report.suggestions.filter(run => {
+      if (run === proposal) return false
+      if (run.status === 'completed' || adopted.has(run.id)) { older.push(run); return false }
+      return true
+    })
+    $('report-suggestions').replaceChildren(...currentRuns.map(renderRun))
+    if (older.length) { const history = element('details'); history.append(element('summary', `以往生成记录（${older.length}）`), ...older.map(run => {
+      const node = element('article', null, 'report-material')
+      node.append(element('p', adopted.has(run.id) ? '已采用的草稿' : '旧草稿', 'hint'), button('查看旧草稿', () => suggestion(run))); return node
+    })); $('report-suggestions').append(history) }
     renderDrafts(); schedule()
   }
   async function showTopicReports(topic) {
@@ -150,11 +182,16 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
     try {
       const value = await api(`/api/topics/${topic.id}/reports`)
       if (ticket !== topicReads || nav !== navigationKey()) return
-      $('report-list').replaceChildren(...value.reports.map(item => {
+      updateTopicContent(topic.id, 'reports', value.reports, open)
+      const cardFor = item => {
         const card = element('article', null, 'document-card'), info = element('div', null, 'document-card-body')
-        info.append(element('h3', item.title), element('p', `${item.blockCount} 个段落 · 版本 ${item.revision}${item.archived ? ' · 已归档' : ''}`, 'hint'))
+        info.append(element('h3', item.title), element('p', `${item.blockCount} 个段落${item.archived ? ' · 已归档' : ''}`, 'hint'))
+        if (issueText(item.sourceIssues)) info.append(element('p', `${issueText(item.sourceIssues)}，保留已保存成果。`, 'notice'))
         card.append(info, button('打开成果', () => open(item.id))); return card
-      }))
+      }
+      $('report-list').replaceChildren(...value.reports.filter(item => !item.archived).map(cardFor))
+      const archived = value.reports.filter(item => item.archived)
+      if (archived.length) { const group = element('details'); group.append(element('summary', `归档总结（${archived.length}）`), ...archived.map(cardFor)); $('report-list').append(group) }
       for (const draft of drafts(topic.id, null).filter(item => !item.revision)) $('report-list').append(button(`继续成果草稿：${draft.body.title || '研究成果'}`, () => resume(draft)))
       if (!$('report-list').children.length) $('report-list').append(element('p', '把笔记和证据组织成可以继续修订的研究总结。', 'collection-empty'))
     } catch (error) { if (ticket === topicReads && nav === navigationKey()) $('report-list').replaceChildren(element('p', error.message, 'form-error')) }
@@ -162,7 +199,8 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
   function showEditor(state, title, nodes, read) {
     editVersion++; editor = { ...state, session: editVersion, dirty: Boolean(state.body), read }
     $('report-editor-title').textContent = title; $('report-fields').replaceChildren(...nodes)
-    $('report-editor-error').textContent = ''; $('report-latest').hidden = !state.revision
+    $('report-editor-error').textContent = ''; $('report-latest').hidden = !state.body || !state.revision
+    $('report-save').textContent = state.kind === 'sources' ? '保存材料' : '保存成果'
     if (!$('report-editor').open) $('report-editor').showModal()
   }
   function editContent(draft = null) {
@@ -182,7 +220,7 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
     function fit(node) { node.style.height = 'auto'; node.style.height = node.scrollHeight + 'px' }
     function updateStatus() {
       const rows = [...container.children], count = rows.reduce((sum, row) => sum + row.read().text.length, 0)
-      status.textContent = `${rows.length}/40 段 · ${count}/30000 字符 · 修改后点击“保存成果”`
+      status.textContent = `${rows.length >= 35 ? rows.length + '/40' : rows.length} 段 · ${count >= 27000 ? count + '/30000' : count} 字符 · 修改后保存`
       undo.hidden = !removed.length; undo.disabled = rows.length >= 40
       addButton.disabled = rows.length >= 40
     }
@@ -222,7 +260,7 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
       for (const item of report?.evidence || []) {
         const label = element('label', null, 'attach-option'), check = element('input'); check.type = 'checkbox'; check.value = item.id; check.checked = refs.has(item.id)
         check.onchange = () => { check.checked ? refs.add(item.id) : refs.delete(item.id); updateReferences() }
-        label.append(check, element('span', `${item.documentTitle} · ${item.reference.title}：${item.reference.text.slice(0, 140)}${item.matchesCurrent ? '' : '（原文已变化）'}`)); choices.append(label)
+        label.append(check, element('span', `${item.documentTitle} · ${item.reference.title}：${item.reference.text.slice(0, 140)}${item.matchesCurrent ? '' : `（${sourceText(item.sourceState) || '原文已变化'}）`}`)); choices.append(label)
       }
       row.read = () => ({ id: block.id, section: heading.node.value, text: body.node.value, kind: type.value, citationIds: [...refs] })
       settings.append(settingsSummary, type, choices, button('上移段落', () => { if (row.previousElementSibling) container.insertBefore(row, row.previousElementSibling); changed() }), button('移除段落', () => {
@@ -233,18 +271,15 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
       container.append(row)
     }
     for (const block of value.blocks || []) add(block)
+    if (!container.children.length) add()
     const context = element('details', null, 'report-writing-context'); context.append(element('summary', '研究问题'), question.wrapper)
     // Reveal invalid fields before native validation tries to focus them.
     question.node.oninvalid = () => { context.open = true }
-    const nodes = [title.wrapper, state.revision ? context : question.wrapper]
-    if (state.revision) nodes.push(status, container, addButton, undo)
-    else nodes.push(element('p', '创建后选择笔记、比较表或原文片段，再开始整理正文。', 'hint'))
-    showEditor(state, state.revision ? '编辑研究成果' : '新建研究成果', nodes, () => ({ title: title.node.value, question: question.node.value, ...(state.revision ? { blocks: [...container.children].map(row => row.read()) } : {}) }))
-    if (state.revision) {
-      updateStatus()
-      for (const node of container.querySelectorAll('textarea')) fit(node)
-      container.querySelector('textarea')?.focus()
-    }
+    const nodes = [title.wrapper, state.revision ? context : question.wrapper, status, container, addButton, undo]
+    showEditor(state, state.revision ? '编辑研究成果' : '新建研究成果', nodes, () => ({ title: title.node.value, question: question.node.value, blocks: [...container.children].map(row => row.read()).filter(block => state.revision || block.text.trim()) }))
+    updateStatus()
+    for (const node of container.querySelectorAll('textarea')) fit(node)
+    container.querySelector('textarea')?.focus()
   }
   async function editSources(draft = null) {
     const target = report, nav = navigationKey(), ticket = ++editVersion
@@ -272,11 +307,16 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
         const saved = target.sources.find(item => item.key === id)
         const fresh = { type: source.type, id: source.id, revision: source.revision }
         check.type = 'checkbox'; check.checked = selected.has(id)
+        check.disabled = !check.checked && !saved && Boolean(source.unavailable)
         check.onchange = () => { check.checked ? selected.set(id, choicesById.get(id)) : selected.delete(id) }
         label.append(check, element('span', source.title)); row.append(label)
+        if (source.unavailable) row.append(element('p', `${sourceText(source.unavailable, '来源')}，不能选用当前材料；已保存快照可保留或取消。`, 'notice'))
         if (saved) {
           row.append(element('p', selected.get(id)?.retain ? `保留已选版本${saved.changed ? '，材料已有变化' : ''}` : '使用本次选择的材料', 'hint'))
-          if (source.type !== 'passages') row.append(button('选用当前版本', () => { choicesById.set(id, fresh); selected.set(id, fresh); choices(); changed() }))
+          if (source.type !== 'passages' && saved.changed) {
+            const update = button('选用当前版本', () => { choicesById.set(id, fresh); selected.set(id, fresh); choices(); changed() })
+            update.disabled = Boolean(source.unavailable || sourceText(source.sourceState)); row.append(update)
+          }
         }
         if (source.type === 'passages') {
           const choice = selected.get(id) || choicesById.get(id)
@@ -290,7 +330,7 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
     choices()
     const docChoice = element('select'); docChoice.id = 'report-document-choice'; docChoice.setAttribute('aria-label', '选择原文文献')
     const placeholder = element('option', '选择文献查看原文'); placeholder.value = ''; docChoice.append(placeholder)
-    for (const doc of catalog.documents) { const option = element('option', doc.title); option.value = doc.id; docChoice.append(option) }
+    for (const doc of catalog.documents) { const option = element('option', doc.title); option.value = doc.id; option.disabled = Boolean(doc.unavailable); docChoice.append(option) }
     const search = input('查找原文片段', 'report-reference-query', '', false), refs = element('div', null, 'report-reference-picker'), status = element('p', '', 'hint')
     let sourceDoc = null, picked = new Set(), documentTicket = 0
     function renderRefs() {
@@ -318,7 +358,8 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
       const source = { type: 'passages', documentId: sourceDoc.id, documentVersion: sourceDoc.evidenceVersion, referenceIds: [...picked] }
       choicesById.set(key(source), source); selected.set(key(source), source); candidates.set(key(source), { ...source, title: sourceDoc.title }); choices(); changed()
     })
-    showEditor(state, '选择研究材料', [element('p', '选择当前主题的笔记、比较表或原文。更新材料会保留正文已引用的旧摘录。', 'hint'), list, element('h3', '添加原文片段'), docChoice, search.wrapper, status, refs, add], () => ({ sources: [...selected.values()] }))
+    const originals = element('details', null, 'report-original-options'); originals.append(element('summary', '添加原文片段'), docChoice, search.wrapper, status, refs, add)
+    showEditor(state, '选择研究材料', [element('p', '选择笔记、比较表或原文；已引用的旧摘录仍保留。', 'hint'), list, originals], () => ({ sources: [...selected.values()] }))
   }
   async function resume(draft) {
     if (!draft.revision) {
@@ -330,7 +371,7 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
         if (reportId !== saved.id) await open(saved.id)
         if (reportId !== saved.id || !report) return
         // A creation draft started from revision 1. Later changes still conflict.
-        editContent({ ...draft, revision: 1, body: { ...draft.body, blocks: [] } })
+        editContent({ ...draft, revision: 1, body: { ...draft.body, blocks: draft.body.blocks || [] } })
         return
       } catch (error) {
         if (nav !== navigationKey() || ticket !== editVersion) return
@@ -347,7 +388,7 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
   }
   function suggestion(run) {
     const target = report, nav = navigationKey()
-    const value = { ...report, blocks: run.result.blocks, evidence: run.result.evidence.map(item => ({ ...item, matchesCurrent: report.evidence.find(ref => ref.id === item.id)?.matchesCurrent || false })) }
+    const value = { ...report, blocks: run.result.blocks, evidence: proposalEvidence(run.result.evidence) }
     const adopt = button('采用此草稿并替换正文', async () => {
       adopt.disabled = true
       try { await update({ runId: run.id }, '/adopt', 'POST'); if (current(target, nav)) $('report-inspector').close() }
@@ -441,6 +482,7 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
     } catch (error) { if (current(target, nav)) notice(error.message, true) }
   }
   $('report-export').onclick = async () => {
+    if (!report?.blocks.some(block => block.text.trim())) return
     const target = report, nav = navigationKey(); $('report-export').disabled = true
     try {
       const response = await fetch(`/api/reports/${target.id}/export?revision=${target.revision}`)

@@ -1,0 +1,28 @@
+
+> classifier@0.1.0 test:storage
+> playwright test --config=playwright.storage.config.mjs --reporter=line
+
+
+Running 16 tests using 1 worker
+
+(node:34303) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/16] tests/storage/disk-failures.spec.mjs:6:67 › D1 production utility disk faults: sqlite
+[2/16] tests/storage/disk-failures.spec.mjs:6:67 › D1 production utility disk faults: migration
+[3/16] tests/storage/disk-failures.spec.mjs:6:67 › D1 production utility disk faults: imports
+[4/16] tests/storage/disk-failures.spec.mjs:6:67 › D1 production utility disk faults: backup
+[5/16] tests/storage/disk-failures.spec.mjs:6:67 › D1 production utility disk faults: restore
+[6/16] tests/storage/disk-failures.spec.mjs:6:67 › D1 production utility disk faults: preservation
+[7/16] tests/storage/disk-failures.spec.mjs:6:67 › D1 production utility disk faults: zip
+[8/16] tests/storage/imports.spec.mjs:5:72 › D1 packaged atomic imports survive utility SIGKILL at stage-synced
+[9/16] tests/storage/imports.spec.mjs:5:72 › D1 packaged atomic imports survive utility SIGKILL at before-commit
+[10/16] tests/storage/imports.spec.mjs:5:72 › D1 packaged atomic imports survive utility SIGKILL at after-commit
+[11/16] tests/storage/maintenance.spec.mjs:4:1 › D1 packaged storage migrates restores and serves a SQLite library with directory ownership
+[12/16] tests/storage/migration.spec.mjs:6:3 › D1 packaged migration resumes after utility SIGKILL at records
+[13/16] tests/storage/migration.spec.mjs:6:3 › D1 packaged migration resumes after utility SIGKILL at file-published
+[14/16] tests/storage/migration.spec.mjs:6:3 › D1 packaged migration resumes after utility SIGKILL at published
+[15/16] tests/storage/record-shape.spec.mjs:5:1 › D1 packaged records isolate nested damage before lists, task recovery and saved research rendering
+[16/16] tests/storage/sqlite.spec.mjs:6:1 › S0 packaged utility runtime validates SQLite transactions and file recovery
+  16 passed (1.9m)

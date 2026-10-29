@@ -1,0 +1,72 @@
+{
+  "phase": "published",
+  "forcedExit": true,
+  "resumed": true,
+  "verification": {
+    "packaged": true,
+    "runtime": {
+      "node": "24.21.0",
+      "acorn": "8.18.0",
+      "ada": "4.0.0",
+      "amaro": "1.1.11",
+      "ares": "1.34.8",
+      "brotli": "1.2.0",
+      "cldr": "48.0",
+      "icu": "78.2",
+      "llhttp": "9.4.3",
+      "merve": "1.2.2",
+      "modules": "149",
+      "napi": "10",
+      "nbytes": "0.1.4",
+      "ncrypto": "0.0.1",
+      "nghttp2": "1.70.0",
+      "nghttp3": "",
+      "ngtcp2": "",
+      "openssl": "0.0.0",
+      "simdjson": "4.6.7",
+      "simdutf": "7.7.0",
+      "sqlite": "3.53.4",
+      "tz": "2026d",
+      "undici": "7.29.1",
+      "unicode": "17.0",
+      "uv": "1.52.1",
+      "uvwasi": "0.0.23",
+      "v8": "15.2.124.28-electron.0",
+      "zlib": "1.3.2.1-motley",
+      "zstd": "1.6.0",
+      "electron": "44.7.0",
+      "chrome": "152.0.7977.130"
+    },
+    "document": {
+      "id": "33c6a80f-9f76-4c0a-8498-67188df1b8ba",
+      "title": "Packaged resumable migration",
+      "createdAt": "2026-10-25T01:34:44.490Z",
+      "references": [
+        {
+          "id": "ref_00001",
+          "text": "Evidence"
+        }
+      ]
+    },
+    "notes": 105,
+    "historiesPreserved": true,
+    "original": "Evidence",
+    "status": {
+      "destination": "/private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-lifecycle-KR3QH7/migrated",
+      "backup": "/private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-lifecycle-KR3QH7/before",
+      "records": 106,
+      "storage": "sqlite",
+      "sourcePreserved": true,
+      "migrationId": "b03f8274-4383-43d7-a17a-cf4a0cf6b4f7",
+      "snapshotCreatedAt": "2026-10-25T01:34:47.552Z",
+      "alreadyCompleted": false,
+      "directory": "/private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-lifecycle-KR3QH7/migrated",
+      "phase": "complete",
+      "completedRecords": 106,
+      "totalRecords": 106,
+      "completedFiles": 1,
+      "totalFiles": 1
+    },
+    "idempotent": true
+  }
+}

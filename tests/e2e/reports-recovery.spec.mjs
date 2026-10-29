@@ -1,3 +1,4 @@
+import { clickControl, revealControl, moreAction } from '../helpers/ui-actions.mjs'
 import { test, expect, readSessionDraft } from '../helpers/browser-fixture.mjs'
 import { reportFixture } from '../helpers/report-fixture.mjs'
 import { json } from '../helpers/test-app.mjs'
@@ -11,7 +12,7 @@ async function open(page, app, sources = []) {
   return report
 }
 async function pick(page, doc) {
-  await page.locator('#report-document-choice').selectOption(doc.id)
+  await revealControl(page.locator('#report-document-choice')); await page.locator('#report-document-choice').selectOption(doc.id)
   await page.locator('.report-reference-picker input').first().check()
   await page.getByRole('button', { name: '加入所选片段', exact: true }).click()
 }
@@ -21,7 +22,7 @@ test('M4 restored passage drafts show exact selections and let the user remove o
   const app = await reportFixture()
   try {
     const report = await open(page, app)
-    await page.locator('#report-materials').click()
+    await clickControl(page, '#report-materials')
     await pick(page, app.first); await pick(page, app.second)
     const draftKey = `classifier-report-draft:${app.topic.id}:${report.id}:sources`
     const original = JSON.parse(await readSessionDraft(page, draftKey))
@@ -49,7 +50,7 @@ test('M4 a restored passage draft remains removable after its document leaves th
   const app = await reportFixture()
   try {
     const report = await open(page, app)
-    await page.locator('#report-materials').click(); await pick(page, app.first)
+    await clickControl(page, '#report-materials'); await pick(page, app.first)
     await app.value(`/api/topics/${app.topic.id}/documents/${app.first.id}`, { method: 'DELETE' })
     await page.reload(); await page.locator('#report-resume').click()
     const unavailable = page.locator('.report-material-options').getByRole('checkbox', { name: /原文材料（当前不可用/ })
@@ -61,12 +62,11 @@ test('M4 a restored passage draft remains removable after its document leaves th
 
 async function openCitationWhileEditing(page, app) {
   const report = await open(page, app, [app.selectors[0]])
-  await page.locator('#report-assemble').click()
+  await clickControl(page, '#report-assemble')
   await expect(page.locator('#report-body .report-block')).toHaveCount(1)
   await page.locator('#report-edit').click()
   await page.locator('.report-block-text').fill('回查原文之前尚未保存的修订')
-  await page.locator('#report-latest').click()
-  await page.locator('#report-inspector-body .report-citation').first().click()
+  await page.locator('.report-selected-citations .report-citation').first().click()
   return report
 }
 

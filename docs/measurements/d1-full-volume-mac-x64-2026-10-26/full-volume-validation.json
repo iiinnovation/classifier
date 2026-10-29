@@ -1,0 +1,329 @@
+{
+  "packaged": true,
+  "filesystem": "APFS",
+  "volume": {
+    "root": "/private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-full-volume-yiqm6C",
+    "mount": "/private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-full-volume-yiqm6C/mount",
+    "capacityBytes": 134176768,
+    "device": 16777231,
+    "hostDevice": 16777223,
+    "attachment": "/dev/disk2          \tGUID_partition_scheme          \t\n/dev/disk2s1        \tApple_APFS                     \t\n/dev/disk3          \tEF57347C-0000-11AA-AA11-0030654\t\n/dev/disk3s1        \t41504653-0000-11AA-AA11-0030654\t/private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-full-volume-yiqm6C/mount"
+  },
+  "scenarios": [
+    {
+      "name": "json-edit",
+      "passed": true,
+      "pressure": {
+        "initial": {
+          "freeBytes": 128532480,
+          "capacityBytes": 134176768
+        },
+        "exhausted": {
+          "freeBytes": 3198976,
+          "capacityBytes": 134176768
+        },
+        "after": {
+          "freeBytes": 3198976,
+          "capacityBytes": 134176768
+        },
+        "reserveReleasedBytes": 0,
+        "written": 125317120,
+        "failure": {
+          "code": "ENOSPC",
+          "message": "ENOSPC: no space left on device, write"
+        }
+      },
+      "error": {
+        "code": "ENOSPC",
+        "message": "ENOSPC: no space left on device, write"
+      },
+      "savedRecordPreserved": true,
+      "retrySucceeded": true
+    },
+    {
+      "name": "sqlite-edit",
+      "passed": true,
+      "pressure": {
+        "initial": {
+          "freeBytes": 128454656,
+          "capacityBytes": 134176768
+        },
+        "exhausted": {
+          "freeBytes": 3198976,
+          "capacityBytes": 134176768
+        },
+        "after": {
+          "freeBytes": 3198976,
+          "capacityBytes": 134176768
+        },
+        "reserveReleasedBytes": 0,
+        "written": 125222912,
+        "failure": {
+          "code": "ENOSPC",
+          "message": "ENOSPC: no space left on device, write"
+        }
+      },
+      "error": {
+        "code": "ERR_SQLITE_ERROR",
+        "errcode": 13,
+        "message": "database or disk is full"
+      },
+      "savedRecordPreserved": true,
+      "retrySucceeded": true
+    },
+    {
+      "name": "sqlite-import",
+      "passed": true,
+      "pressure": {
+        "initial": {
+          "freeBytes": 128446464,
+          "capacityBytes": 134176768
+        },
+        "exhausted": {
+          "freeBytes": 3198976,
+          "capacityBytes": 134176768
+        },
+        "after": {
+          "freeBytes": 3198976,
+          "capacityBytes": 134176768
+        },
+        "reserveReleasedBytes": 0,
+        "written": 125210624,
+        "failure": {
+          "code": "ENOSPC",
+          "message": "ENOSPC: no space left on device, write"
+        }
+      },
+      "error": {
+        "code": "ENOSPC",
+        "message": "ENOSPC: no space left on device, open '/private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-full-volume-yiqm6C/mount/sqlite-import/library/originals/.import-1e23f372-f569-49e8-ae2d-303d9a32a101.tmp'"
+      },
+      "metadataRolledBack": true,
+      "restartAndRetrySucceeded": true
+    },
+    {
+      "name": "backup",
+      "passed": true,
+      "pressure": {
+        "initial": {
+          "freeBytes": 132759552,
+          "capacityBytes": 134176768
+        },
+        "exhausted": {
+          "freeBytes": 3198976,
+          "capacityBytes": 134176768
+        },
+        "after": {
+          "freeBytes": 4247552,
+          "capacityBytes": 134176768
+        },
+        "reserveReleasedBytes": 1048576,
+        "written": 128483328,
+        "failure": {
+          "code": "ENOSPC",
+          "message": "ENOSPC: no space left on device, write"
+        }
+      },
+      "error": {
+        "code": "ENOSPC",
+        "message": "ENOSPC: no space left on device, copyfile '/private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-full-volume-yiqm6C/backup/source/originals/c113e4d7-4ac6-402b-a96c-83ca5f38c113' -> '/private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-full-volume-yiqm6C/mount/backup/target.partial-36923bb2-2ecc-4a0d-a190-87f63c55d88c/originals/c113e4d7-4ac6-402b-a96c-83ca5f38c113'；未发布的完整/部分副本保留于 /private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-full-volume-yiqm6C/mount/backup/target.partial-36923bb2-2ecc-4a0d-a190-87f63c55d88c"
+      },
+      "targetNotPublished": true,
+      "sourcePreserved": true,
+      "retrySucceeded": true
+    },
+    {
+      "name": "restore",
+      "passed": true,
+      "pressure": {
+        "initial": {
+          "freeBytes": 132759552,
+          "capacityBytes": 134176768
+        },
+        "exhausted": {
+          "freeBytes": 3198976,
+          "capacityBytes": 134176768
+        },
+        "after": {
+          "freeBytes": 4247552,
+          "capacityBytes": 134176768
+        },
+        "reserveReleasedBytes": 1048576,
+        "written": 128483328,
+        "failure": {
+          "code": "ENOSPC",
+          "message": "ENOSPC: no space left on device, write"
+        }
+      },
+      "error": {
+        "code": "ENOSPC",
+        "message": "ENOSPC: no space left on device, copyfile '/private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-full-volume-yiqm6C/restore/backup/originals/92b8ec64-a7f1-4db4-af9d-6e75f70c5d9f' -> '/private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-full-volume-yiqm6C/mount/restore/target.partial-4f6527dd-9589-4e55-9df6-cbe324a0deff/originals/92b8ec64-a7f1-4db4-af9d-6e75f70c5d9f'；恢复暂存目录保留于 /private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-full-volume-yiqm6C/mount/restore/target.partial-4f6527dd-9589-4e55-9df6-cbe324a0deff"
+      },
+      "targetNotPublished": true,
+      "sourcePreserved": true,
+      "retrySucceeded": true
+    },
+    {
+      "name": "zip-backup",
+      "passed": true,
+      "pressure": {
+        "initial": {
+          "freeBytes": 132759552,
+          "capacityBytes": 134176768
+        },
+        "exhausted": {
+          "freeBytes": 3198976,
+          "capacityBytes": 134176768
+        },
+        "after": {
+          "freeBytes": 4247552,
+          "capacityBytes": 134176768
+        },
+        "reserveReleasedBytes": 1048576,
+        "written": 128483328,
+        "failure": {
+          "code": "ENOSPC",
+          "message": "ENOSPC: no space left on device, write"
+        }
+      },
+      "error": {
+        "code": "ENOSPC",
+        "message": "ENOSPC: no space left on device, copyfile '/private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-full-volume-yiqm6C/zip-backup/source/originals/59fc31fc-5b19-4d74-912c-5eb08f68e73f' -> '/private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-full-volume-yiqm6C/mount/zip-backup/target.partial-b85402a6-2bd7-4164-8ba9-f0ff0d2c1d08/snapshot.partial-4a2d1440-6422-4f2f-8625-5cf6fca43c92/originals/59fc31fc-5b19-4d74-912c-5eb08f68e73f'；未发布的完整/部分副本保留于 /private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-full-volume-yiqm6C/mount/zip-backup/target.partial-b85402a6-2bd7-4164-8ba9-f0ff0d2c1d08/snapshot.partial-4a2d1440-6422-4f2f-8625-5cf6fca43c92；来源保留，备份暂存目录为 /private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-full-volume-yiqm6C/mount/zip-backup/target.partial-b85402a6-2bd7-4164-8ba9-f0ff0d2c1d08"
+      },
+      "targetNotPublished": true,
+      "sourcePreserved": true,
+      "retrySucceeded": true
+    },
+    {
+      "name": "zip-restore",
+      "passed": true,
+      "pressure": {
+        "initial": {
+          "freeBytes": 132759552,
+          "capacityBytes": 134176768
+        },
+        "exhausted": {
+          "freeBytes": 3198976,
+          "capacityBytes": 134176768
+        },
+        "after": {
+          "freeBytes": 4247552,
+          "capacityBytes": 134176768
+        },
+        "reserveReleasedBytes": 1048576,
+        "written": 128483328,
+        "failure": {
+          "code": "ENOSPC",
+          "message": "ENOSPC: no space left on device, write"
+        }
+      },
+      "error": {
+        "code": "ENOSPC",
+        "message": "ENOSPC: no space left on device, write；来源 ZIP 保留，恢复暂存目录为 /private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-full-volume-yiqm6C/mount/zip-restore/target.partial-82fa5f79-b2ec-4d25-85b5-61dde8550348"
+      },
+      "targetNotPublished": true,
+      "sourcePreserved": true,
+      "retrySucceeded": true
+    },
+    {
+      "name": "migration",
+      "passed": true,
+      "pressure": {
+        "initial": {
+          "freeBytes": 132653056,
+          "capacityBytes": 134176768
+        },
+        "exhausted": {
+          "freeBytes": 3198976,
+          "capacityBytes": 134176768
+        },
+        "after": {
+          "freeBytes": 3260416,
+          "capacityBytes": 134176768
+        },
+        "reserveReleasedBytes": 65536,
+        "written": 129286144,
+        "failure": {
+          "code": "ENOSPC",
+          "message": "ENOSPC: no space left on device, write"
+        }
+      },
+      "error": {
+        "code": "ENOSPC",
+        "message": "ENOSPC: no space left on device, copyfile '/private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-full-volume-yiqm6C/migration/backup/originals/9437eb6a-1518-4f56-82ac-dd11e6e693e3' -> '/private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-full-volume-yiqm6C/mount/migration/target.partial-854d0eab-8edf-4a35-a33b-0cb48713ebda/migration-work/cc33f233-32b2-4b15-ac62-eb4254507d76/originals/9437eb6a-1518-4f56-82ac-dd11e6e693e3'；来源和备份保留，可检查迁移目录 /private/var/folders/6b/d2pydbj90tng3ptyq9v3hmwr0000gn/T/classifier-full-volume-yiqm6C/mount/migration/target.partial-854d0eab-8edf-4a35-a33b-0cb48713ebda"
+      },
+      "statusReadError": {
+        "code": "ERR_SQLITE_ERROR",
+        "errcode": 4874,
+        "message": "disk I/O error"
+      },
+      "completedRecords": 3,
+      "completedFiles": 0,
+      "sourceAndBackupPreserved": true,
+      "repeatedResumeSucceeded": true
+    },
+    {
+      "name": "quarantine",
+      "passed": true,
+      "pressure": {
+        "initial": {
+          "freeBytes": 128532480,
+          "capacityBytes": 134176768
+        },
+        "exhausted": {
+          "freeBytes": 3198976,
+          "capacityBytes": 134176768
+        },
+        "after": {
+          "freeBytes": 3198976,
+          "capacityBytes": 134176768
+        },
+        "reserveReleasedBytes": 0,
+        "written": 125317120,
+        "failure": {
+          "code": "ENOSPC",
+          "message": "ENOSPC: no space left on device, write"
+        }
+      },
+      "healthyRecordsReadable": true,
+      "damagedBytesPreserved": true,
+      "isolationRetrySucceeded": true
+    }
+  ],
+  "runtime": {
+    "node": "24.21.0",
+    "acorn": "8.18.0",
+    "ada": "4.0.0",
+    "amaro": "1.1.11",
+    "ares": "1.34.8",
+    "brotli": "1.2.0",
+    "cldr": "48.0",
+    "icu": "78.2",
+    "llhttp": "9.4.3",
+    "merve": "1.2.2",
+    "modules": "149",
+    "napi": "10",
+    "nbytes": "0.1.4",
+    "ncrypto": "0.0.1",
+    "nghttp2": "1.70.0",
+    "nghttp3": "",
+    "ngtcp2": "",
+    "openssl": "0.0.0",
+    "simdjson": "4.6.7",
+    "simdutf": "7.7.0",
+    "sqlite": "3.53.4",
+    "tz": "2026d",
+    "undici": "7.29.1",
+    "unicode": "17.0",
+    "uv": "1.52.1",
+    "uvwasi": "0.0.23",
+    "v8": "15.2.124.28-electron.0",
+    "zlib": "1.3.2.1-motley",
+    "zstd": "1.6.0",
+    "electron": "44.7.0",
+    "chrome": "152.0.7977.130"
+  },
+  "source": "/Users/apple/Desktop/classifier/dist/desktop-d1-disk-failures-2026-10-26/mac/Classifier.app/Contents/Resources/app.asar",
+  "noFaultInjection": true,
+  "hostVolumeNotFilled": true
+}

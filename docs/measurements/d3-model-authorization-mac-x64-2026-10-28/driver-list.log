@@ -1,0 +1,35 @@
+
+> classifier@0.1.0 test:desktop:shell
+> node tools/run-desktop-tests.mjs shell --list
+
+(node:91387) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+Listing tests:
+  data-lifecycle.spec.mjs:8:87 › D2 json real desktop preserves research after missing sources and exposes only read-only deletion previews
+  data-lifecycle.spec.mjs:8:87 › D2 json real desktop preserves research after corrupt sources and exposes only read-only deletion previews
+  data-lifecycle.spec.mjs:8:87 › D2 sqlite real desktop preserves research after missing sources and exposes only read-only deletion previews
+  data-lifecycle.spec.mjs:8:87 › D2 sqlite real desktop preserves research after corrupt sources and exposes only read-only deletion previews
+  deletions.spec.mjs:24:1 › D2 real desktop deletes a shared original after explicit confirmation and keeps report evidence and history
+  deletions.spec.mjs:68:1 › D2 real desktop topic deletion cancels active OCR and awaits its exit before committing
+  library-maintenance.spec.mjs:5:44 › D1 desktop menu checks directory backs up and restores into an isolated library
+  library-maintenance.spec.mjs:5:44 › D1 desktop menu checks zip backs up and restores into an isolated library
+  library-maintenance.spec.mjs:48:1 › D1 migration menu upgrades JSON and shows completed progress without rewriting it
+  library-maintenance.spec.mjs:75:44 › D1 selectively recovers damaged records from directory while preserving newer research
+  library-maintenance.spec.mjs:75:44 › D1 selectively recovers damaged records from zip while preserving newer research
+  library-maintenance.spec.mjs:123:1 › D1 startup compatibility flow refuses a future library then restores a snapshot through real utility processes
+  library-maintenance.spec.mjs:167:1 › D1 rebuild menu migrates the chosen pre-upgrade snapshot and preserves newer current edits
+  lifecycle.spec.mjs:7:1 › D0 second launch restores the existing window and exits without another backend
+  lifecycle.spec.mjs:29:1 › D0 real utility backend rejects direct access and rotates authentication on restart
+  lifecycle.spec.mjs:57:1 › D0 unexpected backend exit is visible and the bridge returns a classified disconnection
+  lifecycle.spec.mjs:73:1 › D0 window close cancels active OCR and leaves no application or Tesseract process
+  lifecycle.spec.mjs:86:1 › D0 forced main process exit leaves no application descendants
+  lifecycle.spec.mjs:94:1 › D0 shutdown cancels and awaits a synchronous PDF import
+  lifecycle.spec.mjs:107:1 › D0 failed backend startup reports an error and clears the failed child before retry
+  lifecycle.spec.mjs:128:1 › D0 packaged window denies navigation, webviews, popups and device permissions
+  lifecycle.spec.mjs:161:1 › D1 packaged backends cannot share a data directory and recover ownership after a crash
+  model-revocation.spec.mjs:4:1 › D3 real utility backend revokes model authorization and stops in-flight sends through the settings dialog
+  research-workflow.spec.mjs:8:1 › real desktop connects a runtime model and completes a cited research task through utility backend
+  smoke.spec.mjs:7:1 › D0 isolated Electron application boots through the authenticated protocol bridge
+  storage-usage.spec.mjs:9:43 › D2 json real desktop backend measures profile backups separately from the selected library
+  storage-usage.spec.mjs:9:43 › D2 sqlite real desktop backend measures profile backups separately from the selected library
+Total: 27 tests in 8 files

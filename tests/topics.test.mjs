@@ -89,7 +89,7 @@ test('M1: reject invalid edits and serialize concurrent association and partial 
   const app = await testApp()
   t.after(() => app.close())
   const { request, legacy } = app
-  for (const body of [{ title: 'missing question' }, { title: ' ', question: 'a' }, { title: 'a', question: 'b', documents: [] }, { title: 'x'.repeat(201), question: 'a' }]) assert.equal((await request('/api/topics', json('POST', body))).status, 422)
+  for (const body of [{ question: 'missing title' }, { title: ' ', question: 'a' }, { title: 'a', question: 'b', documents: [] }, { title: 'x'.repeat(201), question: 'a' }]) assert.equal((await request('/api/topics', json('POST', body))).status, 422)
   const topic = await (await request('/api/topics', json('POST', { title: '并发保存', question: '如何保留研究记录？' }))).json()
   const second = await (await request('/api/documents', upload('另一篇资料'))).json()
   const path = `/api/topics/${topic.id}`
@@ -107,12 +107,33 @@ test('M1: reject invalid edits and serialize concurrent association and partial 
   assert.equal(relation.reason, '保留理由'); assert.equal(relation.readingStatus, 'read')
   for (const body of [{ selection: 'bogus' }, { readingStatus: 'done' }, { reason: 1 }, { documentId: second.id }, { relevance: 'a'.repeat(2001) }]) assert.equal((await request(`${path}/documents/${legacy.id}`, json('PATCH', body))).status, 422)
   for (const body of [{ title: '' }, { year: 'abcd' }, { url: 'javascript:alert(1)' }, { doi: 'invalid' }, { references: [] }, { authors: [] }]) assert.equal((await request(`/api/documents/${legacy.id}`, json('PATCH', body))).status, 422)
-  assert.equal((await request(path, json('PATCH', { question: ' ' }))).status, 422)
+  assert.equal((await request(path, json('PATCH', { title: ' ' }))).status, 422)
   assert.equal((await request(`${path}/documents/${randomUUID()}`, { method: 'PUT' })).status, 404)
   assert.equal((await request(`${path}/documents/${randomUUID()}`, json('PATCH', { reason: 'missing' }))).status, 404)
   assert.equal((await request('/api/topics/not-an-id')).status, 400)
   assert.equal((await request('/api/topics', { headers: { origin: 'https://other.invalid' } })).status, 403)
   assert.deepEqual((await (await request(path)).json()).documents, saved.documents)
+})
+
+test('a title-only topic can collect documents before its research question is defined', async t => {
+  const app = await testApp(); t.after(() => app.close())
+  const created = await app.request('/api/topics', json('POST', { title: '先收集资料' }))
+  assert.equal(created.status, 201)
+  const topic = await created.json()
+  assert.equal(topic.question, ''); assert.equal(topic.scope, '')
+  assert.equal((await app.request(`/api/topics/${topic.id}/documents/${app.legacy.id}`, { method: 'PUT' })).status, 200)
+  // Comparing requires a goal even though organizing a topic does not.
+  const second = await (await app.request('/api/documents', upload('另一份比较材料。', 'second.txt', topic.id))).json()
+  const comparison = await app.request(`/api/topics/${topic.id}/comparisons`, json('POST', { title: '比较', documentIds: [app.legacy.id, second.id] }))
+  assert.equal(comparison.status, 422); assert.match((await comparison.json()).error, /研究问题/)
+  const path = `/api/topics/${topic.id}`
+  assert.equal((await app.request(path, json('PATCH', { question: '如何比较研究方法？', scope: '近五年' }))).status, 200)
+  await app.restart()
+  const restored = await (await app.request(path)).json()
+  assert.equal(restored.question, '如何比较研究方法？'); assert.equal(restored.documents[0].documentId, app.legacy.id)
+  assert.equal((await app.request(path, json('PATCH', { question: ' ' }))).status, 200)
+  const cleared = await (await app.request(path)).json()
+  assert.equal(cleared.question, ''); assert.equal(cleared.scope, '近五年')
 })
 
 test('UUID casing identifies the same document, association and serialized update queue', async t => {

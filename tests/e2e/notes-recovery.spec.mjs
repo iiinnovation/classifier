@@ -1,3 +1,4 @@
+import { clickControl, revealControl, moreAction } from '../helpers/ui-actions.mjs'
 import { test, expect } from '../helpers/browser-fixture.mjs'
 import { randomUUID } from 'node:crypto'
 import { testApp, json, upload } from '../helpers/test-app.mjs'
@@ -14,7 +15,7 @@ async function open(page, app, topic) {
   await page.goto(app.base)
   await page.getByRole('button', { name: '研究主题', exact: true }).click()
   await page.locator('.topic-card').filter({ has: page.getByRole('heading', { name: topic.title, exact: true }) }).click()
-  await page.locator('#topic-documents').getByRole('button', { name: '打开研读', exact: true }).first().click()
+  await page.locator('#topic-documents').locator('.document-link').first().click()
   await expect(page.locator('#new-note')).toBeEnabled()
   await page.locator('#notes-tab').click()
 }
@@ -42,7 +43,7 @@ test('M2 late version responses cannot replace an editor in another topic', asyn
     await page.locator('#close-note').click()
     await page.getByRole('button', { name: '研究主题', exact: true }).click()
     await page.locator('.topic-card').filter({ has: page.getByRole('heading', { name: b.topic.title, exact: true }) }).click()
-    await page.locator('#topic-documents').getByRole('button', { name: '打开研读', exact: true }).click()
+    await page.locator('#topic-documents').locator('.document-link').click()
     await page.locator('#notes-tab').click()
     await edit(page, 'B 初始笔记')
     gate.resolve()

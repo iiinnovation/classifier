@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 import { EventEmitter } from 'node:events'
 
 export class BackendController extends EventEmitter {
-  constructor({ dataDir, ocrRoot }) { super(); this.dataDir = dataDir; this.ocrRoot = ocrRoot; this.child = null; this.connection = null }
+  constructor({ dataDir, ocrRoot, managedBackupDir }) { super(); this.dataDir = dataDir; this.ocrRoot = ocrRoot; this.managedBackupDir = managedBackupDir; this.child = null; this.connection = null }
   async start() {
     if (this.child) throw new Error('Backend is already running.')
     const token = randomBytes(32).toString('hex')
@@ -18,7 +18,7 @@ export class BackendController extends EventEmitter {
       let ready = false
       const timer = setTimeout(() => { child.kill(); reject(new Error('本地服务启动超过 30 秒。')) }, 30000)
       child.on('message', data => {
-        if (data?.type === 'booted') child.postMessage({ type: 'start', token, dataDir: this.dataDir, ocrRoot: this.ocrRoot })
+        if (data?.type === 'booted') child.postMessage({ type: 'start', token, dataDir: this.dataDir, ocrRoot: this.ocrRoot, managedBackupDir: this.managedBackupDir })
         if (data?.type === 'startup-error') { clearTimeout(timer); reject(new Error(data.message)) }
         if (data?.type === 'ready' && !ready) {
           ready = true; clearTimeout(timer)

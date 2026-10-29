@@ -1,7 +1,8 @@
 import { randomUUID, createHash } from 'node:crypto'
+import { createSourceReader } from './record-integrity.mjs'
 import { HttpError } from './http.mjs'
 import { requireId } from './store.mjs'
-import { evidenceVersion, captureEvidence } from './evidence.mjs'
+import { evidenceVersion, captureEvidence, evidenceStatus, sourceStateText } from './evidence.mjs'
 import { documentSummary } from './topics.mjs'
 import { modelConfigured } from './qa.mjs'
 import { comparisonReferences } from './comparison-retrieval.mjs'
@@ -73,21 +74,32 @@ export function createComparisons(store, topics, runs, qaOptions = {}, settingsP
     return { id: table.id, topicId: table.topicId, title: table.title, question: table.question, documentCount: table.documentIds.length, columnCount: table.columns.length, revision: table.revision, archived: table.archived, updatedAt: table.updatedAt, createdAt: table.createdAt }
   }
   async function present(table, full = false) {
-    const topic = await topics.get(table.topicId)
-    const documents = await Promise.all(table.documentIds.map(id => store.document(id)))
-    const versions = new Map(documents.map(document => [document.id, evidenceVersion(document)]))
-    if (full) {
-      const historicalIds = [...new Set(table.history.flatMap(version => version.documentIds))].filter(id => !versions.has(id))
-      for (const id of historicalIds) {
-        const document = await store.read('documents', id)
-        if (document) versions.set(id, evidenceVersion(document))
+    const readSource = createSourceReader(store), topicSource = await readSource('topics', table.topicId), topic = topicSource.value || { documents: [] }
+    const sourceDocuments = new Map(), versions = new Map(), sourceNotes = new Map()
+    for (const value of [table, ...(full ? table.history : [])]) {
+      const evidence = [...value.cells.flatMap(cell => cell.evidence), ...value.analyses.flatMap(item => item.evidence)]
+      for (const id of new Set([...value.documentIds, ...evidence.map(item => item.documentId)])) {
+        const current = await readSource('documents', id); sourceDocuments.set(id.toLowerCase(), current)
+        if (current.value) versions.set(id.toLowerCase(), evidenceVersion(current.value))
       }
+      for (const cell of value.cells) for (const note of cell.noteSources) sourceNotes.set(note.id.toLowerCase(), await readSource('notes', note.id))
     }
+    const documents = table.documentIds.map(id => {
+      const current = sourceDocuments.get(id.toLowerCase())
+      return current.value || { id, title: sourceStateText(current.state, '文献'), unavailable: current.state }
+    })
     const notes = new Map((await store.list('notes')).map(note => [note.id, note]))
-    const decorateEvidence = evidence => evidence.map(item => ({ ...item, matchesCurrent: versions.get(item.documentId) === item.documentVersion }))
+    const decorateEvidence = evidence => evidence.map(item => evidenceStatus(item, sourceDocuments.get(item.documentId.toLowerCase()), versions.get(item.documentId.toLowerCase()) || null))
+    const decorateCell = cell => {
+      const noteSources = cell.noteSources.map(note => {
+        const current = sourceNotes.get(note.id.toLowerCase())
+        return { ...note, sourceState: current.state, changed: !current.value || current.value.archived || current.value.revision !== note.revision }
+      })
+      return { ...cell, evidence: decorateEvidence(cell.evidence), noteSources, noteChanged: noteSources.some(note => note.changed) }
+    }
     const cells = table.documentIds.flatMap(documentId => table.columns.map(item => {
       const cell = findCell(table, documentId, item.id)
-      return { ...cell, evidence: decorateEvidence(cell.evidence), noteChanged: cell.noteSources.some(note => notes.get(note.id)?.revision !== note.revision) }
+      return decorateCell(cell)
     }))
     const analyses = table.analyses.map(analysis => ({ ...analysis, evidence: decorateEvidence(analysis.evidence), outdated: analysis.definitionHash !== hash([table.question, column(table, analysis.columnId)]) || analysis.rows.some(item => {
       const cell = cells.find(cell => cell.documentId === item.documentId && cell.columnId === analysis.columnId)
@@ -96,16 +108,30 @@ export function createComparisons(store, topics, runs, qaOptions = {}, settingsP
     const suggestions = (await store.list('runs')).filter(run => ['comparison-suggestion', 'comparison-draft'].includes(run.purpose) && run.comparisonId === table.id).slice(0, 10)
     for (const run of suggestions.filter(run => run.purpose === 'comparison-draft')) {
       run.stale = table.archived || run.baseRevision !== table.revision ||
-        run.documentVersions.some(doc => versions.get(doc.id) !== doc.version || !topic.documents.some(link => link.documentId === doc.id)) ||
+        run.documentVersions.some(doc => !versions.has(doc.id.toLowerCase()) || versions.get(doc.id.toLowerCase()) !== doc.version || !topic.documents.some(link => link.documentId === doc.id)) ||
         (run.result?.baseNotes || []).some(note => notes.get(note.id)?.revision !== note.revision)
     }
     const history = full ? table.history.map(version => ({ ...version,
-      cells: version.cells.map(cell => ({ ...cell, evidence: decorateEvidence(cell.evidence) })),
+      cells: version.cells.map(decorateCell),
       analyses: version.analyses.map(analysis => ({ ...analysis, evidence: decorateEvidence(analysis.evidence) })),
     })) : null
-    return { ...snapshot(table), cells, analyses, documents: documents.map(document => ({ ...documentSummary(document), evidenceVersion: versions.get(document.id), linked: topic.documents.some(link => link.documentId === document.id) })), suggestions, ...(full ? { history } : { historyCount: table.history.length }) }
+    return { ...snapshot(table), topicState: topicSource.state, sourceIssues: await sourceIssues(table, readSource), cells, analyses, documents: documents.map(document => ({ ...documentSummary(document), ...(document.unavailable ? { unavailable: document.unavailable } : {}), evidenceVersion: versions.get(document.id.toLowerCase()), linked: topic.documents.some(link => link.documentId === document.id) })), suggestions, ...(full ? { history } : { historyCount: table.history.length }) }
   }
-  async function list(topicId) { await topics.get(topicId); return (await store.list('comparisons')).filter(table => table.topicId === topicId).map(summary) }
+  async function sourceIssues(table, readSource) {
+    const result = [], seen = new Set()
+    for (const [bucket, id] of [...table.documentIds.map(id => ['documents', id]), ...table.cells.flatMap(cell => cell.noteSources.map(note => ['notes', note.id]))]) {
+      const key = bucket + '/' + id.toLowerCase(); if (seen.has(key)) continue; seen.add(key)
+      const source = await readSource(bucket, id); if (source.state !== 'available') result.push({ bucket, id, state: source.state })
+    }
+    return result
+  }
+  async function list(topicId) {
+    await topics.get(topicId); const readSource = createSourceReader(store)
+    return Promise.all((await store.list('comparisons')).filter(table => table.topicId === topicId).map(async table => ({ ...summary(table), sourceIssues: await sourceIssues(table, readSource) })))
+  }
+  async function requireSources(table) {
+    if ((await sourceIssues(table, createSourceReader(store))).length) throw new HttpError(409, '比较表的来源记录缺失、损坏或暂时无法读取，请重新选择可用来源后再生成或采用。')
+  }
   async function get(id, full = false) { return present(await raw(id), full) }
   function columns(value, tableId) {
     if (!Array.isArray(value) || !value.length || value.length > 12) throw new HttpError(422, '比较维度需要 1–12 项。')
@@ -185,6 +211,7 @@ export function createComparisons(store, topics, runs, qaOptions = {}, settingsP
       row(table, documentId); column(table, columnId)
       const previous = findCell(table, documentId, columnId), cell = structuredClone(previous)
       if (body.source !== undefined) {
+        await store.document(documentId)
         keys(body.source, ['type', 'noteId', 'revision', 'referenceIds', 'documentVersion'])
         if (body.source.type === 'note') {
           const note = await store.read('notes', requireId(body.source.noteId))
@@ -216,6 +243,13 @@ export function createComparisons(store, topics, runs, qaOptions = {}, settingsP
         }
         cell.reviewState = body.reviewState
       }
+      // Review flags do not change the evidence or meaning used by an analysis.
+      // Advance only matching snapshots, so an already stale judgment stays stale.
+      if (!changed && cell.reviewState !== previous.reviewState) {
+        for (const analysis of table.analyses.filter(item => item.columnId === columnId)) {
+          for (const item of analysis.rows) if (item.documentId === documentId && item.digest === hash(previous)) item.digest = hash(cell)
+        }
+      }
       table.cells = [...table.cells.filter(item => cellKey(item.documentId, item.columnId) !== cellKey(documentId, columnId)), cell]
       return table
     })
@@ -237,6 +271,7 @@ export function createComparisons(store, topics, runs, qaOptions = {}, settingsP
   async function prepare(table, columnId) {
     const selectedColumn = column(table, columnId)
     await requireRows(table.topicId, table.documentIds)
+    await requireSources(table)
     const evidence = [], evidenceMap = new Map(), documents = [], noteVersions = []
     const allNotes = (await store.list('notes')).filter(note => note.topicId === table.topicId && !note.archived)
     for (const id of table.documentIds) {
@@ -300,7 +335,7 @@ export function createComparisons(store, topics, runs, qaOptions = {}, settingsP
     if (!modelConfigured(configuration.text)) throw new HttpError(409, '尚未配置模型，仍可手工比较或使用笔记和原文。')
     const { input, evidenceMap, noteVersions } = await prepare(table, columnId)
     const baseCells = table.documentIds.map(documentId => ({ documentId, digest: hash(findCell(table, documentId, columnId)) }))
-    return runs.startJob({ purpose: 'comparison-suggestion', configurationRevision: configuration.revision, topicId: table.topicId, comparisonId: id, columnId, columnName: column(table, columnId).name, scopeHash: scope(table), baseCells, baseNotes: noteVersions, baseAnalysis: hash(table.analyses.find(item => item.columnId === columnId) || null) }, async options => validateResult(await generateComparison(input, { ...qaOptions, config: configuration.text, ...options }), table, columnId, evidenceMap))
+    return runs.startJob({ purpose: 'comparison-suggestion', configurationRevision: configuration.revision, topicId: table.topicId, comparisonId: id, columnId, columnName: column(table, columnId).name, scopeHash: scope(table), baseCells, baseNotes: noteVersions, baseAnalysis: hash(table.analyses.find(item => item.columnId === columnId) || null) }, async options => validateResult(await generateComparison(input, { ...qaOptions, config: configuration.text, ...options }), table, columnId, evidenceMap), { authorizationSignal: configuration.authorization?.text })
   }
   async function adopt(id, body) {
     keys(body, ['revision', 'runId'])
@@ -309,6 +344,7 @@ export function createComparisons(store, topics, runs, qaOptions = {}, settingsP
     return mutate(id, body.revision, async table => {
       if (table.archived || scope(table) !== run.scopeHash || run.baseCells.some(item => item.digest !== hash(findCell(table, item.documentId, run.columnId))) || run.baseAnalysis !== hash(table.analyses.find(item => item.columnId === run.columnId) || null)) throw new HttpError(409, '比较范围或本列内容已变化，旧建议不会覆盖修改。请重新生成或手动整理。')
       await requireRows(table.topicId, table.documentIds)
+      await requireSources(table)
       if ((await Promise.all(run.baseNotes.map(async note => (await store.read('notes', note.id))?.revision !== note.revision))).some(Boolean)) throw new HttpError(409, '用于生成建议的笔记已更新，请重新生成。')
       const versions = new Map(await Promise.all(table.documentIds.map(async id => [id, evidenceVersion(await store.document(id))])))
       if ([...run.result.cells.flatMap(cell => cell.evidence), ...run.result.analysis.evidence].some(item => versions.get(item.documentId) !== item.documentVersion)) throw new HttpError(409, '原文已变化，请重新生成建议。')
@@ -323,6 +359,7 @@ export function createComparisons(store, topics, runs, qaOptions = {}, settingsP
     const current = await raw(table.id)
     if (current.revision !== table.revision || current.archived) throw new HttpError(409, '比较内容已变化，草稿不会覆盖人工修改，请重新生成。')
     await requireRows(table.topicId, table.documentIds)
+    await requireSources(table)
     for (const doc of documentVersions) if (evidenceVersion(await store.document(doc.id)) !== doc.version) throw new HttpError(409, '原文已变化，请重新生成比较草稿。')
     for (const note of baseNotes) if ((await store.read('notes', note.id))?.revision !== note.revision) throw new HttpError(409, '来源笔记已变化，请重新生成比较草稿。')
   }
@@ -332,6 +369,7 @@ export function createComparisons(store, topics, runs, qaOptions = {}, settingsP
     const table = await raw(id); revision(table, body.revision)
     if (table.archived) throw new HttpError(409, '请先恢复已归档的比较表。')
     await requireRows(table.topicId, table.documentIds)
+    await requireSources(table)
     const instruction = text(body.instruction ?? table.question, 4000, '研究目标', false)
     const configuration = taskSettings(settingsProvider, qaOptions)
     if (!modelConfigured(configuration.text)) throw new HttpError(409, '尚未配置模型，可以继续手工研读和比较。')
@@ -368,7 +406,7 @@ export function createComparisons(store, topics, runs, qaOptions = {}, settingsP
       await assertDraftCurrent(table, documentVersions, [...baseNotes.values()])
       await options.onEvent({ type: 'ready', message: '整份比较草稿已生成，可核对出处后采用。' })
       return { columns: proposed.columns, cells, analyses, baseNotes: [...baseNotes.values()] }
-    }, { timeoutMs: 300_000, purposeLimit: 2 })
+    }, { timeoutMs: 300_000, purposeLimit: 2, authorizationSignal: configuration.authorization?.text })
   }
   async function suggestDraft(id, body) {
     // Serialize starts until each job is persisted, including concurrent retries.

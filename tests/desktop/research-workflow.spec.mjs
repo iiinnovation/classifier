@@ -1,3 +1,4 @@
+import { clickControl, revealControl, moreAction } from '../helpers/ui-actions.mjs'
 import { test, expect } from '../helpers/desktop-application.mjs'
 import { createServer } from 'node:http'
 import { once } from 'node:events'
@@ -28,6 +29,7 @@ test('real desktop connects a runtime model and completes a cited research task 
     expect(await page.evaluate(async () => (await (await fetch('/api/settings/text-model')).json()).hasKey)).toBe(true)
     await page.locator('#new-topic').click()
     await page.locator('#topic-name-input').fill('桌面 AI 研究')
+    await page.locator('#topic-details > summary').click()
     await page.locator('#topic-question-input').fill('比较两篇资料的方法与结论')
     await page.locator('#topic-form button[type=submit]').click()
     await page.locator('#topic-import').click()
@@ -40,6 +42,8 @@ test('real desktop connects a runtime model and completes a cited research task 
     await expect(page.locator('#research-task-start')).toBeEnabled()
     await page.locator('#research-task-start').click()
     await expect(page.locator('#comparison-draft-preview')).toContainText('AI 比较草稿')
+    await expect(page.locator('#comparison-saved')).not.toBeVisible()
+    await page.locator('#comparison-saved-toggle').click()
     await expect(page.locator('#comparison-saved')).toBeVisible()
     await page.getByRole('button', { name: '采用比较草稿', exact: true }).click()
     await expect(page.locator('#comparison-task-status')).toContainText('已采用')
@@ -55,7 +59,7 @@ test('real desktop connects a runtime model and completes a cited research task 
     await page.screenshot({ path: testInfo.outputPath('desktop-research-completed.png'), fullPage: true })
     await page.locator('#model-settings-open').click()
     await expect(page.locator('#model-settings-key')).toHaveValue('')
-    await page.locator('#model-settings-clear').click()
+    await clickControl(page, '#model-settings-clear')
     await expect(page.locator('#model-settings-dialog')).not.toBeVisible()
     expect(await page.evaluate(async () => (await (await fetch('/health')).json()).modelConfigured)).toBe(false)
     await expect(page.locator('#report-generate')).toBeDisabled()

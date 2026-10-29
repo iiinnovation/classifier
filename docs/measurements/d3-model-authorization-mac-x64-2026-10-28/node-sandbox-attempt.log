@@ -1,0 +1,1454 @@
+✔ API client distinguishes business, non-JSON, empty and malformed responses (41.716545ms)
+✔ API client distinguishes cancellation and timeout and never retries uncertain writes (6.515101ms)
+✔ corrupt-record responses remain explicit and never suggest retrying or an uncertain save (2.023328ms)
+(node:65366) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ HTTP: import, retrieve originals, ask, persist history and reject invalid input (47.320838ms)
+✔ unfinished tasks become interrupted after reopening storage (40.808126ms)
+✔ desktop drafts persist across sessions while different windows remain isolated (2.757571ms)
+✔ switching libraries isolates restored record IDs and navigation while retaining legacy drafts (0.367709ms)
+✔ Chinese default dimensions retrieve English section bodies without translating the source (24.75517ms)
+✔ unmatched standard dimensions use explicitly partial context; custom queries remain literal (4.591253ms)
+(node:65370) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ M3 manual matrix retains note and passage evidence, differences, versions and restart state (49.783803ms)
+✖ M3 rejects scope violations, fabricated sources and invalid comparability (31.381ms)
+✖ M3 model uses only selected evidence and adoption cannot overwrite intervening edits (13.337678ms)
+✖ M3 cancellation, restart interruption and changed source block unsafe adoption (17.550797ms)
+✖ M3 default dimensions give the model bounded English evidence from selected documents (14.850805ms)
+✖ M3 historical evidence checks removed documents without expanding current comparison scope (13.347018ms)
+✔ local OCR reads image-only PDF and exposes normalized source locations (2009.990094ms)
+✔ ruled tables preserve merged headers, vertical merges and empty cells (17.693366ms)
+✔ borderless numeric table remains explicitly unverified (0.726159ms)
+✔ Word native fractions, radicals and merged cells retain structure (15.450633ms)
+✔ Word formula properties preserve meaning or require review with original OMML (4.839074ms)
+✔ Word table cells retain paragraph, list, break, tab and formula boundaries (2.862866ms)
+✔ rotated PDF text boxes follow transformed corners and stay in the correct table cell (4.799568ms)
+✔ real 90° and 270° PDF pages place citation boxes over rendered text (227.195812ms)
+✔ visual enhancement validates coordinates, merged cells and truncated responses (1.974412ms)
+✔ parser workers can be cancelled before processing finishes (0.68855ms)
+(node:65372) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ D1 directory lock refuses another process and releases after forced exit without PID heuristics (134.611076ms)
+✔ D1 directory ownership precedes storage scan and interrupted-task updates (47.684503ms)
+✔ D1 failed storage initialization releases ownership and directory aliases share the lock (11.71083ms)
+✔ D1 lock corruption fails closed and never erases the evidence (6.292646ms)
+✖ D1 shutdown retains directory ownership until admitted document writes settle (25.489414ms)
+(node:65375) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ json previews cover document, topic, research and detach scope without changing records (288.448159ms)
+✔ sqlite previews cover document, topic, research and detach scope without changing records (1546.559991ms)
+✔ preview reports tasks by saved inputs and affected comparison/report identity without cancelling them (180.990605ms)
+✔ preview follows retained paragraph provenance and transitive copied notes without treating prose as references (147.354744ms)
+✔ json unknown references in damaged records make preview incomplete and preserve damaged bytes (196.028639ms)
+✔ sqlite unknown references in damaged records make preview incomplete and preserve damaged bytes (999.552127ms)
+✔ preview detects changed snapshots, rejects invalid scope, and produces a stable revision for unchanged data (194.194884ms)
+(node:65438) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ SQLite deletion recovers real SIGKILL at before-commit without partial links, wrong unlinks or lost research (538.51537ms)
+✔ SQLite deletion recovers real SIGKILL at after-commit without partial links, wrong unlinks or lost research (270.25664ms)
+✔ SQLite deletion recovers real SIGKILL at before-unlink without partial links, wrong unlinks or lost research (424.63703ms)
+✔ SQLite deletion recovers real SIGKILL at after-unlink without partial links, wrong unlinks or lost research (580.405967ms)
+✔ SQLite deletion sqlite-full preserves the durable commit boundary and allows recovery (815.523644ms)
+✔ SQLite deletion unlink-denied preserves the durable commit boundary and allows recovery (577.096447ms)
+✔ SQLite deletion directory-sync-error preserves the durable commit boundary and allows recovery (597.985462ms)
+✔ SQLite deletion commit-ack-error preserves the durable commit boundary and allows recovery (599.226071ms)
+✔ a replacement original is preserved during pending deletion, and matching bytes permit a later retry (726.16405ms)
+✔ task progress does not invalidate confirmation, and completed owned tasks are deleted atomically (417.053827ms)
+✔ missing deletion markers cause version-2 startup to refuse writes instead of permitting resurrection (574.564112ms)
+(node:65443) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ JSON deletion stays unavailable and requires explicit migration without changing records or originals (55.30838ms)
+✖ shared document deletion preserves research and history, labels deleted sources, blocks stale generation/adoption and survives restart (632.66737ms)
+✖ confirmation and stale preview checks reject before any deletion or file operation (616.112424ms)
+✖ unknown SQLite record buckets make deletion scope incomplete and preserve the original (522.682466ms)
+✖ notes deletion removes owned history and preserves shared documents and copied research (576.557338ms)
+✖ comparisons deletion removes owned history and preserves shared documents and copied research (798.07054ms)
+✖ reports deletion removes owned history and preserves shared documents and copied research (661.590533ms)
+✖ topics deletion removes owned history and preserves shared documents and copied research (660.252939ms)
+✖ deletion stops and awaits related model work, rejects new mutations during the wait, and leaves no record resurrection (602.002001ms)
+✖ post-deletion backup and restore preserve deletion markers and saved report exports (582.640245ms)
+✖ topic deletion retains copied report content and historical sources in another topic (421.192133ms)
+✔ desktop bridge injects its private token and preserves JSON, uploads and binary downloads (47.359727ms)
+✔ desktop bridge refuses arbitrary destinations, origins and redirects, and reports disconnection (2.436546ms)
+(node:65482) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ desktop API requires instance authentication, exact host and desktop origin on every route (89.149413ms)
+✔ D1 disk failure preserves data and permits recovery: sqlite-update-full (286.714532ms)
+✔ D1 disk failure preserves data and permits recovery: migration-batch-full (1750.965401ms)
+✔ D1 disk failure preserves data and permits recovery: migration-prepare-full (1620.589105ms)
+✔ D1 disk failure preserves data and permits recovery: recovery-full (2951.182859ms)
+✔ D1 disk failure preserves data and permits recovery: migration:copy (1630.138962ms)
+✔ D1 disk failure preserves data and permits recovery: migration:file-sync (1339.352242ms)
+✔ D1 disk failure preserves data and permits recovery: migration:file-publish (1698.385705ms)
+✔ D1 disk failure preserves data and permits recovery: migration:directory-sync (1298.292937ms)
+✔ D1 disk failure preserves data and permits recovery: migration:ready-marker (1676.672573ms)
+✔ D1 disk failure preserves data and permits recovery: migration:ready-sync (1502.96148ms)
+✔ D1 disk failure preserves data and permits recovery: import-full (805.293887ms)
+✔ D1 disk failure preserves data and permits recovery: import-short-write (950.427083ms)
+✔ D1 disk failure preserves data and permits recovery: import-sync (1189.219238ms)
+✔ D1 disk failure preserves data and permits recovery: import-cleanup (1073.156126ms)
+✔ D1 disk failure preserves data and permits recovery: backup:copy (619.651265ms)
+✔ D1 disk failure preserves data and permits recovery: backup:file-sync (747.759903ms)
+✔ D1 disk failure preserves data and permits recovery: backup:publish (1016.61752ms)
+✔ D1 disk failure preserves data and permits recovery: backup:directory-sync (942.998383ms)
+✔ D1 disk failure preserves data and permits recovery: backup:manifest (863.761624ms)
+✔ D1 disk failure preserves data and permits recovery: restore:copy (1101.657558ms)
+✔ D1 disk failure preserves data and permits recovery: restore:file-sync (1161.762836ms)
+✔ D1 disk failure preserves data and permits recovery: restore:publish (1490.924415ms)
+✔ D1 disk failure preserves data and permits recovery: restore:directory-sync (1693.377982ms)
+✔ D1 disk failure preserves data and permits recovery: preserve:copy (752.327236ms)
+✔ D1 disk failure preserves data and permits recovery: preserve:file-sync (984.334932ms)
+✔ D1 disk failure preserves data and permits recovery: preserve:publish (1162.192105ms)
+✔ D1 disk failure preserves data and permits recovery: preserve:directory-sync (1213.802842ms)
+✔ D1 disk failure preserves data and permits recovery: preserve:manifest (1090.630238ms)
+✔ D1 disk failure preserves data and permits recovery: quarantine-full (765.797418ms)
+✔ D1 disk failure preserves data and permits recovery: zip-backup:stream (1749.533463ms)
+✔ D1 disk failure preserves data and permits recovery: zip-backup:file-sync (1334.397647ms)
+✔ D1 disk failure preserves data and permits recovery: zip-backup:publish (1661.070401ms)
+✔ D1 disk failure preserves data and permits recovery: zip-backup:directory-sync (2276.188821ms)
+✔ D1 disk failure preserves data and permits recovery: zip-restore:stream (1684.511632ms)
+✔ D1 disk failure preserves data and permits recovery: zip-restore:file-sync (1605.684036ms)
+✔ D1 disk failure preserves data and permits recovery: zip-restore:publish (2082.427648ms)
+✔ D1 disk failure preserves data and permits recovery: zip-restore:directory-sync (1732.138703ms)
+(node:65485) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ JSON original writes and deletes leave redacted durable operation records (281.920475ms)
+✔ pending JSON file operations recover idempotently on store startup and inspect reports failed operations (465.113971ms)
+✔ SQLite file operation journal survives migration and startup recovery (938.766322ms)
+✔ legacy SQLite v1 libraries add the journal without changing existing records or generations (87.024104ms)
+✔ json recovery rejects paths outside the designated original and keeps other recovery working (392.49536ms)
+✔ json recovery refuses an original file symlink (269.3147ms)
+✔ json recovery refuses an original directory symlink (142.943822ms)
+✔ json pending original writes recover by hash and remain idempotent (410.646182ms)
+✔ sqlite recovery rejects paths outside the designated original and keeps other recovery working (310.879819ms)
+✔ sqlite recovery refuses an original file symlink (42.492776ms)
+✔ sqlite recovery refuses an original directory symlink (44.816668ms)
+✔ sqlite pending original writes recover by hash and remain idempotent (99.587812ms)
+✔ damaged JSON logs and symlink logs stay intact and visible without preventing startup or valid recovery (338.038852ms)
+✔ JSON journal preserves recoverable pending intent after error before final publication (340.325827ms)
+✔ JSON journal preserves recoverable pending intent after crash before final publication (295.63567ms)
+(node:65515) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ inspection reads json without changing queued jobs or exposing research text (201.127394ms)
+✔ inspection reads sqlite without changing queued jobs or exposing research text (1145.900636ms)
+✔ inspection lists damaged records temporary files and missing originals without deleting any bytes (324.524977ms)
+✔ inspection detects changed and unmatched originals and refuses active libraries (107.677666ms)
+✔ inspection reports corrupt SQLite and future formats without modifying the database (980.299034ms)
+✔ inspection does not follow original or manifest symlinks (349.644398ms)
+✔ inspection CLI emits a checklist and returns 2 for damaged material (698.935496ms)
+(node:65561) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ desktop inspection and backup release ownership and restart the original library (567.926102ms)
+✔ desktop restore preserves current edits makes a safety backup and commits selection only after startup (490.430703ms)
+✔ desktop restore rolls back after startup failure (701.918444ms)
+✔ desktop restore rolls back after selection failure (594.695887ms)
+✔ corrupt backup and failed restore do not change the selected library (287.781836ms)
+✔ switching to an existing library verifies it and prevents concurrent maintenance (517.829508ms)
+✔ invalid saved selection and empty target fail without creating a replacement library (323.88249ms)
+✔ inspection remains available when database damage prevents backend restart (959.633026ms)
+✔ restore aborts if the current safety backup cannot be made (398.85532ms)
+✔ SQLite restore opens through the actual backend and library aliases share draft scope (1411.017712ms)
+✔ desktop migration keeps the JSON source and verified backup and publishes progress before switching (806.031362ms)
+✔ interrupted desktop migration resumes its original snapshot and backs up later current-library edits (8007.294023ms)
+✔ migration activation failure leaves a completed target that can be selected on retry (1051.776387ms)
+✔ resume rejects a changed snapshot without switching away from the current library (759.664883ms)
+✔ desktop ZIP export and restore use the verified snapshot and preserve later current-library edits (1139.929052ms)
+✔ ZIP restore returns to the current library after startup failure (848.608602ms)
+✔ ZIP restore returns to the current library after selection failure (1165.953566ms)
+✔ ZIP restore returns to the current library after restore failure (723.8392ms)
+✔ ZIP restore returns to the current library after safety-backup failure (539.21209ms)
+✔ invalid ZIP verification keeps the backend running and a ZIP changed after verification cannot be activated (919.298697ms)
+✔ selective desktop recovery preserves the current damaged library and later unrelated edits (1417.834706ms)
+✔ selective recovery rolls back after startup failure (1462.294857ms)
+✔ selective recovery rolls back after selection failure (1488.996701ms)
+✔ selective recovery rolls back after recover failure (697.552182ms)
+✔ raw desktop preservation still returns its copy when a corrupt database cannot restart (1096.873667ms)
+✔ desktop rebuilds an incomplete preparation from its old snapshot while backing up later source edits (1185.246572ms)
+✔ desktop preparation rebuild refuses invalid snapshots and restarts the existing library (315.717099ms)
+✔ desktop inspect requires confirmation and presents the checklist with an export choice (2.668055ms)
+✔ cancelling restore does not stop tasks or write any library (0.447604ms)
+✔ restore uses only the native chosen path and explains the backup cutoff (0.406388ms)
+✔ maintenance errors are visible and another menu action cannot interleave (5.867826ms)
+✔ desktop migration is explicit and shows the preserved source backup on success (0.441581ms)
+✔ migration status can be viewed without resuming and continuation explains the snapshot cutoff (0.515454ms)
+✔ ZIP export and restore use native file dialogs and preserve the snapshot cutoff explanation (0.893264ms)
+✔ cancelling either ZIP dialog or confirmation performs no maintenance (0.514624ms)
+✔ selective recovery previews versions, passes only chosen keys, and confirms preservation before applying (0.753847ms)
+✔ declining the final selective-recovery scope leaves all records intact (0.356851ms)
+✔ preparation rebuild explains the snapshot cutoff and preserves old partial work before switching (0.332507ms)
+(node:65706) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ json selective recovery from directory preserves newer unrelated edits and unselected damaged bytes (3340.690876ms)
+✔ json selective recovery from zip preserves newer unrelated edits and unselected damaged bytes (3294.675062ms)
+✔ sqlite selective recovery from directory preserves newer unrelated edits and unselected damaged bytes (3579.711413ms)
+✔ sqlite selective recovery from zip preserves newer unrelated edits and unselected damaged bytes (2847.6309ms)
+✔ JSON recovery lets the user choose interrupted versions without automatically replacing a healthy saved record (2073.886234ms)
+✔ record recovery bundles its matching original and never substitutes an unrelated original version (3301.515208ms)
+✔ preview revisions reject changed selected bytes or changed backups but retain later unrelated edits (4664.122701ms)
+✔ recovery rejects ambiguous choices and active ownership before preserving or writing new libraries (1577.805193ms)
+✔ raw preservation copies corrupt SQLite and sidecar bytes without claiming database repair or copying credentials (412.488829ms)
+✔ preservation refuses symlinks and a recovery destination failure leaves originals and the complete preservation copy intact (2195.341562ms)
+✔ recovery CLI previews choices and applies an explicit selection file without changing the source (2259.257211ms)
+✔ json selected originals supersede old removal intent only in the recovered copy (2245.079569ms)
+✔ sqlite selected originals supersede old removal intent only in the recovered copy (2270.089664ms)
+✔ SIGKILL before recovery publication preserves source bytes and a verified preservation copy, then permits a fresh retry (3241.551468ms)
+(node:65792) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ production maintenance worker reports migration progress and exits before the library is reopened (1570.169544ms)
+✔ maintenance startup timeout waits for child exit before rejecting (5.68926ms)
+✔ maintenance worker streams ZIP backups and restores before releasing the directory to the caller (1129.687523ms)
+✔ production worker recovers selected records with current bytes preserved and no active directory lock left behind (1658.579157ms)
+(node:65821) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ migration rebuilds from its fixed backup after actual SIGKILL at preparation-backup (1000.102053ms)
+✔ migration rebuilds from its fixed backup after actual SIGKILL at preparation-layout (1027.991159ms)
+✔ migration rebuilds from its fixed backup after actual SIGKILL at preparation-state (1002.227292ms)
+✔ migration rebuilds from its fixed backup after actual SIGKILL at preparation-database (1001.121969ms)
+✔ migration rebuilds from its fixed backup after actual SIGKILL at preparation-ready (1094.185861ms)
+✔ failed preparation reports the preserved backup and rejects tampered snapshots or non-JSON backups (423.621404ms)
+(node:65851) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ D1 migration resumes after SIGKILL at validated without duplicating records or altering history (11044.109428ms)
+✔ D1 migration resumes after SIGKILL at records without duplicating records or altering history (10075.803189ms)
+✔ D1 migration resumes after SIGKILL at file-published without duplicating records or altering history (6338.632049ms)
+✔ D1 migration resumes after SIGKILL at files without duplicating records or altering history (7103.541041ms)
+✔ D1 migration resumes after SIGKILL at publishing without duplicating records or altering history (8896.596575ms)
+✔ D1 migration resumes after SIGKILL at published without duplicating records or altering history (11358.814084ms)
+✔ D1 migration resumes after SIGKILL at complete without duplicating records or altering history (10032.793758ms)
+✔ D1 resume refuses changed snapshots, progress identity and destination conflicts (6962.384848ms)
+✔ D1 resumed migration refuses corrupted committed records and unexpected original files (15064.907225ms)
+✔ D1 resume rejects symlink database paths and preserves external bytes (6144.379183ms)
+✔ D1 migration resumes after a real original-directory permission failure and preserves partial work (6460.230383ms)
+✔ D1 two resume requests cannot own the same migration concurrently (6327.290722ms)
+(node:65961) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ migration rejects a structurally damaged record after retaining a verified pre-upgrade backup (607.456674ms)
+✔ migration refuses a current comparison row whose document is missing (710.327873ms)
+✔ migration resolves current comparison document IDs with the existing UUID casing rule (1397.960554ms)
+✖ migration retains copied materials and stale analysis/history after their live sources disappear (79.338163ms)
+(node:65975) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ revocation reaches old and updated snapshots, separates text/vision, and requires a new connection to grant again (2.335338ms)
+✔ question checks cancellation after awaited progress immediately before sending (1.035658ms)
+✔ comparison-plan checks cancellation after awaited progress immediately before sending (0.31355ms)
+✔ comparison-column checks cancellation after awaited progress immediately before sending (0.328127ms)
+✔ report checks cancellation after awaited progress immediately before sending (0.554096ms)
+✔ a task whose configuration was captured before a slow record read cannot send after revocation (3.411858ms)
+✖ HTTP revocation stops old and new model snapshots, blocks subsequent rounds and overrides, and preserves local search and explicit reconnection (54.547902ms)
+✖ visual sends stay in the parent and cancellation stops the first request and remaining pages (isolated=false) (2.498094ms)
+✖ visual sends stay in the parent and cancellation stops the first request and remaining pages (isolated=true) (0.585335ms)
+✖ visual task revocation records cancellation and leaves text-model work and local imports available (0.576222ms)
+(node:65977) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ runtime model settings keep keys out of responses and retain them only for the same endpoint (2.383052ms)
+✔ environment model overrides are runtime-only and can explicitly disconnect (0.426731ms)
+✔ settings presentation redacts credentials embedded in externally provided endpoints (0.469323ms)
+✔ blank-key updates preserve the original endpoint when the displayed URL is unchanged (0.317829ms)
+✖ model settings HTTP is same-origin guarded and never persists credentials to the library (27.41414ms)
+(node:65978) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ M2 notes: source snapshots, revisions, explicit missing states, idempotency and restart (86.042714ms)
+✖ M2 evidence remains stable across metadata edits, parse changes and reimports (14.927253ms)
+✖ M2 rejects forged evidence, false model provenance, invalid states and conflicting edits (7.99305ms)
+✖ M2 model suggestions retain provenance and never overwrite accepted human edits (9.082114ms)
+✖ M2 suggestions require a model; ordinary extractive answers can still become source notes (8.074162ms)
+✔ isolated parser flushes a large document result before exiting (4907.238751ms)
+✔ PDF.js extracts text and preserves page locators (963.000672ms)
+✔ DOCX extracts paragraphs without inventing page numbers (9.276065ms)
+✔ text, markdown and HTML imports preserve research content (3.834435ms)
+✔ rejects nonexistent and unread citations (1.56284ms)
+✔ search results must be read before they can be cited (4.270662ms)
+✔ repeated tool requests terminate and preserve evidence (0.812482ms)
+✔ tool budget limits oversized batches and forces completion (1.044377ms)
+✔ model failure retains evidence; cancellation propagates (0.634626ms)
+(node:66060) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ json bad records remain explicit and isolated while healthy lists, jobs and saved evidence stay readable (36.182435ms)
+✖ sqlite bad records remain explicit and isolated while healthy lists, jobs and saved evidence stay readable (10.137259ms)
+✔ JSON concurrent reads preserve one redacted isolation record and normal writes cannot replace damaged bytes (108.004878ms)
+✔ JSON isolation rejects source and quarantine symlinks without following them (19.920468ms)
+✔ JSON startup keeps interrupted edits visible and leaves a healthy saved version unchanged (14.867633ms)
+✔ invalid record containers and oversized records are reported consistently without blocking healthy entries (101.75969ms)
+✔ a symlinked record bucket is reported without listing or reading the outside directory (13.885672ms)
+(node:66061) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ record shape validates large typed arrays within a bounded child heap (172.62537ms)
+✔ record shape rejects documents: reference item (3.918167ms)
+✔ record shape rejects documents: reference text (0.275197ms)
+✔ record shape rejects documents: section item (0.245039ms)
+✔ record shape rejects documents: warning item (0.185507ms)
+✔ record shape rejects topics: linked document item (0.20992ms)
+✔ record shape rejects topics: linked document id (0.246274ms)
+✔ record shape rejects notes: evidence item (0.386822ms)
+✔ record shape rejects notes: reference snapshot (0.314514ms)
+✔ record shape rejects notes: history evidence (0.382285ms)
+✔ record shape rejects notes: origin (0.234569ms)
+✔ record shape rejects notes: content (0.164129ms)
+✔ record shape rejects comparisons: document ids (0.181836ms)
+✔ record shape rejects comparisons: column item (0.17205ms)
+✔ record shape rejects comparisons: cell evidence (0.154619ms)
+✔ record shape rejects comparisons: cell note sources (0.147763ms)
+✔ record shape rejects comparisons: analysis rows (0.188949ms)
+✔ record shape rejects comparisons: history cells (0.154605ms)
+✔ record shape rejects reports: block citation ids (0.155821ms)
+✔ record shape rejects reports: material item (0.136217ms)
+✔ record shape rejects reports: material evidence (0.142097ms)
+✔ record shape rejects reports: comparison material cells (0.175465ms)
+✔ record shape rejects reports: note material citations (0.169477ms)
+✔ record shape rejects reports: history material (0.152831ms)
+✔ record shape rejects runs: event item (0.174473ms)
+✔ record shape rejects runs: document versions (0.127653ms)
+✔ record shape rejects runs: draft result cells (0.144248ms)
+✔ record shape rejects imports: progress (0.121749ms)
+✔ record shape rejects documents: missing sections (0.140195ms)
+✔ record shape rejects documents: missing references (0.160261ms)
+✔ record shape rejects topics: missing links (0.145736ms)
+✔ record shape rejects topics: invalid linked id (0.152403ms)
+✔ record shape rejects notes: missing documentId (0.137584ms)
+✔ record shape rejects notes: missing content (0.170561ms)
+✔ record shape rejects notes: missing evidence (0.23524ms)
+✔ record shape rejects notes: missing history (0.193927ms)
+✔ record shape rejects notes: missing history evidence (0.213769ms)
+✔ record shape rejects comparisons: missing topicId (0.178264ms)
+✔ record shape rejects comparisons: missing documentIds (0.1197ms)
+✔ record shape rejects comparisons: missing columns (0.189127ms)
+✔ record shape rejects comparisons: missing cells (0.167146ms)
+✔ record shape rejects comparisons: missing analyses (0.149156ms)
+✔ record shape rejects comparisons: missing history (0.11376ms)
+✔ record shape rejects comparisons: missing historical cells (0.171282ms)
+✔ record shape rejects reports: missing topicId (0.137891ms)
+✔ record shape rejects reports: missing blocks (0.114994ms)
+✔ record shape rejects reports: missing sources (0.109718ms)
+✔ record shape rejects reports: missing evidence (0.106839ms)
+✔ record shape rejects reports: missing history (0.106433ms)
+✔ record shape rejects reports: missing historical sources (0.175493ms)
+✔ record shape rejects runs: missing draft document versions (0.169659ms)
+✔ record shape rejects runs: missing completed report evidence (0.204462ms)
+✔ record shape rejects comparisons: cell outside selected documents (0.289287ms)
+✔ record shape rejects comparisons: cell outside selected columns (0.207562ms)
+✔ record shape rejects comparisons: analysis outside selected columns (0.183069ms)
+✔ record shape rejects comparisons: historical analysis outside its own columns (0.183224ms)
+✔ record shape preserves optional legacy fields, unknown extensions and saved evidence bytes (0.52336ms)
+✖ json nested record damage is isolated before HTTP lists and healthy research are rendered (127.956928ms)
+✖ sqlite nested record damage is isolated before HTTP lists and healthy research are rendered (69.250224ms)
+✔ page worker returns a complete PNG and reports invalid pages (589.235449ms)
+✔ page rendering cancellation terminates work without returning a stale image (8.518648ms)
+✔ reused PDF rasters contain only the new page and match an independent render (550.583929ms)
+(node:66074) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ manuscript edits preserve citations and order across remove undo draft resume and save (112.555955ms)
+✖ manuscript paragraph settings save reference changes and preserve drafts on version conflicts (54.889189ms)
+✖ opening a cited source from the manuscript keeps unsaved writing recoverable (103.337094ms)
+(node:66076) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ M4 materials, manual paragraphs, checked citations, history, export and restart persist together (92.765126ms)
+✖ M4 rejects foreign materials, fabricated citations, false model provenance and conflicting writes (55.880536ms)
+✖ M4 source updates retain old quoted text, flag reviews and export historical locations safely (47.356417ms)
+✖ M4 suggestions use selected snapshots and cannot overwrite human edits or changed sources (47.348368ms)
+✖ M4 cancellation and restart interrupt generation without changing saved text (47.870428ms)
+✖ M4 large assembled reports remain editable while HTTP and content limits still apply (48.429093ms)
+✖ M4 assembly skips repeated material, retains human edits and adds only changed or removed items (44.228161ms)
+✖ M4 assembly recognizes pre-key material blocks from history after manual revision (45.562305ms)
+✖ M4 assembly explicitly preserves model provenance from comparison materials (40.567421ms)
+(node:66085) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ research task generates cited comparison and summary without manually populated notes or cells (96.522049ms)
+✖ research adoption rejects manual edits and source changes (54.041611ms)
+✖ research rejects malformed plans and fabricated citations without partially updating the table (44.302504ms)
+✖ research cancellation and shutdown leave a retryable task and preserve existing content (70.530685ms)
+✖ research follow-up reuses selected materials and guards approved output against stale proposals (49.677782ms)
+✖ research without model rejects generation without sending material (78.204185ms)
+✖ research invalidates changed sources even when retrieval found no evidence (84.976845ms)
+✔ dimension planning accepts fenced JSON without accepting surrounding commentary (7.663769ms)
+✔ Chinese and English terms produce deterministic passage ranking (7.025098ms)
+✔ empty or stop-word questions do not return arbitrary evidence (0.641415ms)
+(node:66087) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ injected settings update health immediately while queued work holds an immutable credential snapshot (78.759093ms)
+✖ running multi-round text tasks keep their snapshot while new tasks use changed settings (11.469931ms)
+✖ a visual import keeps its provider across pages and the next import uses updated settings (1.058368ms)
+(node:66089) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ json missing originals remain explicit across saved research, history, export, selection and model boundaries (29.382901ms)
+✖ json corrupt originals remain explicit across saved research, history, export, selection and model boundaries (14.255531ms)
+✖ sqlite missing originals remain explicit across saved research, history, export, selection and model boundaries (566.243686ms)
+✖ sqlite corrupt originals remain explicit across saved research, history, export, selection and model boundaries (594.057211ms)
+✖ copied missing notes and comparisons are distinguished even after material removal (141.136983ms)
+✖ copied corrupt notes and comparisons are distinguished even after material removal (16.626123ms)
+✔ read failures stay distinct from missing/corrupt sources and cannot match an absent version (1.032141ms)
+✖ an actual unreadable JSON original is labelled unavailable and recovers without changing saved evidence (10.86119ms)
+✖ comparison tasks reject lost note provenance before sending or adopting model content (71.122691ms)
+(node:66100) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ SQLite import commits document, latest topic links and task result together without replacing concurrent topic edits (189.024565ms)
+✔ SQLite import missing-topic rejects without committing partial metadata (119.026994ms)
+✔ SQLite import changed-job rejects without committing partial metadata (128.88894ms)
+✔ SQLite import bad-original rejects without committing partial metadata (23.257788ms)
+✔ SQLite import existing-original rejects without committing partial metadata (21.96395ms)
+✔ SQLite import cancelled rejects without committing partial metadata (18.976908ms)
+✔ SQLite import reconciles SIGKILL at intent without dangling topic links or resurrected tasks (756.303099ms)
+✔ SQLite import reconciles SIGKILL at stage-synced without dangling topic links or resurrected tasks (966.496079ms)
+✔ SQLite import reconciles SIGKILL at file-published without dangling topic links or resurrected tasks (1046.934824ms)
+✔ SQLite import reconciles SIGKILL at before-commit without dangling topic links or resurrected tasks (1050.709648ms)
+✔ SQLite import reconciles SIGKILL at after-commit without dangling topic links or resurrected tasks (1076.915591ms)
+✔ SQLite import cancel-stage cleans published intent without committing records (461.710145ms)
+✔ SQLite import publish-error cleans published intent without committing records (466.131816ms)
+✔ SQLite constraint failure after the document insert rolls back the document, topic and task as one transaction (260.072005ms)
+✔ a reported error after durable SQLite COMMIT cannot turn a completed import into a failed or duplicated task (243.273585ms)
+✔ SQLite import recovery preserves mismatched bytes and refuses forged journal paths (41.720284ms)
+✖ SQLite HTTP synchronous and background imports use atomic topic commits and completed jobs persist after restart (32.830975ms)
+(node:66136) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ startup recovery opens directory json compatibility snapshot after preserving an unreadable future library (818.081575ms)
+✔ startup recovery opens directory sqlite compatibility snapshot after preserving an unreadable future library (1522.931766ms)
+✔ startup recovery opens zip json compatibility snapshot after preserving an unreadable future library (1212.380849ms)
+✔ startup recovery opens zip sqlite compatibility snapshot after preserving an unreadable future library (2178.496887ms)
+✔ startup dialogs show the exact compatibility cutoff before recovery and return success only after activation (1606.952858ms)
+✔ cancel or quit during compatibility preview never starts or preserves a library (1160.664786ms)
+✔ compatibility recovery selection failure keeps the original selection and original bytes (1466.139004ms)
+✔ compatibility recovery startup failure keeps the original selection and original bytes (1268.274071ms)
+✔ compatibility recovery preservation failure keeps the original selection and original bytes (716.087931ms)
+✔ compatibility restores reject changed backup confirmation and active original ownership (622.624759ms)
+✔ format guard refuses symlinked or oversized manifests before updating queued records (393.906079ms)
+(node:66189) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ D1 explicit migration preserves evidence, history and originals, then serves SQLite through HTTP (944.913745ms)
+✔ D1 migration ignores non-record metadata in JSON buckets (845.387335ms)
+✔ D1 JSON and SQLite backups restore independently and reject modified bytes (2168.350704ms)
+✔ D1 SQLite CAS rejects direct writes during an async update without losing the winner (1136.974747ms)
+✔ D1 unknown formats reject before interruption updates and corrupt databases remain untouched (366.04095ms)
+✔ D1 corrupt and interrupted legacy records stop migration after preserving a verified backup (1016.278238ms)
+✔ D1 maintenance rejects active libraries, existing destinations, path escapes and symlinks (520.162179ms)
+✔ D1 SQLite backup refuses missing or changed originals and leaves the live library intact (1397.201349ms)
+✖ D1 migrated research workflow preserves M2-M4 citations and supports edits exports and conflict checks (54.395856ms)
+✔ S0 SQLite survives crash boundaries, disk errors, contention and consistent backup restore (4923.98728ms)
+(node:66310) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ json usage reconciles file categories, history and managed backups without modifying data (334.065628ms)
+✔ sqlite usage reconciles file categories, history and managed backups without modifying data (1206.09119ms)
+✔ json corrupt records remain counted as files while content estimates are explicitly incomplete (259.464472ms)
+✔ sqlite corrupt records remain counted as files while content estimates are explicitly incomplete (933.203574ms)
+✔ usage excludes symlink targets, counts hardlinks by path, and preserves explicit unmeasured scopes (143.663115ms)
+✔ usage scan limits return partial amounts without presenting incomplete record counts as complete (335.680578ms)
+✖ storage usage API is read-only, uncached and never accepts caller-supplied filesystem scopes (23.74269ms)
+(node:66365) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ json ZIP snapshots preserve originals, history and journals independently of later edits (1879.899132ms)
+✔ sqlite ZIP snapshots preserve originals, history and journals independently of later edits (2813.529309ms)
+✔ ZIP export refuses an active source, existing targets, internal destinations and symlink inputs (140.347018ms)
+✔ ZIP rejects parent escape without publishing or changing outside files (73.542009ms)
+✔ ZIP rejects absolute path without publishing or changing outside files (47.676347ms)
+✔ ZIP rejects Windows drive without publishing or changing outside files (70.226685ms)
+✔ ZIP rejects backslash path without publishing or changing outside files (47.528628ms)
+✔ ZIP rejects alternate data stream without publishing or changing outside files (48.925015ms)
+✔ ZIP rejects reserved Windows name without publishing or changing outside files (47.018066ms)
+✔ ZIP rejects trailing dot alias without publishing or changing outside files (45.591718ms)
+✔ ZIP rejects unexpected secret without publishing or changing outside files (44.138513ms)
+✔ ZIP rejects duplicate path without publishing or changing outside files (47.716537ms)
+✔ ZIP rejects case alias without publishing or changing outside files (45.914755ms)
+✔ ZIP rejects Unicode alias without publishing or changing outside files (45.022481ms)
+✔ ZIP rejects implicit directory case alias without publishing or changing outside files (45.730589ms)
+✔ ZIP rejects file as parent directory without publishing or changing outside files (47.327753ms)
+✔ ZIP rejects symlink without publishing or changing outside files (71.772345ms)
+✔ ZIP rejects FIFO without publishing or changing outside files (45.591319ms)
+✔ ZIP rejects encryption without publishing or changing outside files (46.719943ms)
+✔ ZIP rejects unsupported compression without publishing or changing outside files (54.139283ms)
+✔ ZIP rejects unlisted file without publishing or changing outside files (54.431685ms)
+✔ ZIP rejects truncated archives, missing files, wrong hashes and corrupted CRCs (304.151083ms)
+✔ ZIP enforces declared count, manifest size, total expansion and actual inflate size limits (101.514052ms)
+✔ ZIP supports ZIP64 metadata and explicit directories without preserving executable permissions (352.627166ms)
+✔ ZIP bounds directory metadata before retaining excessive comments or path indexes (389.889252ms)
+✔ ZIP CLI creates verifies and restores a backup through the production commands (973.282679ms)
+(node:66406) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ parser completion removes the caller abort listener (456.70532ms)
+✔ isolated parser completion and cancellation remove the caller abort listener (1034.254414ms)
+✔ isolated parser launch failure settles promptly without waiting for exit (2.172881ms)
+✔ imports shutdown waits for an admitted task still writing its queued record (2.635772ms)
+✔ runs shutdown waits for an admitted task still writing its queued record (1.123544ms)
+✔ long comparison drafts leave one shared run slot available to other task types (0.867057ms)
+✔ shutdown rejects an import still resolving its topic (0.323563ms)
+✔ import cancel during original write removes the file and does not commit a document (164.989116ms)
+✔ import stop during original write removes the file and does not commit a document (166.499786ms)
+✔ shutdown waits for an import that has begun committing its document (165.211362ms)
+✖ shutdown during synchronous original write removes it before returning (95.347574ms)
+(node:66416) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ M1: topics, shared bibliography, independent screening, removal and restart preserve legacy evidence (98.581372ms)
+✖ M1: background and synchronous imports persist the designated topic without client follow-up (56.1539ms)
+✖ M1: reject invalid edits and serialize concurrent association and partial updates (45.64705ms)
+✖ UUID casing identifies the same document, association and serialized update queue (47.170007ms)
+✔ switching documents blocks questions and discards the previous document response (57.365269ms)
+ℹ tests 418
+ℹ suites 0
+ℹ pass 344
+ℹ fail 74
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 176622.276818
+
+✖ failing tests:
+
+test at tests/api.test.mjs:11:1
+✖ HTTP: import, retrieve originals, ask, persist history and reject invalid input (47.320838ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/comparisons.test.mjs:40:1
+✖ M3 manual matrix retains note and passage evidence, differences, versions and restart state (49.783803ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/comparisons.test.mjs:77:1
+✖ M3 rejects scope violations, fabricated sources and invalid comparability (31.381ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/comparisons.test.mjs:94:1
+✖ M3 model uses only selected evidence and adoption cannot overwrite intervening edits (13.337678ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/comparisons.test.mjs:134:1
+✖ M3 cancellation, restart interruption and changed source block unsafe adoption (17.550797ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/comparisons.test.mjs:158:1
+✖ M3 default dimensions give the model bounded English evidence from selected documents (14.850805ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/comparisons.test.mjs:187:1
+✖ M3 historical evidence checks removed documents without expanding current comparison scope (13.347018ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/data-lock.test.mjs:69:1
+✖ D1 shutdown retains directory ownership until admitted document writes settle (25.489414ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/deletions.test.mjs:31:1
+✖ JSON deletion stays unavailable and requires explicit migration without changing records or originals (55.30838ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/deletions.test.mjs:40:1
+✖ shared document deletion preserves research and history, labels deleted sources, blocks stale generation/adoption and survives restart (632.66737ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/deletions.test.mjs:81:1
+✖ confirmation and stale preview checks reject before any deletion or file operation (616.112424ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/deletions.test.mjs:93:1
+✖ unknown SQLite record buckets make deletion scope incomplete and preserve the original (522.682466ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/deletions.test.mjs:103:69
+✖ notes deletion removes owned history and preserves shared documents and copied research (576.557338ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/deletions.test.mjs:103:69
+✖ comparisons deletion removes owned history and preserves shared documents and copied research (798.07054ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/deletions.test.mjs:103:69
+✖ reports deletion removes owned history and preserves shared documents and copied research (661.590533ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/deletions.test.mjs:103:69
+✖ topics deletion removes owned history and preserves shared documents and copied research (660.252939ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/deletions.test.mjs:119:1
+✖ deletion stops and awaits related model work, rejects new mutations during the wait, and leaves no record resurrection (602.002001ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/deletions.test.mjs:145:1
+✖ post-deletion backup and restore preserve deletion markers and saved report exports (582.640245ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/deletions.test.mjs:157:1
+✖ topic deletion retains copied report content and historical sources in another topic (421.192133ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/desktop-security.test.mjs:8:1
+✖ desktop API requires instance authentication, exact host and desktop origin on every route (89.149413ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/migration-validation.test.mjs:62:1
+✖ migration retains copied materials and stale analysis/history after their live sources disappear (79.338163ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/model-authorization.test.mjs:82:1
+✖ HTTP revocation stops old and new model snapshots, blocks subsequent rounds and overrides, and preserves local search and explicit reconnection (54.547902ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/model-authorization.test.mjs:124:38
+✖ visual sends stay in the parent and cancellation stops the first request and remaining pages (isolated=false) (2.498094ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/model-authorization.test.mjs:124:38
+✖ visual sends stay in the parent and cancellation stops the first request and remaining pages (isolated=true) (0.585335ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/model-authorization.test.mjs:142:1
+✖ visual task revocation records cancellation and leaves text-model work and local imports available (0.576222ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/model-session.test.mjs:55:1
+✖ model settings HTTP is same-origin guarded and never persists credentials to the library (27.41414ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/notes.test.mjs:31:1
+✖ M2 notes: source snapshots, revisions, explicit missing states, idempotency and restart (86.042714ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/notes.test.mjs:69:1
+✖ M2 evidence remains stable across metadata edits, parse changes and reimports (14.927253ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/notes.test.mjs:92:1
+✖ M2 rejects forged evidence, false model provenance, invalid states and conflicting edits (7.99305ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/notes.test.mjs:117:1
+✖ M2 model suggestions retain provenance and never overwrite accepted human edits (9.082114ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/notes.test.mjs:144:1
+✖ M2 suggestions require a model; ordinary extractive answers can still become source notes (8.074162ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/record-integrity.test.mjs:16:43
+✖ json bad records remain explicit and isolated while healthy lists, jobs and saved evidence stay readable (36.182435ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/record-integrity.test.mjs:16:43
+✖ sqlite bad records remain explicit and isolated while healthy lists, jobs and saved evidence stay readable (10.137259ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/record-shape.test.mjs:105:43
+✖ json nested record damage is isolated before HTTP lists and healthy research are rendered (127.956928ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/record-shape.test.mjs:105:43
+✖ sqlite nested record damage is isolated before HTTP lists and healthy research are rendered (69.250224ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/report-editor.test.mjs:67:1
+✖ manuscript edits preserve citations and order across remove undo draft resume and save (112.555955ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/report-editor.test.mjs:97:1
+✖ manuscript paragraph settings save reference changes and preserve drafts on version conflicts (54.889189ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/report-editor.test.mjs:121:1
+✖ opening a cited source from the manuscript keeps unsaved writing recoverable (103.337094ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/reports.test.mjs:12:1
+✖ M4 materials, manual paragraphs, checked citations, history, export and restart persist together (92.765126ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/reports.test.mjs:46:1
+✖ M4 rejects foreign materials, fabricated citations, false model provenance and conflicting writes (55.880536ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/reports.test.mjs:62:1
+✖ M4 source updates retain old quoted text, flag reviews and export historical locations safely (47.356417ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/reports.test.mjs:89:1
+✖ M4 suggestions use selected snapshots and cannot overwrite human edits or changed sources (47.348368ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/reports.test.mjs:119:1
+✖ M4 cancellation and restart interrupt generation without changing saved text (47.870428ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/reports.test.mjs:136:1
+✖ M4 large assembled reports remain editable while HTTP and content limits still apply (48.429093ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/reports.test.mjs:170:1
+✖ M4 assembly skips repeated material, retains human edits and adds only changed or removed items (44.228161ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/reports.test.mjs:223:1
+✖ M4 assembly recognizes pre-key material blocks from history after manual revision (45.562305ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/reports.test.mjs:249:1
+✖ M4 assembly explicitly preserves model provenance from comparison materials (40.567421ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/research-workflow.test.mjs:17:1
+✖ research task generates cited comparison and summary without manually populated notes or cells (96.522049ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/research-workflow.test.mjs:58:1
+✖ research adoption rejects manual edits and source changes (54.041611ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/research-workflow.test.mjs:69:1
+✖ research rejects malformed plans and fabricated citations without partially updating the table (44.302504ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/research-workflow.test.mjs:86:1
+✖ research cancellation and shutdown leave a retryable task and preserve existing content (70.530685ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/research-workflow.test.mjs:102:1
+✖ research follow-up reuses selected materials and guards approved output against stale proposals (49.677782ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/research-workflow.test.mjs:116:1
+✖ research without model rejects generation without sending material (78.204185ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/research-workflow.test.mjs:123:1
+✖ research invalidates changed sources even when retrieval found no evidence (84.976845ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/settings.test.mjs:9:1
+✖ injected settings update health immediately while queued work holds an immutable credential snapshot (78.759093ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/settings.test.mjs:38:1
+✖ running multi-round text tasks keep their snapshot while new tasks use changed settings (11.469931ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/settings.test.mjs:74:1
+✖ a visual import keeps its provider across pages and the next import uses updated settings (1.058368ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/source-states.test.mjs:49:87
+✖ json missing originals remain explicit across saved research, history, export, selection and model boundaries (29.382901ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/source-states.test.mjs:49:87
+✖ json corrupt originals remain explicit across saved research, history, export, selection and model boundaries (14.255531ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/source-states.test.mjs:49:87
+✖ sqlite missing originals remain explicit across saved research, history, export, selection and model boundaries (566.243686ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/source-states.test.mjs:49:87
+✖ sqlite corrupt originals remain explicit across saved research, history, export, selection and model boundaries (594.057211ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/source-states.test.mjs:85:45
+✖ copied missing notes and comparisons are distinguished even after material removal (141.136983ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/source-states.test.mjs:85:45
+✖ copied corrupt notes and comparisons are distinguished even after material removal (16.626123ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/source-states.test.mjs:108:1
+✖ an actual unreadable JSON original is labelled unavailable and recovers without changing saved evidence (10.86119ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/source-states.test.mjs:127:1
+✖ comparison tasks reject lost note provenance before sending or adopting model content (71.122691ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/sqlite-imports.test.mjs:164:1
+✖ SQLite HTTP synchronous and background imports use atomic topic commits and completed jobs persist after restart (32.830975ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/storage-maintenance.test.mjs:30:1
+✖ D1 explicit migration preserves evidence, history and originals, then serves SQLite through HTTP (944.913745ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/storage-maintenance.test.mjs:168:1
+✖ D1 migrated research workflow preserves M2-M4 citations and supports edits exports and conflict checks (54.395856ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/storage-usage.test.mjs:98:1
+✖ storage usage API is read-only, uncached and never accepts caller-supplied filesystem scopes (23.74269ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/task-lifecycle.test.mjs:131:1
+✖ shutdown during synchronous original write removes it before returning (95.347574ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/topics.test.mjs:6:1
+✖ M1: topics, shared bibliography, independent screening, removal and restart preserve legacy evidence (98.581372ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/topics.test.mjs:62:1
+✖ M1: background and synchronous imports persist the designated topic without client follow-up (56.1539ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/topics.test.mjs:88:1
+✖ M1: reject invalid edits and serialize concurrent association and partial updates (45.64705ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at tests/topics.test.mjs:118:1
+✖ UUID casing identifies the same document, association and serialized update queue (47.170007ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }

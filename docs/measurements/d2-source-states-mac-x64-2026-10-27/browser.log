@@ -1,0 +1,295 @@
+
+> classifier@0.1.0 test:e2e
+> playwright test --reporter=line
+
+(node:27073) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 54 tests using 1 worker
+
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:27083) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+
+[1/54] tests/e2e/comparisons-recovery.spec.mjs:34:1 › M3 a removed analysis dimension retains an accessible draft after loading latest
+tests/e2e/comparisons-recovery.spec.mjs:34:1 › M3 a removed analysis dimension retains an accessible draft after loading latest
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[2/54] tests/e2e/comparisons-recovery.spec.mjs:60:1 › M3 a removed row keeps its pending cell draft readable
+tests/e2e/comparisons-recovery.spec.mjs:60:1 › M3 a removed row keeps its pending cell draft readable
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[3/54] tests/e2e/comparisons-recovery.spec.mjs:78:1 › M3 historical citations resolve removed rows and still reject changed source versions
+tests/e2e/comparisons-recovery.spec.mjs:78:1 › M3 historical citations resolve removed rows and still reject changed source versions
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[4/54] tests/e2e/comparisons.spec.mjs:37:1 › M3 create, edit evidence, compare conditions, preserve history, drafts and restart
+tests/e2e/comparisons.spec.mjs:37:1 › M3 create, edit evidence, compare conditions, preserve history, drafts and restart
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[5/54] tests/e2e/comparisons.spec.mjs:116:1 › M3 model proposals require adoption and reject a stale column
+tests/e2e/comparisons.spec.mjs:116:1 › M3 model proposals require adoption and reject a stale column
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[6/54] tests/e2e/comparisons.spec.mjs:157:1 › M3 stale edits keep input and can load the latest saved cell
+tests/e2e/comparisons.spec.mjs:157:1 › M3 stale edits keep input and can load the latest saved cell
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[7/54] tests/e2e/comparisons.spec.mjs:176:1 › M3 a late source reload cannot discard typing in a comparison editor
+tests/e2e/comparisons.spec.mjs:176:1 › M3 a late source reload cannot discard typing in a comparison editor
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[8/54] tests/e2e/deletion-preview.spec.mjs:5:1 › D2 preview shows shared originals, research history and retained copies without deleting
+tests/e2e/deletion-preview.spec.mjs:5:1 › D2 preview shows shared originals, research history and retained copies without deleting
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[9/54] tests/e2e/deletion-preview.spec.mjs:58:1 › D2 closing an in-flight preview prevents its late result from replacing another target
+tests/e2e/deletion-preview.spec.mjs:58:1 › D2 closing an in-flight preview prevents its late result from replacing another target
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[10/54] tests/e2e/notes-recovery.spec.mjs:25:1 › M2 late version responses cannot replace an editor in another topic
+[11/54] tests/e2e/notes-recovery.spec.mjs:62:1 › M2 drafts from different notes survive another tab saving
+[12/54] tests/e2e/notes-recovery.spec.mjs:87:1 › M2 lost creation response recovers a revision without losing corrections
+[13/54] tests/e2e/notes-recovery.spec.mjs:112:1 › M2 failed document navigation preserves the current notebook
+tests/e2e/notes-recovery.spec.mjs:112:1 › M2 failed document navigation preserves the current notebook
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[14/54] tests/e2e/notes-recovery.spec.mjs:136:1 › M2 the same note keeps independent drafts in two tabs
+[15/54] tests/e2e/notes-recovery.spec.mjs:162:1 › M2 typing while a version is loading invalidates that response
+[16/54] tests/e2e/notes-recovery.spec.mjs:187:1 › M2 an unversioned draft resumes editing after an uncertain creation and reload
+[17/54] tests/e2e/notes-recovery.spec.mjs:219:1 › M2 old single-draft records remain recoverable during draft migration
+[18/54] tests/e2e/notes.spec.mjs:19:1 › UX notes start with content and only populated categories are shown
+[19/54] tests/e2e/notes.spec.mjs:60:1 › UX captured sources keep citations without reopening the reference picker
+[20/54] tests/e2e/notes.spec.mjs:94:1 › M2 source notes, editable fields, missing information, history, archive and restart
+[21/54] tests/e2e/notes.spec.mjs:176:1 › M2 question citations and regenerated model suggestions never overwrite human edits
+[22/54] tests/e2e/notes.spec.mjs:216:1 › M2 parse changes retain saved excerpts and stale drafts cannot capture a different source
+[23/54] tests/e2e/notes.spec.mjs:241:1 › M2 conflicting edits preserve the draft and can load the latest saved version
+[24/54] tests/e2e/notes.spec.mjs:263:1 › M2 an edited note draft rechecks evidence versions after reload
+[25/54] tests/e2e/reports-recovery.spec.mjs:20:1 › M4 restored passage drafts show exact selections and let the user remove one
+tests/e2e/reports-recovery.spec.mjs:20:1 › M4 restored passage drafts show exact selections and let the user remove one
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[26/54] tests/e2e/reports-recovery.spec.mjs:48:1 › M4 a restored passage draft remains removable after its document leaves the topic
+tests/e2e/reports-recovery.spec.mjs:48:1 › M4 a restored passage draft remains removable after its document leaves the topic
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[27/54] tests/e2e/reports-recovery.spec.mjs:73:1 › M4 opening a citation during editing reveals the reader and retains the draft after returning
+tests/e2e/reports-recovery.spec.mjs:73:1 › M4 opening a citation during editing reveals the reader and retains the draft after returning
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[28/54] tests/e2e/reports-recovery.spec.mjs:93:1 › M4 failed citation navigation still leaves a recoverable editing draft
+tests/e2e/reports-recovery.spec.mjs:93:1 › M4 failed citation navigation still leaves a recoverable editing draft
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[29/54] tests/e2e/reports.spec.mjs:26:1 › M4 selected notes and comparisons become editable, traceable, exportable research with history and restart
+tests/e2e/reports.spec.mjs:26:1 › M4 selected notes and comparisons become editable, traceable, exportable research with history and restart
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[30/54] tests/e2e/reports.spec.mjs:87:1 › manuscript editing keeps citations through reorder undo and draft recovery
+tests/e2e/reports.spec.mjs:87:1 › manuscript editing keeps citations through reorder undo and draft recovery
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[31/54] tests/e2e/reports.spec.mjs:123:1 › M4 original selection survives saved source removal and prevents navigation after parse changes
+tests/e2e/reports.spec.mjs:123:1 › M4 original selection survives saved source removal and prevents navigation after parse changes
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[32/54] tests/e2e/reports.spec.mjs:148:1 › M4 conflicting edits and late latest responses preserve typing and the reloadable draft
+tests/e2e/reports.spec.mjs:148:1 › M4 conflicting edits and late latest responses preserve typing and the reloadable draft
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[33/54] tests/e2e/reports.spec.mjs:184:1 › M4 model drafts require adoption, protect later edits and allow cancellation
+tests/e2e/reports.spec.mjs:184:1 › M4 model drafts require adoption, protect later edits and allow cancellation
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[34/54] tests/e2e/reports.spec.mjs:219:1 › M4 an uncertain creation retains corrections and recovers the existing report after reload
+tests/e2e/reports.spec.mjs:219:1 › M4 an uncertain creation retains corrections and recovers the existing report after reload
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[35/54] tests/e2e/research-workflow.spec.mjs:10:1 › AI task turns a goal and documents into a cited comparison and editable summary
+tests/e2e/research-workflow.spec.mjs:10:1 › AI task turns a goal and documents into a cited comparison and editable summary
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[36/54] tests/e2e/research-workflow.spec.mjs:63:1 › discarding a full comparison draft keeps manual comparison controls available
+tests/e2e/research-workflow.spec.mjs:63:1 › discarding a full comparison draft keeps manual comparison controls available
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[37/54] tests/e2e/research-workflow.spec.mjs:77:1 › AI task survives refresh, cancels and retries, then accepts a follow-up using the same materials
+tests/e2e/research-workflow.spec.mjs:77:1 › AI task survives refresh, cancels and retries, then accepts a follow-up using the same materials
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[38/54] tests/e2e/research-workflow.spec.mjs:104:1 › AI task keeps a lost creation response retry on one comparison and exposes manual edits safely
+tests/e2e/research-workflow.spec.mjs:104:1 › AI task keeps a lost creation response retry on one comparison and exposes manual edits safely
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[39/54] tests/e2e/research-workflow.spec.mjs:128:1 › AI task explains model availability and requires an explicit valid material scope
+tests/e2e/research-workflow.spec.mjs:128:1 › AI task explains model availability and requires an explicit valid material scope
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[40/54] tests/e2e/research-workflow.spec.mjs:140:1 › old comparison draft keeps its original paper scope after documents are replaced
+tests/e2e/research-workflow.spec.mjs:140:1 › old comparison draft keeps its original paper scope after documents are replaced
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[41/54] tests/e2e/research-workflow.spec.mjs:161:1 › lost follow-up and report task responses reuse completed requests on retry
+tests/e2e/research-workflow.spec.mjs:161:1 › lost follow-up and report task responses reuse completed requests on retry
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[42/54] tests/e2e/review.spec.mjs:15:1 › committed topic creation closes the editor even when list refresh fails
+[43/54] tests/e2e/review.spec.mjs:39:1 › saving freezes form fields until the captured edits have been persisted
+[44/54] tests/e2e/review.spec.mjs:65:1 › transient import polling failure retries the same job instead of forgetting it
+tests/e2e/review.spec.mjs:65:1 › transient import polling failure retries the same job instead of forgetting it
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[45/54] tests/e2e/review.spec.mjs:86:1 › recovering a background import preserves the topic the user chose before reload
+tests/e2e/review.spec.mjs:86:1 › recovering a background import preserves the topic the user chose before reload
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[46/54] tests/e2e/review.spec.mjs:112:1 › an old library response cannot replace newly saved bibliography in the editor
+[47/54] tests/e2e/review.spec.mjs:145:1 › a delayed startup restore respects navigation performed while it was loading
+[48/54] tests/e2e/review.spec.mjs:168:1 › finishing an import does not cancel a document the user is opening
+tests/e2e/review.spec.mjs:168:1 › finishing an import does not cancel a document the user is opening
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[49/54] tests/e2e/source-states.spec.mjs:8:45 › D2 missing sources keep research and history readable while disabling unavailable source actions
+tests/e2e/source-states.spec.mjs:8:45 › D2 missing sources keep research and history readable while disabling unavailable source actions
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[50/54] tests/e2e/source-states.spec.mjs:8:45 › D2 corrupt sources keep research and history readable while disabling unavailable source actions
+tests/e2e/source-states.spec.mjs:8:45 › D2 corrupt sources keep research and history readable while disabling unavailable source actions
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[51/54] tests/e2e/storage-usage.spec.mjs:6:1 › D2 storage usage shows measured categories and retention boundaries, refreshes, and fits a narrow window
+[52/54] tests/e2e/storage-usage.spec.mjs:33:1 › D2 storage usage handles a failed scan and ignores responses after close
+[53/54] tests/e2e/topics.spec.mjs:34:1 › M1 complete browser workflow: topics, shared metadata, separate records, reader, restart and mobile
+[54/54] tests/e2e/topics.spec.mjs:124:1 › M1 import keeps its original topic while navigating and recovers after refresh
+tests/e2e/topics.spec.mjs:124:1 › M1 import keeps its original topic while navigating and recovers after refresh
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:27083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+  54 passed (3.0m)

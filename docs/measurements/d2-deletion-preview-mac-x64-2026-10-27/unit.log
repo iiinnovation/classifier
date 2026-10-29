@@ -1,0 +1,17 @@
+(node:81089) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ json previews cover document, topic, research and detach scope without changing records (307.433662ms)
+✔ sqlite previews cover document, topic, research and detach scope without changing records (1168.501385ms)
+✔ preview reports tasks by saved inputs and affected comparison/report identity without cancelling them (238.907255ms)
+✔ preview follows retained paragraph provenance and transitive copied notes without treating prose as references (256.088591ms)
+✔ json unknown references in damaged records make preview incomplete and preserve damaged bytes (372.189631ms)
+✔ sqlite unknown references in damaged records make preview incomplete and preserve damaged bytes (1244.136285ms)
+✔ preview detects changed snapshots, rejects invalid scope, and produces a stable revision for unchanged data (269.632259ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4066.662265

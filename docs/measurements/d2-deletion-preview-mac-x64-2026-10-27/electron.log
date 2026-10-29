@@ -1,0 +1,28 @@
+
+> classifier@0.1.0 test:desktop:business
+> node tools/run-desktop-tests.mjs business tests/e2e/deletion-preview.spec.mjs --reporter=line
+
+(node:81862) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:81894) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:81894) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+
+[1/2] tests/e2e/deletion-preview.spec.mjs:5:1 › D2 preview shows shared originals, research history and retained copies without deleting
+tests/e2e/deletion-preview.spec.mjs:5:1 › D2 preview shows shared originals, research history and retained copies without deleting
+(node:81894) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[2/2] tests/e2e/deletion-preview.spec.mjs:58:1 › D2 closing an in-flight preview prevents its late result from replacing another target
+tests/e2e/deletion-preview.spec.mjs:58:1 › D2 closing an in-flight preview prevents its late result from replacing another target
+(node:81894) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+  2 passed (16.5s)

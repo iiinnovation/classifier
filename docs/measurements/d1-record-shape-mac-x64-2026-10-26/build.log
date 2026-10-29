@@ -1,0 +1,18 @@
+
+> classifier@0.1.0 desktop:dist
+> electron-builder --mac zip --x64 --config.directories.output=dist/desktop-d1-record-shape-2026-10-26
+
+  • electron-builder  version=26.15.3 os=25.6.0
+  • loaded configuration  file=/Users/apple/Desktop/classifier/electron-builder.cjs
+  • description is missed in the package.json  appPackageFile=/Users/apple/Desktop/classifier/package.json
+  • author is missed in the package.json  appPackageFile=/Users/apple/Desktop/classifier/package.json
+  • skipped dependencies rebuild  reason=npmRebuild is set to false
+  • packaging       platform=darwin arch=x64 electron=44.7.0 appOutDir=dist/desktop-d1-record-shape-2026-10-26/mac
+  • using custom unpacked Electron distribution  electronDist=node_modules/electron/dist
+  • copying unpacked Electron  source=/Users/apple/Desktop/classifier/node_modules/electron/dist/Electron.app destination=/Users/apple/Desktop/classifier/dist/desktop-d1-record-shape-2026-10-26/mac/Electron.app
+  • searching for node modules  pm=npm searchDir=/Users/apple/Desktop/classifier
+  • duplicate dependency references  dependencies=["@napi-rs/canvas@1.0.9"]
+  • default Electron icon is used  reason=application icon is not set
+  • skipped macOS code signing  reason=identity explicitly is set to null
+  • building        target=macOS zip arch=x64 file=dist/desktop-d1-record-shape-2026-10-26/Classifier-0.1.0-mac.zip
+  • building block map  blockMapFile=dist/desktop-d1-record-shape-2026-10-26/Classifier-0.1.0-mac.zip.blockmap

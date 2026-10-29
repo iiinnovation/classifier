@@ -1,0 +1,9 @@
+{
+  "sends": 1,
+  "upstreamRequestAborted": true,
+  "runCancelled": true,
+  "savedOriginalPreserved": true,
+  "keyExcludedFromResponseAndBrowserStorage": true,
+  "refreshDoesNotRestartTask": true,
+  "narrowWindowFits": true
+}

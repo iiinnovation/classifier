@@ -1,0 +1,14 @@
+(node:42100) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+
+
+(node:42107) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1/2] tests/desktop/form-experience.spec.mjs:4:1 › research forms support collecting first, optional details and preserved evidence in desktop and narrow layouts
+(node:42107) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+
+[2/2] tests/desktop/research-workflow.spec.mjs:9:1 › real desktop connects a runtime model and completes a cited research task through utility backend
+  2 passed (21.0s)

@@ -1,3 +1,4 @@
+import { clickControl, revealControl, moreAction } from '../helpers/ui-actions.mjs'
 import { test, expect } from '../helpers/browser-fixture.mjs'
 import { readFile } from 'node:fs/promises'
 import { reportFixture, reportReply } from '../helpers/report-fixture.mjs'
@@ -17,7 +18,7 @@ async function create(page, app) {
   await expect(page.locator('#report-title')).toHaveText('可追溯的研究总结')
 }
 async function choose(page, comparison = true) {
-  await page.locator('#report-materials').click()
+  await clickControl(page, '#report-materials')
   await page.locator('.report-material-options').getByRole('checkbox', { name: '笔记 · 主要发现', exact: true }).check()
   if (comparison) await page.locator('.report-material-options').getByRole('checkbox', { name: '比较表 · 条件比较', exact: true }).check()
   await save(page)
@@ -28,10 +29,10 @@ test('M4 selected notes and comparisons become editable, traceable, exportable r
   page.on('pageerror', error => errors.push(error.message))
   try {
     await create(page, app); await choose(page)
-    await page.locator('#report-assemble').click()
+    await clickControl(page, '#report-assemble')
     await expect(page.locator('#report-body .report-block')).toHaveCount(4)
     const assembled = (await app.value(`/api/topics/${app.topic.id}/reports`)).reports[0]
-    await page.locator('#report-assemble').click()
+    await clickControl(page, '#report-assemble')
     await expect(page.locator('#app-message')).toContainText('无需重复加入')
     await expect(page.locator('#report-body .report-block')).toHaveCount(4)
     expect((await app.value(`/api/reports/${assembled.id}`)).revision).toBe(assembled.revision)
@@ -67,7 +68,7 @@ test('M4 selected notes and comparisons become editable, traceable, exportable r
     await save(page)
     await app.restart(); await page.reload()
     await expect(page.locator('#report-body')).toContainText('刷新后要继续的成果草稿')
-    await page.locator('#report-history').click()
+    await clickControl(page, '#report-history')
     const old = page.locator('.report-history-item').filter({ hasText: '人工修订的发现' }).first()
     await old.getByRole('button', { name: '恢复为新版本', exact: true }).click()
     await expect(page.locator('#report-inspector')).not.toBeVisible()
@@ -76,9 +77,9 @@ test('M4 selected notes and comparisons become editable, traceable, exportable r
     await page.setViewportSize({ width: 390, height: 844 })
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
     await page.screenshot({ path: testInfo.outputPath('report-mobile.png'), fullPage: true })
-    await page.locator('#report-archive').click()
+    await clickControl(page, '#report-archive')
     await expect(page.locator('#report-edit')).toBeDisabled()
-    await page.locator('#report-archive').click()
+    await clickControl(page, '#report-archive')
     await expect(page.locator('#report-edit')).toBeEnabled()
     expect(errors).toEqual([])
   } finally { await app.close() }
@@ -88,7 +89,7 @@ test('manuscript editing keeps citations through reorder undo and draft recovery
   const app = await reportFixture()
   try {
     await create(page, app); await choose(page)
-    await page.locator('#report-assemble').click()
+    await clickControl(page, '#report-assemble')
     const original = await app.value('/api/reports/' + (await app.value(`/api/topics/${app.topic.id}/reports`)).reports[0].id)
     await page.locator('#report-edit').click()
     const rows = page.locator('.report-block-editor')
@@ -124,12 +125,12 @@ test('M4 original selection survives saved source removal and prevents navigatio
   const app = await reportFixture()
   try {
     await create(page, app)
-    await page.locator('#report-materials').click()
-    await page.locator('#report-document-choice').selectOption(app.first.id)
+    await clickControl(page, '#report-materials')
+    await revealControl(page.locator('#report-document-choice')); await page.locator('#report-document-choice').selectOption(app.first.id)
     await page.locator('.report-reference-picker input').first().check()
     await page.getByRole('button', { name: '加入所选片段', exact: true }).click()
     await save(page)
-    await page.locator('#report-assemble').click()
+    await clickControl(page, '#report-assemble')
     await expect(page.locator('#report-body')).toContainText(app.original)
     await app.value(`/api/topics/${app.topic.id}/documents/${app.first.id}`, { method: 'DELETE' })
     await page.reload()
@@ -150,7 +151,7 @@ test('M4 conflicting edits and late latest responses preserve typing and the rel
   let waiting = false
   try {
     await create(page, app); await choose(page, false)
-    await page.locator('#report-assemble').click()
+    await clickControl(page, '#report-assemble')
     await expect(page.locator('#report-body .report-block')).toHaveCount(1)
     await page.locator('#report-edit').click()
     await page.locator('.report-block-text').fill('尚未保存的成果修订')
@@ -191,25 +192,25 @@ test('M4 model drafts require adoption, protect later edits and allow cancellati
   const app = await reportFixture(qaOptions)
   try {
     await create(page, app); await choose(page)
-    await page.locator('#report-generate').click()
-    await page.getByRole('button', { name: '审阅研究草稿', exact: true }).first().click()
-    await expect(page.locator('#report-inspector-body')).toContainText('所选研究需要结合各自条件解释')
+    await clickControl(page, '#report-generate')
+    await expect(page.locator('#report-body')).toContainText('所选研究需要结合各自条件解释')
     await expect(page.locator('#report-body')).toContainText('研究总结草稿 · 待核对')
     await expect(page.locator('#report-body > .report-block')).toHaveCount(0)
-    await page.getByRole('button', { name: '采用此草稿并替换正文', exact: true }).click()
+    await page.getByRole('button', { name: '采用研究总结', exact: true }).click()
     await expect(page.locator('#report-inspector')).not.toBeVisible()
     await expect(page.locator('#report-body')).toContainText('模型归纳')
-    await page.locator('#report-generate').click()
-    await expect(page.getByRole('button', { name: '审阅研究草稿', exact: true })).toHaveCount(2)
+    await clickControl(page, '#report-generate')
+    await expect(page.locator('#report-pending').getByRole('button', { name: '审阅研究草稿', exact: true })).toHaveCount(1)
     await page.locator('#report-edit').click()
     await page.locator('.report-block-text').first().fill('模型生成之后的人工修改')
     await save(page)
-    await page.getByRole('button', { name: '审阅研究草稿', exact: true }).first().click()
+    const staleDraft = page.locator('#report-suggestions').getByRole('button', { name: '查看旧草稿', exact: true, includeHidden: true }).first()
+    await revealControl(staleDraft); await staleDraft.click()
     await expect(page.getByRole('button', { name: '采用此草稿并替换正文', exact: true })).toBeDisabled()
     await expect(page.locator('#report-inspector-body')).toContainText('不会覆盖人工修改')
     await page.locator('#report-inspector-close').click()
     hang = true
-    await page.locator('#report-generate').click()
+    await clickControl(page, '#report-generate')
     await page.getByRole('button', { name: '停止生成', exact: true }).click()
     await expect(page.locator('#report-suggestions')).toContainText('用户已取消')
     await expect(page.locator('#report-body')).toContainText('模型生成之后的人工修改')
