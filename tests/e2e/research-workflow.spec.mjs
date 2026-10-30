@@ -50,7 +50,7 @@ test('AI task turns a goal and documents into a cited comparison and editable su
     await expect(page.locator('#report-body')).toContainText('人工核对后的研究总结')
     await page.setViewportSize({ width: 390, height: 844 })
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
-    const download = page.waitForEvent('download'); await page.locator('#report-export').click()
+    const download = page.waitForEvent('download'); await clickControl(page, '#report-export')
     expect((await download).suggestedFilename()).toContain('研究总结')
     const comparisons = (await app.value('/api/topics/' + app.topic.id + '/comparisons')).comparisons
     const reports = (await app.value('/api/topics/' + app.topic.id + '/reports')).reports

@@ -43,3 +43,5 @@ npm run desktop:dist -- --config electron-builder.cjs --mac zip --x64 --config.d
 本地 ZIP：`dist/desktop-d3-2026-10-30/Classifier-0.1.0-mac.zip`。解压后启动 `Classifier.app`；试用个人资料前可在“资料库”菜单创建独立资料库。该包未签名、未公证，仅用于 Mac x64 本机试用；未重测资源峰值，也未完成干净机器、真实供应商和研究质量验收，不作为正式发行包。
 
 下一步使用用户选定的 5–10 篇文献和模型服务，检查解析、比较、引用及总结质量，再依据实际结果安排 DOCX 导出和剩余 D3／D5 工作。
+
+随后用户要求继续构建，已先实现无需真实材料的 [DOCX 导出](d4-docx-export.md)并重建独立试用包；真实研究质量与剩余 D3／D5 条件仍保留。

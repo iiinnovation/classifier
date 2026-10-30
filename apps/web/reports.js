@@ -8,7 +8,7 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
   const key = source => `${source.type}:${source.id || source.documentId}`
   const retain = source => ({ type: source.type, ...(source.id ? { id: source.id } : { documentId: source.documentId }), retain: true })
   const draftKey = state => `classifier-report-draft:${state.topicId}:${state.id}:${state.kind}`
-  let report = null, reportId = null, epoch = 0, reads = 0, topicReads = 0, editVersion = 0, editor = null, saving = false, timer
+  let report = null, reportId = null, epoch = 0, reads = 0, topicReads = 0, editVersion = 0, editor = null, saving = false, exporting = false, timer
   function button(label, action, className = 'quiet-button') {
     const node = element('button', label, className); node.type = 'button'
     node.onclick = () => Promise.resolve().then(action).catch(error => notice(error.message, true))
@@ -60,7 +60,7 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
       accept(value)
     } catch (error) { if (token === epoch) { $('report-message').textContent = error.message; $('report-retry').hidden = false } }
   }
-  function controls(disabled) { for (const id of ['report-edit', 'report-materials', 'report-assemble', 'report-history', 'report-archive', 'report-impact', 'report-generate', 'report-export']) $(id).disabled = disabled }
+  function controls(disabled) { for (const id of ['report-edit', 'report-materials', 'report-assemble', 'report-history', 'report-archive', 'report-impact', 'report-generate', 'report-export', 'report-export-word']) $(id).disabled = disabled }
   function accept(value) { reads++; report = value; render() }
   function schedule() {
     clearTimeout(timer)
@@ -116,8 +116,10 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
     const proposal = report.suggestions.find(run => run.status === 'completed' && run.baseRevision === report.revision)
     const pending = report.suggestions.some(run => ['queued', 'running'].includes(run.status))
     $('report-message').textContent = issueText(report.sourceIssues) ? `${issueText(report.sourceIssues)}，旧正文与引用仍保留。请先检查资料。` : report.archived ? '成果已归档。' : report.sources.some(source => source.changed) ? '研究材料已有更新，正文与引用仍保留保存时的版本。请复核所选材料。' : !hasText && proposal ? '当前为待采用草稿，采用后可编辑和导出。' : hasText ? `已保存 · ${report.blocks.length} 段${proposal || pending ? '；导出使用已保存正文' : ''}` : ''
-    $('report-export').disabled = !hasText
-    $('report-export').title = hasText ? `导出已保存版本 ${report.revision}` : '先采用草稿或保存正文，再导出'
+    for (const id of ['report-export', 'report-export-word']) {
+      $(id).disabled = !hasText || exporting
+      $(id).title = hasText ? `导出已保存版本 ${report.revision}` : '先采用草稿或保存正文，再导出'
+    }
     $('report-edit').disabled = report.archived || (!hasText && Boolean(proposal || pending))
     $('report-edit').textContent = hasText ? '编辑正文' : proposal || pending ? '采用后编辑' : '开始写作'
     $('report-pending').replaceChildren()
@@ -481,19 +483,23 @@ export function createReportWorkspace({ api, element, currentTopic, enter, navig
       }))
     } catch (error) { if (current(target, nav)) notice(error.message, true) }
   }
-  $('report-export').onclick = async () => {
-    if (!report?.blocks.some(block => block.text.trim())) return
-    const target = report, nav = navigationKey(); $('report-export').disabled = true
+  async function exportReport(format) {
+    if (exporting || !report?.blocks.some(block => block.text.trim())) return
+    const target = report, nav = navigationKey(); exporting = true
+    for (const id of ['report-export', 'report-export-word']) $(id).disabled = true
     try {
-      const response = await fetch(`/api/reports/${target.id}/export?revision=${target.revision}`)
+      const response = await fetch(`/api/reports/${target.id}/export?revision=${target.revision}&format=${format}`)
       if (!response.ok) throw new Error((await response.json()).error || '导出失败')
       const blob = await response.blob()
       if (!current(target, nav)) return
-      const url = URL.createObjectURL(blob), link = element('a'); link.href = url; link.download = `${target.title.replace(/[\\/]/g, '-')}.md`; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000)
-      notice(`已导出版本 ${target.revision} 的 Markdown。`)
+      const name = response.headers.get('content-disposition')?.match(/filename\*=UTF-8''([^;]+)/i)?.[1]
+      const url = URL.createObjectURL(blob), link = element('a'); link.href = url; link.download = name ? decodeURIComponent(name) : `研究成果.${format === 'docx' ? 'docx' : 'md'}`; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000)
+      notice(`已导出版本 ${target.revision} 的 ${format === 'docx' ? 'Word 文档' : 'Markdown'}。`)
     } catch (error) { if (current(target, nav)) notice(error.message, true) }
-    finally { if (current(target, nav)) $('report-export').disabled = false }
+    finally { exporting = false; if (report) render() }
   }
+  $('report-export').onclick = () => exportReport('markdown')
+  $('report-export-word').onclick = () => exportReport('docx')
   if (typeof window !== 'undefined') window.addEventListener('beforeunload', persist)
   async function fromComparison(table) {
     const nav = navigationKey()

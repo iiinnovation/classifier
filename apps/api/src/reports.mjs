@@ -5,7 +5,8 @@ import { requireId } from './store.mjs'
 import { evidenceVersion, captureEvidence, evidenceStatus } from './evidence.mjs'
 import { modelConfigured } from './qa.mjs'
 import { generateReport } from './report-model.mjs'
-import { reportMarkdown } from './report-export.mjs'
+import { reportExportDocument, reportMarkdown } from './report-export.mjs'
+import { reportDocx } from './report-docx.mjs'
 import { environmentSettings, taskSettings } from './settings.mjs'
 
 const hash = value => createHash('sha256').update(JSON.stringify(value)).digest('hex')
@@ -383,10 +384,14 @@ export function createReports(store, topics, comparisons, runs, qaOptions = {}, 
       return value
     })
   }
-  async function markdown(id, expected) {
+  async function exportFile(id, expected, format = 'markdown') {
+    if (!['markdown', 'docx'].includes(format)) throw new HttpError(422, '请选择 Word 或 Markdown 导出格式。')
     const value = await get(id); revision(value, expected)
     if (!value.blocks.some(block => block.text.trim())) throw new HttpError(409, '尚无已保存正文。请先采用草稿或保存正文，再导出。')
-    return { title: value.title, markdown: reportMarkdown(value) }
+    const document = reportExportDocument(value)
+    return format === 'docx'
+      ? { title: value.title, content: await reportDocx(document), contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', extension: 'docx' }
+      : { title: value.title, content: reportMarkdown(document), contentType: 'text/markdown; charset=utf-8', extension: 'md' }
   }
   async function fromComparison(id, body) {
     keys(body, ['revision'])
@@ -396,5 +401,5 @@ export function createReports(store, topics, comparisons, runs, qaOptions = {}, 
     const reportId = hash(['comparison-report', id, table.revision]).slice(0, 32).replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/, '$1-$2-$3-$4-$5')
     return create(table.topicId, { id: reportId, title: (table.title + ' · 研究总结').slice(0, 200), question: table.question, sources: [{ type: 'comparison', id, revision: table.revision }] })
   }
-  return { catalog, list, get, create, edit, assemble, suggest, adopt, markdown, fromComparison }
+  return { catalog, list, get, create, edit, assemble, suggest, adopt, exportFile, fromComparison }
 }

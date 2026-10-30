@@ -55,7 +55,7 @@ test('M4 selected notes and comparisons become editable, traceable, exportable r
     await page.locator('#report-body .report-block').first().getByRole('button', { name: '确认本段已核对', exact: true }).click()
     await expect(page.locator('#report-body .report-block').first()).toContainText('已核对')
     const downloadPromise = page.waitForEvent('download')
-    await page.locator('#report-export').click()
+    await clickControl(page, '#report-export')
     const download = await downloadPromise
     expect(download.suggestedFilename()).toBe('可追溯的研究总结.md')
     const markdown = await readFile(await download.path(), 'utf8')

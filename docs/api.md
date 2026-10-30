@@ -39,7 +39,7 @@
 - `PATCH /api/reports/:id { revision, reviewBlockId }`：单独确认已保存段落的核对状态；材料或原文已变化时拒绝。
 - `POST /api/reports/:id/suggestions { revision }`：生成待审阅草稿，返回 202 和 `purpose=report-suggestion` 的任务。只读取所选材料；完整模型输入最多 100000 字符，注明有限阅读。复用 `/api/runs/:id` 查询和取消。
 - `POST /api/reports/:id/adopt { revision, runId }`：明确采用草稿并替换正文，原正文进入历史。成果版本、材料、原文或主题关联变化时拒绝旧建议。
-- `GET /api/reports/:id/export?revision=N`：下载指定当前版本的 Markdown，含段落判断类型、复核状态、引用清单、书目信息、原文摘录与页码或段落位置；版本不符或尚无非空已保存正文时返回 409。草稿须先明确采用后才属于导出正文。
+- `GET /api/reports/:id/export?revision=N&format=docx`：下载指定当前版本的 Word 文件；`format=markdown` 或省略格式保留既有 Markdown 下载。两种格式均含段落判断类型、复核状态、条件说明、引用清单、书目信息、原文摘录与页码或段落位置。Word 引用编号带内部跳转书签，PDF 页码指原文件位置；格式不支持返回 422，版本不符或尚无非空已保存正文返回 409。草稿须先明确采用后才属于导出正文。UTF-8 附件名分别使用 `.docx`／`.md`；详情见 [DOCX 说明](d4-docx-export.md)。
 
 响应中的 `evidence[].matchesCurrent`、`sources[].changed`、`blocks[].outdated` 为派生状态，不改写历史快照。移出主题不删除成果或引用；解析变化后保留旧摘录并阻止错误跳转。Markdown 将用户和原文内容作为文字转义，不执行嵌入 HTML 或图片。
 

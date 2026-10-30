@@ -152,10 +152,11 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
         if (action === 'suggestions' && req.method === 'POST') return sendJson(res, 202, await reports.suggest(id, await readJson(req)))
         if (action === 'adopt' && req.method === 'POST') return sendJson(res, 200, await reports.adopt(id, await readJson(req)))
         if (action === 'export' && req.method === 'GET') {
-          const value = await reports.markdown(id, Number(url.searchParams.get('revision')))
-          const name = value.title.replace(/[\r\n\\/]/g, '-').slice(0, 100) + '.md'
-          res.writeHead(200, { 'content-type': 'text/markdown; charset=utf-8', 'content-disposition': `attachment; filename*=UTF-8''${encodeURIComponent(name)}`, 'cache-control': 'no-store' })
-          return res.end(value.markdown)
+          const value = await reports.exportFile(id, Number(url.searchParams.get('revision')), url.searchParams.get('format') ?? 'markdown')
+          const title = value.title.replace(/[\u0000-\u001f\u007f<>:"/\\|?*\uD800-\uDFFF]/gu, '-').trim()
+          const name = (Array.from(title).slice(0, 100).join('').replace(/[. ]+$/g, '') || '研究成果') + '.' + value.extension
+          res.writeHead(200, { 'content-type': value.contentType, 'content-disposition': `attachment; filename*=UTF-8''${encodeURIComponent(name)}`, 'cache-control': 'no-store' })
+          return res.end(value.content)
         }
       }
       const topicNotes = url.pathname.match(/^\/api\/topics\/([^/]+)\/notes$/)
