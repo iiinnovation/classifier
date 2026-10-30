@@ -27,7 +27,9 @@
 
 ## 可核对的预览回退基线
 
-[回退登记](rollback-baseline.json)固定当前仍保留、已执行验证的预览包：
+2026-10-30 用户要求清理全部测试安装包，下面的预览回退包现已删除，登记状态为 `removed-by-user-request`、`locallyAvailable=false`。原哈希与兼容性结果保留历史归属；需要新的回退二进制配对时重新建立和验收具体构建，见 [清理记录](build-artifact-cleanup.md)。
+
+[回退登记](rollback-baseline.json)原来固定的预览包：
 
 - 构建：`dist/desktop-d1-disk-failures-2026-10-26/Classifier-0.1.0-mac.zip`。
 - ZIP SHA-256：`d7a392b67465f729daae5fe79a9bbb010dbf51082d704d97068e30b5b17368c3`。
@@ -42,6 +44,8 @@
 ## 复跑与回退操作
 
 在项目根目录执行：
+
+以下打包命令仅在相应构建重新建立并完成验收后可用；当前校验命令返回“本地回退测试包已清理”和退出码 2，不表示包一致性验收通过。
 
 ```sh
 node tools/verify-rollback-baseline.mjs

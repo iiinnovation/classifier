@@ -26,3 +26,5 @@
 新版 [短文](measurements/d4-word-layout-2026-10-30/samples/01-short.docx)、[长文](measurements/d4-word-layout-2026-10-30/samples/02-long.docx)和 [历史引用](measurements/d4-word-layout-2026-10-30/samples/03-historical.docx)已用于后续检查，原样本保留。短文已请求在 WPS 打开，检查出处说明与摘录开头是否留在同一页；再修改指定句子，另存并重开，按 [办公验收步骤](office-acceptance.md)检查正文、内部链接和自定义引用元数据。
 
 新试用包目录为 `dist/desktop-d4-word-layout-2026-10-30/`，仅 Mac x64，未签名／公证。本轮不将旧版 437 项 Node、18 项浏览器或 7 项桌面结果计作本轮重跑，也不将所添加的分页属性等同于新版 WPS 界面验收通过。
+
+该本地试用包随后已按用户要求清理；DOCX 样本、WPS 截图和验证记录保留，办公软件验收可继续使用样本。详见 [清理说明](build-artifact-cleanup.md)。

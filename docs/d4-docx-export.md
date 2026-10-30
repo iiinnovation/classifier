@@ -38,3 +38,5 @@ Word 和 Markdown 共用独立的结构化导出表示，分别处理各自的�
 源码、测试、样本、ASAR／ZIP 校验值与范围见 [验证记录](measurements/d4-docx-2026-10-30/validation.json)。实际桌面下载的 [DOCX 样本](measurements/d4-docx-2026-10-30/packaged/report-export-real-desktop-e70aa-historical-source-locations/saved-research.docx)和 [macOS 导入文本](measurements/d4-docx-2026-10-30/macos-import.txt)保留在仓库中。
 
 首轮试用包为 `dist/desktop-d4-docx-2026-10-30/Classifier-0.1.0-mac.zip`；截图审查后的新版位于 `dist/desktop-d4-word-layout-2026-10-30/Classifier-0.1.0-mac.zip`。均包含 D3 模型连接改动，仅 Mac x64，未签名／公证；未重测资源峰值、整套桌面维护／存储专项和干净机器，不作为正式发布包。
+
+上述本地包已按用户 2026-10-30 的要求全部清理，路径仅保留历史归属。Word 验收样本、截图与测试证据继续保留；需要安装包时再重新构建，见 [清理记录](build-artifact-cleanup.md)。

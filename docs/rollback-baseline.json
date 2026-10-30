@@ -1,6 +1,6 @@
 {
   "registryVersion": 1,
-  "status": "preview-recovery-baseline",
+  "status": "removed-by-user-request",
   "baselineId": "mac-x64-d1-2026-10-26-d7a392b67465",
   "recordedForDate": "2026-10-26",
   "platform": "darwin-x64",
@@ -30,6 +30,11 @@
     "Early D0 binaries do not contain the current format and startup recovery safeguards.",
     "An older recorded hash without a retained, independently tested artifact is not a supported rollback build.",
     "Preview packages sharing version 0.1.0 must be distinguished by build date and artifact hashes.",
-    "This preview is a retained baseline for future upgrade testing, not proof of compatibility with an actual later release."
-  ]
+    "This preview's local artifacts have been removed by user request. Historical fixture evidence does not establish an available rollback binary or compatibility with an actual later release."
+  ],
+  "previousStatus": "preview-recovery-baseline",
+  "locallyAvailable": false,
+  "removedAt": "2026-10-30T08:51:06.454Z",
+  "removalEvidence": "docs/measurements/build-artifact-cleanup-2026-10-30.json",
+  "removalReason": "用户明确要求清理所有回归测试生成的安装包和程序，包含此前保留的预览回退包。"
 }

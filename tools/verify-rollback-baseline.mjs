@@ -21,6 +21,10 @@ async function hash(path) {
   return value.digest('hex')
 }
 assert.equal(registry.registryVersion, 1)
+if (registry.status === 'removed-by-user-request') {
+  console.log(JSON.stringify({ baselineId: registry.baselineId, artifactAvailable: false, matchesRecordedArtifacts: false, status: registry.status, removalEvidence: registry.removalEvidence, note: '本地回退测试包已按用户要求清理；登记中的哈希仅保留历史归属。重新建立并验收回退构建后才能执行包一致性检查。' }, null, 2))
+  process.exit(2)
+}
 assert.equal(registry.status, 'preview-recovery-baseline')
 assert.equal(registry.releaseApproved, false, 'this verifier only validates an unreleased preview baseline')
 assert.equal(registry.actualCrossVersionPairsVerified, false, 'fixture results cannot certify actual binary version pairs')
