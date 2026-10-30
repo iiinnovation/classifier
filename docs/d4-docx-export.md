@@ -31,6 +31,8 @@ Word 和 Markdown 共用独立的结构化导出表示，分别处理各自的�
 
 本机已用 WPS 打开早期合成样本，但辅助功能访问关闭，无法自动检查其页面渲染、编辑保存和重新打开。该操作不计作办公软件人工验收通过。后续需在 Word／WPS 中核对中文字体、长文分页、引用跳转和修改后重开；真实科研材料质量验收与 D3 剩余工作仍保留。
 
+后续办公验收已准备 3 个真实导出的合成样本、逐项操作记录与编辑后文件核对工具，见 [办公软件验收](office-acceptance.md)。本机 WPS 12.1.26046 已打开短文，但读取窗口返回 macOS `osascript 不允许辅助访问 (-25211)`，等待辅助功能权限开启后继续；准备工作不计作排版／编辑验收通过。
+
 源码、测试、样本、ASAR／ZIP 校验值与范围见 [验证记录](measurements/d4-docx-2026-10-30/validation.json)。实际桌面下载的 [DOCX 样本](measurements/d4-docx-2026-10-30/packaged/report-export-real-desktop-e70aa-historical-source-locations/saved-research.docx)和 [macOS 导入文本](measurements/d4-docx-2026-10-30/macos-import.txt)保留在仓库中。
 
 新试用包为 `dist/desktop-d4-docx-2026-10-30/Classifier-0.1.0-mac.zip`，包含上一轮 D3 模型连接改动。仅 Mac x64，未签名／公证；本轮未重测资源峰值、整套桌面维护／存储专项和干净机器，不作为正式发布包。

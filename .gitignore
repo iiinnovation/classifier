@@ -7,6 +7,8 @@ data/
 coverage/
 test-results/
 playwright-report/
+docs/measurements/**/.~*
+docs/measurements/**/~$*
 dist/
 resources/ocr/darwin-*/
 resources/ocr/win32-*/

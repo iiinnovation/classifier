@@ -1,0 +1,68 @@
+{
+  "recordedForDate": "2026-10-30",
+  "baseCommit": "8c9d582",
+  "scope": "Prepare actual API-exported synthetic office acceptance samples and content/citation round-trip verification; WPS UI acceptance awaits macOS accessibility.",
+  "status": "awaiting_accessibility",
+  "office": {
+    "installed": "WPS Office",
+    "version": "12.1.26046",
+    "microsoftWordInstalled": false,
+    "shortSampleOpenCommandSucceeded": true,
+    "accessibilityEnabled": false,
+    "windowRead": {
+      "exitCode": 1,
+      "appleEventError": -25211,
+      "message": "osascript 不允许辅助访问"
+    },
+    "standaloneConverterHelp": {
+      "command": "/Applications/wpsoffice.app/Contents/SharedSupport/kwpsconvert.app/Contents/MacOS/kwpsconvert --help",
+      "exitCode": 132,
+      "output": "",
+      "usedForAcceptance": false
+    }
+  },
+  "preparation": {
+    "command": "node tools/prepare-office-acceptance.mjs docs/measurements/d4-office-2026-10-30",
+    "exitCode": 0,
+    "manifest": "manifest.json",
+    "samples": 3,
+    "longBodyCharacters": 20503,
+    "syntheticTemporaryLibrary": true,
+    "realExportApi": true,
+    "modelCalls": 0,
+    "originalSamplesNeverOverwritten": true,
+    "generatorMetadataClarifiedAfterCapture": "Citation counts describe cited entries, with selected evidence counted separately; sample DOCX bytes unchanged."
+  },
+  "checks": {
+    "newToolSyntax": "passed",
+    "gitDiffCheck": "passed",
+    "longDocxMacosTextImport": {
+      "command": "textutil -convert txt -output docs/measurements/d4-office-2026-10-30/02-long.macos.txt docs/measurements/d4-office-2026-10-30/02-long.docx",
+      "exitCode": 0,
+      "isOfficeVisualAcceptance": false,
+      "fullTextMatchesExpected": true
+    },
+    "roundTripVerifierRejectsUneditedOriginal": {
+      "command": "node tools/check-office-roundtrip.mjs docs/measurements/d4-office-2026-10-30/01-short.docx docs/measurements/d4-office-2026-10-30/01-short.docx",
+      "expectedExitCode": 1,
+      "actualExitCode": 1,
+      "editedFileChanged": false,
+      "editedSentencePersisted": false,
+      "passed": true,
+      "isOfficeEditingAcceptance": false
+    },
+    "sampleHashesMatchManifest": true,
+    "documentationLinksChecked": 9
+  },
+  "acceptance": {
+    "fontRendering": "pending",
+    "longDocumentPagination": "pending",
+    "citationNavigationInWps": "pending",
+    "editingAndSave": "pending",
+    "closeAndReopen": "pending",
+    "editedDocxTextAndBookmarks": "pending"
+  },
+  "applicationCodeChanged": false,
+  "packageRebuilt": false,
+  "existingNodeAndDesktopResults": "Historical DOCX build evidence remains in ../d4-docx-2026-10-30/validation.json; not rerun or relabeled as office acceptance."
+}
