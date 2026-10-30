@@ -39,7 +39,7 @@ test('DOCX export retains saved writing, Chinese headings, conditions, citation 
   report = await app.value(path, json('PATCH', { revision: report.revision, reviewBlockId: report.blocks[0].id }))
   const before = await app.value(path + '/history'), result = await exported(app, path, report.revision)
   assert.equal(decodeURIComponent(result.response.headers.get('content-disposition').split("UTF-8''")[1]), report.title + '.docx')
-  for (const expected of [report.title, report.question, blocks[0].text, '已核对', 'Researcher A', '2025', 'Evidence Journal', '10.1000/example', '适用条件：限于当前研究样本', '不可直接比较；测量条件不一致', app.first.id, app.second.id, app.first.references[0].title, app.first.references[0].text]) assert.ok(result.text.includes(expected), expected)
+  for (const expected of [report.title, report.question, blocks[0].text, '已核对', 'Researcher A', '2025', 'Evidence Journal', '10.1000/example', '适用条件：限于当前研究样本', '不可直接比较；测量条件不一致', app.first.references[0].title, app.first.references[0].text]) assert.ok(result.text.includes(expected), expected)
   const dom = new DOMParser().parseFromString(await result.zip.file('word/document.xml').async('string'), 'application/xml')
   const links = [...dom.getElementsByTagNameNS(word, 'hyperlink')]
   const bookmarks = [...dom.getElementsByTagNameNS(word, 'bookmarkStart')]
@@ -49,6 +49,18 @@ test('DOCX export retains saved writing, Chinese headings, conditions, citation 
   assert.equal(dom.getElementsByTagNameNS(word, 'pgSz')[0].getAttribute('w:h'), '16838')
   const styles = await result.zip.file('word/styles.xml').async('string')
   assert.match(styles, /w:eastAsia="宋体"/); assert.match(styles, /w:outlineLvl w:val="0"/)
+  const properties = new DOMParser().parseFromString(await result.zip.file('docProps/custom.xml').async('string'), 'application/xml')
+  const identities = JSON.parse(properties.getElementsByTagNameNS('http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes', 'lpwstr')[0].textContent)
+  assert.deepEqual(identities, [...report.evidence].reverse().map((item, index) => ({ number: index + 1, documentId: item.documentId, documentVersion: item.documentVersion, referenceId: item.reference.id })))
+  for (const item of report.evidence) { assert.ok(!result.text.includes(item.documentId)); assert.ok(!result.text.includes(item.documentVersion)); assert.ok(!result.text.includes(item.reference.id)) }
+  assert.match(result.text, /保存时间：\d{4}-\d{2}-\d{2} \d{2}:\d{2}（GMT[^）]*）/)
+  assert.ok(!result.text.includes(report.updatedAt))
+  const bodyParagraphs = [...dom.getElementsByTagNameNS(word, 'p')]
+  const quoteIndex = bodyParagraphs.findIndex(node => node.textContent === app.second.references[0].text)
+  assert.ok(quoteIndex > 0)
+  for (let index = quoteIndex - 1; index >= 0 && !bodyParagraphs[index].getElementsByTagNameNS(word, 'bookmarkStart').length; index--) {
+    assert.equal(bodyParagraphs[index].getElementsByTagNameNS(word, 'keepNext').length, 1, bodyParagraphs[index].textContent)
+  }
   assert.deepEqual(await app.value(path + '/history'), before)
 })
 
@@ -101,6 +113,7 @@ test('DOCX preserves the cited original PDF page rather than the Word document p
   const path = `/api/reports/${report.id}`
   report = await app.value(path + '/assemble', json('POST', { revision: report.revision }))
   const result = await exported(app, path, report.revision)
-  assert.ok(result.text.includes(`位置：${reference.title} · 第 2 页 · 片段：${reference.id}`))
+  assert.ok(result.text.includes(`原文：two-page-source.pdf · ${reference.title}`))
+  assert.equal((result.text.match(/第\s*2\s*页/g) || []).length, 1)
   assert.ok(result.text.includes(reference.text))
 })

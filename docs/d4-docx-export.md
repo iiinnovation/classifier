@@ -8,6 +8,8 @@
 
 文件包含标题、研究问题、成果版本和保存时间；按章节排列正文，保留判断类型、核对状态与条件说明。原文引用按正文首次出现顺序编号，Word 中的编号可跳转到文件末尾的出处，保留书目信息、DOI／来源链接、摘录、文件身份、解析版本及 PDF 原文页码或段落位置。PDF 页码指所引用的原文件页码，不随 Word 重新排版改变。
 
+根据后续 WPS 截图审查，Word 正文中的出处区已精简为书目、文件名、位置与原文状态；文献 ID、解析指纹和片段 ID 保存在文档自定义属性 `ClassifierCitationSources` 中。保存时间显示设备本地时区与 GMT 偏移；避免重复 PDF 页码，出处说明与摘录开头设置“与下段同页”。原始保存时间保留在核心元数据，详情与新版样本见 [格式审查](word-layout-review.md)。
+
 材料或原文变化、缺失、损坏、已删除时继续使用保存的摘录，并保留状态与复核提示。下载不增加成果版本或修改研究记录。引用编号是当前导出快照中的编号；后续在办公软件编辑时不会自动调用文献管理器重新编号。
 
 Word 和 Markdown 共用独立的结构化导出表示，分别处理各自的文字转义，不反解析 Markdown。DOCX 使用普通段落、章节样式、内部书签和引用链接，A4、1 英寸页边距，中文字体配置为宋体，拉丁字体为 Calibri；未嵌入字体，实际字体取决于办公软件环境。原文中的 HTML、图片语法、URL 等按文字保留，不生成远程资源或宏。XML 无法表达的控制字符／孤立代理字符替换为 `�`。公式保留已有文字，不转换成 Word 原生公式；尚无 PDF 成果导出或比较矩阵的 Word 网格导出。
@@ -35,4 +37,4 @@ Word 和 Markdown 共用独立的结构化导出表示，分别处理各自的�
 
 源码、测试、样本、ASAR／ZIP 校验值与范围见 [验证记录](measurements/d4-docx-2026-10-30/validation.json)。实际桌面下载的 [DOCX 样本](measurements/d4-docx-2026-10-30/packaged/report-export-real-desktop-e70aa-historical-source-locations/saved-research.docx)和 [macOS 导入文本](measurements/d4-docx-2026-10-30/macos-import.txt)保留在仓库中。
 
-新试用包为 `dist/desktop-d4-docx-2026-10-30/Classifier-0.1.0-mac.zip`，包含上一轮 D3 模型连接改动。仅 Mac x64，未签名／公证；本轮未重测资源峰值、整套桌面维护／存储专项和干净机器，不作为正式发布包。
+首轮试用包为 `dist/desktop-d4-docx-2026-10-30/Classifier-0.1.0-mac.zip`；截图审查后的新版位于 `dist/desktop-d4-word-layout-2026-10-30/Classifier-0.1.0-mac.zip`。均包含 D3 模型连接改动，仅 Mac x64，未签名／公证；未重测资源峰值、整套桌面维护／存储专项和干净机器，不作为正式发布包。

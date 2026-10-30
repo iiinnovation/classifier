@@ -1,14 +1,14 @@
 # D4-01：Word／WPS 排版与编辑验收
 
-本轮样本均由真实导出 API、独立临时资料库生成，不使用用户资料或模型服务。样本与正文预期见 [清单](measurements/d4-office-2026-10-30/manifest.json)。当前尚未完成 WPS 界面验收；macOS 辅助功能检查返回关闭，实际窗口读取返回 `osascript 不允许辅助访问 (-25211)`。系统权限开启后继续操作；也可以由用户按下方步骤操作后记录结果。
+本轮样本均由真实导出 API、独立临时资料库生成，不使用用户资料或模型服务。用户截图已证明旧版部分页面的中文、章节和引用编号可读，并暴露出处区冗长、重复页码和出处说明与摘录分页的问题。已生成格式调整后的 [新版清单](measurements/d4-word-layout-2026-10-30/samples/manifest.json)，原 [首轮样本](measurements/d4-office-2026-10-30/manifest.json)保留；新版分页、链接跳转和编辑重开继续按下方步骤验收。自动操作仍受 macOS 辅助功能限制（-25211），用户手动操作和提供的结果可以继续用于验收。
 
 ## 样本与检查
 
 | 文件 | 内容 | 验收重点 |
 | --- | --- | --- |
-| [01-short.docx](measurements/d4-office-2026-10-30/01-short.docx) | 中文短文、英文书目、特殊符号、两条引用与重复引用 | 字形可读、段落与章节清楚、引用跳转、原文第 2 页定位、编辑后重开 |
-| [02-long.docx](measurements/d4-office-2026-10-30/02-long.docx) | 24 段、约 2 万字、6 个章节、多次引用 | 自动分页完整、页边距合理、标题不孤立于页尾、首尾标记及全部出处完整 |
-| [03-historical.docx](measurements/d4-office-2026-10-30/03-historical.docx) | 原文更新后的旧摘录 | 历史摘录、待核对与材料变化提示保留，PDF 原文页码不变 |
+| [01-short.docx](measurements/d4-word-layout-2026-10-30/samples/01-short.docx) | 中文短文、英文书目、特殊符号、两条引用与重复引用 | 字形可读、出处说明与摘录开头同页、引用跳转、原文第 2 页定位、编辑后重开 |
+| [02-long.docx](measurements/d4-word-layout-2026-10-30/samples/02-long.docx) | 24 段、约 2 万字、6 个章节、多次引用 | 自动分页完整、页边距合理、标题不孤立于页尾、首尾标记及全部出处完整 |
+| [03-historical.docx](measurements/d4-word-layout-2026-10-30/samples/03-historical.docx) | 原文更新后的旧摘录 | 历史摘录、待核对与材料变化提示保留，PDF 原文页码不变 |
 
 ## 操作顺序
 
@@ -24,11 +24,11 @@
 
 ```sh
 node tools/check-office-roundtrip.mjs \
-  docs/measurements/d4-office-2026-10-30/01-short.docx \
-  docs/measurements/d4-office-2026-10-30/01-short-edited.docx \
-  docs/measurements/d4-office-2026-10-30/roundtrip.json
+  docs/measurements/d4-word-layout-2026-10-30/samples/01-short.docx \
+  docs/measurements/d4-word-layout-2026-10-30/samples/01-short-edited.docx \
+  docs/measurements/d4-word-layout-2026-10-30/roundtrip.json
 ```
 
-该命令检查指定修改、其他正文、引用书签与内部链接，原样本和编辑文件的哈希一并记录。它不能证明编辑文件由哪款办公软件写入，也不替代实际关闭／重开和排版检查。
+该命令检查指定修改、其他正文、引用书签、内部链接和自定义引用元数据，原样本和编辑文件的哈希一并记录。它不能证明编辑文件由哪款办公软件写入，也不替代实际关闭／重开和排版检查。
 
 如需另生成样本，使用一个新的输出目录运行 `node tools/prepare-office-acceptance.mjs <输出目录>`；生成器不会覆盖已有样本。当前样本不包含原生 Word 公式或可编辑比较矩阵，参见 [DOCX 导出边界](d4-docx-export.md)。

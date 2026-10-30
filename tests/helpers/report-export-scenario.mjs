@@ -1,5 +1,7 @@
 import { expect } from '@playwright/test'
 import { readFile } from 'node:fs/promises'
+import JSZip from 'jszip'
+import { DOMParser } from '@xmldom/xmldom'
 import { parseDocx } from '../../apps/api/src/docx.mjs'
 import { clickControl } from './ui-actions.mjs'
 
@@ -38,8 +40,11 @@ export async function reportExportScenario(page, info) {
   expect(word.suggestedFilename()).toBe('可继续编辑的中文研究总结.docx')
   const target = info.outputPath('saved-research.docx')
   await word.saveAs(target)
-  const text = (await parseDocx(await readFile(target))).sections[0].text
-  for (const expected of ['可继续编辑的中文研究总结', '只适用于当前样本。', '适用条件：测量条件相同', '测试作者', '合成验收期刊', '10.1000/fixture', setup.excerpt, setup.documentId]) expect(text).toContain(expected)
+  const bytes = await readFile(target), text = (await parseDocx(bytes)).sections[0].text
+  for (const expected of ['可继续编辑的中文研究总结', '只适用于当前样本。', '适用条件：测量条件相同', '测试作者', '合成验收期刊', '10.1000/fixture', setup.excerpt]) expect(text).toContain(expected)
+  expect(text).not.toContain(setup.documentId)
+  const zip = await JSZip.loadAsync(bytes), properties = new DOMParser().parseFromString(await zip.file('docProps/custom.xml').async('string'), 'application/xml')
+  expect(JSON.parse(properties.getElementsByTagNameNS('http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes', 'lpwstr')[0].textContent)[0].documentId).toBe(setup.documentId)
   await expect(page.locator('#app-message')).toContainText(`已导出版本 ${setup.revision} 的 Word 文档`)
   await page.setViewportSize({ width: 390, height: 844 })
   await expect(page.locator('#report-export-word')).toBeVisible()

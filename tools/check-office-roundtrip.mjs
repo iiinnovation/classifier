@@ -17,7 +17,15 @@ async function inspect(path) {
   if (!file) throw new Error('Office document body missing')
   const dom = new DOMParser({ onError: () => { throw new Error('Office document XML is invalid') } }).parseFromString(await file.async('string'), 'application/xml')
   const names = name => Array.from(dom.getElementsByTagNameNS(word, name))
+  const metadata = zip.file('docProps/custom.xml')
+  let citationSources = null
+  if (metadata) {
+    const properties = new DOMParser({ onError: () => { throw new Error('Office custom properties XML is invalid') } }).parseFromString(await metadata.async('string'), 'application/xml')
+    const property = Array.from(properties.getElementsByTagNameNS('http://schemas.openxmlformats.org/officeDocument/2006/custom-properties', 'property')).find(item => item.getAttribute('name') === 'ClassifierCitationSources')
+    if (property) citationSources = JSON.parse(property.textContent)
+  }
   return { bytes, text: (await parseDocx(bytes)).sections[0].text,
+    citationSources,
     bookmarkNames: names('bookmarkStart').map(item => item.getAttributeNS(word, 'name')),
     anchors: names('hyperlink').map(item => item.getAttributeNS(word, 'anchor')).filter(Boolean),
   }
@@ -31,6 +39,7 @@ const checks = {
   citationBookmarksPreserved: before.bookmarkNames.filter(name => /^reference_\d+$/.test(name)).every(name => after.bookmarkNames.includes(name)),
   citationLinksPreserved: before.anchors.every(name => after.anchors.includes(name)),
   citationLinksHaveTargets: after.anchors.every(name => after.bookmarkNames.includes(name)),
+  citationSourceMetadataPreserved: before.citationSources === null || JSON.stringify(before.citationSources) === JSON.stringify(after.citationSources),
 }
 const result = { capturedAt: new Date().toISOString(), original: resolve(beforePath), edited: resolve(afterPath), originalSha256: sha(before.bytes), editedSha256: sha(after.bytes),
   checks, passed: Object.values(checks).every(Boolean),

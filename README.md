@@ -14,7 +14,7 @@
 
 2026-10-30 [D3 模型连接与 Mac x64 试用包](docs/d3-model-connection.md)已支持连接测试、可选记住连接和授权撤销。默认只在本次运行使用，选择记住后通过 macOS 钥匙串支持的加密保护保存密钥；退出重开不自动调用模型。包同时包含 2026-10-29 的主线体验调整；验证与包哈希见 [本轮记录](docs/measurements/d3-model-connection-2026-10-30/validation.json)。完整草稿恢复、诊断、真实研究质量与发行验收仍待完成。
 
-2026-10-30 [Word 导出](docs/d4-docx-export.md)已接入成果页，保留正文、条件、引用、书目和原文定位；完整 Node 437/437、SQLite Chrome 专项 18/18、最终包桌面 7/7 通过。常用办公软件的人工排版／编辑往返仍待验收。最新本地试用 ZIP 为 `dist/desktop-d4-docx-2026-10-30/Classifier-0.1.0-mac.zip`，包含 D3 连接体验，仅 Mac x64，未签名／公证。另保留历史 D3／D2 包与已登记的 D1 回退包；此前历史产物清理范围见 [清理记录](docs/build-artifact-cleanup.md)。
+2026-10-30 [Word 导出](docs/d4-docx-export.md)已接入成果页，保留正文、条件、引用、书目和原文定位；首轮完整 Node 437/437、SQLite Chrome 专项 18/18、最终包桌面 7/7 通过。随后依据用户 WPS 截图完成 [出处格式调整](docs/word-layout-review.md)：内部追溯信息进入文档元数据，消除重复页码，并将出处说明与摘录开头关联分页；相关 Node 34/34、浏览器下载 1/1、新包桌面 2/2 通过。新版 WPS 排版／编辑往返仍待复核。最新本地试用 ZIP 为 `dist/desktop-d4-word-layout-2026-10-30/Classifier-0.1.0-mac.zip`，仅 Mac x64，未签名／公证。另保留历史 D4／D3／D2 包与已登记的 D1 回退包。
 
 ## Web 开发启动
 

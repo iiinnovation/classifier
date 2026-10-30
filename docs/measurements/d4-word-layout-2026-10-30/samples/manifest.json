@@ -1,0 +1,65 @@
+{
+  "capturedAt": "2026-10-30T06:39:37.269Z",
+  "source": "Real report export API with independent temporary synthetic library; no model calls.",
+  "expectedEdit": "办公软件编辑验收：此句已在 WPS 中修改并保存。",
+  "expectedOriginalEdit": "办公软件编辑验收：此句尚未修改。",
+  "samples": [
+    {
+      "file": "01-short.docx",
+      "reportId": "74c7a410-1adb-41c0-9331-bb3663aa9bd7",
+      "revision": 3,
+      "sha256": "214d96214edbb05f64eab8c02c733ba2ae1c07ed06e3082ed655e466815ba309",
+      "bytes": 5094,
+      "bodyCharacters": 135,
+      "blocks": 3,
+      "selectedEvidence": 3,
+      "citations": 2,
+      "checks": [
+        "短文验收起点",
+        "已核对",
+        "指标\t数值 3.5 ± 0.2",
+        "办公软件编辑验收：此句尚未修改。",
+        "第 2 页",
+        "10.1000/office-fixture",
+        "出处：[1]、[2]"
+      ]
+    },
+    {
+      "file": "02-long.docx",
+      "reportId": "71cf67c1-41c3-4653-ac1f-a41c0e799ad2",
+      "revision": 2,
+      "sha256": "cba67ce9d4982b20e4dbbdf0b7d0d5a9fe4902b8a9ad7a76fa44cb39e3fe0c55",
+      "bytes": 5958,
+      "bodyCharacters": 20503,
+      "blocks": 24,
+      "selectedEvidence": 3,
+      "citations": 3,
+      "checks": [
+        "长文验收起点",
+        "长文验收终点",
+        "章节 6：条件与证据",
+        "段落 24 末尾标记。",
+        "引用与原文定位",
+        "第 2 页"
+      ]
+    },
+    {
+      "file": "03-historical.docx",
+      "reportId": "74c7a410-1adb-41c0-9331-bb3663aa9bd7",
+      "revision": 3,
+      "sha256": "6e44f4cefe330a1d776eab35040ed04526a99e37eef10778589f9e2fbcb6fa5e",
+      "bytes": 5173,
+      "bodyCharacters": 135,
+      "blocks": 3,
+      "selectedEvidence": 3,
+      "citations": 2,
+      "checks": [
+        "既有文献：研究者比较了两组材料，具体条件需结合原文核对。",
+        "保留历史摘录",
+        "待核对",
+        "第 2 页"
+      ]
+    }
+  ],
+  "status": "prepared; office UI acceptance pending"
+}
