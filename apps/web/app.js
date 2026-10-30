@@ -490,48 +490,134 @@ document.addEventListener('click', event => {
   const more = button?.closest('.more-actions')
   if (more) more.open = false
 })
-let settingsSaving = false
+let settingsSaving = false, settingsRevoking = false, settingsTesting = false, settingsProbe = null, settingsVersion = 0
+let settingsValue = { editable: true, canRevoke: true, canRemember: false, persistence: 'session', connectionTest: { state: 'untested' } }
+const settingsBody = () => ({ url: $('model-settings-url').value, model: $('model-settings-model').value, key: $('model-settings-key').value })
+function connectionLabel(value) {
+  return !value.hasKey ? '未连接' : value.connectionTest?.state === 'passed' ? '已测试' : value.persistence === 'remembered' ? '已记住 · 尚未测试' : '已配置 · 尚未测试'
+}
+function updateConnectionHeader(value) {
+  $('model-settings-open').textContent = value.hasKey ? `模型连接 · ${connectionLabel(value)}` : '模型连接'
+}
+function renderSettingsControls() {
+  const busy = settingsSaving || settingsTesting
+  for (const name of ['url', 'model', 'key']) $(`model-settings-${name}`).disabled = busy || !settingsValue.editable
+  $('model-settings-remember').disabled = busy || !settingsValue.canRemember || !settingsValue.editable
+  $('model-settings-save').disabled = busy || !settingsValue.editable
+  $('model-settings-clear').disabled = settingsSaving || !settingsValue.editable
+  $('model-settings-revoke').disabled = settingsRevoking || !settingsValue.canRevoke
+  $('model-settings-test').disabled = busy
+  $('model-settings-test-stop').hidden = !settingsTesting
+  $('model-settings-close').disabled = settingsSaving
+  $('model-settings-save').textContent = $('model-settings-remember').checked ? '启用并记住连接' : '启用本次连接'
+}
+function showSettingsValue(value) {
+  settingsValue = value
+  $('model-settings-status').textContent = `${connectionLabel(value)}${value.settingsWarning ? ' · ' + value.settingsWarning : ''}`
+  $('model-settings-remember-field').hidden = !value.canRemember
+  $('model-settings-remember').checked = value.persistence === 'remembered'
+  $('model-settings-retention').textContent = value.canRemember ? '默认只在本次运行使用。选择记住后，密钥使用 macOS 钥匙串支持的加密保护，密文保存在独立应用设置中。' : '当前环境只提供会话连接，退出服务后需重新连接。'
+  updateConnectionHeader(value); renderSettingsControls()
+}
 function closeModelSettings() {
   if (settingsSaving) return
+  settingsVersion++
+  if (settingsTesting) {
+    settingsProbe?.abort(); settingsProbe = null; settingsTesting = false
+    void api('/api/settings/text-model/test/cancel', { method: 'POST' }).catch(() => {})
+  }
   $('model-settings-key').value = ''; $('model-settings-dialog').close()
 }
 $('model-settings-close').onclick = closeModelSettings
-$('model-settings-dialog').oncancel = event => { if (settingsSaving) event.preventDefault(); else $('model-settings-key').value = '' }
+$('model-settings-dialog').oncancel = event => { if (settingsSaving) event.preventDefault(); else closeModelSettings() }
 $('model-settings-open').onclick = async () => {
+  const version = ++settingsVersion
   try {
     const value = await api('/api/settings/text-model')
+    if (version !== settingsVersion) return
     $('model-settings-url').value = value.url; $('model-settings-model').value = value.model; $('model-settings-key').value = ''
     $('model-settings-key').placeholder = value.hasKey ? '不换地址时可留空，保留本次密钥' : '只用于请求所填模型服务'
     $('model-settings-error').textContent = value.editable ? '' : '当前配置由外部管理。'
-    $('model-settings-save').disabled = !value.editable; $('model-settings-clear').disabled = !value.editable
-    $('model-settings-revoke').disabled = !value.canRevoke
+    showSettingsValue(value)
     $('model-connection-management').hidden = !value.hasKey && !value.canRevoke
     $('model-connection-management').open = false
     $('model-settings-dialog').showModal()
   } catch (error) { research.notice(error.message, true) }
 }
-async function saveModelSettings(body, { revoke = false } = {}) {
-  if (settingsSaving) return
-  settingsSaving = true; $('model-settings-save').disabled = true; $('model-settings-clear').disabled = true
-  $('model-settings-revoke').disabled = true
-  $('model-settings-error').textContent = ''
+$('model-settings-form').oninput = () => {
+  settingsVersion++
+  $('model-settings-status').textContent = '设置尚未保存；测试连接不会启用这些设置。'
+  $('model-settings-error').textContent = ''; renderSettingsControls()
+}
+$('model-settings-test').onclick = async () => {
+  if (settingsSaving || settingsTesting || !$('model-settings-form').reportValidity()) return
+  const version = settingsVersion, body = settingsBody(), controller = new AbortController()
+  settingsTesting = true; settingsProbe = controller; renderSettingsControls()
+  $('model-settings-error').textContent = ''; $('model-settings-status').textContent = '正在向所填服务发送固定测试文字…'
   try {
-    await api(revoke ? '/api/settings/model-authorization/revoke' : '/api/settings/text-model', { method: revoke ? 'POST' : 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })
+    await api('/api/settings/text-model/test', { method: 'POST', signal: controller.signal, timeoutMs: 25000, headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })
+    if (settingsVersion !== version || settingsProbe !== controller) return
+    $('model-settings-status').textContent = '测试通过，服务已响应。尚未启用的设置需点击启用。'
+    const current = await api('/api/settings/text-model')
+    if (settingsVersion === version && settingsProbe === controller) updateConnectionHeader(current)
+  } catch (error) {
+    if (settingsVersion === version && settingsProbe === controller && !controller.signal.aborted) {
+      $('model-settings-status').textContent = '测试未通过，当前连接不变。'
+      $('model-settings-error').textContent = error.message
+    }
+  } finally { if (settingsProbe === controller) { settingsProbe = null; settingsTesting = false; renderSettingsControls() } }
+}
+$('model-settings-test-stop').onclick = async () => {
+  const controller = settingsProbe
+  if (!controller) return
+  try {
+    await api('/api/settings/text-model/test/cancel', { method: 'POST' })
+    if (settingsProbe !== controller) return
+    controller.abort(); settingsProbe = null; settingsTesting = false
+    $('model-settings-status').textContent = '测试已停止。'; renderSettingsControls()
+  } catch (error) { $('model-settings-error').textContent = error.message }
+}
+async function saveModelSettings(body, { revoke = false } = {}) {
+  if (settingsRevoking || settingsSaving && !revoke) return
+  const version = ++settingsVersion
+  settingsProbe?.abort(); settingsProbe = null; settingsTesting = false
+  settingsSaving = true; settingsRevoking = revoke; renderSettingsControls()
+  $('model-settings-error').textContent = ''
+  $('model-settings-status').textContent = revoke ? '正在撤销授权并清除记住的连接…' : '正在启用连接…'
+  try {
+    const value = await api(revoke ? '/api/settings/model-authorization/revoke' : '/api/settings/text-model', { method: revoke ? 'POST' : 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })
+    if (version !== settingsVersion) return
+    settingsValue = value; updateConnectionHeader(value)
     $('model-settings-key').value = ''
-    const health = await api('/health'); modelConfigured = health.modelConfigured
+    const health = await api('/health')
+    if (version !== settingsVersion) return
+    modelConfigured = health.modelConfigured
     if (revoke) {
       const capabilities = await api('/api/parser-capabilities')
+      if (version !== settingsVersion) return
       $('parse-mode').querySelector('[value="vision"]').disabled = !capabilities.vision
       if (!capabilities.vision && $('parse-mode').value === 'vision') $('parse-mode').value = 'auto'
     }
     configureQuestionMode(); comparisonWorkspace.updateModel(); reportWorkspace.updateModel()
     if (selected) await notebook.load(selected, research.currentTopic(), { modelConfigured })
+    if (version !== settingsVersion) return
     $('model-settings-dialog').close()
-    research.notice(revoke ? '已撤销模型授权，相关任务正在停止；已保存内容保留。' : modelConfigured ? '模型配置已保存，连接尚未验证。' : '已清除本次模型连接；在途任务继续使用原配置。')
-  } catch (error) { $('model-settings-error').textContent = error.message }
-  finally { settingsSaving = false; $('model-settings-save').disabled = false; $('model-settings-clear').disabled = false; $('model-settings-revoke').disabled = false }
+    research.notice(revoke ? '已撤销模型授权并清除记住的连接；相关任务正在停止。' : modelConfigured ? `${value.persistence === 'remembered' ? '连接已启用并记住' : '本次连接已启用'} · ${connectionLabel(value)}。` : '已清除连接；在途任务继续使用原配置。')
+  } catch (error) {
+    if (version !== settingsVersion) return
+    $('model-settings-error').textContent = error.message
+    if (revoke || body.clear) {
+      try {
+        const health = await api('/health'), current = await api('/api/settings/text-model')
+        if (version !== settingsVersion) return
+        modelConfigured = health.modelConfigured; settingsValue = current; updateConnectionHeader(current)
+        configureQuestionMode(); comparisonWorkspace.updateModel(); reportWorkspace.updateModel()
+      } catch {}
+    }
+  }
+  finally { if (version === settingsVersion) { settingsSaving = false; settingsRevoking = false; renderSettingsControls() } }
 }
-$('model-settings-form').onsubmit = event => { event.preventDefault(); void saveModelSettings({ url: $('model-settings-url').value, model: $('model-settings-model').value, key: $('model-settings-key').value }) }
+$('model-settings-form').onsubmit = event => { event.preventDefault(); if (!settingsTesting) void saveModelSettings({ ...settingsBody(), remember: $('model-settings-remember').checked }) }
 $('model-settings-clear').onclick = () => saveModelSettings({ clear: true })
 $('model-settings-revoke').onclick = () => saveModelSettings({ scope: 'all' }, { revoke: true })
 try {
@@ -542,6 +628,7 @@ try {
   if (capabilities.vision) visionOption.textContent = '视觉增强（页图发送至已配置服务）'
   const health = await api('/health')
   modelConfigured = health.modelConfigured
+  try { updateConnectionHeader(await api('/api/settings/text-model')) } catch { /* Connection status must not block opening research. */ }
   configureQuestionMode()
   await loadLibrary()
   await refreshLibraryHealth()

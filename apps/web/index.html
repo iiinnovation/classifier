@@ -123,10 +123,14 @@
 
   <dialog id="model-settings-dialog" class="edit-dialog" aria-labelledby="model-settings-title"><div class="dialog-head"><div><span class="eyebrow">AI 研究助手</span><h2 id="model-settings-title">连接研究模型</h2></div><button id="model-settings-close" class="icon-button" type="button" aria-label="关闭模型设置">×</button></div>
     <p class="dialog-intro">使用你选择的模型服务，辅助问答、比较和总结。</p>
+    <p id="model-settings-status" class="connection-status" role="status"></p>
     <form id="model-settings-form">
       <label class="form-field">接口地址<input id="model-settings-url" type="url" required maxlength="2000" placeholder="https://你的服务/v1/chat/completions"><small>填写服务商提供的完整 Chat Completions 地址。</small></label>
       <div class="field-pair"><label class="form-field">模型名称<input id="model-settings-model" required maxlength="200" placeholder="服务商提供的模型标识"></label><label class="form-field">API Key<input id="model-settings-key" type="password" maxlength="8192" autocomplete="off" placeholder="服务商提供的密钥"></label></div>
-      <div class="dialog-callout"><strong>资料何时发送？</strong><p>只有发起 AI 任务，才将问题、相关文献节选和所选研究材料发送到此服务。</p><p>连接仅在本次运行有效，退出后需重新连接；API Key 不写入资料库或浏览器存储。</p></div>
+      <div class="connection-test-actions"><button id="model-settings-test" type="button" class="quiet-button">测试连接</button><button id="model-settings-test-stop" type="button" class="quiet-button" hidden>停止测试</button><small>只发送固定测试文字，可能产生少量调用费用。</small></div>
+      <label id="model-settings-remember-field" class="archive-filter" hidden><input id="model-settings-remember" type="checkbox"> 记住连接，退出后继续使用</label>
+      <p id="model-settings-retention" class="hint"></p>
+      <div class="dialog-callout"><strong>资料何时发送？</strong><p>测试连接只发送固定测试文字；发起研究任务时，才将问题、相关文献节选和所选材料发送到此服务。</p><p>API Key 不写入研究资料库或浏览器存储。</p></div>
       <details id="model-connection-management" class="connection-management"><summary>管理当前连接</summary><p class="hint">清除连接只影响新任务，正在进行的任务继续使用原配置。</p><div class="collection-actions"><button id="model-settings-clear" type="button" class="quiet-button">清除连接</button><button id="model-settings-revoke" type="button" class="quiet-button danger-button">撤销模型授权</button></div><p class="hint">撤销会立即禁止后续发送，并停止相关文字和页图任务；已保存内容保留。</p></details>
       <div class="dialog-actions"><p id="model-settings-error" class="form-error" role="alert"></p><button type="button" class="quiet-button" data-dialog-close="model-settings-close">取消</button><button id="model-settings-save" type="submit">启用本次连接</button></div>
     </form>

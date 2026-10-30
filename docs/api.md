@@ -1,5 +1,18 @@
 # API 约定
 
+## 模型连接（D3）
+
+这些接口使用 `Cache-Control: no-store`，不会返回 API Key。
+
+- `GET /api/settings/text-model`：返回 `url`、`model`、`hasKey`、`editable`、`canRevoke`、`persistence`（`session` / `remembered`）、`canRemember`、`credentialProtection`、`settingsWarning` 和 `connectionTest`。测试状态为 `untested`，或带 `checkedAt` 的 `passed`，仅绑定当前配置并在当前后端运行中保留 10 分钟。
+- `PATCH /api/settings/text-model { url, model, key, remember? }`：启用连接。地址最长 2000 字符，模型名称 200，密钥 8192；外部服务须 HTTPS，本机 HTTP 只允许回环。地址不得包含凭据、查询参数或片段。同一地址的空密钥保留已有值；更换地址需要重新填写。省略 `remember` 保留现有选择，新连接默认会话；环境不支持系统保护时 `remember: true` 返回 409。
+- `PATCH /api/settings/text-model { clear: true }`：清除文字连接与记住的设置，禁止新任务使用；已启动任务保留原配置。清除文件失败返回 503，同时禁用新任务并提示重开可能恢复。
+- `POST /api/settings/text-model/test { url, model, key }`：只向所填连接发送固定合成文字，成功返回 `{ state: "passed", checkedAt, durationMs }`。不启用连接、不读取资料库、不保存研究任务。最多同时一个测试，冲突返回 429；20 秒超时、响应上限 64 KiB，拒绝重定向。认证／额度／响应问题等返回安全的 422 错误，不包含供应商正文；保存同一配置后才反映为当前连接已测试。
+- `POST /api/settings/text-model/test/cancel`：停止测试并清除本次通过状态，返回 `{ stopped: true }`。更新／清除连接、文字或全部授权撤销、服务关闭也会停止测试。
+- `POST /api/settings/model-authorization/revoke { scope }`：`scope` 为 `text`、`vision` 或 `all`。立即禁止对应旧配置的后续发送并取消任务；成功后清除对应设置，文字撤销同时清除记住的连接。返回当前文字设置及 `revokedScope`；持久清理失败返回 503，内存授权已撤销。页图撤销不会取消文字测试。
+
+普通更新保留在途任务快照；撤销先中断授权，后等待持久清理，慢保存无法重新启用已撤销配置。详情见 [模型连接说明](d3-model-connection.md)。
+
 ## 研究成果（M4）
 
 - `GET /api/topics/:topicId/reports`：成果摘要列表，包含归档项。

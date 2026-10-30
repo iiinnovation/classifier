@@ -67,7 +67,7 @@ export async function answerQuestion(document, question, { signal, onEvent = asy
     try {
       signal?.throwIfAborted()
       const response = await fetchImpl(config.url, {
-        method: 'POST', signal,
+        method: 'POST', signal, redirect: 'error',
         headers: { authorization: `Bearer ${config.key}`, 'content-type': 'application/json' },
         body: JSON.stringify({ model: config.model, messages, temperature: 0.1, max_tokens: 2200, ...(toolsAllowed ? { tools: toolDefinitions, tool_choice: 'auto' } : {}) }),
       })

@@ -29,7 +29,7 @@ const root = fileURLToPath(new URL('../../../', import.meta.url))
 // Whole-report edits include up to 40 blocks, 30000 text characters and 960
 // citation IDs, plus headings and source selectors. Allow their serialized form.
 const reportEditBodyLimit = 1024 * 1024
-export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER_DATA_DIR || 'data'), qaOptions = {}, settingsProvider = environmentSettings(), desktopToken, storeFactory = createStore, managedBackupDir } = {}) {
+export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER_DATA_DIR || 'data'), qaOptions = {}, modelTestOptions = {}, settingsProvider = environmentSettings(), desktopToken, storeFactory = createStore, managedBackupDir } = {}) {
   const guard = desktopToken === undefined ? null : desktopRequestGuard(desktopToken)
   const ownership = await acquireDataLock(dataDir)
   let store
@@ -41,7 +41,7 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
   const notes = createNotes(store, topics, runs, qaOptions, settingsProvider)
   const comparisons = createComparisons(store, topics, runs, qaOptions, settingsProvider)
   const reports = createReports(store, topics, comparisons, runs, qaOptions, settingsProvider)
-  const modelSettings = modelSession(settingsProvider)
+  const modelSettings = modelSession(settingsProvider, modelTestOptions)
   let syncImports = 0
   let closing = false
   const requestTasks = new Set(), syncControllers = new Set()
@@ -66,13 +66,14 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
   ])
   const server = createServer((req, res) => {
     const target = req.method === 'DELETE' && /^\/api\/(documents|topics|notes|comparisons|reports)\/[^/]+$/.test(req.url.split('?')[0])
-    const blocked = deleting && !['GET', 'HEAD'].includes(req.method)
+    const outboundControl = req.method === 'POST' && ['/api/settings/model-authorization/revoke', '/api/settings/text-model/test/cancel'].includes(req.url.split('?')[0])
+    const blocked = deleting && !['GET', 'HEAD'].includes(req.method) && !outboundControl
     const ownsBarrier = target && !blocked
     const waitFor = ownsBarrier ? [...mutationTasks] : []
     if (ownsBarrier) deleting = true
     const task = handleRequest(req, res, { blocked, waitFor })
     requestTasks.add(task)
-    if (!target && !blocked && !['GET', 'HEAD'].includes(req.method)) mutationTasks.add(task)
+    if (!target && !blocked && !outboundControl && !['GET', 'HEAD'].includes(req.method)) mutationTasks.add(task)
     void task.finally(() => { requestTasks.delete(task); mutationTasks.delete(task); if (ownsBarrier) deleting = false }).catch(error => console.error('Request failed:', error.message))
   })
   async function handleRequest(req, res, { blocked, waitFor }) {
@@ -115,11 +116,19 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
       if (url.pathname === '/api/settings/text-model') {
         res.setHeader('cache-control', 'no-store')
         if (req.method === 'GET') return sendJson(res, 200, modelSettings.get())
-        if (req.method === 'PATCH') return sendJson(res, 200, modelSettings.update(await readJson(req)))
+        if (req.method === 'PATCH') return sendJson(res, 200, await modelSettings.update(await readJson(req)))
+      }
+      if (url.pathname === '/api/settings/text-model/test' && req.method === 'POST') {
+        res.setHeader('cache-control', 'no-store')
+        return sendJson(res, 200, await modelSettings.test(await readJson(req)))
+      }
+      if (url.pathname === '/api/settings/text-model/test/cancel' && req.method === 'POST') {
+        res.setHeader('cache-control', 'no-store')
+        modelSettings.cancelTest(); return sendJson(res, 200, { stopped: true })
       }
       if (req.method === 'POST' && url.pathname === '/api/settings/model-authorization/revoke') {
         res.setHeader('cache-control', 'no-store')
-        return sendJson(res, 200, modelSettings.revoke(await readJson(req)))
+        return sendJson(res, 200, await modelSettings.revoke(await readJson(req)))
       }
       if (req.method === 'GET' && url.pathname === '/api/parser-capabilities') return sendJson(res, 200, { ocr: await ocrCapabilities(), vision: visionConfigured(settingsProvider.read().vision) })
       if (url.pathname === '/api/topics') {
@@ -314,6 +323,7 @@ export async function createApp({ dataDir = resolve(root, process.env.CLASSIFIER
   let draining
   const drain = () => draining ||= (async () => {
     closing = true
+    modelSettings.cancelTest()
     for (const controller of syncControllers) controller.abort(new Error('服务正在关闭。'))
     const results = await Promise.allSettled([runs.stop(), imports.stop(), ...requestTasks])
     try { await store.close?.() } finally { ownership.release() }

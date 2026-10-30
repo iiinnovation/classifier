@@ -433,6 +433,9 @@ main { width: min(100%, 1760px); min-height: 100vh; margin: 0 auto; padding: 0 3
 .report-block .report-citation { display: inline-block; margin: 4px 8px 4px 0; }
 .report-block .report-prose { font-size: 15px; }
 .connection-management > summary { cursor: pointer; font-weight: 600; }
+.connection-status { padding: 10px 12px; border-radius: 8px; background: #f0f5ec; color: #365b49; font-size: 13px; line-height: 1.6; }
+.connection-test-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 12px 0 18px; }
+.connection-test-actions small { color: #63776a; font-size: 12px; }
 @media (max-width: 620px) {
   .topic-navigation { gap: 6px; }
   .topic-navigation a { padding: 7px 10px; font-size: 13px; }

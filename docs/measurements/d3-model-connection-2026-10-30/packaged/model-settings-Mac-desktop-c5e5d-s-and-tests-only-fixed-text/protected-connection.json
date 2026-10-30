@@ -1,0 +1,9 @@
+{
+  "osProtection": "macos-keychain",
+  "sessionForgottenOnExit": true,
+  "rememberedConnectionRestored": true,
+  "noAutomaticModelCallsOnStartup": true,
+  "keyExcludedFromProfilePlaintextAndBrowserStorage": true,
+  "revocationSurvivedExit": true,
+  "requests": 3
+}

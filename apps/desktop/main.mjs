@@ -1,4 +1,4 @@
-import { app, protocol, session, dialog, Menu } from 'electron'
+import { app, protocol, session, dialog, Menu, safeStorage } from 'electron'
 import { join, resolve } from 'node:path'
 import { mkdirSync } from 'node:fs'
 import { writeFile } from 'node:fs/promises'
@@ -9,12 +9,13 @@ import { selectedLibrary, libraryScope, createLibraryManager } from './library-m
 import { runMaintenance } from './maintenance-process.mjs'
 import { libraryMenu } from './library-menu.mjs'
 import { recoverStartup } from './startup-recovery.mjs'
+import { createModelSettingsStore } from './model-settings-store.mjs'
 
 protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { standard: true, secure: true, supportFetchAPI: true, corsEnabled: true, stream: true } }])
 app.setName('Classifier')
 const profile = process.argv.find(argument => argument.startsWith('--user-data-dir='))?.slice('--user-data-dir='.length)
 if (profile) { mkdirSync(resolve(profile), { recursive: true }); app.setPath('userData', resolve(profile)) }
-let window, controller, manager, maintenanceMenu, startupRecovery, quitting = false, maintaining = false, shownDirectory
+let window, controller, manager, maintenanceMenu, startupRecovery, modelSettings, quitting = false, maintaining = false, shownDirectory
 const locked = app.requestSingleInstanceLock()
 if (!locked) app.quit()
 else {
@@ -23,13 +24,19 @@ else {
   app.on('before-quit', event => {
     if (quitting) return
     event.preventDefault(); quitting = true
-    void (async () => { await startupRecovery; await maintenanceMenu?.idle(); await manager?.idle(); await controller?.stop() })().finally(() => app.quit())
+    void (async () => { await startupRecovery; await maintenanceMenu?.idle(); await manager?.idle(); await controller?.stop(); await modelSettings?.idle() })().finally(() => app.quit())
   })
   void app.whenReady().then(async () => {
     if (quitting) return
     const profileRoot = app.getPath('userData')
+    modelSettings = await createModelSettingsStore(profileRoot, {
+      name: 'macos-keychain',
+      available: () => process.platform === 'darwin' && safeStorage.isEncryptionAvailable(),
+      encrypt: key => safeStorage.encryptStringAsync(key),
+      decrypt: async bytes => (await safeStorage.decryptStringAsync(bytes)).result,
+    })
     const ocrRoot = app.isPackaged ? join(process.resourcesPath, 'ocr') : join(app.getAppPath(), 'resources', 'ocr', `${process.platform}-${process.arch}`)
-    controller = new BackendController({ dataDir: await selectedLibrary(profileRoot), ocrRoot, managedBackupDir: join(profileRoot, 'library-backups') })
+    controller = new BackendController({ dataDir: await selectedLibrary(profileRoot), ocrRoot, managedBackupDir: join(profileRoot, 'library-backups'), modelSettings })
     controller.on('stopped', () => {
       if (!quitting && !maintaining && window && !window.isDestroyed()) void dialog.showMessageBox(window, { type: 'error', title: '工作台服务已断开', message: '本地服务意外退出。已保存资料仍保留，请关闭应用后重新打开。' }).catch(() => {})
     })
